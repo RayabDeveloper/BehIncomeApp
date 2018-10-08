@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textDirection="rtl"
+        android:layoutDirection="rtl"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/bgTitle">
+
+            <TextView
+                android:id="@+id/lblProfileAddressDetailsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Normal"
+                android:text="آدرس"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="3dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtOstan"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:theme="@style/TextView.Normal"
+                    android:text="استان "/>
+
+                <Spinner
+                    android:id="@+id/spinProfileAddressDetailsOstan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="استان"
+                    style="@style/Spinner.Normal"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtCity"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:theme="@style/TextView.Normal"
+                    android:text="شهر "/>
+
+                <Spinner
+                    android:id="@+id/spinProfileAddressDetailsCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Spinner.Normal"
+                    android:hint="شهر"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtAddress"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:theme="@style/TextView.Normal"
+                    android:text="آدرس "/>
+
+                <EditText
+                    android:id="@+id/txtProfileAddressDetailsAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    style="@style/EditText.MultiLine"
+                    android:hint="آدرس را وارد کنید"
+                    android:gravity="top|right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

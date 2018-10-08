@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="6dp"
+        card_view:cardElevation="10dp"
+        clickable="true"
+        fabsize="mini">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|right"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblNumberTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="شماره فاکتور"/>
+
+                <TextView
+                    android:id="@+id/lblNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="1234567890"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|right"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblProductTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="نام محصول"/>
+
+                <TextView
+                    android:id="@+id/lblProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="محصول 1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|right"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblPriceTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="قیمت"/>
+
+                <TextView
+                    android:id="@+id/lblPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="1234567890 تومان"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|right"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblDescriptionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="شرح"/>
+
+                <TextView
+                    android:id="@+id/lblDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center|right"
+                    android:text="شرح"/>
+
+            </LinearLayout>
+
+            <com.devsmart.android.ui.HorizontalListView
+                android:id="@+id/lstInvoiceImages"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="16dp"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

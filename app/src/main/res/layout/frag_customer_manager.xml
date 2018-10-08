@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    tools:context=".Activityes.CustomerManager.fragCustomerManager">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/lin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_standard"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="6dp"
+            android:layout_below="@+id/lin"
+            android:background="@color/txtGray">
+
+            <LinearLayout
+                android:id="@+id/btnArchiveEnter"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:background="@color/txtWhite">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/archive_enter"/>
+
+                <TextView
+                    android:id="@+id/lblArchiveEnter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="right|center"
+                    android:layout_marginRight="26dp"
+                    android:text="بایگانی"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnArchiveExit"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp"
+                android:background="@color/txtWhite">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/archive_exit"/>
+
+                <TextView
+                    android:id="@+id/lblArchiveExit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="right|center"
+                    android:layout_marginRight="26dp"
+                    android:text="خروج از بایگانی"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnGroupTask"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="2dp"
+                android:background="@color/txtWhite">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/group_task"/>
+
+                <TextView
+                    android:id="@+id/lblGroupTask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="right|center"
+                    android:layout_marginRight="26dp"
+                    android:text="وظیفه گروهی"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+    tools:context=".Activityes.Account.fragProfileSubmiter">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/txtGray0">
+
+        <include
+            android:id="@+id/lin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_standard"/>
+
+        <ScrollView
+            android:id="@+id/scrollV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            layout="@layout/layout_profile_details" />
+
+                        <include
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            layout="@layout/layout_profile_personal" />
+
+                        <include
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            layout="@layout/layout_profile_address" />
+
+                        <include
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            layout="@layout/layout_profile_school" />
+
+                        <include
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            layout="@layout/layout_profile_work" />
+
+                        <include
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            layout="@layout/layout_profile_skill" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

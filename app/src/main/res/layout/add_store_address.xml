@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textDirection="rtl"
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:layout_marginBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/bgTitle">
+
+            <TextView
+                android:id="@+id/lblasdTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="آدرس"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="3dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:id="@+id/spinadaOstan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Spinner.Normal"
+                        android:hint="استان"
+                        android:layout_marginRight="26dp"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/lblProvince"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        style="@style/TextView.Normal"
+                        android:layout_marginRight="26dp"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="10dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:id="@+id/spinadaCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Spinner.Normal"
+                        android:hint="شهر"
+                        android:layout_marginRight="26dp"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/lblCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        style="@style/TextView.Normal"
+                        android:layout_marginRight="26dp"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="10dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginRight="26dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp">
+
+                    <EditText
+                        android:id="@+id/txtadaAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="آدرس"
+                        style="@style/EditText.MultiLine"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="left|bottom"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginBottom="6dp">
+
+                        <LinearLayout
+                            android:id="@+id/btnGetAddressLocation"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/location"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp">
+
+                <!--<fragment-->
+                    <!--android:id="@+id/mMap"-->
+                    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--xmlns:tools="http://schemas.android.com/tools"-->
+                    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--tools:context=".Activityes.actMap"-->
+                    <!--android:background="@color/txtGray1"/>-->
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/txtGray1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="11dp"
+                        android:src="@drawable/marker"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|right"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginRight="6dp">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnGetBigMap"
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/resize"
+                        app:backgroundTint="@color/colorAccent"
+                        app:elevation="6dp"
+                        app:fabSize="auto"
+                        android:scaleType="center"
+                        app:pressedTranslationZ="12dp"/>
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/btnGetLocation"
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="6dp"
+                        android:clickable="true"
+                        app:srcCompat="@drawable/map_icon_white"
+                        app:backgroundTint="@color/colorAccent"
+                        app:elevation="6dp"
+                        app:fabSize="auto"
+                        android:scaleType="center"
+                        app:pressedTranslationZ="12dp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

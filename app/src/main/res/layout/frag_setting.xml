@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    tools:context=".Activityes.Setting.fragSetting">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/lin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_standard"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/btnPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/point"/>
+
+                    <TextView
+                        android:id="@+id/lblPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="امتیاز"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/comission_icon_rec"/>
+
+                    <TextView
+                        android:id="@+id/lblProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="محصولات"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnCommissionPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/period_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblCommissionPriod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="دوره کمیسیون"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/period_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblPriod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="دوره ویزیتور"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnComission"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/comission_icon_rec"/>
+
+                    <TextView
+                        android:id="@+id/lblComission"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="پورسانت"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ostan_city_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="استان و شهر"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnCustomerState"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/period_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblCustomerState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="وضعیت فروشگاه"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tag_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="برچسب"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/store_details_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="مشخصات"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnActivityResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/details_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblSubActResult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="نتیجه"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnActvityField"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/activity_field_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblActvityField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="حوزه فعالیت"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

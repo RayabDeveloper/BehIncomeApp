@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        card_view:cardPreventCornerOverlap="false"
+        app:cardCornerRadius="10dp"
+        card_view:cardElevation="6dp"
+        clickable="true"
+        fabsize="mini">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/lblTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Dialog.Bold"
+                android:text="فیلتر وظایف"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/txtGray1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnRunning"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="در حال انجام"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCompleted"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="انجام شده"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/btnAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="همه"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

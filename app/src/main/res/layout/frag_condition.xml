@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activityes.UserManager.fragCondition">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/lin"
+            layout="@layout/toolbar_standard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="36dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radActive"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButton.Normal"
+                    android:text="فعال"/>
+
+                <RadioButton
+                    android:id="@+id/radLock"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButton.Normal"
+                    android:text="مسدود"/>
+
+                <RadioButton
+                    android:id="@+id/radDeActive"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    style="@style/RadioButton.Normal"
+                    android:text="غیر فعال"/>
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal.Gray1"
+                    android:text="توضیحات کوتاه در رابطه با فعال"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal.Gray1"
+                    android:text="توضیحات کوتاه در رابطه با مسدود"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal.Gray1"
+                    android:text="توضیحات کوتاه در رابطه با غیر فعال"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/txtGray2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginRight="16dp">
+
+            <LinearLayout
+                android:id="@+id/btnTaskCount"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="right|center"
+                android:layout_marginTop="26dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Blue.Bold"
+                    android:text="تعداد وظیفه ها : "/>
+
+                <TextView
+                    android:id="@+id/lblTaskCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    style="@style/TextView.Normal"
+                    android:text="20"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnCustomerCount"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="right|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Blue.Bold"
+                    android:text="تعداد مشتری های جاری : "/>
+
+                <TextView
+                    android:id="@+id/lblCustomerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    style="@style/TextView.Normal"
+                    android:text="20"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnCustomerArchiveCount"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="right|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Blue.Bold"
+                    android:text="تعداد مشتری های بایگانی : "/>
+
+                <TextView
+                    android:id="@+id/lblCustomerArchiveCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    style="@style/TextView.Normal"
+                    android:text="20"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnAccessCount"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="right|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Blue.Bold"
+                    android:text="تعداد دسترسی ها : "/>
+
+                <TextView
+                    android:id="@+id/lblAccessCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    style="@style/TextView.Normal"
+                    android:text="20"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

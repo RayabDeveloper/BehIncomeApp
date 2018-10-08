@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/bgTitle">
+
+            <TextView
+                android:id="@+id/lblDetailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="مشخصات"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="3dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtName"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="نام تجاری "
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="نام را وارد کنید"
+                    style="@style/EditText.Normal"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp">
+                    <requestFocus/>
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtManagerName"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="نام مدیر "
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtManagerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="نام را وارد کنید"
+                    style="@style/EditText.Normal"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtSubmitNumber"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="شماره شناسنامه/ثبت "
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtSubmitNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="شماره را وارد کنید"
+                    android:digits="0123456789 /"
+                    style="@style/EditText.Phone"
+                    android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lbltxtActivityField"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="زمینه فعالیت "
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtActivityField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="زمینه را وارد کنید"
+                    style="@style/EditText.Normal"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtAct"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="نوع فعالیت "
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtAct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="نوع فعالیت را وارد کنید"
+                    style="@style/EditText.Normal"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtNationalityCode"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="شماره ملی / اقتصادی "
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtNationalityCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="شماره ملی / اقتصادی را وارد کنید"
+                    style="@style/EditText.NumberPassword.C"
+                    android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblPhone"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="شماره تماس"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="شماره تماس را وارد کنید"
+                    style="@style/EditText.NumberPassword.C"
+                    android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblMobile"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="شماره همراه"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="شماره همراه را وارد کنید"
+                    style="@style/EditText.NumberPassword.C"
+                    android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblEmail"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="ایمیل"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="ایمیل را وارد کنید"
+                    style="@style/EditText.Website"
+                    android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblWebsite"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="وب سایت"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="وب سایت را وارد کنید"
+                    style="@style/EditText.Website"
+                    android:gravity="right"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lbltxtDescription"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextView.Normal"
+                    android:text="توضیحات"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="86dp"
+                    android:hint="توضیحات را وارد کنید"
+                    style="@style/EditText.MultiLine"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginLeft="26dp"
+                    android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

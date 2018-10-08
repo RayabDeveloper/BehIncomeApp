@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linMainTitle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/txtGray1">
+
+            <TextView
+                android:id="@+id/lblMainTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="center|right"
+                android:text="مثلا عنوان SubAct"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/txtGray">
+
+            <TextView
+                android:id="@+id/lblSubTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="center|right"
+                android:layout_marginRight="26dp"
+                android:text="مثلا عنوان SubActResult"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/linTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:layout_marginLeft="46dp"
+                android:layout_marginRight="52dp">
+
+                <TextView
+                    android:id="@+id/lblTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="مثلا اسم نتیجه"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:layout_marginRight="52dp">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/ch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

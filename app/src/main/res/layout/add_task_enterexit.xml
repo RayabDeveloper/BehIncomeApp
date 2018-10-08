@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl">
+
+    <LinearLayout
+        android:id="@+id/linEnterExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp">
+
+        <ImageView
+            android:id="@+id/btnActCondition"
+            android:layout_width="66dp"
+            android:layout_height="76dp"
+            android:padding="6dp"
+            android:src="@drawable/task_enter"/>
+
+        <LinearLayout
+            android:id="@+id/viewTimes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/lblTimeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                style="@style/TextView.Normal"
+                android:text="زمان ورود"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/lblTimeCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                style="@style/TextView.Normal"
+                android:text="08:30"
+                android:layout_marginRight="16dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

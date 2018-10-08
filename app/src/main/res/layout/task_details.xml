@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="86dp"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="عنوان : "/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/EditText.Normal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="6dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/spinSubAct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Spinner.Normal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="116dp"
+            android:layout_marginTop="6dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="86dp"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="شرح : "/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/txtDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    style="@style/EditText.MultiLine"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="6dp"
+                    android:hint="توضیحاتی بنویسید"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

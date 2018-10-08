@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ApplicationMiniFontSize">12dp</dimen>
+    <dimen name="ApplicationBaseFontSize">14dp</dimen>
+    <dimen name="ApplicationBoldFontSize">16dp</dimen>
+</resources>

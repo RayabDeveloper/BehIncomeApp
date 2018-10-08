@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:background="@color/txtGray0">
+
+            <LinearLayout
+                android:id="@+id/btnHome1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgHome1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/time"/>
+
+                <TextView
+                    android:id="@+id/lblHome1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="وظایف"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnHome2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgHome2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/store"/>
+
+                <TextView
+                    android:id="@+id/lblHome2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="فروشگاه"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnReport"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgReport"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/finance"/>
+
+                <TextView
+                    android:id="@+id/lblReport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="گزارشات"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnAccount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgAccount"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/account"/>
+
+                <TextView
+                    android:id="@+id/lblAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="حساب کاربری"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnAdd"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginBottom="39dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/add_white_min"
+            app:backgroundTint="@color/colorAccent"
+            app:elevation="6dp"
+            app:fabSize="auto"
+            android:scaleType="center"
+            app:pressedTranslationZ="12dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

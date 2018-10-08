@@ -1,0 +1,367 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/ir_sans</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:textDirection">rtl</item>
+    </style>
+
+    <style name="TextView.Mini"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationMiniFontSize</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Normal"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Normal0"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Normal.Gray1"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray1</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextView.Normal.Gray2"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray2</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextView.Normal.Gray2.16"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextView.Normal.Gray4.18"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Blue"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtBlue</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextView.Bold"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Bold.16"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/ApplicationBoldFontSize</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Blue.Bold"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtBlue</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="TextView.White.Bold.Bold"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtWhite</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+    <style name="TextView.Bold.Gray2"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextView.Background"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:gravity">center|right</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="TextView.Dialog.Bold"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/ApplicationBoldFontSize</item>
+        <item name="android:fontFamily">@font/ir_sans</item>
+    </style>
+    <style name="TextView.Dialog.Bold.Blue"
+        parent="android:Widget.TextView">
+        <item name="android:textColor">@color/txtBlue2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MyButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/txtBlue</item>
+        <item name="colorButtonNormal">@color/txtGray1</item>
+    </style>
+
+    <style name="EditText.Normal"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:fontFamily">@font/ir_sans</item>
+    </style>
+    <style name="EditText.Normal.1"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:fontFamily">@font/ir_sans</item>
+    </style>
+    <style name="EditText.Normal.50"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:fontFamily">@font/ir_sans</item>
+    </style>
+    <style name="EditText.Email"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:maxLength">200</item>
+        <item name="android:imeOptions">actionNext</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.Website"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">textUri</item>
+        <item name="android:maxLength">200</item>
+        <item name="android:imeOptions">actionNext</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.Phone"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">phone</item>
+        <item name="android:maxLength">11</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="EditText.NumberPassword.A"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionDone</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.NumberPassword.B"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">11</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionDone</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.NumberPassword.C"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">10</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textDirection">rtl</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="EditText.NumberPassword.D"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionDone</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.NumberPassword.E"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textDirection">rtl</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="EditText.NumberPassword.F"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:maxLength">20</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionDone</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.NumberPassword.G"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">13</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textDirection">rtl</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="EditText.MultiLine"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:gravity">top|right</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLength">200</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.Avrage"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:maxLength">2</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionNext</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+    <style name="EditText.Duration"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:maxLength">3</item>
+        <item name="android:gravity">right</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionNext</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style>
+
+
+    <style name="Spinner.Normal"
+        parent="Base.Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:background">@drawable/spin_border_green1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <style name="RadioButton.Normal"
+        parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:fontFamily">@font/ir_sans</item>
+    </style>
+
+</resources>

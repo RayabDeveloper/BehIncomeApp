@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/txtGray">
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_main"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/btnProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:background="@color/txtWhite">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/profile_red"/>
+
+                    <TextView
+                        android:id="@+id/lblProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="پروفایل"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnMarketers"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/txtWhite">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/profile_red"/>
+
+                    <TextView
+                        android:id="@+id/lblMarketers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="بازاریاب ها"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnCreadit"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/txtWhite">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/creadit_red"/>
+
+                    <TextView
+                        android:id="@+id/lblCreadit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="اعتبار"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/txtWhite">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/request_red"/>
+
+                    <TextView
+                        android:id="@+id/lblRequest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="درخواست"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnInvate"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/txtWhite">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/invate_red"/>
+
+                    <TextView
+                        android:id="@+id/lblInvate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="26dp"
+                        android:text="دعوت از دوستان"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:orientation="horizontal"
+                            android:background="@color/txtGray0">
+
+                            <LinearLayout
+                                android:id="@+id/btnHome1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/imgHome1"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/time"/>
+
+                                <TextView
+                                    android:id="@+id/lblHome1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/txtGray2"
+                                    android:text="وظایف"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btnHome2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/imgHome2"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/store"/>
+
+                                <TextView
+                                    android:id="@+id/lblHome2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/txtGray2"
+                                    android:text="فروشگاه"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btnReport"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/imgReport"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/finance"/>
+
+                                <TextView
+                                    android:id="@+id/lblReport"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/txtGray2"
+                                    android:text="گزارشات"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btnAccount"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/imgAccount"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/account_blue"/>
+
+                                <TextView
+                                    android:id="@+id/lblAccount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="@color/txtGray2"
+                                    android:text="حساب کاربری"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl">
+
+    <LinearLayout
+        android:id="@+id/viewTimeSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
+
+        <LinearLayout
+            android:id="@+id/btnTaskTimeSet"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center|right"
+            android:layout_marginTop="6dp">
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/time_set"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|left">
+
+                    <ImageView
+                        android:id="@+id/imgAlarmSet"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:visibility="gone"
+                        android:src="@drawable/alarm_"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/lblTaskTimeSet"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="26dp"
+                style="@style/TextView.Normal"
+                android:gravity="center"
+                android:text="تنظیم زمان انجام"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/itemTimeSet"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/lblTimeSet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="center|right"
+                android:text="دوشنبه 27 خرداد ماه 1396 - ساعت 18:20"
+                android:layout_marginLeft="45dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left">
+
+                <ImageView
+                    android:id="@+id/imgCancellTask"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/cancell"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

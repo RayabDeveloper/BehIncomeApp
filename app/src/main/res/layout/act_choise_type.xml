@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activityes.actChoiseType">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginRight="26dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="26dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radOffline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Local" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radOnline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Online" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="26dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="BusinessManager" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radMarketer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Marketer" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+            <Button
+                android:id="@+id/btnSelect"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:background="@color/txtGreen"
+                android:text="Accept"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

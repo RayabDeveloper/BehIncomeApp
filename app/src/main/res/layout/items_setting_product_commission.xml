@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    android:layout_marginTop="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        app:cardCornerRadius="3dp"
+        card_view:cardElevation="6dp"
+        clickable="true"
+        fabsize="mini">
+
+        <LinearLayout
+            android:id="@+id/lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/txtWhite">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="نام محصول"/>
+
+                <TextView
+                    android:id="@+id/lblName1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblCommissionType"
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="نوع کمیسیون"/>
+
+                <TextView
+                    android:id="@+id/lblCommissionType1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblCommissions"
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="پورسانت"/>
+
+                <RelativeLayout
+                    android:id="@+id/btnDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="left|center">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginRight="6dp"
+                        android:clickable="true"
+                        android:scaleType="center"
+                        app:backgroundTint="@color/colorAccent"
+                        app:elevation="6dp"
+                        app:fabSize="auto"
+                        app:pressedTranslationZ="12dp"
+                        app:srcCompat="@drawable/down_arrow_white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lblCommission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                style="@style/TextView.Normal"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

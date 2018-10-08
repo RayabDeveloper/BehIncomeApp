@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+    tools:context=".Activityes.Activities.fragAddFactor">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/txtGray0">
+
+        <include
+            android:id="@+id/lin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_standard"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="6dp">
+
+                <EditText
+                    android:id="@+id/txtFactorNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/EditText.NumberPassword.D"
+                    android:layout_marginTop="6dp"
+                    android:gravity="right"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:hint="شماره فاکتور">
+                    <requestFocus/>
+                </EditText>
+
+                <Spinner
+                    android:id="@+id/spinProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Spinner.Normal"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"/>
+
+                <EditText
+                    android:id="@+id/txtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/EditText.NumberPassword.G"
+                    android:layout_marginTop="6dp"
+                    android:gravity="right"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:hint="مبلغ"/>
+
+                <EditText
+                    android:id="@+id/txtDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    style="@style/EditText.MultiLine"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:hint="توضیح"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/txtGray0"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:id="@+id/lblPic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|right"
+                        style="@style/TextView.Normal"
+                        android:layout_marginRight="6dp"
+                        android:text="تصاویر"/>
+
+                </LinearLayout>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btnTakePic"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="right|center"
+                    android:clickable="true"
+                    app:srcCompat="@drawable/add_white_min"
+                    app:backgroundTint="@color/colorAccent"
+                    app:elevation="6dp"
+                    app:fabSize="auto"
+                    android:scaleType="center"
+                    app:pressedTranslationZ="12dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/lstMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="6dp"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

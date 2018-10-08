@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#a7a7a7</color>
+    <color name="translucent_black">#00000000</color>
+
+    <color name="toolBar">#27b5d9</color>
+    <color name="btnAccept">#1A8B99</color>
+    <color name="bgTitle">#E9E9E9</color>
+    <color name="txtYellowGreen">#c1c643</color>
+    <color name="txtBlue">#2e6f7a</color>
+    <color name="txtBlue00">#428a96</color>
+    <color name="txtBlue2">#5e78d9</color>
+    <color name="txtRed">#cb3542</color>
+    <color name="txtWhite">#ffffff</color>
+    <color name="txtWhite00">#e3ebec</color>
+    <color name="txtGray">#E2E2E2</color>
+    <color name="txtGray0">#F2F2F2</color>
+    <color name="txtGray1">#ACACAC</color>
+    <color name="txtGray2">#7D7D7D</color>
+    <color name="txtGreen">#5EB25A</color>
+    <color name="txtGray3">#484848</color>
+    <color name="txtGray4">#323232</color>
+    <color name="BaseBackgroundColor">#FAFAFA</color>
+
+</resources>

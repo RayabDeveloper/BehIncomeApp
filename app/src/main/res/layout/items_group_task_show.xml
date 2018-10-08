@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    android:layout_marginTop="6dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:cardCornerRadius="6dp"
+        card_view:cardElevation="6dp"
+        clickable="true"
+        fabsize="mini">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|right">
+
+                <TextView
+                    android:id="@+id/lblName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:layout_marginLeft="150dp"
+                    android:gravity="center|right"
+                    android:text="تماس با پرند پرداز"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center">
+
+                <ImageView
+                    android:id="@+id/imgEdite"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edite_icon"
+                    android:layout_marginLeft="16dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center">
+
+                <ImageView
+                    android:id="@+id/imgAlarm"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/alarm_"
+                    android:layout_marginLeft="100dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|left"
+                    android:text="24:59"
+                    android:layout_marginLeft="56dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

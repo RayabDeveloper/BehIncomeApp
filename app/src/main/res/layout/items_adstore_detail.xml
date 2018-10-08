@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="6dp">
+
+        <TextView
+            android:id="@+id/lblDetailName"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            style="@style/TextView.Normal"
+            android:gravity="center|right"
+            android:layout_marginRight="6dp"
+            android:textColor="@color/txtGray4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/txtDetailDes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="6dp"
+                android:layout_marginLeft="6dp"
+                style="@style/EditText.Normal"
+                android:hint="توضیحات را وارد کنید"
+                android:maxLines="1"/>
+
+            <ImageView
+                android:id="@+id/imgReNew"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.1"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/delete_red"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

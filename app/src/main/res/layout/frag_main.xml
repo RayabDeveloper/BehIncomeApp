@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activityes.Main.fragMain">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        android:textDirection="rtl"
+        android:orientation="vertical">
+
+        <include
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_main"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:orientation="vertical"
+            android:background="@color/txtGray0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:textDirection="rtl"
+                android:layoutDirection="rtl"
+                android:gravity="center"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.9"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginLeft="3dp">
+
+                    <TextView
+                        android:id="@+id/lblComission1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/txtGray4"
+                        android:text="پورسانت : "/>
+
+                    <TextView
+                        android:id="@+id/lblComission2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:textColor="@color/txtGray2"
+                        android:text="9.999.999 تومان"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/txtGray4"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginLeft="3dp">
+
+                    <TextView
+                        android:id="@+id/lblPoint1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/txtGray4"
+                        android:text="امتیاز : "/>
+
+                    <TextView
+                        android:id="@+id/lblPoint2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:textColor="@color/txtGray2"
+                        android:text="999.999"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0.1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/txtGray4"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginRight="3dp">
+
+                    <TextView
+                        android:id="@+id/lblCreadit1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/txtGray4"
+                        android:text="اعتبار : "/>
+
+                    <TextView
+                        android:id="@+id/lblCreadit2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:textColor="@color/txtGray2"
+                        android:text="9.999 روز"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/txtGray4"/>
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:background="@color/txtGray0">
+
+            <LinearLayout
+                android:id="@+id/btnHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgHome"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/setting_icon"/>
+
+                <TextView
+                    android:id="@+id/lblHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="تنظیمات"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnStore"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgStore"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/store"/>
+
+                <TextView
+                    android:id="@+id/lblStoreIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="فروشگاه"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnReport"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgReport"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/finance"/>
+
+                <TextView
+                    android:id="@+id/lblReport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="گزارشات"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnAccount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/imgAccount"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/account"/>
+
+                <TextView
+                    android:id="@+id/lblAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/txtGray2"
+                    android:text="حساب کاربری"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

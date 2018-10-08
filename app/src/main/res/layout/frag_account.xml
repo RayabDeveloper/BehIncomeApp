@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    android:background="@color/txtGray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/txtGray">
+
+        <include
+            android:id="@+id/lin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_standard"/>
+
+        <LinearLayout
+            android:id="@+id/btnProfile"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:background="@color/txtWhite">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/profile_red"/>
+
+            <TextView
+                android:id="@+id/lblProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="right|center"
+                android:layout_marginRight="26dp"
+                android:text="پروفایل"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnMarketers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:background="@color/txtWhite">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/profile_red"/>
+
+            <TextView
+                android:id="@+id/lblMarketers"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="right|center"
+                android:layout_marginRight="26dp"
+                android:text="بازاریاب ها"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnCreadit"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:background="@color/txtWhite">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/creadit_red"/>
+
+            <TextView
+                android:id="@+id/lblCreadit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="right|center"
+                android:layout_marginRight="26dp"
+                android:text="اعتبار"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnRequest"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:background="@color/txtWhite">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/request_red"/>
+
+            <TextView
+                android:id="@+id/lblRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="right|center"
+                android:layout_marginRight="26dp"
+                android:text="درخواست"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnInvate"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            android:background="@color/txtWhite">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/invate_red"/>
+
+            <TextView
+                android:id="@+id/lblInvate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/TextView.Normal"
+                android:gravity="right|center"
+                android:layout_marginRight="26dp"
+                android:text="دعوت از دوستان"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

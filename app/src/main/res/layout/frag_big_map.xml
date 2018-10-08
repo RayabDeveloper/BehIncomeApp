@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    tools:context=".Activityes.Customer.fragBigMap">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/lin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_standard"/>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/txtGray0"
+            android:layout_below="@+id/lin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgLoc"
+                android:layout_width="46dp"
+                android:layout_height="66dp"
+                android:src="@drawable/marker"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

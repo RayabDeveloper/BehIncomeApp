@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblSearcheTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            style="@style/TextView.Dialog.Bold"
+            android:text="جستجو کارمند"/>
+
+        <EditText
+            android:id="@+id/txtSearche"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/EditText.Normal"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:hint="کد کارمند را وارد کنید"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/txtGray2"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl">
+
+    <LinearLayout
+        android:id="@+id/linBG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/find_icon"/>
+
+        <TextView
+            android:id="@+id/lblTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:paddingRight="8dp"
+            android:textColor="@color/txtWhite"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
