@@ -1,6 +1,6 @@
 package com.behincom.behincome.Accesories;
 
-import com.behincom.behincome.Datas.Keys.MessageType;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 
 import retrofit2.Response;
@@ -11,13 +11,13 @@ public class ResponseHandler {
         if(response.isSuccessful()){
             if(response.body() instanceof SimpleResponse){
                 SimpleResponse simple = (SimpleResponse)response.body();
-                if(simple.Type.equals(MessageType.Success.toString())){
+                if(simple.Type.equals(ResponseMessageType.Success.toString())){
                     return true;
-                }else if(simple.Type.equals(MessageType.SeeDescription.toString())){
+                }else if(simple.Type.equals(ResponseMessageType.SeeDescription.toString())){
                     return onDescription(response);
-                }else if(simple.Type.equals(MessageType.Error.toString())){
+                }else if(simple.Type.equals(ResponseMessageType.Error.toString())){
                     return onError(response);
-                }else if(simple.Type.equals(MessageType.Warning.toString())){
+                }else if(simple.Type.equals(ResponseMessageType.Warning.toString())){
                     return onError(response);
                 }else
                     return false;

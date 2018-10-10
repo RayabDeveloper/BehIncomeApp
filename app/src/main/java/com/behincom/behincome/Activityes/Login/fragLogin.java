@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Accesories.Dialog;
+import com.behincom.behincome.Accesories.MessageDialogHandler;
 import com.behincom.behincome.Accesories.RDate;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Splash.actSplash;
@@ -147,6 +148,8 @@ public class fragLogin extends Fragment {
                                 setting.Save("expires", expires);
                                 setting.Save("isLogin", "1");
 
+                                String asd = result.access_token;
+
                                 String token = Setting.getToken();
                                 Call cGetUserID = rInterface.RQGetUserID("Bearer " + result.access_token);
                                 cGetUserID.enqueue(new Callback<Integer>() {
@@ -180,6 +183,7 @@ public class fragLogin extends Fragment {
                         @Override
                         public void onFailure(Call call, Throwable t) {
                             pDialog.DisMiss();
+                            MessageDialogHandler Toast = new MessageDialogHandler(context, t.getMessage());
                         }
                     });
                 }

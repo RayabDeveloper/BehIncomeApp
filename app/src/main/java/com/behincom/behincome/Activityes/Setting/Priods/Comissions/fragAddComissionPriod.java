@@ -23,6 +23,7 @@ import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragVisitorPriod;
 import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.Marketing.MarketingCommissionPeriods;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -394,16 +395,27 @@ public class fragAddComissionPriod extends Fragment {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if(response.isSuccessful()){
-                    MarketingCommissionPeriods data = new MarketingCommissionPeriods();
-                    data.MarketingCommissionPeriodID = Integer.parseInt(response.body().AdditionalData.get("MarketingCommissionPeriodID").toString().replace(".0", ""));
-                    data.MarketingCommissionPeriodTitle = txtName.getText().toString();
-                    data.MarketingCommissionPeriodDescription = txtName.getText().toString();
-                    data.MarketingCommissionPeriodDateFrom = cFromDate;
-                    data.MarketingCommissionPeriodDateTo = cToDate;
+                    SimpleResponse simple = response.body();
+                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                        MarketingCommissionPeriods data = new MarketingCommissionPeriods();
+                        data.MarketingCommissionPeriodID = Integer.parseInt(response.body().AdditionalData.get("MarketingCommissionPeriodID").toString().replace(".0", ""));
+                        data.MarketingCommissionPeriodTitle = txtName.getText().toString();
+                        data.MarketingCommissionPeriodDescription = txtName.getText().toString();
+                        data.MarketingCommissionPeriodDateFrom = cFromDate;
+                        data.MarketingCommissionPeriodDateTo = cToDate;
 
-                    SQL.Insert(data);
+                        SQL.Insert(data);
 
-                    act.getFragByState(FragmentState.CommissionPeriods);
+                        act.getFragByState(FragmentState.CommissionPeriods);
+                    }else{
+                        String eror = "خطا";
+                        try {
+                            eror = simple.Errors.get("NotJoinedDate").toString();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(context, eror, Toast.LENGTH_LONG).show();
+                    }
                 }
                 pDialog.DisMiss();
             }

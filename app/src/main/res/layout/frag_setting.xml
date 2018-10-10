@@ -198,6 +198,78 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btnArchiveType"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/store_details_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblArchiveType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="نوع بایگانی"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnContactType"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/store_details_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblContactType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="نوع مخاطب"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnPersonRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/store_details_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblPersonRole"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="نوع شخص"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/btnTag"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"

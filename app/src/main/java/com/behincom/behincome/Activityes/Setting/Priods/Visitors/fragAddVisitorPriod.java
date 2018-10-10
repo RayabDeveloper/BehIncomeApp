@@ -21,6 +21,7 @@ import com.behincom.behincome.Accesories.Dialog;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.Marketing.MarketingVisitTours;
 import com.behincom.behincome.Datas.RSQLGeter;
@@ -374,16 +375,19 @@ public class fragAddVisitorPriod extends Fragment {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if(response.isSuccessful()){
-                    MarketingVisitTours data = new MarketingVisitTours();
-                    data.VisitTourID = Integer.parseInt(response.body().AdditionalData.get("VisitTourID").toString().replace(".0", ""));
-                    data.VisitTourTitle = txtName.getText().toString();
-                    data.VisitTourDescription = txtName.getText().toString();
-                    data.DateFrom = cFromDate;
-                    data.DateTo = cToDate;
+                    SimpleResponse simple = response.body();
+                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                        MarketingVisitTours data = new MarketingVisitTours();
+                        data.VisitTourID = Integer.parseInt(response.body().AdditionalData.get("VisitTourID").toString().replace(".0", ""));
+                        data.VisitTourTitle = txtName.getText().toString();
+                        data.VisitTourDescription = txtName.getText().toString();
+                        data.DateFrom = cFromDate;
+                        data.DateTo = cToDate;
 
-                    SQL.Insert(data);
+                        SQL.Insert(data);
 
-                    act.getFragByState(FragmentState.VisitTours);
+                        act.getFragByState(FragmentState.VisitTours);
+                    }
                 }
                 pDialog.DisMiss();
             }

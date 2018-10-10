@@ -18,11 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.behincom.behincome.Activityes.Setting.ArchiveType.fragArchiveType;
 import com.behincom.behincome.Activityes.Setting.ContactType.fragContactType;
 import com.behincom.behincome.Adapters.SwipeItems.Customers.OnCustomerListChangedListener;
 import com.behincom.behincome.Adapters.SwipeItems.Helper.OnStartDragListener;
-import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;

@@ -42,7 +42,13 @@ import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Main.adapMainCustomers;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.Archives.ToSendArchive;
+import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
+import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
+import com.behincom.behincome.Datas.BaseData.Basic_Properties;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.DataDates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
@@ -191,9 +197,18 @@ public class fragCustomers extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), actCustomer.class);
-                actCustomer.STATE = FragmentState.AddCustomer;
-                startActivity(intent);
+                List<Basic_Cities> lCit = geter.getListIsCheck(Basic_Cities.class);
+                List<Basic_ActivityFields> lAct = geter.getListIsCheck(Basic_ActivityFields.class);
+                List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);
+                List<Basic_Properties> lProp = geter.getListIsCheck(Basic_Properties.class);
+                List<Basic_ContactTypes> lCont = geter.getList(Basic_ContactTypes.class);
+                List<Basic_PersonRoles> lRole = geter.getList(Basic_PersonRoles.class);
+                if(lCit.size() > 0 && lAct.size() > 0 && lTag.size() > 0 && lProp.size() > 0 && lCont.size() > 0 && lRole.size() > 0) {
+                    Intent intent = new Intent(getActivity(), actCustomer.class);
+                    actCustomer.STATE = FragmentState.AddCustomer;
+                    startActivity(intent);
+                }else
+                    Toast.makeText(context, "لطفا ابتدا تمام موارد را در تنظیمات اطلاعات پایه تکمیل کنید.", Toast.LENGTH_LONG).show();
             }
         });
 

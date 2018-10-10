@@ -105,12 +105,16 @@ public class adapAddCustomerTagSub extends RecyclerView.Adapter<adapAddCustomerT
         ch00.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!ch00.isChecked()){
+                if(ch00.isChecked()){
                     lListCustomer.add(lList.get(position));//add Top For ch(Radio)
+                    lList.get(position).isCheck = true;
                 }else{
-                    lListCustomer.remove(lList.get(position));
+                    for (int i=0; i<lListCustomer.size(); i++) {
+                        if(lListCustomer.get(i).TagID == lList.get(position).TagID)
+                            lListCustomer.remove(i);
+                    }
+                    lList.get(position).isCheck = false;
                 }
-                lList.get(position).isCheck = !ch00.isChecked();
                 notifyDataSetChanged();
             }
         });

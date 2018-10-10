@@ -22,8 +22,10 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -174,6 +176,9 @@ public class fragAddCustomer extends Fragment {
     private boolean isAPI = false;
     public static boolean isMap = false, goingToBigMap = false;
 
+    private static String sName = "", sAdrese = "";
+    private static List<CustomerPersonnel> lPersoneler = new ArrayList<>();
+
     public static fragAddCustomer newInstance(Context mContext) {
         fragAddCustomer fragment = new fragAddCustomer();
         contexti = mContext;
@@ -235,6 +240,39 @@ public class fragAddCustomer extends Fragment {
         lstCalling.setLayoutManager(mLayoutManageri);
         lstCalling.addItemDecoration(ItemDecoration.getDecoration(contexti));
         lstCalling.setItemAnimator(new DefaultItemAnimator());
+
+        txtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sName = txtName.getText().toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        txtAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sAdrese = txtAddress.getText().toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -950,6 +988,24 @@ public class fragAddCustomer extends Fragment {
         if (lProvinces.size() > 0) spinerOstan.setSelection(sOstan);
         if (lCities.size() > 0) spinerCity.setSelection(sCity);
         spinadaPrefix.setSelection(Perfix);
+        if(lPersoneler.size() > 0){
+            lContact = new ArrayList<>();
+            lContact.addAll(lPersoneler);
+        }
+        ContactRefresher();
+        ContactRefresher2();
+        txtName.setText(sName);
+        txtAddress.setText(sAdrese);
+        try {
+            spinerOstan.setSelection(sOstan);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            spinerCity.setSelection(sCity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         isGrant = askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 3);
         isGrant_GPS = askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 2);
         ContactRefresher2();
@@ -1306,6 +1362,7 @@ public class fragAddCustomer extends Fragment {
                         data.PersonnelRoleName = (PersonnelRoleName);
 
                         lContact.add(data);
+                        lPersoneler.add(data);
 //                Toast.makeText(contexti, "ذخیره شد", Toast.LENGTH_SHORT).show();
                         cDialog.dismiss();
                         ContactRefresher();
@@ -1361,7 +1418,7 @@ public class fragAddCustomer extends Fragment {
     }
     private void ActivityFieldManager() {
         goingToBigMap = true;
-        actCustomer.ShowFragActivityFields(new ArrayList<Basic_ActivityFields>());
+        actCustomer.ShowFragActivityFields(lActivityFields);
 //        fDialog = new Dialog(contexti);
 //        fDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        fDialog.setCancelable(true);
@@ -1460,7 +1517,7 @@ public class fragAddCustomer extends Fragment {
     }
     private void TagManager() {
         goingToBigMap = true;
-        actCustomer.ShowFragTags(new ArrayList<Basic_Tags>());
+        actCustomer.ShowFragTags(lTags);
 //        lDialog = new Dialog(contexti);
 //        lDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        lDialog.setCancelable(true);
@@ -1573,7 +1630,7 @@ public class fragAddCustomer extends Fragment {
     }
     private void PropertiesManager() {
         goingToBigMap = true;
-        actCustomer.ShowFragProperties(new ArrayList<Basic_Properties>());
+        actCustomer.ShowFragProperties(lProperties);
 //        mDialog = new Dialog(contexti);
 //        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        mDialog.setCancelable(true);

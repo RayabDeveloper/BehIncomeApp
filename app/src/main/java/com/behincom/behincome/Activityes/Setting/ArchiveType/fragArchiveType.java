@@ -28,13 +28,16 @@ import com.behincom.behincome.Adapters.Setting.adapCustomerState;
 import com.behincom.behincome.Adapters.SwipeItems.SwipeAndDragHelper;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Color;
+import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.RSQLGeter;
+import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
 import com.behincom.behincome.app.AppController;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class fragArchiveType extends Fragment {
 
@@ -135,6 +140,32 @@ public class fragArchiveType extends Fragment {
                     BodyParameters.put("ArchiveTypeColor", "");
 
                     Call Insert = rInterface.RQInsertBasicArchiveTypes(Setting.getToken(), new HashMap<>(BodyParameters));
+                    Insert.enqueue(new Callback<SimpleResponse>() {
+                        @Override
+                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                            if(response.isSuccessful()){
+                                SimpleResponse simple = response.body();
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+
+                                Basic_ArchiveTypes data = new Basic_ArchiveTypes();
+                                data.AdjustedByAdmin = false;
+                                data.ArchiveTypeID = Id;
+                                data.ArchiveTypeTitle = txtTitle.getText().toString();
+                                data.isCheck = true;
+
+                                SQL.Insert(data);
+                                lState = geter.getList(Basic_ContactTypes.class);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            String asd = "ASD";
+                        }
+                    });
                 }else{
                     Map<String, Object> BodyParameters = new HashMap<>();
                     BodyParameters = new HashMap<>();
@@ -149,6 +180,32 @@ public class fragArchiveType extends Fragment {
                     BodyParameters.put("ArchiveTypeColor", "");
 
                     Call Update = rInterface.RQUpdateBasicArchiveTypes(Setting.getToken(), new HashMap<>(BodyParameters));
+                    Update.enqueue(new Callback<SimpleResponse>() {
+                        @Override
+                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                            if(response.isSuccessful()){
+                                SimpleResponse simple = response.body();
+//                                Map<String, Object> addional = simple.AdditionalData;
+//                                String mID = addional.get("ItemId").toString();
+//                                int Id = Integer.parseInt(mID.replace(".0", ""));
+//
+//                                Basic_ArchiveTypes data = new Basic_ArchiveTypes();
+//                                data.AdjustedByAdmin = false;
+//                                data.ArchiveTypeID = Id;
+//                                data.ArchiveTypeTitle = txtTitle.getText().toString();
+//                                data.isCheck = true;
+//
+//                                SQL.Insert(data);
+                                lState = geter.getList(Basic_ContactTypes.class);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            String asd = "ASD";
+                        }
+                    });
                 }
             }
         });

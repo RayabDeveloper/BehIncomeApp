@@ -30,6 +30,9 @@ public class fragSetting extends Fragment {
     TextView lblActvityField;
     TextView lblTitle;
     TextView lblCustomerState;
+    TextView lblPersonRole;
+    TextView lblContactType;
+    TextView lblArchiveType;
     ImageView imgBack;
     ImageView btnCheck;
     LinearLayout btnCustomerState;
@@ -43,6 +46,9 @@ public class fragSetting extends Fragment {
     LinearLayout btnActivityResults;
     LinearLayout btnTag;
     LinearLayout btnActvityField;
+    LinearLayout btnPersonRole;
+    LinearLayout btnContactType;
+    LinearLayout btnArchiveType;
 
     public static fragSetting newInstance(Context mContext){
         fragSetting fragment = new fragSetting();
@@ -55,6 +61,12 @@ public class fragSetting extends Fragment {
         View view = inflater.inflate(R.layout.frag_setting, container, false);
 
         //Define Elements
+        btnPersonRole = view.findViewById(R.id.btnPersonRole);
+        btnContactType = view.findViewById(R.id.btnContactType);
+        btnArchiveType = view.findViewById(R.id.btnArchiveType);
+        lblPersonRole = view.findViewById(R.id.lblPersonRole);
+        lblContactType = view.findViewById(R.id.lblContactType);
+        lblArchiveType = view.findViewById(R.id.lblArchiveType);
         btnCustomerState = view.findViewById(R.id.btnCustomerState);
         lblCustomerState = view.findViewById(R.id.lblCustomerState);
         lblTitle = view.findViewById(R.id.lblTitle);
@@ -93,6 +105,24 @@ public class fragSetting extends Fragment {
         btnCheck.setVisibility(View.GONE);
 
         //OnClick on Elements
+        btnPersonRole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ACTSetting.getFragByState(FragmentState.PersonRole);
+            }
+        });
+        btnContactType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ACTSetting.getFragByState(FragmentState.ContactType);
+            }
+        });
+        btnArchiveType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ACTSetting.getFragByState(FragmentState.ArchiveType);
+            }
+        });
         btnPeriod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

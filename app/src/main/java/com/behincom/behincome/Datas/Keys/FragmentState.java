@@ -32,6 +32,9 @@ public enum FragmentState {
     CustomerManager,
     ArchiveEnter,
     ArchiveExit,
+    PersonRole,
+    ContactType,
+    ArchiveType,
 
     AddUser,
     Marketers,

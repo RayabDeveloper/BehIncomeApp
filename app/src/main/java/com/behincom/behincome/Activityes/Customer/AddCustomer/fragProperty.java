@@ -101,10 +101,6 @@ public class fragProperty extends Fragment {
         for (Basic_Properties data : lProperties) {
             List<Basic_PropertyGroups> lGrop = geter.getList(Basic_PropertyGroups.class, " WHERE PropertyGroupID='" + data.PropertyGroupID + "'");
             boolean isIn = false;
-            for (Basic_Properties des : lPropertiesForCustomer) {
-                if(data.PropertyID == des.PropertyID)
-                    data.PropertyDescription = des.PropertyDescription;
-            }
             for (Basic_PropertyGroups mData : lPropertyGroup){
                 if(mData.PropertyGroupID == lGrop.get(0).PropertyGroupID) {
                     isIn = true;
@@ -118,9 +114,17 @@ public class fragProperty extends Fragment {
         adapterMain = new adapAddCustomerPropertyMain(lPropertyGroup, context);
         RSQLite SQL = new RSQLite();
         lProperties = SQL.Select("SELECT PropertyID, PropertyGroupID, PropertyTitle, PropertyDescription, PropertyOrder, PropertyTypeKeyBoardId, Deleted, 'false' as isCheck FROM Basic_Properties WHERE isCheck='1' AND PropertyGroupID='" + lPropertyGroup.get(0).PropertyGroupID + "'", Basic_Properties.class);
+        for (Basic_Properties data : lProperties) {
+            for (Basic_Properties des : lPropertiesForCustomer) {
+                if(data.PropertyID == des.PropertyID)
+                    data.PropertyDescription = des.PropertyDescription;
+            }
+        }
         adapterSub = new adapAddCustomerPropertySub(lProperties, lPropertiesForCustomer, context);
         lstMain.setAdapter(adapterMain);
         lstSub.setAdapter(adapterSub);
+
+        refreshProperties(lPropertyGroup.get(0).PropertyGroupID);
 
         cardSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

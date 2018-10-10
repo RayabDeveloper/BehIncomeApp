@@ -21,13 +21,17 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Dialog;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Adapters.Setting.adapSettingMainItems;
 import com.behincom.behincome.Adapters.Setting.adapSettingSubItems;
 import com.behincom.behincome.Adapters.SpinAdapter;
+import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_AndroidKeyboardTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.RSQLGeter;
@@ -61,11 +65,13 @@ public class fragBasicData<T> extends Fragment {
     static actSetting act = new actSetting();
     android.app.Dialog mDialog, sDialog;
     private static Dialog pDialog;
-    SpinAdapter spinAdap;
+    static SpinAdapter spinAdap;
     SpinAdapter spinAdapop;
+    RSQLite SQL = new RSQLite();
     private static RSQLGeter geter = new RSQLGeter();
 
     static RecyclerView lstMain, lstSub;
+    static Spinner spinType;
     ImageView imgBack, btnCheck, btnSearche;
     TextView lblTitle, lblMain, lblSub;
     LinearLayout btnMainAdd, linSub;
@@ -224,7 +230,7 @@ public class fragBasicData<T> extends Fragment {
                 TextView btnCancell = sDialog.findViewById(R.id.lblCancell);
                 TextView lblTitle = sDialog.findViewById(R.id.lblTitle00);
                 final TextInputEditText txtTitle = sDialog.findViewById(R.id.txtTitle);
-                final Spinner spinType = sDialog.findViewById(R.id.spinType);
+                spinType = sDialog.findViewById(R.id.spinType);
 
                 String fName = "";
                 try {
@@ -260,7 +266,7 @@ public class fragBasicData<T> extends Fragment {
                 }
                 lblTitle.setText(fName);
 
-                boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties");
+                final boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties");
                 if(isProp) {
                     List<Basic_AndroidKeyboardTypes> lKeyboard = geter.getList(Basic_AndroidKeyboardTypes.class);
                     spinAdap = new SpinAdapter(context, lKeyboard, "AndroidKeyboardTypeTitle");
@@ -274,7 +280,10 @@ public class fragBasicData<T> extends Fragment {
                     @Override
                     public void onClick(View v) {
                         sDialog.dismiss();
-                        SubAddManager(txtTitle.getText().toString(), Integer.parseInt(spinAdap.getItemString(spinType.getSelectedItemPosition(), "AndroidKeyboardTypeID")));
+                        if(isProp)
+                            SubAddManager(txtTitle.getText().toString(), Integer.parseInt(spinAdap.getItemString(spinType.getSelectedItemPosition(), "AndroidKeyboardTypeID")));
+                        else
+                            SubAddManager(txtTitle.getText().toString(), 0);
                     }
                 });
                 btnCancell.setOnClickListener(new View.OnClickListener() {
@@ -665,7 +674,7 @@ public class fragBasicData<T> extends Fragment {
         }
         return 0;
     }
-    private void GroupAddManager(String Title, int Type){
+    private void GroupAddManager(final String Title, final int Type){
         Map<String, Object> BodyParameters = new HashMap<>();
         Call Insert;
         switch (wichAPI()){
@@ -679,11 +688,22 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("Deleted", false);
 
                 Insert = rInterface.RQInsertBasicActivityFieldGroups(Setting.getToken(), new HashMap<>(BodyParameters));
-                Insert.enqueue(new Callback() {
+                Insert.enqueue(new Callback<SimpleResponse>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
-                            String a = "AS";
+                            SimpleResponse simple = response.body();
+                            Map<String, Object> addional = simple.AdditionalData;
+                            String mID = addional.get("ItemId").toString();
+                            int Id = Integer.parseInt(mID.replace(".0", ""));
+                            Basic_ActivityFieldGroups data = new Basic_ActivityFieldGroups();
+                            data.ActivityFieldGroupID = Id;
+                            data.ActivityFieldGroupTitle = Title;
+                            data.AdjustedByAdmin = false;
+                            data.isCheck = true;
+                            SQL.Insert(data);
+
+                            objects.MainItems(geter.getList(Basic_ActivityFieldGroups.class));
                         }
                     }
 
@@ -702,12 +722,26 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagGroupColor", "a");
                 BodyParameters.put("TagGroupTypeId", Type);
 
+                String asdf = Setting.getToken();
+
                 Insert = rInterface.RQInsertBasicTagGroups(Setting.getToken(), new HashMap<>(BodyParameters));
-                Insert.enqueue(new Callback() {
+                Insert.enqueue(new Callback<SimpleResponse>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
-                            String a = "AS";
+                            SimpleResponse simple = response.body();
+                            Map<String, Object> addional = simple.AdditionalData;
+                            String mID = addional.get("ItemId").toString();
+                            int Id = Integer.parseInt(mID.replace(".0", ""));
+                            Basic_TagGroups data = new Basic_TagGroups();
+                            data.TagGroupID = Id;
+                            data.TagGroupTitle = Title;
+                            data.TagGroupAdjustedByAdmin = false;
+                            data.TagGroupTypeId = Type;
+                            data.isCheck = true;
+                            SQL.Insert(data);
+
+                            objects.MainItems(geter.getList(Basic_TagGroups.class));
                         }
                     }
 
@@ -726,11 +760,22 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyGroupColor", "");
 
                 Insert = rInterface.RQInsertBasicPropertieGroups(Setting.getToken(), new HashMap<>(BodyParameters));
-                Insert.enqueue(new Callback() {
+                Insert.enqueue(new Callback<SimpleResponse>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
-                            String a = "AS";
+                            SimpleResponse simple = response.body();
+                            Map<String, Object> addional = simple.AdditionalData;
+                            String mID = addional.get("ItemId").toString();
+                            int Id = Integer.parseInt(mID.replace(".0", ""));
+                            Basic_PropertyGroups data = new Basic_PropertyGroups();
+                            data.PropertyGroupID = Id;
+                            data.PropertyGroupTitle = Title;
+                            data.PropertyGroupAdjustedByAdmin = false;
+                            data.isCheck = true;
+                            SQL.Insert(data);
+
+                            objects.MainItems(geter.getList(Basic_PropertyGroups.class));
                         }
                     }
 
@@ -765,6 +810,19 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagTitle", Title);
 
                 Insert = rInterface.RQInsertBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
+                Insert.enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        if(response.isSuccessful()){
+                            String asd = "ASD";
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        String asd = "ASD";
+                    }
+                });
                 break;
             case 4://Property
                 BodyParameters = new HashMap<>();
@@ -916,6 +974,25 @@ public class fragBasicData<T> extends Fragment {
                 Update = rInterface.RQUpdateBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
                 break;
         }
+    }
+
+    private void refreshManager(){
+        adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+        adapterSub = new adapSettingSubItems<>(objects.SubItems(), objects.SubFieldTitleName(), objects.SubFieldIdName(), objects.MainFieldIdName());
+        lstMain.setAdapter(adapterMain);
+        lstSub.setAdapter(adapterSub);
+
+        Field[] fields = objects.SubItems().get(0).getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getName().contains(objects.MainFieldIdName())) {
+                try {
+                    FilterSubItemsFromMainItemSelected(Integer.parseInt(field.get(objects.SubItems().get(0)).toString()));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        SubAdderViewer(0);
     }
 
     static Object lList;

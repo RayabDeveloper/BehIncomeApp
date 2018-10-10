@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Activityes.Setting.fragBasicData;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
@@ -75,15 +76,13 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
         final AppCompatCheckBox ch = holder.ch;
         final AppCompatCheckBox ch2 = holder.ch2;
 
-        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-        lblSubTitle.setTypeface(tFace);
-
         Field[] fields = mObject.getClass().getDeclaredFields();
         for (Field field : fields) {
             if(field.getName().contains(TitleName)){
                 try {
                     String Title = field.get(lList.get(position)).toString();
                     lblSubTitle.setText(Title);
+                    Toast.makeText(context, Title, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -122,7 +122,7 @@ public interface RWInterface<T> {
     final String AddTags = "AddTags";
     final String RemoveTags = "RemoveTags";
     final String GetAll = "GetAll";
-    final String AddActivityFields = "AddActivityFields";
+    final String AddActivityFields = "AddActivityField";
     final String RemoveActivityField = "RemoveActivityField";
     final String AddCities = "AddCities";
     final String RemoveCities = "RemoveCities";

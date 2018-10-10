@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.behincom.behincome.Activityes.Setting.ArchiveType.fragArchiveType;
+import com.behincom.behincome.Activityes.Setting.ContactType.fragContactType;
 import com.behincom.behincome.Activityes.Setting.CustomerState.fragCustomerState;
 import com.behincom.behincome.Activityes.Setting.Pdoructs.fragAddProducts;
 import com.behincom.behincome.Activityes.Setting.Pdoructs.fragProducts;
+import com.behincom.behincome.Activityes.Setting.PersonRole.fragPersonRole;
 import com.behincom.behincome.Activityes.Setting.Priods.Comissions.fragAddComissionPriod;
 import com.behincom.behincome.Activityes.Setting.Priods.Comissions.fragComissionPriod;
 import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragAddVisitorPriod;
@@ -143,9 +146,40 @@ public class actSetting extends AppCompatActivity {
                 addFragCustomerState();
                 STATE = FragmentState.CustomerState;
                 break;
+
+            case PersonRole:
+                addFragPersonRole();
+                STATE = FragmentState.PersonRole;
+                break;
+            case ContactType:
+                addFragContactType();
+                STATE = FragmentState.ContactType;
+                break;
+            case ArchiveType:
+                addFragArchiveType();
+                STATE = FragmentState.ArchiveType;
+                break;
         }
     }
 
+    private void addFragPersonRole(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragPersonRole.newInstance(context));
+        transaction.commit();
+    }
+    private void addFragContactType(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragContactType.newInstance(context));
+        transaction.commit();
+    }
+    private void addFragArchiveType(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragArchiveType.newInstance(context));
+        transaction.commit();
+    }
     private void addFragCustomerState(){
         frameLayout.removeAllViewsInLayout();
         FragmentTransaction transaction = manager.beginTransaction();

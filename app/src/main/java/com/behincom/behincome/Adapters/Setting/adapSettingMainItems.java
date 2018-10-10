@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Activityes.Setting.fragBasicData;
 import com.behincom.behincome.R;
@@ -65,9 +66,6 @@ public class adapSettingMainItems<T> extends RecyclerView.Adapter<adapSettingMai
         final TextView lblTitle = holder.lblTitle;
         final ImageView img = holder.img;
 
-        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-        lblTitle.setTypeface(tFace);
-
         if(fragBasicData.Position  == position){
             linBG.setBackgroundColor(context.getResources().getColor(R.color.BaseBackgroundColor));
             lblTitle.setTextColor(context.getResources().getColor(R.color.txtGray4));
@@ -82,6 +80,8 @@ public class adapSettingMainItems<T> extends RecyclerView.Adapter<adapSettingMai
                 try {
                     String Title = field.get(lList.get(position)).toString();
                     lblTitle.setText(Title);
+                    if(position == 0)
+                        Toast.makeText(context, Title, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

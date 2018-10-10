@@ -50,6 +50,8 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class fragCustomerState extends Fragment{
 
@@ -210,6 +212,19 @@ public class fragCustomerState extends Fragment{
                     BodyParameters.put("CustomerStateFontIcon", "");
 
                     Call Insert = rInterface.RQInsertBasicCustomerStates(Setting.getToken(), new HashMap<>(BodyParameters));
+                    Insert.enqueue(new Callback() {
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            if(response.isSuccessful()){
+                                String asd = "ASD";
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            String asd = "ASD";
+                        }
+                    });
                 }else{
                     Map<String, Object> BodyParameters = new HashMap<>();
                     BodyParameters = new HashMap<>();

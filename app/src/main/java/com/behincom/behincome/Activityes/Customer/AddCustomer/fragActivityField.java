@@ -102,10 +102,6 @@ public class fragActivityField extends Fragment {
         for (Basic_ActivityFields data : lActivityField) {
             List<Basic_ActivityFieldGroups> lGrop = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "'");
             boolean isIn = false;
-            for (Basic_ActivityFields des : lActivityFieldForCustomer) {
-                if(data.ActivityFieldID == des.ActivityFieldID)
-                    data.isCheck = true;
-            }
             for (Basic_ActivityFieldGroups mData : lActivityFieldGroup){
                 if(mData.ActivityFieldGroupID == lGrop.get(0).ActivityFieldGroupID) {
                     isIn = true;
@@ -119,6 +115,12 @@ public class fragActivityField extends Fragment {
         adapterMain = new adapAddCustomerActivityFieldMain(lActivityFieldGroup, context);
         RSQLite SQL = new RSQLite();
         lActivityField = SQL.Select("SELECT ActivityFieldID, ActivityFieldGroupID, ActivityFieldOrder, ActivityFieldTitle, ActivityFieldFontIcon, Deleted, 'false' as isCheck FROM Basic_ActivityFields WHERE isCheck='1' AND ActivityFieldGroupID='" + lActivityFieldGroup.get(0).ActivityFieldGroupID + "'", Basic_ActivityFields.class);
+        for (Basic_ActivityFields data : lActivityField) {
+            for (Basic_ActivityFields des : lActivityFieldForCustomer) {
+                if(data.ActivityFieldID == des.ActivityFieldID)
+                    data.isCheck = true;
+            }
+        }
         adapterSub = new adapAddCustomerActivityFieldSub(lActivityField, lActivityFieldForCustomer, context);
         lstMain.setAdapter(adapterMain);
         lstSub.setAdapter(adapterSub);
