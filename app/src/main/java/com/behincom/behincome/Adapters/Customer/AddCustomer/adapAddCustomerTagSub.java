@@ -9,17 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.behincom.behincome.Activityes.Customer.AddCustomer.fragTag;
-import com.behincom.behincome.Activityes.Setting.fragBasicData;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Keys.TagType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
-import com.behincom.behincome.SQL.RSQLite;
-import com.behincom.behincome.app.AppController;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,18 +23,18 @@ public class adapAddCustomerTagSub extends RecyclerView.Adapter<adapAddCustomerT
     private Context context;
     RSQLGeter geter = new RSQLGeter();
 
-    private List<Basic_Tags> lList = new ArrayList<>();
-    private List<Basic_Tags> lListCustomer = new ArrayList<>();
+    private List<Basic_taks> lList = new ArrayList<>();
+    private List<Basic_taks> lListCustomer = new ArrayList<>();
 
     private int TagIDSelectedForRadio = 0;
 
-    public adapAddCustomerTagSub(List<Basic_Tags> lList, List<Basic_Tags> lCustomer, Context mContext) {
+    public adapAddCustomerTagSub(List<Basic_taks> lList, List<Basic_taks> lCustomer, Context mContext) {
         this.lList = lList;
         this.lListCustomer = lCustomer;
         this.context = mContext;
     }
 
-    public List<Basic_Tags> getList() {
+    public List<Basic_taks> getList() {
         return lList;
     }
 
@@ -122,7 +117,7 @@ public class adapAddCustomerTagSub extends RecyclerView.Adapter<adapAddCustomerT
     }
 
     private boolean isRadio(int TagGroupID){
-        List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + TagGroupID + "'");
+        List<Basic_takGroups> lGroup = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + TagGroupID + "'");
         if(lGroup.size() > 0){
             if(lGroup.get(0).TagGroupTypeId == TagType.RadioButton)
                 return true;

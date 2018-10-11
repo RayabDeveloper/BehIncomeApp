@@ -13,6 +13,8 @@
     <color name="txtBlue00">#428a96</color>
     <color name="txtBlue2">#5e78d9</color>
     <color name="txtRed">#cb3542</color>
+    <color name="txtRed0">#f9eeef</color>
+    <color name="txtRed00">#f4efef</color>
     <color name="txtWhite">#ffffff</color>
     <color name="txtWhite00">#e3ebec</color>
     <color name="txtGray">#E2E2E2</color>
@@ -20,6 +22,7 @@
     <color name="txtGray1">#ACACAC</color>
     <color name="txtGray2">#7D7D7D</color>
     <color name="txtGreen">#5EB25A</color>
+    <color name="txtGreen0">#ecf5ec</color>
     <color name="txtGray3">#484848</color>
     <color name="txtGray4">#323232</color>
     <color name="BaseBackgroundColor">#FAFAFA</color>

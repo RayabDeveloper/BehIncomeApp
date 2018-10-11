@@ -11,14 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.behincom.behincome.Activityes.Customer.AddCustomer.fragTag;
-import com.behincom.behincome.Activityes.Setting.fragBasicData;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
-import com.behincom.behincome.SQL.RSQLite;
-import com.behincom.behincome.app.AppController;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +23,9 @@ public class adapAddCustomerTagMain extends RecyclerView.Adapter<adapAddCustomer
     Context context;
     RSQLGeter geter = new RSQLGeter();
 
-    private List<Basic_TagGroups> lList = new ArrayList<>();
+    private List<Basic_takGroups> lList = new ArrayList<>();
 
-    public adapAddCustomerTagMain(List<Basic_TagGroups> lList, Context mContext) {
+    public adapAddCustomerTagMain(List<Basic_takGroups> lList, Context mContext) {
         this.lList = lList;
         this.context = mContext;
     }

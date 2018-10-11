@@ -3,7 +3,6 @@ package com.behincom.behincome.Adapters.Customer.AddCustomer;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
@@ -13,12 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.behincom.behincome.Activityes.Customer.AddCustomer.fragProperty;
-import com.behincom.behincome.Activityes.Customer.AddCustomer.fragTag;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
 import com.behincom.behincome.Datas.Keys.AndroidKeyboards;
 import com.behincom.behincome.Datas.Keys.TagType;
 import com.behincom.behincome.Datas.RSQLGeter;
@@ -129,7 +124,7 @@ public class adapAddCustomerPropertySub extends RecyclerView.Adapter<adapAddCust
     }
 
     private boolean isRadio(int TagGroupID){
-        List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + TagGroupID + "'");
+        List<Basic_takGroups> lGroup = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + TagGroupID + "'");
         if(lGroup.size() > 0){
             if(lGroup.get(0).TagGroupTypeId == TagType.RadioButton)
                 return true;

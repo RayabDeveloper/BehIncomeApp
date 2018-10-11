@@ -25,6 +25,10 @@ class sqlInsert {
                     Query += "'', ";
                 }else {
                     String fValue = value.toString();
+                    if(fValue.equalsIgnoreCase("false"))
+                        fValue = "0";
+                    else if(fValue.equalsIgnoreCase("true"))
+                        fValue = "1";
                     Query += "'" + fValue + "', ";
                 }
             }

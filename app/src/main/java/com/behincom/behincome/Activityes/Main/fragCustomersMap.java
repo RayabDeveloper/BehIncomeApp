@@ -25,6 +25,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.Customer.MapStatusInfo.DataInfoData;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
@@ -57,7 +58,7 @@ public class fragCustomersMap extends Fragment {
     adapMap adapter;
     RecyclerView.LayoutManager mLayoutManager;
 
-    public static List<Customers> lCustomer = new ArrayList<>();
+    public static List<MyCustomers> lCustomer = new ArrayList<>();
 
     List<MarkerOptions> lOptions = new ArrayList<>();
 
@@ -105,15 +106,15 @@ public class fragCustomersMap extends Fragment {
 
                 GMap.clear();
                 int i = 0;
-                for (Customers data : lCustomer) {
+                for (MyCustomers data : lCustomer) {
                     try {
                         MarkerOptions mo = new MarkerOptions();
-                        mo.position(new LatLng(data.CustomerLatitude, data.CustomerLongitude));
-                        mo.title(data.CustomerName);
+                        mo.position(new LatLng(data.Customers.CustomerLatitude, data.Customers.CustomerLongitude));
+                        mo.title(data.Customers.CustomerName);
                         mo.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
 
                         List<Basic_NamePrefixes> lPrefixNames = geter.getList(Basic_NamePrefixes.class);
-                        List<Basic_ActivityFields> lField = geter.getList(Basic_ActivityFields.class, "WHERE id='" + data.Customers_ActivityFields.get(0).ActivityFieldID + "'");
+                        List<Basic_ActivityFields> lField = geter.getList(Basic_ActivityFields.class, "WHERE id='" + data.Customers.Customers_ActivityFields.get(0).ActivityFieldID + "'");
                         String Fielde = "منسوخ شده";
                         if (lField.size() > 0)
                             Fielde = lField.get(0).ActivityFieldTitle;
@@ -124,8 +125,8 @@ public class fragCustomersMap extends Fragment {
                         DataInfoData infoData = new DataInfoData();
                         infoData.lCustomer(data);
                         infoData.position(i);
-                        infoData.customerId(data.CustomerID);
-                        infoData.name(Prefix + " " + data.CustomerName);
+                        infoData.customerId(data.Customers.CustomerID);
+                        infoData.name(Prefix + " " + data.Customers.CustomerName);
                         infoData.activityField(Fielde);
 
                         cInfoWindow cInfoWindow = new cInfoWindow(context);

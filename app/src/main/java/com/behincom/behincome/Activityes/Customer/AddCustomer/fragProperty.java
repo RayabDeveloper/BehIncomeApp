@@ -17,13 +17,9 @@ import com.behincom.behincome.Activityes.Customer.actCustomer;
 import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
 import com.behincom.behincome.Adapters.Customer.AddCustomer.adapAddCustomerPropertyMain;
 import com.behincom.behincome.Adapters.Customer.AddCustomer.adapAddCustomerPropertySub;
-import com.behincom.behincome.Adapters.Customer.AddCustomer.adapAddCustomerTagMain;
-import com.behincom.behincome.Adapters.Customer.AddCustomer.adapAddCustomerTagSub;
-import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -48,7 +44,7 @@ public class fragProperty extends Fragment {
     CardView cardSubmit;
 
     private List<Basic_PropertyGroups> lPropertyGroup = new ArrayList<>();
-    private static List<Basic_Properties> lProperties = geter.getListIsCheck(Basic_Tags.class);
+    private static List<Basic_Properties> lProperties = geter.getListIsCheck(Basic_taks.class);
     private static List<Basic_PropertyGroups> lPropertyGroupForCustomer = new ArrayList<>();
     public static List<Basic_Properties> lPropertiesForCustomer = new ArrayList<>();
     private static List<Basic_Properties> lPropertiesForCustomerBackup = new ArrayList<>();

@@ -72,7 +72,7 @@ public class adapColor extends RecyclerView.Adapter<adapColor.AdapterMember> {
         if(lList.get(position).ColorID == ColorID)
             linBG.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
         else
-            linBG.setBackgroundColor(context.getResources().getColor(R.color.txtGray0));
+            linBG.setBackgroundColor(context.getResources().getColor(R.color.txtWhite));
 
         ByteArrayOutputStream stream = null;
         try {

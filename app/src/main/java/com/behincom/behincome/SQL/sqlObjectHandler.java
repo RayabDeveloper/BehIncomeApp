@@ -83,6 +83,7 @@ class sqlObjectHandler {
                 db.execSQL("DELETE FROM " + obj.getClass().getSimpleName() + " WHERE " + where.replace("where", "").trim());
             }
         }else{
+            String asdf = mClass.getClass().getSimpleName();
             db.execSQL("DELETE FROM " + mClass.getClass().getSimpleName() + " WHERE " + where.replace("where", "").trim());
         }
     }

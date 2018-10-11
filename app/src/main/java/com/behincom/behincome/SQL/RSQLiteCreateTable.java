@@ -98,7 +98,7 @@ public class RSQLiteCreateTable {
                     "Deleted					                INTEGER, " +
                     "BusinessManagerMarketerStateColor			TEXT " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_Cities +//Table :Basic_Cities
+            "CREATE TABLE " + Tables.Basic_citi +//Table :Basic_citi
                     " (" +
                     "CityID					                    INTEGER PRIMARY KEY, " +
                     "ProvinceID					                INTEGER, " +
@@ -244,7 +244,7 @@ public class RSQLiteCreateTable {
                     "PropertyGroupAdjustedByAdmin               INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_Provinces +//Table :Basic_Provinces
+            "CREATE TABLE " + Tables.Basic_Ostan +//Table :Basic_Ostan
                     " (" +
                     "ProvinceID					                INTEGER PRIMARY KEY, " +
                     "ProvinceTitle					            TEXT, " +
@@ -252,7 +252,7 @@ public class RSQLiteCreateTable {
                     "ProvinceOrder                              INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_TagGroups +//Table :Basic_TagGroups
+            "CREATE TABLE " + Tables.Basic_takGroups +//Table :Basic_takGroups
                     " (" +
                     "TagGroupID					                INTEGER PRIMARY KEY, " +
                     "TagGroupTitle					            TEXT, " +
@@ -265,7 +265,7 @@ public class RSQLiteCreateTable {
                     "TagGroupTypeId                             INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_Tags +//Table :Basic_Tags
+            "CREATE TABLE " + Tables.Basic_taks +//Table :Basic_taks
                     " (" +
                     "TagID					                    INTEGER PRIMARY KEY, " +
                     "TagGroupID					                INTEGER, " +
@@ -274,7 +274,7 @@ public class RSQLiteCreateTable {
                     "TagOrder                                   INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.mBasic_Tags +//Table :Basic_Tags
+            "CREATE TABLE " + Tables.mBasic_Tags +//Table :Basic_taks
                     " (" +
                     "TagID					                    INTEGER PRIMARY KEY, " +
                     "TagGroupID					                INTEGER, " +
@@ -288,8 +288,9 @@ public class RSQLiteCreateTable {
                     "ColorID					                INTEGER PRIMARY KEY, " +
                     "ColorCode					                INTEGER, " +
                     "ColorOrder					                TEXT, " +
+                    "isCheck                                    INTEGER, " +
                     "Deleted                                    INTEGER, " +
-                    "LastUpdateDate                             INTEGER, " +
+                    "LastUpdateDate                             INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.Basic_AndroidKeyboardTypes +//Table :Basic_AndroidKeyboardTypes
                     " (" +

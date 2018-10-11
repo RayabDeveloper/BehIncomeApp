@@ -80,8 +80,6 @@ public class adapSettingMainItems<T> extends RecyclerView.Adapter<adapSettingMai
                 try {
                     String Title = field.get(lList.get(position)).toString();
                     lblTitle.setText(Title);
-                    if(position == 0)
-                        Toast.makeText(context, Title, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -157,7 +155,7 @@ public class adapSettingMainItems<T> extends RecyclerView.Adapter<adapSettingMai
         }
 
         if(!isAdmin)
-            fragBasicData.Choiser(lList.get(0), true);
+            fragBasicData.Choiser(lList.get(position), true, 0);
     }
 
     public static class AdapterMember extends RecyclerView.ViewHolder {

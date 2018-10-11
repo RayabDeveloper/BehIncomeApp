@@ -15,6 +15,7 @@ import com.behincom.behincome.Activityes.Main.fragCustomersMap;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
@@ -29,8 +30,8 @@ public class adapMap extends RecyclerView.Adapter<adapMap.AdapterMember>{
     RSQLite SQL = new RSQLite();
     RSQLGeter geter = new RSQLGeter();
 
-    public List<Customers> lList;
-    public adapMap(List<Customers> lList){
+    public List<MyCustomers> lList;
+    public adapMap(List<MyCustomers> lList){
         this.lList = lList;
     }
 
@@ -75,24 +76,24 @@ public class adapMap extends RecyclerView.Adapter<adapMap.AdapterMember>{
         String Name = "";
         if(lPrefixNames.size() > 0) {
             Prefix = lPrefixNames.get(0).NamePrefixTitle;
-            Name = Prefix + " " + lList.get(position).CustomerName;
+            Name = Prefix + " " + lList.get(position).Customers.CustomerName;
         }else{
-            Name = lList.get(position).CustomerName;
+            Name = lList.get(position).Customers.CustomerName;
         }
         lblName.setText(Name);
-        List<Basic_ActivityFields> lField = geter.getList(Basic_ActivityFields.class, "WHERE id='" + lList.get(position).Customers_ActivityFields.get(0).ActivityFieldID + "'");
+        List<Basic_ActivityFields> lField = geter.getList(Basic_ActivityFields.class, "WHERE id='" + lList.get(position).Customers.Customers_ActivityFields.get(0).ActivityFieldID + "'");
         String Field = "وارد نشده";
         if(lField.size() > 0){
             Field = lField.get(0).ActivityFieldTitle;
         }
         lblActivityField1.setText(Field);
-        lblAddress1.setText(lList.get(position).CustomerAddress);
+        lblAddress1.setText(lList.get(position).Customers.CustomerAddress);
 
         cardViewMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragCustomersMap act = new fragCustomersMap();
-                act.getLoc(new LatLng(lList.get(position).CustomerLatitude, lList.get(position).CustomerLongitude));
+                act.getLoc(new LatLng(lList.get(position).Customers.CustomerLatitude, lList.get(position).Customers.CustomerLongitude));
             }
         });
     }

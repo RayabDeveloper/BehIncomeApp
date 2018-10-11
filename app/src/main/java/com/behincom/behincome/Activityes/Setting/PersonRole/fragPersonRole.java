@@ -1,6 +1,7 @@
 package com.behincom.behincome.Activityes.Setting.PersonRole;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +16,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
@@ -25,6 +27,8 @@ import android.widget.Toast;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Setting.CustomerState.fragCustomerState;
 import com.behincom.behincome.Adapters.Setting.adapArchiveType;
+import com.behincom.behincome.Adapters.Setting.adapContactType;
+import com.behincom.behincome.Adapters.Setting.adapCustomerState;
 import com.behincom.behincome.Adapters.Setting.adapPersonRole;
 import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
@@ -43,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +60,8 @@ public class fragPersonRole extends Fragment {
     RSQLGeter geter = new RSQLGeter();
     adapPersonRole adapter;
     RWInterface rInterface;
+    Dialog AEDialog;
+    com.behincom.behincome.Accesories.Dialog pDialog;
 
     private List<Basic_PersonRoles> lState = new ArrayList<>();
     private boolean isInsert = true;
@@ -63,10 +70,9 @@ public class fragPersonRole extends Fragment {
     TextView lblTitle;
     RecyclerView lstMain;
     FloatingActionButton btnAdd;
-    LinearLayout dialogAdd, btnDeleter, btnUpdate;
+    static LinearLayout btnDeleter, btnUpdate, btnCancell;
     static LinearLayout ViewEditor;
     TextInputEditText txtTitle;
-    CardView cardSubmit;
 
     public static fragPersonRole newInstance(Context mContext) {
         fragPersonRole fragment = new fragPersonRole();
@@ -78,6 +84,7 @@ public class fragPersonRole extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_person_role, container, false);
 
+        btnCancell = view.findViewById(R.id.btnCancell);
         ViewEditor = view.findViewById(R.id.ViewEditor);
         btnDeleter = view.findViewById(R.id.btnDeleter);
         btnUpdate = view.findViewById(R.id.btnUpdate);
@@ -85,9 +92,7 @@ public class fragPersonRole extends Fragment {
         imgBack = view.findViewById(R.id.imgBack);
         btnCheck = view.findViewById(R.id.btnCheck);
         btnAdd = view.findViewById(R.id.btnAdd);
-        dialogAdd = view.findViewById(R.id.dialogAdd);
         txtTitle = view.findViewById(R.id.txtTitle);
-        cardSubmit = view.findViewById(R.id.cardSubmit);
         lstMain = view.findViewById(R.id.lstMain);
 
         rInterface = Retrofite.getClient().create(RWInterface.class);
@@ -95,9 +100,18 @@ public class fragPersonRole extends Fragment {
         btnCheck.setVisibility(View.GONE);
         lblTitle.setText("نوع بایگانی");
 
+        btnCancell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideDown(ViewEditor);
+            }
+        });
         btnDeleter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog = new com.behincom.behincome.Accesories.Dialog(context);
+                pDialog.Show();
+
                 Map<String, Object> BodyParameters = new HashMap<>();
                 BodyParameters = new HashMap<>();
                 List<Integer> ids = new ArrayList<>();
@@ -111,7 +125,7 @@ public class fragPersonRole extends Fragment {
                         if(response.isSuccessful()){
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Delete(lList.getClass(), " WHERE PersonRoleID='" + lList.PersonRoleID + "'");
+                                SQL.Delete(lList, " WHERE PersonRoleID='" + lList.PersonRoleID + "'");
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
@@ -120,13 +134,17 @@ public class fragPersonRole extends Fragment {
                                 Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                             }
                         }
-                        lState = geter.getList(Basic_PersonRoles.class);
-                        adapter.notifyDataSetChanged();
+                        lState = geter.getList(Basic_PersonRoles.class, " WHERE Deleted='0'");
+                        adapter = new adapPersonRole(lState, context);
+                        lstMain.setAdapter(adapter);
+                        pDialog.DisMiss();
+                        slideDown(ViewEditor);
                     }
 
                     @Override
                     public void onFailure(Call call, Throwable t) {
                         Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                        pDialog.DisMiss();
                     }
                 });
             }
@@ -135,22 +153,108 @@ public class fragPersonRole extends Fragment {
             @Override
             public void onClick(View v) {
                 slideDown(ViewEditor);
-                slideUp(dialogAdd);
 
-                txtTitle.setText(lList.PersonRoleTitle);
                 isInsert = false;
+                AddEditManager();
             }
         });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slideUp(dialogAdd);
+                isInsert = true;
+                AddEditManager();
             }
         });
-        cardSubmit.setOnClickListener(new View.OnClickListener() {
+
+        lState = geter.getList(Basic_PersonRoles.class, " WHERE Deleted='0'");
+        adapter = new adapPersonRole(lState, context);
+        lstMain.setHasFixedSize(true);
+        lstMain.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false));
+        lstMain.setAdapter(adapter);
+        lstMain.setItemAnimator(new DefaultItemAnimator());
+
+        return view;
+    }
+
+    private static void slideUp(View view) {
+        view.setVisibility(View.VISIBLE);
+        btnDeleter.setVisibility(View.VISIBLE);
+        btnUpdate.setVisibility(View.VISIBLE);
+        btnCancell.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(200);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+    private static void slideDown(final View view) {
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(200);
+        animate.setFillAfter(true);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+                btnDeleter.setVisibility(View.GONE);
+                btnUpdate.setVisibility(View.GONE);
+                btnCancell.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animate);
+    }
+
+    static Basic_PersonRoles lList = new Basic_PersonRoles();
+    public static void onEditor(Basic_PersonRoles lListt){
+        lList = lListt;
+        slideUp(ViewEditor);
+    }
+
+    private void AddEditManager(){
+        AEDialog = new Dialog(context);
+        AEDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        AEDialog.setCancelable(true);
+        AEDialog.setCanceledOnTouchOutside(true);
+        AEDialog.setContentView(R.layout.dialog_setting_insertedit);
+        Objects.requireNonNull(AEDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+        txtTitle = AEDialog.findViewById(R.id.txtTitle);
+        TextView lblCancell = AEDialog.findViewById(R.id.lblCancell);
+        TextView lblAccept = AEDialog.findViewById(R.id.lblAccept);
+
+        if(!isInsert){
+            txtTitle.setText(lList.PersonRoleTitle);
+        }else{
+            txtTitle.setText("");
+        }
+
+        lblCancell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                slideDown(dialogAdd);
+                AEDialog.dismiss();
+            }
+        });
+        lblAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pDialog = new com.behincom.behincome.Accesories.Dialog(context);
+                pDialog.Show();
 
                 if(isInsert) {
                     Map<String, Object> BodyParameters = new HashMap<>();
@@ -178,20 +282,26 @@ public class fragPersonRole extends Fragment {
                                 data.isCheck = true;
 
                                 SQL.Insert(data);
-                                lState = geter.getList(Basic_PersonRoles.class);
-                                adapter.notifyDataSetChanged();
                             }
+                            lState = geter.getList(Basic_PersonRoles.class, " WHERE Deleted='0'");
+                            adapter = new adapPersonRole(lState, context);
+                            lstMain.setAdapter(adapter);
+                            pDialog.DisMiss();
+                            AEDialog.dismiss();
                         }
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
                             Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                            pDialog.DisMiss();
                         }
                     });
                 }else{
+                    slideDown(ViewEditor);
+
                     Map<String, Object> BodyParameters = new HashMap<>();
                     BodyParameters = new HashMap<>();
-                    BodyParameters.put("PersonRoleID", 0);
+                    BodyParameters.put("PersonRoleID", lList.PersonRoleID);
                     BodyParameters.put("PersonRoleTitle", txtTitle.getText().toString());
                     BodyParameters.put("PersonRoleOrder", 0);
                     BodyParameters.put("PersonRoleFontIcon", "");
@@ -204,6 +314,9 @@ public class fragPersonRole extends Fragment {
                             if(response.isSuccessful()){
                                 SimpleResponse simple = response.body();
                                 if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                    lList.PersonRoleTitle = txtTitle.getText().toString();
+                                    lList.PersonRoleOrder = "0";
+                                    lList.Deleted = false;
                                     SQL.Update(lList, " WHERE PersonRoleID='" + lList.PersonRoleID + "'");
                                 }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                     String Err = "";
@@ -212,82 +325,24 @@ public class fragPersonRole extends Fragment {
                                     }
                                     Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                                 }
-//                                Map<String, Object> addional = simple.AdditionalData;
-//                                String mID = addional.get("ItemId").toString();
-//                                int Id = Integer.parseInt(mID.replace(".0", ""));
-//
-//                                Basic_PersonRoles data = new Basic_PersonRoles();
-//                                data.PersonRoleAdjustedByAdmin = false;
-//                                data.PersonRoleID = Id;
-//                                data.PersonRoleTitle = txtTitle.getText().toString();
-//                                data.isCheck = true;
-//
-//                                SQL.Insert(data);
-                                lState = geter.getList(Basic_PersonRoles.class);
-                                adapter.notifyDataSetChanged();
+                                lState = geter.getList(Basic_PersonRoles.class, " WHERE Deleted='0'");
+                                adapter = new adapPersonRole(lState, context);
+                                lstMain.setAdapter(adapter);
+                                pDialog.DisMiss();
+                                AEDialog.dismiss();
                             }
                         }
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
                             Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                            pDialog.DisMiss();
                         }
                     });
                 }
             }
         });
-
-        lState = geter.getList(Basic_PersonRoles.class);
-        adapter = new adapPersonRole(lState, context);
-        lstMain.setHasFixedSize(true);
-        lstMain.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false));
-        lstMain.setAdapter(adapter);
-        lstMain.setItemAnimator(new DefaultItemAnimator());
-
-        return view;
+        AEDialog.show();
     }
 
-    private static void slideUp(View view) {
-        view.setVisibility(View.VISIBLE);
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                view.getHeight(),  // fromYDelta
-                0);                // toYDelta
-        animate.setDuration(200);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-    }
-    private static void slideDown(final View view) {
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                0,                 // fromYDelta
-                view.getHeight()); // toYDelta
-        animate.setDuration(200);
-        animate.setFillAfter(true);
-        animate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        view.startAnimation(animate);
-    }
-
-    static Basic_PersonRoles lList = new Basic_PersonRoles();
-    public static void onEditor(Basic_PersonRoles lListt){
-        lList = lListt;
-        slideUp(ViewEditor);
-    }
 }

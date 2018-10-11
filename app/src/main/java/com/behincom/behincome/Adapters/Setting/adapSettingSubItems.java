@@ -2,20 +2,16 @@ package com.behincom.behincome.Adapters.Setting;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.behincom.behincome.Activityes.Setting.fragBasicData;
-import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Keys.TagType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -82,7 +78,6 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
                 try {
                     String Title = field.get(lList.get(position)).toString();
                     lblSubTitle.setText(Title);
-                    Toast.makeText(context, Title, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -181,7 +176,19 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
         lblSubTitle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                fragBasicData.Choiser(lList.get(0), false);
+                int sID = 0;
+                Field[] fields = mObject.getClass().getDeclaredFields();
+                for (Field field : fields) {
+                    if(field.getName().contains(IdName)){
+                        try {
+                            sID = Integer.parseInt(field.get(lList.get(position)).toString());
+                            String gg = "";
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                fragBasicData.Choiser(lList.get(position), false, sID);
                 return false;
             }
         });
@@ -193,8 +200,8 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
     private boolean checkFatherType(int Id){
         boolean isRad = false;
         if(MainIdName == "TagGroupID") {
-            List<Basic_Tags> mList1 = geter.getList(Basic_Tags.class, " WHERE TagID='" + Id + "'");
-            List<Basic_TagGroups> mList2 = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + mList1.get(0).TagGroupID + "'");
+            List<Basic_taks> mList1 = geter.getList(Basic_taks.class, " WHERE TagID='" + Id + "'");
+            List<Basic_takGroups> mList2 = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + mList1.get(0).TagGroupID + "'");
             isRad = mList2.get(0).TagGroupTypeId == TagType.RadioButton;
         }
         return isRad;

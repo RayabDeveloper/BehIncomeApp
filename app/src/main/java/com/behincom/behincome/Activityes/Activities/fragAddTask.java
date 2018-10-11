@@ -50,6 +50,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_Acts;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -137,7 +138,7 @@ public class fragAddTask extends Fragment {
     public static int Type = 0;//0 = Hichie Hichi, 1 = Vorud khorde, 2 = Khoruj khorde, 3 = zaman khorde, 4 = tayid shode, 5 = ersal shode
     public static int currentId = 0;
 
-    public static Customers mCustomer = new Customers();
+    public static MyCustomers mCustomer = new MyCustomers();
     public static int mPosition = 0;
     public static int sResult = 0;
     public static int mParentID = 0;
@@ -206,17 +207,6 @@ public class fragAddTask extends Fragment {
         mLayoutManager = new LinearLayoutManager(context);
         cardViewGreen = view.findViewById(R.id.cardViewGreen);
 
-//        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        txtName.setTypeface(tFace);
-//        txtDetails.setTypeface(tFace);
-//        lblTitle.setTypeface(tFace);
-//        lblTimeTitle.setTypeface(tFace);
-//        lblTimeCondition.setTypeface(tFace);
-//        lblNewFactor.setTypeface(tFace);
-//        lblTaskTimeSet.setTypeface(tFace);
-//        lblTimeSet.setTypeface(tFace);
-//        lblAccept.setTypeface(tFace);
-//        lblAcceptGreen.setTypeface(tFace);
         lstFactor.setNestedScrollingEnabled(false);
 
         //todo todo todo todo todo todo todo

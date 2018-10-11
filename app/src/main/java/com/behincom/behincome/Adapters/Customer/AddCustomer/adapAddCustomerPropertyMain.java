@@ -11,9 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.behincom.behincome.Activityes.Customer.AddCustomer.fragProperty;
-import com.behincom.behincome.Activityes.Customer.AddCustomer.fragTag;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 

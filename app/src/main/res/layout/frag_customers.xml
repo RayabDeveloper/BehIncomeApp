@@ -229,6 +229,27 @@
                 android:gravity="bottom">
 
                 <RelativeLayout
+                    android:id="@+id/ViewMarketerList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:background="@color/txtWhite">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/lstMarketers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp">
 
@@ -255,7 +276,7 @@
                                     android:id="@+id/imgHome1"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:background="@drawable/time"/>
+                                    android:background="@drawable/time_set"/>
 
                                 <TextView
                                     android:id="@+id/lblHome1"

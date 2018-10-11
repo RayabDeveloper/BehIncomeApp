@@ -20,6 +20,7 @@ import com.behincom.behincome.Activityes.UserManager.actUserManager;
 import com.behincom.behincome.Activityes.UserManager.fragAccess;
 import com.behincom.behincome.Adapters.UserManager.adapMarketerAssigns;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Customer.ToSend.ToSendCustomersAssigns;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Profile.Marketers;
@@ -51,7 +52,7 @@ public class fragCustomerAssigns extends Fragment {
     TextView lblTitle;
     RecyclerView.LayoutManager mLayoutManager;
 
-    public static List<Customers> lCustomers = new ArrayList<>();
+    public static List<MyCustomers> lCustomers = new ArrayList<>();
     private static List<Marketers> lMarketers = new ArrayList<>();
 
     public static fragCustomerAssigns newInstance(Context mContext){
@@ -97,8 +98,8 @@ public class fragCustomerAssigns extends Fragment {
 
                 List<Integer> CustomerIDs = new ArrayList<>();
                 List<Integer> MarketerIDs = new ArrayList<>();
-                for (Customers data: lCustomers) {
-                    CustomerIDs.add(data.CustomerID);
+                for (MyCustomers data: lCustomers) {
+                    CustomerIDs.add(data.Customers.CustomerID);
                 }
                 for (Marketers data: nMarketer) {
                     MarketerIDs.add(data.UserID);

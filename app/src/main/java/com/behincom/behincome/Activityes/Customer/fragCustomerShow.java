@@ -56,12 +56,13 @@ import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Customer.CustomerActivityFields;
 import com.behincom.behincome.Datas.Customer.CustomerPersonnel;
 import com.behincom.behincome.Datas.Customer.CustomerProperties;
 import com.behincom.behincome.Datas.Customer.CustomerTags;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -157,7 +158,7 @@ public class fragCustomerShow extends Fragment {
 
     FloatingActionButton btnAddTask;
 
-    public static Customers Customer = new Customers();
+    public static MyCustomers Customer = new MyCustomers();
     public static List<Invoice> lInvoice = new ArrayList<>();
     public static List<Activities> lTask = new ArrayList<>();
     public static List<Activities> lActivity = new ArrayList<>();
@@ -252,7 +253,7 @@ public class fragCustomerShow extends Fragment {
                 GridView gridview = picDialog.findViewById(R.id.lstMain);
                 TextView btnCancell = picDialog.findViewById(R.id.lblCancell);
                 TextView btnAccept = picDialog.findViewById(R.id.lblAccept);
-                adapPic = new adapGallery(context, Customer.Customers_Images);
+                adapPic = new adapGallery(context, Customer.Customers.Customers_Images);
                 gridview.setAdapter(adapPic);
 
                 btnCancell.setVisibility(View.GONE);
@@ -287,7 +288,7 @@ public class fragCustomerShow extends Fragment {
                         });
                         String PhotoURL = "";
                         try {
-                            PhotoURL = Customer.Customers_Images.get(position).ImageFilename;
+                            PhotoURL = Customer.Customers.Customers_Images.get(position).ImageFilename;
                             if (PhotoURL.length() > 5)
                                 PhotoURL = BASE + "Uploads/CustomerImages/" + PhotoURL;
                             else
@@ -312,23 +313,23 @@ public class fragCustomerShow extends Fragment {
         });
 
         //Get Store Personels
-        lPersonel = Customer.Customers_Personnel;
+        lPersonel = Customer.Customers.Customers_Personnel;
         //Get Store Prefix
-        List<Basic_NamePrefixes> lPrefix = geter.getList(Basic_NamePrefixes.class, "WHERE NamePrefixID='" + Customer.NamePrefixID + "'");
+        List<Basic_NamePrefixes> lPrefix = geter.getList(Basic_NamePrefixes.class, "WHERE NamePrefixID='" + Customer.Customers.NamePrefixID + "'");
         String Prefix = "";
         if (lPrefix.size() > 0) Prefix = lPrefix.get(0).NamePrefixTitle;
         //lblName - Prefix + Name
-        lblName.setText(Prefix + " " + Customer.CustomerName);
+        lblName.setText(Prefix + " " + Customer.Customers.CustomerName);
         //Get Activity Field For Store
 
         RefreshPersonels();//ListPersonels
 
         //MapIcon Condition
-        if (Customer.CustomerLatitude > 20 && Customer.CustomerLongitude > 20)
+        if (Customer.Customers.CustomerLatitude > 20 && Customer.Customers.CustomerLongitude > 20)
             btnMapShow.setVisibility(View.VISIBLE);
         else btnMapShow.setVisibility(View.GONE);
 
-        List<Basic_CustomerStates> lState = geter.getList(Basic_CustomerStates.class, "WHERE CustomerStateID='" + Customer.CustomerStateID + "'");
+        List<Basic_CustomerStates> lState = geter.getList(Basic_CustomerStates.class, "WHERE CustomerStateID='" + Customer.Customers.CustomerStateID + "'");
         lblCondition.setText(lState.get(0).CustomerStateTitle);
 
         btnFactors.setVisibility(View.GONE);
@@ -363,26 +364,6 @@ public class fragCustomerShow extends Fragment {
                     }
                 });
                 invoiceDialog.show();
-                /*
-                fDialog = new Dialog(context);
-                fDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                fDialog.setCancelable(true);
-                fDialog.setCanceledOnTouchOutside(true);
-                fDialog.setContentView(R.layout.dialog_factor);
-                Objects.requireNonNull(fDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-
-                final RecyclerView lstFactor = fDialog.findViewById(R.id.lstFactor);
-//**##**
-//                List<DataFactor> lFactor = new ArrayList<>();todo todo todo
-//                adapFactors adapter = new adapFactors(lFactor, context);
-//                lstFactor.setHasFixedSize(true);
-//                mLayoutManager = new LinearLayoutManager(context);
-//                lstFactor.setLayoutManager(mLayoutManager);
-//                lstFactor.addItemDecoration(ItemDecoration.getDecoration(context));
-//                lstFactor.setItemAnimator(new DefaultItemAnimator());
-//                lstFactor.setAdapter(adapter);
-
-                fDialog.show();*/
             }
         });//Showing Factors in New Fragment
         btnRefresh.setOnClickListener(new View.OnClickListener() {
@@ -422,7 +403,7 @@ public class fragCustomerShow extends Fragment {
                         pDialog.Show();
 
                         HashMap<String, Object> MapChangeState = new HashMap<>();
-                        MapChangeState.put("CustomerID", Customer.CustomerID);
+                        MapChangeState.put("CustomerID", Customer.Customers.CustomerID);
                         final int StateID = Integer.parseInt(spinAdapter_Condition.getItemString(spinCondition.getSelectedItemPosition(), "CustomerStateID").toString());
                         MapChangeState.put("CustomerStateID", StateID);
 
@@ -431,8 +412,8 @@ public class fragCustomerShow extends Fragment {
                             @Override
                             public void onResponse(Call call, Response response) {
                                 if (response.isSuccessful()) {
-                                    fragCustomers.lCustomer.get(position).CustomerStateID = (StateID);
-                                    Customer.CustomerStateID = (StateID);
+                                    fragCustomers.lCustomer.get(position).Customers.CustomerStateID = (StateID);
+                                    Customer.Customers.CustomerStateID = (StateID);
                                     lblCondition.setText(spinAdapter_Condition.getItemString(spinCondition.getSelectedItemPosition(), "CustomerStateTitle"));
                                 }
                                 pDialog.DisMiss();
@@ -452,8 +433,8 @@ public class fragCustomerShow extends Fragment {
         btnMapShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragCustomerOnMap.StoreName = Customer.CustomerName;
-                fragCustomerOnMap.Loc = new LatLng(Customer.CustomerLatitude, Customer.CustomerLongitude);
+                fragCustomerOnMap.StoreName = Customer.Customers.CustomerName;
+                fragCustomerOnMap.Loc = new LatLng(Customer.Customers.CustomerLatitude, Customer.Customers.CustomerLongitude);
                 actCustom.getFragByState(FragmentState.CustomerOnMap);
             }
         });//Going to Map If Exist LagLng For This Customer
@@ -480,7 +461,7 @@ public class fragCustomerShow extends Fragment {
                 final RadioButton radActive = mDialog.findViewById(R.id.radActive);
                 final RadioButton radDeActive = mDialog.findViewById(R.id.radDeActive);
 
-                txtTitle.setText(Customer.CustomerName);
+                txtTitle.setText(Customer.Customers.CustomerName);
                 txtDateTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
@@ -644,15 +625,15 @@ public class fragCustomerShow extends Fragment {
             }
         });//Set Alarm
 
-        if(Customer.CustomerAddress.length() > 38)
-            lblMiniAddress.setText(Customer.CustomerAddress.substring(0, 38) + " ...");
+        if(Customer.Customers.CustomerAddress.length() > 38)
+            lblMiniAddress.setText(Customer.Customers.CustomerAddress.substring(0, 38) + " ...");
         else
-            lblMiniAddress.setText(Customer.CustomerAddress);
-        lblAddress.setText(Customer.CustomerAddress);//lblAddress
+            lblMiniAddress.setText(Customer.Customers.CustomerAddress);
+        lblAddress.setText(Customer.Customers.CustomerAddress);//lblAddress
         String Fields = "";
         String MiniFields = "";
         try {
-            List<CustomerActivityFields> lFieldd = Customer.Customers_ActivityFields;
+            List<CustomerActivityFields> lFieldd = Customer.Customers.Customers_ActivityFields;
             for (int i = 0; i < lFieldd.size(); i++) {
                 List<Basic_ActivityFields> lActivityField = geter.getList(Basic_ActivityFields.class, "WHERE ActivityFieldID='" + lFieldd.get(i).ActivityFieldID + "'");
                 Fields += lActivityField.get(0).ActivityFieldTitle + "<br>";
@@ -677,10 +658,10 @@ public class fragCustomerShow extends Fragment {
         }//lblFields
         String Tags = "";
         String MiniTag = "";
-        List<CustomerTags> lTag = Customer.Customers_Tags;
+        List<CustomerTags> lTag = Customer.Customers.Customers_Tags;
         try {
             for (int i = 0; i < lTag.size(); i++) {
-                List<Basic_Tags> lTags = geter.getList(Basic_Tags.class, "WHERE TagID='" + lTag.get(i).TagID + "'");
+                List<Basic_taks> lTags = geter.getList(Basic_taks.class, "WHERE TagID='" + lTag.get(i).TagID + "'");
                 Tags += lTags.get(0).TagTitle + "<br>";
                 MiniTag += lTags.get(0).TagTitle + "، ";
             }
@@ -700,7 +681,7 @@ public class fragCustomerShow extends Fragment {
             linTagOpener.setVisibility(View.GONE);
             lblMiniTag.setText("");
         }//lblTags
-        List<CustomerProperties> lProperties = Customer.Customers_Properties;
+        List<CustomerProperties> lProperties = Customer.Customers.Customers_Properties;
         String Property = "";
         String MiniProperty = "";
         try {
@@ -833,8 +814,8 @@ public class fragCustomerShow extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
-                fragAddTask.Name = Customer.CustomerName;
-                fragAddTask.customer_id = Customer.CustomerID;
+                fragAddTask.Name = Customer.Customers.CustomerName;
+                fragAddTask.customer_id = Customer.Customers.CustomerID;
                 fragAddTask.Type = 0;
                 fragAddTask.mCustomer = Customer;
                 fragAddTask.mPosition = position;
@@ -936,7 +917,7 @@ public class fragCustomerShow extends Fragment {
                 pDialog.Show();
 
                 HashMap<String, Object> MapChangeState = new HashMap<>();
-                MapChangeState.put("CustomerID", Customer.CustomerID);
+                MapChangeState.put("CustomerID", Customer.Customers.CustomerID);
                 MapChangeState.put("ArchiveTypeID", Integer.parseInt(spinAdapter_SubAct.getItemString(spinArchive.getSelectedItemPosition(), "ArchiveTypeID")));
 
                 Call ChangeState = rInterface.RQAddCustomerToArchive(Setting.getToken(), MapChangeState);
@@ -972,7 +953,7 @@ public class fragCustomerShow extends Fragment {
         pDialog.Show();
 
         HashMap<String, Object> MapChangeState = new HashMap<>();
-        MapChangeState.put("CustomerID", Customer.CustomerID);
+        MapChangeState.put("CustomerID", Customer.Customers.CustomerID);
 
         Call ChangeState = rInterface.RQDeleteCustomer(Setting.getToken(), MapChangeState);
         ChangeState.enqueue(new Callback() {
@@ -999,7 +980,7 @@ public class fragCustomerShow extends Fragment {
         fragAddCustomer.Customer = Customer;
         fragAddCustomer.mType = true;
         fragAddCustomer.OstanSelect = true;
-        fragAddCustomer.StateId = Customer.CustomerStateID;
+        fragAddCustomer.StateId = Customer.Customers.CustomerStateID;
         actCustom.getFragByState(FragmentState.AddCustomer);
     }
     private void getTasks() {
@@ -1007,7 +988,7 @@ public class fragCustomerShow extends Fragment {
 //        pDialog.Show();
 
         HashMap<String, Object> map = new HashMap<>();
-        map.put("CustomerID", Customer.CustomerID);
+        map.put("CustomerID", Customer.Customers.CustomerID);
 
         Call cGetTasks = rInterface.RQGetTasksByCustomerID(Setting.getToken(), map);
         cGetTasks.enqueue(new Callback<List<Activities>>() {
@@ -1035,7 +1016,7 @@ public class fragCustomerShow extends Fragment {
     }
     private void getActs() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("CustomerID", Customer.CustomerID);
+        map.put("CustomerID", Customer.Customers.CustomerID);
 
         Call cGetTasks = rInterface.RQGetActivitiesByCustomerID(Setting.getToken(), map);
         cGetTasks.enqueue(new Callback<List<Activities>>() {
@@ -1158,7 +1139,7 @@ public class fragCustomerShow extends Fragment {
 //        });
 //    }
     private void Finisher(){
-        Customer = new Customers();
+        Customer = new MyCustomers();
         lTask = new ArrayList<>();
         lActivity = new ArrayList<>();
         lPersonel = new ArrayList<>();

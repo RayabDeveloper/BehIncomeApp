@@ -54,7 +54,7 @@
                                     android:id="@+id/imgHome1"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:background="@drawable/time"/>
+                                    android:background="@drawable/time_set"/>
 
                                 <TextView
                                     android:id="@+id/lblHome1"

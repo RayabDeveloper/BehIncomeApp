@@ -12,7 +12,7 @@ public class RSQLGeter<T> {
         return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName() + " WHERE isCheck='1'", ObjectClass);
     }
     public List<T> getListIsCheck(Class ObjectClass, String ContinueWhere){
-        return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName() + " WHERE isCheck='1' AND " + ContinueWhere.replace("WHERE", ""), ObjectClass);
+        return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName() + " WHERE Deleted='0' AND isCheck='1' AND " + ContinueWhere.replace("WHERE", ""), ObjectClass);
     }
     public List<T> getList(Class ObjectClass){
         return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName(), ObjectClass);
@@ -21,7 +21,7 @@ public class RSQLGeter<T> {
         return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName() + " " + Where, ObjectClass);
     }
     public List<T> getListByParrentId(Class ObjectClass, String ParrentIdName, int ParrentId){
-        return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName() + " WHERE " + ParrentIdName + "='" + ParrentId + "'", ObjectClass);
+        return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName() + " WHERE " + ParrentIdName + "='" + ParrentId + "' AND Deleted='0'", ObjectClass);
     }
     public int getCount(Class ObjectClass){
         return SQL.Select("SELECT * FROM " + ObjectClass.getSimpleName(), ObjectClass).size();

@@ -16,7 +16,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -46,8 +45,8 @@ import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Accesories.Validations;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Adapters.SpinAdapter;
-import com.behincom.behincome.Datas.BaseData.Basic_Cities;
-import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
+import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Profile.Profile;
 import com.behincom.behincome.Datas.Profile.ToSend.ToSendEditProfile;
@@ -124,11 +123,11 @@ public class fragProfileSubmiter extends Fragment {
 //    public static List<DataEducationalExperience> lEducationalExperience = new ArrayList<>();
 //    public static List<DataSkill> lSkill = new ArrayList<>();
 //    public static List<DataWorkExperience> lWorkExperience = new ArrayList<>();
-    public static List<Basic_Cities> lEducationalExperience = new ArrayList<>();
-    public static List<Basic_Cities> lSkill = new ArrayList<>();
-    public static List<Basic_Cities> lWorkExperience = new ArrayList<>();
-    private static List<Basic_Provinces> lListOstan = new ArrayList<>();
-    private static List<Basic_Cities> lListCity = new ArrayList<>();
+    public static List<Basic_citi> lEducationalExperience = new ArrayList<>();
+    public static List<Basic_citi> lSkill = new ArrayList<>();
+    public static List<Basic_citi> lWorkExperience = new ArrayList<>();
+    private static List<Basic_Ostan> lListOstan = new ArrayList<>();
+    private static List<Basic_citi> lListCity = new ArrayList<>();
     private List<String> lURLs = new ArrayList<>();
 
     //Variables
@@ -402,10 +401,10 @@ public class fragProfileSubmiter extends Fragment {
             }
         });
         //Set Switch Setting
-        lListOstan = geter.getList(Basic_Provinces.class);
-        lListCity = geter.getList(Basic_Cities.class, "WHERE CityID='0'");
-        Basic_Provinces dOstan = new Basic_Provinces();
-        Basic_Cities dCity = new Basic_Cities();
+        lListOstan = geter.getList(Basic_Ostan.class);
+        lListCity = geter.getList(Basic_citi.class, "WHERE CityID='0'");
+        Basic_Ostan dOstan = new Basic_Ostan();
+        Basic_citi dCity = new Basic_citi();
         dOstan.ProvinceTitle = ("استان را انتخاب کنید");
         dCity.CityTitle = ("شهر را انتخاب کنید");
         lListOstan.add(0, dOstan);
@@ -432,15 +431,15 @@ public class fragProfileSubmiter extends Fragment {
                 OstanSpin = sniperOstan.getSelectedItemPosition();
                 if (!OstanFrist) {
                     if (sniperOstan.getSelectedItemPosition() > 0) {
-                        lListCity = geter.getList(Basic_Cities.class, "WHERE ProvinceID='" + spinAdap_Ostan.getItemString(sniperOstan.getSelectedItemPosition(), "ProvinceID") + "'");
-                        Basic_Cities dCity = new Basic_Cities();
+                        lListCity = geter.getList(Basic_citi.class, "WHERE ProvinceID='" + spinAdap_Ostan.getItemString(sniperOstan.getSelectedItemPosition(), "ProvinceID") + "'");
+                        Basic_citi dCity = new Basic_citi();
                         dCity.CityTitle = ("شهر را انتخاب کنید");
                         lListCity.add(0, dCity);
                         spinAdap_City = new SpinAdapter(context, lListCity, "CityTitle");
                         sniperCity.setAdapter(spinAdap_City);
                     } else {
                         lListCity = new ArrayList<>();
-                        Basic_Cities dCity = new Basic_Cities();
+                        Basic_citi dCity = new Basic_citi();
                         dCity.CityTitle = ("شهر را انتخاب کنید");
                         lListCity.add(dCity);
                         spinAdap_City = new SpinAdapter(context, lListCity, "CityTitle");
@@ -454,8 +453,8 @@ public class fragProfileSubmiter extends Fragment {
                         firster = true;
                     }
                     String aaa = spinAdap_Ostan.getItemString(sniperOstan.getSelectedItemPosition(), "ProvinceID");
-                    lListCity = geter.getList(Basic_Cities.class, "WHERE ProvinceID='" + aaa + "'");
-                    Basic_Cities dCity = new Basic_Cities();
+                    lListCity = geter.getList(Basic_citi.class, "WHERE ProvinceID='" + aaa + "'");
+                    Basic_citi dCity = new Basic_citi();
                     dCity.CityTitle = ("شهر را انتخاب کنید");
                     lListCity.add(0, dCity);
                     spinAdap_City = new SpinAdapter(context, lListCity, "CityTitle");
@@ -613,7 +612,7 @@ public class fragProfileSubmiter extends Fragment {
 //                                    txtProfilePersonalDetailsAboutMe.setText((About == null ? "" : About));
                                     if (lListOstan.size() > 0) {
                                         int cID = dMarketer.CityID;
-                                        List<Basic_Cities> lCities = geter.getList(Basic_Cities.class, "WHERE CityID='" + cID + "'");
+                                        List<Basic_citi> lCities = geter.getList(Basic_citi.class, "WHERE CityID='" + cID + "'");
                                         if(lCities.size() > 0) {
                                             OstanSpin = spinAdap_Ostan.getItemPosition("ProvinceID", Integer.toString(lCities.get(0).ProvinceID));
                                             OstanFrist = true;
@@ -923,7 +922,7 @@ public class fragProfileSubmiter extends Fragment {
         }
     }
     //    public static void onLongTouch_School(List<DataEducationalExperience> lList, final int position, final Context mCon) {
-    public static void onLongTouch_School(List<Basic_Cities> lList, final int position, final Context mCon) {
+    public static void onLongTouch_School(List<Basic_citi> lList, final int position, final Context mCon) {
 //        dEditor = new Dialog(contexti);
 //        dEditor.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        dEditor.setCancelable(true);
@@ -981,7 +980,7 @@ public class fragProfileSubmiter extends Fragment {
 //        dEditor.show();
     }
     //    public static void onLongTouch_Work(List<DataWorkExperience> lList, final int position, final Context mCon) {
-    public static void onLongTouch_Work(List<Basic_Cities> lList, final int position, final Context mCon) {
+    public static void onLongTouch_Work(List<Basic_citi> lList, final int position, final Context mCon) {
 //        Window window = dEditor.getWindow();
 //        LayoutInflater inflater = (LayoutInflater) contexti.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        RelativeLayout lay = new RelativeLayout(contexti);
@@ -1036,7 +1035,7 @@ public class fragProfileSubmiter extends Fragment {
 //        dEditor.show();
     }
     //    public static void onLongTouch_Skill(List<DataSkill> lList, final int position, final Context mCon) {
-    public static void onLongTouch_Skill(List<Basic_Cities> lList, final int position, final Context mCon) {
+    public static void onLongTouch_Skill(List<Basic_citi> lList, final int position, final Context mCon) {
 //        Window window = dEditor.getWindow();
 //        LayoutInflater inflater = (LayoutInflater) contexti.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        RelativeLayout lay = new RelativeLayout(contexti);

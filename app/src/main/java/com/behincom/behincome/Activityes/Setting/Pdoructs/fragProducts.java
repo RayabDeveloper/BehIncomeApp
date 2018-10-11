@@ -111,7 +111,7 @@ public class fragProducts extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        lProduct = geter.getList(MarketingProducts.class);
+        lProduct = geter.getList(MarketingProducts.class, " WHERE Deleted='0'");
         RefreshList();
         if(lProduct.size() == 0) {
             lblHelp1.setVisibility(View.VISIBLE);

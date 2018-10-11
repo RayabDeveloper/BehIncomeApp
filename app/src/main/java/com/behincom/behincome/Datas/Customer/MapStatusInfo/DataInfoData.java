@@ -1,17 +1,18 @@
 package com.behincom.behincome.Datas.Customer.MapStatusInfo;
 
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 
 public class DataInfoData {
 
-    private Customers lCustomer;
+    private MyCustomers lCustomer;
     private int customerId, position;
     private String name, activityField;
 
-    public Customers lCustomer() {
+    public MyCustomers lCustomer() {
         return lCustomer;
     }
-    public void lCustomer(Customers lCustomer) {
+    public void lCustomer(MyCustomers lCustomer) {
         this.lCustomer = lCustomer;
     }
 

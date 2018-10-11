@@ -20,12 +20,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Customer.actCustomer;
 import com.behincom.behincome.Activityes.Customer.fragCustomerShow;
 import com.behincom.behincome.Activityes.Main.fragCustomers;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStatus;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -49,10 +51,10 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
     RSQLite SQL = new RSQLite();
     RSQLGeter geter = new RSQLGeter();
 
-    public List<Customers> lList;
+    public List<MyCustomers> lList;
     public static boolean Selectable = false;
 
-    public adapMainCustomers(List<Customers> lList, Context mContext) {
+    public adapMainCustomers(List<MyCustomers> lList, Context mContext) {
         this.lList = lList;
         this.context = mContext;
     }
@@ -88,20 +90,28 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         TextView lbltaskCount = holder.lbltaskCount;
         TextView lblAssignCount = holder.lblAssignCount;
         TextView lblLocation = holder.lblLocation;
-        HorizontalListView lstAccess = holder.lstAccess;
 
-        lblName.setText(lList.get(position).CustomerName);
-        String LocAdd = lList.get(position).CustomerAddress;
+        lblName.setText(lList.get(position).Customers.CustomerName);
+        String LocAdd = lList.get(position).Customers.CustomerAddress;
+        lbltaskCount.setText(Integer.toString(lList.get(position).ActivityCount));
+        lblAssignCount.setText(Integer.toString(lList.get(position).MarketerUserAccessProfile.size()));
+        lblAssignCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragCustomers.ShowMarketers(lList.get(position).MarketerUserAccessProfile);
+            }
+        });
+
         if (LocAdd.length() > 50) LocAdd = LocAdd.substring(0, 50) + "...";
         lblLocation.setText(LocAdd);
-        if (lList.get(position).isCheck) {
+        if (lList.get(position).Customers.isCheck) {
             lin.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
             lin2.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
         } else {
             lin.setBackgroundColor(context.getResources().getColor(R.color.txtWhite));
             lin2.setBackgroundColor(context.getResources().getColor(R.color.txtWhite));
         }
-        int sID = lList.get(position).CustomerStateID;
+        int sID = lList.get(position).Customers.CustomerStateID;
         List<Basic_CustomerStates> lState = geter.getList(Basic_CustomerStates.class, "WHERE CustomerStateID='" + sID + "'");
         if (lState.size() > 0) {
             ByteArrayOutputStream stream = null;
@@ -124,7 +134,7 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
                 }
             });
         } else {
-            Glide.with(context).load(lList.get(position).CustomerStateID).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgCondition) {
+            Glide.with(context).load(lList.get(position).Customers.CustomerStateID).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgCondition) {
                 @Override
                 protected void setResource(Bitmap resource) {
                     RoundedBitmapDrawable circularBitmapDrawable =
@@ -136,9 +146,9 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         }
         String PhotoURL = "";
         try {
-            PhotoURL = lList.get(position).Customers_Images.get(0).ImageFilename;
+            PhotoURL = lList.get(position).Customers.Customers_Images.get(0).ImageFilename;
             if (PhotoURL.length() > 5)
-                PhotoURL = BASE + "Uploads/CustomerImages/" + PhotoURL;
+                PhotoURL = Setting.getServerURL() + PhotoURL;
             else
                 PhotoURL = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.customer_default_null_icon).toString();
         } catch (Exception e) {
@@ -164,14 +174,14 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
                     actCustomer.STATE = FragmentState.CustomerShow;
                     context.startActivity(intent);
                 } else {
-                    if (lList.get(position).isCheck) {
+                    if (lList.get(position).Customers.isCheck) {
                         lin.setBackgroundColor(context.getResources().getColor(R.color.txtWhite));
                         lin2.setBackgroundColor(context.getResources().getColor(R.color.txtWhite));
-                        lList.get(position).isCheck = false;
+                        lList.get(position).Customers.isCheck = false;
                     } else {
                         lin.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
                         lin2.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
-                        lList.get(position).isCheck = true;
+                        lList.get(position).Customers.isCheck = true;
                     }
                 }
             }
@@ -185,7 +195,7 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
                     frag.ShowStatusBar();
                     lin.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
                     lin2.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
-                    lList.get(position).isCheck = true;
+                    lList.get(position).Customers.isCheck = true;
                 }
                 return true;
             }
@@ -203,7 +213,6 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         public TextView lbltaskCount;
         public TextView lblAssignCount;
         public TextView lblLocation;
-        public HorizontalListView lstAccess;
 
         public AdapterMember(View itemView) {
             super(itemView);
@@ -216,7 +225,6 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
             lbltaskCount = itemView.findViewById(R.id.lbltaskCount);
             lblAssignCount = itemView.findViewById(R.id.lblAssignCount);
             lblLocation = itemView.findViewById(R.id.lblLocation);
-            lstAccess = itemView.findViewById(R.id.lstAccess);
         }
 
     }

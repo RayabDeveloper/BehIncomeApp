@@ -106,7 +106,7 @@ public class fragActResults extends Fragment {
     }
 
     private void RefreshList() {
-        List<Basic_ActGroups> lMain = geter.getList(Basic_ActGroups.class);
+        List<Basic_ActGroups> lMain = geter.getList(Basic_ActGroups.class, " WHERE Deleted='0'");
         for (Basic_ActGroups data : lMain) {
             Basic_ActResultsMaker mData = new Basic_ActResultsMaker();
             mData.ActResultsType = (0);
@@ -114,7 +114,7 @@ public class fragActResults extends Fragment {
             mData.ActResultsID = (data.ActGroupID);
             lList.add(mData);
 
-            List<Basic_Acts> lSub = geter.getList(Basic_Acts.class, " WHERE ActGroupID='" + data.ActGroupID + "'");
+            List<Basic_Acts> lSub = geter.getList(Basic_Acts.class, " WHERE ActGroupID='" + data.ActGroupID + "' AND Deleted='0'");
             for (Basic_Acts sData : lSub) {
                 Basic_ActResultsMaker msData = new Basic_ActResultsMaker();
                 msData.ActResultsType = (1);
@@ -123,7 +123,7 @@ public class fragActResults extends Fragment {
                 msData.ActID = (sData.ActID);
                 lList.add(msData);
 
-                List<Basic_ActResults> lResult = geter.getList(Basic_ActResults.class, " WHERE ActID='" + msData.ActID + "'");
+                List<Basic_ActResults> lResult = geter.getList(Basic_ActResults.class, " WHERE ActID='" + msData.ActID + "' AND Deleted='0'");
                 for (Basic_ActResults rData : lResult) {
                     Basic_ActResultsMaker mrData = new Basic_ActResultsMaker();
                     mrData.ActResultsType = (2);
@@ -224,7 +224,7 @@ public class fragActResults extends Fragment {
         }
         return Reterner;
 //        String SubActResultes = "";
-//        lSubActResult = geter.getList(Basic_ActResults.class, "WHERE isCheck='1'");
+//        lSubActResult = geter.getList(Basic_ActResults.class, "WHERE isCheck='1' AND Deleted='0'");
 //        for (Basic_ActResults data : lSubActResult) {
 //            SubActResultes += data.ActResultID + ",";
 //        }

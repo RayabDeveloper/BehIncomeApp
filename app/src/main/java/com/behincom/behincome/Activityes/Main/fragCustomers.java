@@ -4,25 +4,22 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,43 +29,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.behincom.behincome.Accesories.ItemDecoration;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Accesories.VoiceType;
-import com.behincom.behincome.Activityes.Account.actProfile;
 import com.behincom.behincome.Activityes.Customer.actCustomer;
 import com.behincom.behincome.Activityes.Setting.actSetting;
+import com.behincom.behincome.Adapters.Main.adapMainCustomerMarketers;
 import com.behincom.behincome.Adapters.Main.adapMainCustomers;
 import com.behincom.behincome.Adapters.SpinAdapter;
-import com.behincom.behincome.Datas.Archives.ToSendArchive;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
-import com.behincom.behincome.Datas.BaseData.Basic_Cities;
+import com.behincom.behincome.Datas.BaseData.Basic_citi;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.DataDates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Profile.MarketerUserAccessProfile;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -76,7 +65,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import saman.zamani.persiandate.PersianDate;
 
-import static android.app.Activity.RESULT_OK;
 import static com.behincom.behincome.Adapters.Main.adapMainCustomers.Selectable;
 
 public class fragCustomers extends Fragment {
@@ -90,9 +78,11 @@ public class fragCustomers extends Fragment {
     RWInterface rInterface;
     actMain act = new actMain();
     adapMainCustomers adapter;
+    static adapMainCustomerMarketers adapterMarketers;
 
     TextView lblStore;
     RecyclerView lstMain;
+    static RecyclerView lstMarketers;
     RecyclerView.LayoutManager mLayoutManager;
     public static TextInputEditText txtSearch;
     ImageView imgFilter;
@@ -103,6 +93,7 @@ public class fragCustomers extends Fragment {
     ImageView btnCancellation;
     SwipeRefreshLayout swipeRefresher;
     RelativeLayout RelSetting;
+    static RelativeLayout ViewMarketerList;
     static LinearLayout linStatusBar;
     static LinearLayout linSearch;
     FloatingActionButton btnAdd;
@@ -112,8 +103,8 @@ public class fragCustomers extends Fragment {
     ImageView imgHome1, imgHome2, imgReport, imgAccount;
     ImageView imgSetting, imgCancellSearch;
 
-    public static List<Customers> lCustomer = new ArrayList<>();
-    private List<Customers> lCustomer2 = new ArrayList<>();
+    public static List<MyCustomers> lCustomer = new ArrayList<>();
+    private List<MyCustomers> lCustomer2 = new ArrayList<>();
 
     public static fragCustomers newInstance(Context mContext) {
         fragCustomers fragment = new fragCustomers();
@@ -126,6 +117,8 @@ public class fragCustomers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_customers, container, false);
 
+        lstMarketers = view.findViewById(R.id.lstMarketers);
+        ViewMarketerList = view.findViewById(R.id.ViewMarketerList);
         imgCancellSearch = view.findViewById(R.id.imgCancellSearch);
         imgSetting = view.findViewById(R.id.imgSetting);
         btnAdd = view.findViewById(R.id.btnAdd);
@@ -197,9 +190,9 @@ public class fragCustomers extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Basic_Cities> lCit = geter.getListIsCheck(Basic_Cities.class);
+                List<Basic_citi> lCit = geter.getListIsCheck(Basic_citi.class);
                 List<Basic_ActivityFields> lAct = geter.getListIsCheck(Basic_ActivityFields.class);
-                List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);
+                List<Basic_taks> lTag = geter.getListIsCheck(Basic_taks.class);
                 List<Basic_Properties> lProp = geter.getListIsCheck(Basic_Properties.class);
                 List<Basic_ContactTypes> lCont = geter.getList(Basic_ContactTypes.class);
                 List<Basic_PersonRoles> lRole = geter.getList(Basic_PersonRoles.class);
@@ -221,8 +214,8 @@ public class fragCustomers extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(txtSearch.getText().toString().length() > 0) {
                     lCustomer2 = new ArrayList<>();
-                    for (Customers data : lCustomer) {
-                        if (data.CustomerName.contains(txtSearch.getText().toString()))
+                    for (MyCustomers data : lCustomer) {
+                        if (data.Customers.CustomerName.contains(txtSearch.getText().toString()))
                             lCustomer2.add(data);
                     }
                     RefreshList();
@@ -263,9 +256,9 @@ public class fragCustomers extends Fragment {
         btnAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Customers> fCustomer = new ArrayList<>();
-                for (Customers data : adapter.lList) {
-                    if (data.isCheck)
+                List<MyCustomers> fCustomer = new ArrayList<>();
+                for (MyCustomers data : adapter.lList) {
+                    if (data.Customers.isCheck)
                         fCustomer.add(data);
                 }
                 fragCustomerAssigns.lCustomers = fCustomer;
@@ -381,9 +374,9 @@ public class fragCustomers extends Fragment {
                 pDialog.Show();
 
                 List<Integer> lCustomerIDs = new ArrayList<>();
-                for (Customers data : adapter.lList) {
-                    if (data.isCheck) {
-                        lCustomerIDs.add(data.CustomerID);
+                for (MyCustomers data : adapter.lList) {
+                    if (data.Customers.isCheck) {
+                        lCustomerIDs.add(data.Customers.CustomerID);
                     }
                 }
                 int ArchiveType = Integer.parseInt(spinAdapter_SubAct.getItemString(spinArchive.getSelectedItemPosition(), "ArchiveTypeID"));
@@ -447,9 +440,9 @@ public class fragCustomers extends Fragment {
             map.put("Page", mPage);
 
             Call cGetAll = rInterface.RQGetCustomerAllData(Setting.getToken(), map);
-            cGetAll.enqueue(new Callback<List<Customers>>() {
+            cGetAll.enqueue(new Callback<List<MyCustomers>>() {
                 @Override
-                public void onResponse(Call<List<Customers>> call, Response<List<Customers>> response) {
+                public void onResponse(Call<List<MyCustomers>> call, Response<List<MyCustomers>> response) {
                     if (response.isSuccessful()) {
                         lCustomer.addAll(response.body());
                         adapter.lList = lCustomer;
@@ -492,8 +485,8 @@ public class fragCustomers extends Fragment {
         linSearch.setVisibility(View.VISIBLE);
         statusState = false;
         Selectable = false;
-        for (Customers data : adapter.lList) {
-            data.isCheck = false;
+        for (MyCustomers data : adapter.lList) {
+            data.Customers.isCheck = false;
         }
         adapter.notifyDataSetChanged();
     }
@@ -551,5 +544,60 @@ public class fragCustomers extends Fragment {
             mYear.add(data);
         }
         return mYear;
+    }
+
+    private static void slideUp(View view) {
+        view.setVisibility(View.VISIBLE);
+        lstMarketers.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(200);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+    private static void slideDown(final View view) {
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(200);
+        animate.setFillAfter(true);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+                lstMarketers.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(animate);
+    }
+
+    public static void ShowMarketers(List<MarketerUserAccessProfile> mProfiles){
+        lstMarketers.setLayoutManager(new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false));
+        lstMarketers.setHasFixedSize(true);
+        lstMarketers.addItemDecoration(ItemDecoration.getDecoration(context));
+        lstMarketers.setItemAnimator(new DefaultItemAnimator());
+
+        adapterMarketers = new adapMainCustomerMarketers(mProfiles, context);
+        lstMarketers.setAdapter(adapterMarketers);
+
+        slideUp(ViewMarketerList);
+    }
+    public static void closeView(){
+        slideDown(ViewMarketerList);
     }
 }

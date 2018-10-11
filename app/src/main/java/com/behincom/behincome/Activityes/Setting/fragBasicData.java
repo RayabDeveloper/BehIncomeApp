@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -28,11 +29,16 @@ import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Adapters.Setting.adapSettingMainItems;
 import com.behincom.behincome.Adapters.Setting.adapSettingSubItems;
 import com.behincom.behincome.Adapters.SpinAdapter;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_AndroidKeyboardTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -79,8 +85,8 @@ public class fragBasicData<T> extends Fragment {
     static LinearLayout btnSubAdd;
     static LinearLayout linMain;
     static LinearLayout ViewEditor;
-    LinearLayout btnDelete;
-    LinearLayout btnUpdate;
+    static LinearLayout btnDelete;
+    static LinearLayout btnUpdate;
     private List<T> SubItems = new ArrayList<>();
 
     private static int MainIdSelected = 0;
@@ -125,6 +131,10 @@ public class fragBasicData<T> extends Fragment {
 
         lblMain.setText("گروه " + objects.FragTitle());
         lblSub.setText("مجموعه " + objects.FragTitle());
+
+        if(objects.MainFieldIdName().equalsIgnoreCase("ProvinceID")){
+            btnMainAdd.setVisibility(View.GONE);
+        }
 
         sw.setChecked(true);
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -268,7 +278,7 @@ public class fragBasicData<T> extends Fragment {
 
                 final boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties");
                 if(isProp) {
-                    List<Basic_AndroidKeyboardTypes> lKeyboard = geter.getList(Basic_AndroidKeyboardTypes.class);
+                    List<Basic_AndroidKeyboardTypes> lKeyboard = geter.getList(Basic_AndroidKeyboardTypes.class, " WHERE Deleted='0'");
                     spinAdap = new SpinAdapter(context, lKeyboard, "AndroidKeyboardTypeTitle");
                     spinType.setAdapter(spinAdap);
                     spinType.setVisibility(View.VISIBLE);
@@ -327,17 +337,17 @@ public class fragBasicData<T> extends Fragment {
         lstSub.setAdapter(adapterSub);
 
 
-        Field[] fields = objects.SubItems().get(0).getClass().getDeclaredFields();
+        Field[] fields = objects.MainItems().get(0).getClass().getDeclaredFields();
         for (Field field : fields) {
             if (field.getName().contains(objects.MainFieldIdName())) {
                 try {
-                    FilterSubItemsFromMainItemSelected(Integer.parseInt(field.get(objects.SubItems().get(0)).toString()));
+                    FilterSubItemsFromMainItemSelected(Integer.parseInt(field.get(objects.MainItems().get(0)).toString()));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
-        SubAdderViewer(0);
+        SubAdderViewer( 0);
 
         return view;
     }
@@ -499,7 +509,7 @@ public class fragBasicData<T> extends Fragment {
                     });
                 }
                 break;
-            case "Basic_Cities":
+            case "Basic_citi":
                 Map<String, Object> CityList = new HashMap<>();
                 CityList.put("Ids", IDs);
 
@@ -509,7 +519,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_Cities + " SET isCheck='1' WHERE CityID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_citi + " SET isCheck='1' WHERE CityID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -525,7 +535,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_Cities + " SET isCheck='0' WHERE CityID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_citi + " SET isCheck='0' WHERE CityID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -537,7 +547,7 @@ public class fragBasicData<T> extends Fragment {
                     });
                 }
                 break;
-            case "Basic_Tags":
+            case "Basic_taks":
                 Map<String, Object> TagList = new HashMap<>();
                 TagList.put("Ids", IDs);
 
@@ -547,7 +557,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_Tags + " SET isCheck='1' WHERE TagID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_taks + " SET isCheck='1' WHERE TagID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -563,7 +573,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_Tags + " SET isCheck='0' WHERE TagID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_taks + " SET isCheck='0' WHERE TagID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -666,9 +676,9 @@ public class fragBasicData<T> extends Fragment {
         switch (objects.SubClass().getSimpleName()){
             case "Basic_ActivityFields":
                 return 1;
-            case "Basic_Cities":
+            case "Basic_citi":
                 return 2;
-            case "Basic_Tags":
+            case "Basic_taks":
                 return 3;
             case "Basic_Properties":
                 return 4;
@@ -694,23 +704,33 @@ public class fragBasicData<T> extends Fragment {
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
-                            Map<String, Object> addional = simple.AdditionalData;
-                            String mID = addional.get("ItemId").toString();
-                            int Id = Integer.parseInt(mID.replace(".0", ""));
-                            Basic_ActivityFieldGroups data = new Basic_ActivityFieldGroups();
-                            data.ActivityFieldGroupID = Id;
-                            data.ActivityFieldGroupTitle = Title;
-                            data.AdjustedByAdmin = false;
-                            data.isCheck = true;
-                            SQL.Insert(data);
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+                                Basic_ActivityFieldGroups data = new Basic_ActivityFieldGroups();
+                                data.ActivityFieldGroupID = Id;
+                                data.ActivityFieldGroupTitle = Title;
+                                data.AdjustedByAdmin = false;
+                                data.isCheck = true;
+                                SQL.Insert(data);
 
-                            objects.MainItems(geter.getList(Basic_ActivityFieldGroups.class));
+                                objects.MainItems(geter.getList(Basic_ActivityFieldGroups.class, " WHERE Deleted='0'"));
+                                adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call call, Throwable t) {
-
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                     }
                 });
                 break;
@@ -731,24 +751,34 @@ public class fragBasicData<T> extends Fragment {
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
-                            Map<String, Object> addional = simple.AdditionalData;
-                            String mID = addional.get("ItemId").toString();
-                            int Id = Integer.parseInt(mID.replace(".0", ""));
-                            Basic_TagGroups data = new Basic_TagGroups();
-                            data.TagGroupID = Id;
-                            data.TagGroupTitle = Title;
-                            data.TagGroupAdjustedByAdmin = false;
-                            data.TagGroupTypeId = Type;
-                            data.isCheck = true;
-                            SQL.Insert(data);
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+                                Basic_takGroups data = new Basic_takGroups();
+                                data.TagGroupID = Id;
+                                data.TagGroupTitle = Title;
+                                data.TagGroupAdjustedByAdmin = false;
+                                data.TagGroupTypeId = Type;
+                                data.isCheck = true;
+                                SQL.Insert(data);
 
-                            objects.MainItems(geter.getList(Basic_TagGroups.class));
+                                objects.MainItems(geter.getList(Basic_takGroups.class, " WHERE Deleted='0'"));
+                                adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call call, Throwable t) {
-
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                     }
                 });
                 break;
@@ -766,29 +796,39 @@ public class fragBasicData<T> extends Fragment {
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
-                            Map<String, Object> addional = simple.AdditionalData;
-                            String mID = addional.get("ItemId").toString();
-                            int Id = Integer.parseInt(mID.replace(".0", ""));
-                            Basic_PropertyGroups data = new Basic_PropertyGroups();
-                            data.PropertyGroupID = Id;
-                            data.PropertyGroupTitle = Title;
-                            data.PropertyGroupAdjustedByAdmin = false;
-                            data.isCheck = true;
-                            SQL.Insert(data);
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+                                Basic_PropertyGroups data = new Basic_PropertyGroups();
+                                data.PropertyGroupID = Id;
+                                data.PropertyGroupTitle = Title;
+                                data.PropertyGroupAdjustedByAdmin = false;
+                                data.isCheck = true;
+                                SQL.Insert(data);
 
-                            objects.MainItems(geter.getList(Basic_PropertyGroups.class));
+                                objects.MainItems(geter.getList(Basic_PropertyGroups.class, " WHERE Deleted='0'"));
+                                adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call call, Throwable t) {
-
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                     }
                 });
                 break;
         }
     }
-    private void SubAddManager(String Title, int TypeKeyboard){
+    private void SubAddManager(final String Title, final int TypeKeyboard){
         Map<String, Object> BodyParameters = new HashMap<>();
         Call Insert;
         switch (wichAPI()){
@@ -802,6 +842,39 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("ActivityFieldFontIcon", "");
 
                 Insert = rInterface.RQInsertBasicActivityFields(Setting.getToken(), new HashMap<>(BodyParameters));
+                Insert.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+                                Basic_ActivityFields data = new Basic_ActivityFields();
+                                data.ActivityFieldID = Id;
+                                data.ActivityFieldOrder = "1";
+                                data.ActivityFieldGroupID = MainIdSelected;
+                                data.ActivityFieldTitle = Title;
+                                data.isCheck = true;
+                                SQL.Insert(data);
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 3://Tag
                 BodyParameters = new HashMap<>();
@@ -811,17 +884,37 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagTitle", Title);
 
                 Insert = rInterface.RQInsertBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
-                Insert.enqueue(new Callback() {
+                Insert.enqueue(new Callback<SimpleResponse>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
-                        if(response.isSuccessful()){
-                            String asd = "ASD";
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+                                Basic_taks data = new Basic_taks();
+                                data.TagID = Id;
+                                data.TagGroupID = MainIdSelected;
+                                data.TagOrder = "1";
+                                data.TagTitle = Title;
+                                data.isCheck = true;
+                                SQL.Insert(data);
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call call, Throwable t) {
-                        String asd = "ASD";
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                     }
                 });
                 break;
@@ -834,6 +927,40 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyTypeKeyBoardId", TypeKeyboard);
 
                 Insert = rInterface.RQInsertBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
+                Insert.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+                                Basic_Properties data = new Basic_Properties();
+                                data.PropertyID = Id;
+                                data.PropertyTitle = Title;
+                                data.PropertyGroupID = MainIdSelected;
+                                data.PropertyOrder = "1";
+                                data.PropertyTypeKeyBoardId = TypeKeyboard;
+                                data.isCheck = true;
+                                SQL.Insert(data);
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
         }
     }
@@ -843,32 +970,111 @@ public class fragBasicData<T> extends Fragment {
         switch (wichAPI()){
             case 1://ActivityField
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("activityFieldGroupId", MainIdSelected);
+                List<Integer> ids = new ArrayList<>();
+                ids.add(MainIdSelected);
+                BodyParameters.put("Ids", ids);
 
                 Delete = rInterface.RQDeleteBasicActivityFields(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 3://Tag
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("tagGroupId", MainIdSelected);
+                List<Integer> idss = new ArrayList<>();
+                idss.add(MainIdSelected);
+                BodyParameters.put("Ids", idss);
 
                 Delete = rInterface.RQDeleteBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Execute("DELETE FROM " + Tables.Basic_takGroups + " WHERE TagGroupID='" + MainIdSelected + "'");
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 4://Property
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("propertyGroupId", MainIdSelected);
+                List<Integer> idsss = new ArrayList<>();
+                idsss.add(MainIdSelected);
+                BodyParameters.put("Ids", idsss);
 
                 Delete = rInterface.RQDeleteBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
         }
     }
+    int mIDi = 0;
     private void SubDeleteManager(){
         Field[] fields = lList.getClass().getDeclaredFields();
-        int ID = 0;
+        mIDi = 0;
         try {
             for (Field field : fields) {
                 if (field.getName().contains(objects.SubFieldIdName())) {
                     try {
-                        ID = Integer.parseInt(field.get(lList).toString());
+                        mIDi = Integer.parseInt(field.get(lList).toString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -883,25 +1089,103 @@ public class fragBasicData<T> extends Fragment {
         switch (wichAPI()){
             case 1://ActivityField
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("activityFieldId", ID);
+                List<Integer> ids = new ArrayList<>();
+                ids.add(mIDi);
+                BodyParameters.put("Ids", ids);
 
                 Delete = rInterface.RQDeleteBasicActivityFields(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Execute("DELETE FROM " + Tables.Basic_ActivityFields + " WHERE ActivityFieldID='" + mIDi + "'");
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 3://Tag
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("tagId", ID);
+                List<Integer> idss = new ArrayList<>();
+                idss.add(mIDi);
+                BodyParameters.put("Ids", idss);
 
                 Delete = rInterface.RQDeleteBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Execute("DELETE FROM " + Tables.Basic_taks + " WHERE TagID='" + mIDi + "'");
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 4://Property
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("propertyId", ID);
+                List<Integer> idsss = new ArrayList<>();
+                idsss.add(mIDi);
+                BodyParameters.put("Ids", idsss);
 
                 Delete = rInterface.RQDeleteBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Execute("DELETE FROM " + Tables.Basic_Properties + " WHERE PropertyID='" + mIDi + "'");
+
+                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
         }
     }
-    private void GroupUpdatedManager(String Title, int Type){
+    private void GroupUpdatedManager(final String Title, final int Type){
         Map<String, Object> BodyParameters = new HashMap<>();
         Call Update;
         switch (wichAPI()){
@@ -915,6 +1199,38 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("ActivityFieldGroupColor", "");
 
                 Update = rInterface.RQUpdateBasicActivityFieldGroups(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Basic_ActivityFieldGroups lList = new Basic_ActivityFieldGroups();
+                                lList.ActivityFieldGroupTitle = Title;
+                                lList.ActivityFieldGroupID = MainIdSelected;
+                                lList.AdjustedByAdmin = false;
+                                lList.ActivityFieldGroupOrder = "0";
+                                lList.Deleted = false;
+                                SQL.Update(lList, " WHERE ActivityFieldGroupID='" + MainIdSelected + "'");
+
+
+                                adapterMain = new adapSettingMainItems<>(geter.getList(Basic_ActivityFieldGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 3://Tag
                 BodyParameters = new HashMap<>();
@@ -926,6 +1242,37 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagGroupTypeId", Type);
 
                 Update = rInterface.RQUpdateBasicTagGroups(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Basic_takGroups lList = new Basic_takGroups();
+                                lList.TagGroupTitle = Title;
+                                lList.TagGroupID = MainIdSelected;
+                                lList.TagGroupOrder = "0";
+                                lList.TagGroupTypeId = Type;
+                                lList.Deleted = false;
+                                SQL.Update(lList, " WHERE TagGroupID='" + MainIdSelected + "'");
+
+                                adapterMain = new adapSettingMainItems<>(geter.getList(Basic_takGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
             case 4://Property
                 BodyParameters = new HashMap<>();
@@ -936,10 +1283,40 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyGroupColor", "");
 
                 Update = rInterface.RQUpdateBasicPropertieGroups(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Basic_PropertyGroups lList = new Basic_PropertyGroups();
+                                lList.PropertyGroupTitle = Title;
+                                lList.PropertyGroupID = MainIdSelected;
+                                lList.PropertyGroupOrder = "0";
+                                lList.Deleted = false;
+                                SQL.Update(lList, " WHERE PropertyGroupID='" + MainIdSelected + "'");
+
+                                adapterMain = new adapSettingMainItems<>(geter.getList(Basic_PropertyGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
         }
     }
-    private void SubUpdateManager(int ID, String Title, int TypeKeyboard){
+    private void SubUpdateManager(final int ID, final String Title, final int TypeKeyboard){
         Map<String, Object> BodyParameters = new HashMap<>();
         Call Update;
         switch (wichAPI()){
@@ -954,6 +1331,36 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("ActivityFieldFontIcon", "");
 
                 Update = rInterface.RQUpdateBasicActivityFields(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if (response.isSuccessful()) {
+                        SimpleResponse simple = response.body();
+                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                            Basic_ActivityFields lList = new Basic_ActivityFields();
+                            lList.ActivityFieldTitle = Title;
+                            lList.ActivityFieldOrder = "0";
+                            lList.ActivityFieldGroupID = MainIdSelected;
+                            lList.ActivityFieldID = ID;
+                            lList.Deleted = false;
+                            SQL.Update(lList, " WHERE ActivityFieldID='" + ID + "'");
+
+                            FilterSubItemsFromMainItemSelected(MainIdSelected);
+                        }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                            String Err = "";
+                            for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                Err = entry.getValue().toString();
+                            }
+                            Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                }
+            });
                 break;
             case 3://Tag
                 BodyParameters = new HashMap<>();
@@ -962,7 +1369,36 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagTitle", Title);
                 BodyParameters.put("TagOrder", 0);
 
-                Update = rInterface.RQUpdateBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update = rInterface.RQUpdateBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));Update.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if (response.isSuccessful()) {
+                        SimpleResponse simple = response.body();
+                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                            Basic_taks lList = new Basic_taks();
+                            lList.TagTitle = Title;
+                            lList.TagOrder = "0";
+                            lList.TagID = ID;
+                            lList.TagGroupID = MainIdSelected;
+                            lList.Deleted = false;
+                            SQL.Update(lList, " WHERE TagID='" + ID + "'");
+
+                            FilterSubItemsFromMainItemSelected(MainIdSelected);
+                        }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                            String Err = "";
+                            for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                Err = entry.getValue().toString();
+                            }
+                            Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                }
+            });
                 break;
             case 4://Property
                 BodyParameters = new HashMap<>();
@@ -972,7 +1408,37 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyOrder", 0);
                 BodyParameters.put("PropertyTypeKeyBoardId", TypeKeyboard);
 
-                Update = rInterface.RQUpdateBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update = rInterface.RQUpdateBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));Update.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if (response.isSuccessful()) {
+                        SimpleResponse simple = response.body();
+                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                            Basic_Properties lList = new Basic_Properties();
+                            lList.PropertyGroupID = MainIdSelected;
+                            lList.PropertyID = ID;
+                            lList.PropertyTitle = Title;
+                            lList.PropertyOrder = "0";
+                            lList.PropertyTypeKeyBoardId = TypeKeyboard;
+                            lList.Deleted = false;
+                            SQL.Update(lList, " WHERE PropertyID='" + ID + "'");
+
+                            FilterSubItemsFromMainItemSelected(MainIdSelected);
+                        }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                            String Err = "";
+                            for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                Err = entry.getValue().toString();
+                            }
+                            Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                }
+            });
                 break;
         }
     }
@@ -998,13 +1464,17 @@ public class fragBasicData<T> extends Fragment {
 
     static Object lList;
     static boolean ifMain = false;
-    public static void Choiser(Object lListt, boolean ifMainn){
+    static int sIDd = 0;
+    public static void Choiser(Object lListt, boolean ifMainn, int sID){
+        sIDd = sID;
         lList = lListt;
         ifMain = ifMainn;
         slideUp(ViewEditor);
     }
     private static void slideUp(View view){
         view.setVisibility(View.VISIBLE);
+        btnDelete.setVisibility(View.VISIBLE);
+        btnUpdate.setVisibility(View.VISIBLE);
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
@@ -1014,7 +1484,7 @@ public class fragBasicData<T> extends Fragment {
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
-    private static void slideDown(View view){
+    private static void slideDown(final View view){
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
@@ -1022,6 +1492,24 @@ public class fragBasicData<T> extends Fragment {
                 view.getHeight()); // toYDelta
         animate.setDuration(200);
         animate.setFillAfter(true);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+                btnDelete.setVisibility(View.GONE);
+                btnUpdate.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         view.startAnimation(animate);
     }
 
@@ -1154,7 +1642,7 @@ public class fragBasicData<T> extends Fragment {
 
         boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties");
         if(isProp) {
-            List<Basic_AndroidKeyboardTypes> lKeyboard = geter.getList(Basic_AndroidKeyboardTypes.class);
+            List<Basic_AndroidKeyboardTypes> lKeyboard = geter.getList(Basic_AndroidKeyboardTypes.class, " WHERE Deleted='0'");
             spinAdapop = new SpinAdapter(context, lKeyboard, "AndroidKeyboardTypeTitle");
             spinType.setAdapter(spinAdapop);
             spinType.setVisibility(View.VISIBLE);
@@ -1188,14 +1676,22 @@ public class fragBasicData<T> extends Fragment {
             e.printStackTrace();
         }
         txtTitle.setText(Value);
-        int pos = spinAdapop.getItemPosition("PropertyTypeKeyBoardId", Integer.toString(Key));
-        spinType.setSelection(pos);
+        pos = 0;
+        try {
+            pos = spinAdapop.getItemPosition("PropertyTypeKeyBoardId", Integer.toString(Key));
+            spinType.setSelection(pos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sDialog.dismiss();
-                SubUpdateManager(1, txtTitle.getText().toString(), Integer.parseInt(spinAdapop.getItemString(spinType.getSelectedItemPosition(), "AndroidKeyboardTypeID")));
+                if(pos > 0) {
+                    SubUpdateManager(sIDd, txtTitle.getText().toString(), Integer.parseInt(spinAdapop.getItemString(spinType.getSelectedItemPosition(), "AndroidKeyboardTypeID")));
+                }else
+                    SubUpdateManager(sIDd, txtTitle.getText().toString(), 0);
             }
         });
         btnCancell.setOnClickListener(new View.OnClickListener() {
@@ -1207,5 +1703,6 @@ public class fragBasicData<T> extends Fragment {
 
         sDialog.show();
     }
+    int pos = 0;
 
 }

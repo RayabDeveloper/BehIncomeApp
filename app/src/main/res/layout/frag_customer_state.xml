@@ -190,7 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:background="@color/txtGray0">
 
                     <android.support.design.widget.TextInputLayout
@@ -294,42 +294,60 @@
                     android:id="@+id/ViewEditor"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:background="@color/txtWhite"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/btnDeleter"
                         android:layout_width="match_parent"
-                        android:layout_height="45.5dp">
+                        android:layout_height="45.5dp"
+                        android:orientation="horizontal">
 
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/btnDeleter"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            style="@style/TextView.Blue.Bold"
-                            android:gravity="center"
-                            android:text="حذف"/>
+                            android:layout_height="45.5dp"
+                            android:background="@color/txtRed0"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/TextView.Blue.Bold"
+                                android:gravity="center"
+                                android:text="حذف"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btnUpdate"
+                            android:layout_width="match_parent"
+                            android:layout_height="45.5dp"
+                            android:background="@color/txtGreen0"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                style="@style/TextView.Blue.Bold"
+                                android:gravity="center"
+                                android:text="ویرایش"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/btnCancell"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/txtGray4"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginLeft="16dp"/>
-
-                    <LinearLayout
-                        android:id="@+id/btnUpdate"
-                        android:layout_width="match_parent"
-                        android:layout_height="45.5dp">
+                        android:layout_height="match_parent"
+                        android:background="@color/txtRed0">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             style="@style/TextView.Blue.Bold"
                             android:gravity="center"
-                            android:text="ویرایش"/>
+                            android:text="انصراف"/>
 
                     </LinearLayout>
 

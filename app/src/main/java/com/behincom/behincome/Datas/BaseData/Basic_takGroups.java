@@ -3,7 +3,7 @@ package com.behincom.behincome.Datas.BaseData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Basic_TagGroups {
+public class Basic_takGroups {
     @SerializedName("TagGroupID")
     public int TagGroupID = 0;
     @SerializedName("TagGroupUserId")

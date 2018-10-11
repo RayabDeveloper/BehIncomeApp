@@ -139,8 +139,8 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
             public void onClick(View v) {
                 Intent intent = new Intent(context, actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
-                fragAddTask.Name = fragCustomerShow.Customer.CustomerName;
-                fragAddTask.customer_id = fragCustomerShow.Customer.CustomerID;
+                fragAddTask.Name = fragCustomerShow.Customer.Customers.CustomerName;
+                fragAddTask.customer_id = fragCustomerShow.Customer.Customers.CustomerID;
                 fragAddTask.Type = 0;
                 fragAddTask.mParentID = lList.get(position).ActivityID;
                 context.startActivity(intent);

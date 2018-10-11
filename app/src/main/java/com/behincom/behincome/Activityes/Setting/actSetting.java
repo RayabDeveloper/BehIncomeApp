@@ -19,21 +19,23 @@ import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragAddVisitorP
 import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragVisitorPriod;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
-import com.behincom.behincome.Datas.BaseData.Basic_Cities;
+import com.behincom.behincome.Datas.BaseData.Basic_citi;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
+
+import java.util.List;
 
 public class actSetting extends AppCompatActivity {
 
     static FragmentManager manager;
     static Context context;
-    RSQLGeter<Object> geter = new RSQLGeter<>();
+    RSQLGeter geter = new RSQLGeter<>();
 
     static FrameLayout frameLayout;
     public static FragmentState STATE = FragmentState.Setting;
@@ -70,9 +72,9 @@ public class actSetting extends AppCompatActivity {
                 break;
             case Cities:
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_Provinces.class),
-                        geter.getList(Basic_Cities.class),
-                        Basic_Cities.class,
+                        geter.getList(Basic_Ostan.class),
+                        geter.getList(Basic_citi.class),
+                        Basic_citi.class,
                         "ProvinceID",
                         "CityID",
                         "ProvinceTitle",
@@ -84,9 +86,9 @@ public class actSetting extends AppCompatActivity {
                 break;
             case Tags:
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_TagGroups.class),
-                        geter.getList(Basic_Tags.class),
-                        Basic_Tags.class,
+                        geter.getList(Basic_takGroups.class),
+                        geter.getList(Basic_taks.class),
+                        Basic_taks.class,
                         "TagGroupID",
                         "TagID",
                         "TagGroupTitle",

@@ -3,7 +3,7 @@ package com.behincom.behincome.Datas.BaseData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Basic_Tags {
+public class Basic_taks {
 
     @SerializedName("TagID")
     public int TagID = 0;

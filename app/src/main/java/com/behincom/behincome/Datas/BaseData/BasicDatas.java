@@ -1,14 +1,5 @@
 package com.behincom.behincome.Datas.BaseData;
 
-import com.behincom.behincome.Datas.Marketing.MarketingActResults;
-import com.behincom.behincome.Datas.Marketing.MarketingActivityFields;
-import com.behincom.behincome.Datas.Marketing.MarketingCities;
-import com.behincom.behincome.Datas.Marketing.MarketingCommissionPeriods;
-import com.behincom.behincome.Datas.Marketing.MarketingProductCommissions;
-import com.behincom.behincome.Datas.Marketing.MarketingProducts;
-import com.behincom.behincome.Datas.Marketing.MarketingProperties;
-import com.behincom.behincome.Datas.Marketing.MarketingTags;
-import com.behincom.behincome.Datas.Marketing.MarketingVisitTours;
 import com.behincom.behincome.Datas.Marketing.ToSend.MarketingSetups;
 import com.google.gson.annotations.SerializedName;
 
@@ -28,14 +19,10 @@ public class BasicDatas {
     public List<Basic_ActivityFieldGroups> Basic_ActivityFieldGroups = new ArrayList<>();
     @SerializedName("Basic_ActResults")
     public List<Basic_ActResults> Basic_ActResults = new ArrayList<>();
-    @SerializedName("Basic_ActivityStates")
-    public List<Basic_ActivityStates> Basic_ActivityStates = new ArrayList<>();
     @SerializedName("Basic_ActGroups")
     public List<Basic_ActGroups> Basic_ActGroups = new ArrayList<>();
     @SerializedName("Basic_ArchiveTypes")
     public List<Basic_ArchiveTypes> Basic_ArchiveTypes = new ArrayList<>();
-    @SerializedName("Basic_BusinessManagerMarketerStates")
-    public List<Basic_BusinessManagerMarketerStates> Basic_BusinessManagerMarketerStates = new ArrayList<>();
     @SerializedName("Basic_CommissionTypes")
     public List<Basic_CommissionTypes> Basic_CommissionTypes = new ArrayList<>();
     @SerializedName("Basic_ContactTypes")
@@ -53,15 +40,15 @@ public class BasicDatas {
     @SerializedName("Basic_PropertyGroups")
     public List<Basic_PropertyGroups> Basic_PropertyGroups = new ArrayList<>();
     @SerializedName("Basic_TagGroups")
-    public List<Basic_TagGroups> Basic_TagGroups = new ArrayList<>();
+    public List<com.behincom.behincome.Datas.BaseData.Basic_takGroups> Basic_takGroups = new ArrayList<>();
     @SerializedName("Basic_Tags")
-    public List<Basic_Tags> Basic_Tags = new ArrayList<>();
+    public List<Basic_taks> Basic_taks = new ArrayList<>();
     @SerializedName("Basic_Cities")
-    public List<Basic_Cities> Basic_Cities = new ArrayList<>();
+    public List<com.behincom.behincome.Datas.BaseData.Basic_citi> Basic_citi = new ArrayList<>();
     @SerializedName("Basic_Properties")
     public List<Basic_Properties> Basic_Properties = new ArrayList<>();
     @SerializedName("Basic_Provinces")
-    public List<Basic_Provinces> Basic_Provinces = new ArrayList<>();
+    public List<com.behincom.behincome.Datas.BaseData.Basic_Ostan> Basic_Ostan = new ArrayList<>();
     @SerializedName("Basic_ActivityFields")
     public List<Basic_ActivityFields> Basic_ActivityFields = new ArrayList<>();
     @SerializedName("Basic_AndroidKeyboardTypes")

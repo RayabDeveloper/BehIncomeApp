@@ -2,9 +2,10 @@ package com.behincom.behincome.WebRequest;
 
 import com.behincom.behincome.Datas.Activityes.Invoice;
 import com.behincom.behincome.Datas.BaseData.BasicDatas;
-import com.behincom.behincome.Datas.BaseData.Basic_Cities;
-import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
+import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
 import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Marketing.MarketingDatas;
 import com.behincom.behincome.Datas.Profile.BussinessManagerMarketing;
 import com.behincom.behincome.Datas.Profile.Marketers;
@@ -392,10 +393,10 @@ public interface RWInterface<T> {
     Call<String> RQGetServerDateTime();//Get Server Date Time : 2018-01-01T12:12:12 +4:30 ( +4:30 is between your time to GEM Time )
 
     @GET(ControllerActionManager_BaseData_4)
-    Call<List<Basic_Provinces>> RQGetProvinces();//Get Provinces
+    Call<List<Basic_Ostan>> RQGetProvinces();//Get Provinces
 
     @GET(ControllerActionManager_BaseData_5)
-    Call<List<Basic_Cities>> RQGetCities();//Get Cities
+    Call<List<Basic_citi>> RQGetCities();//Get Cities
 
     //=========================================================================================================
     //Marketing :                                     - Marketing -
@@ -661,7 +662,7 @@ public interface RWInterface<T> {
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Customer_6)
-    Call<List<Customers>> RQGetCustomerAllData(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Customer ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
+    Call<List<MyCustomers>> RQGetCustomerAllData(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Customer ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
 
     @GET(ControllerActionManager_Customer_10)
     Call<List<Customers>> RQGetCustomerAllDataArchived(@Header(HeaderToken) String Token);//Get All Customer ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )

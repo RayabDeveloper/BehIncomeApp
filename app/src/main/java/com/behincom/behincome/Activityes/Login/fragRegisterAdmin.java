@@ -34,8 +34,8 @@ import android.widget.TextView;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Splash.actSplash;
 import com.behincom.behincome.Adapters.SpinAdapter;
-import com.behincom.behincome.Datas.BaseData.Basic_Cities;
-import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
+import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
 import com.behincom.behincome.Datas.Profile.ToSend.ToSendEditProfileAdmin;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -116,8 +116,8 @@ public class fragRegisterAdmin extends Fragment {
     CardView cardView;
     ScrollView scrollV;
 
-    private List<Basic_Provinces> lOstan = new ArrayList<>();
-    private List<Basic_Cities> lCity = new ArrayList<>();
+    private List<Basic_Ostan> lOstan = new ArrayList<>();
+    private List<Basic_citi> lCity = new ArrayList<>();
 
     private String ManagerName = "", SubmitNumber = "", ActRange = "", Exprience = "", ActivityField = "", ActivityField2 = "", Act = "", Name = "", NationalityCode = "", Address = "", Description = "";
     private Bitmap Logo = null;
@@ -202,17 +202,17 @@ public class fragRegisterAdmin extends Fragment {
         txtMobile.setTransformationMethod(null);
 
         Call cGetProvinces = rInterface.RQGetProvinces();
-        cGetProvinces.enqueue(new Callback<List<Basic_Provinces>>() {
+        cGetProvinces.enqueue(new Callback<List<Basic_Ostan>>() {
             @Override
-            public void onResponse(Call<List<Basic_Provinces>> call, Response<List<Basic_Provinces>> response) {
+            public void onResponse(Call<List<Basic_Ostan>> call, Response<List<Basic_Ostan>> response) {
                 if (response.isSuccessful()) {
                     if(response.body().size() > 0){
                         SQL.Insert(response.body());
-                        lOstan = geter.getList(Basic_Provinces.class);
+                        lOstan = geter.getList(Basic_Ostan.class);
 
                         lCity = new ArrayList<>();
-                        Basic_Provinces dOstan = new Basic_Provinces();
-                        Basic_Cities dCity = new Basic_Cities();
+                        Basic_Ostan dOstan = new Basic_Ostan();
+                        Basic_citi dCity = new Basic_citi();
                         dOstan.ProvinceTitle = ("استان را انتخاب کنید");
                         dCity.CityTitle = ("شهر را انتخاب کنید");
                         lOstan.add(0, dOstan);
@@ -231,9 +231,9 @@ public class fragRegisterAdmin extends Fragment {
             }
         });
         Call cGetCities = rInterface.RQGetCities();
-        cGetCities.enqueue(new Callback<List<Basic_Cities>>() {
+        cGetCities.enqueue(new Callback<List<Basic_citi>>() {
             @Override
-            public void onResponse(Call<List<Basic_Cities>> call, Response<List<Basic_Cities>> response) {
+            public void onResponse(Call<List<Basic_citi>> call, Response<List<Basic_citi>> response) {
                 if (response.isSuccessful()) {
                     if(response.body().size() > 0){
                         SQL.Insert(response.body());
@@ -407,15 +407,15 @@ public class fragRegisterAdmin extends Fragment {
                 OstanId = adapOstan.getIdItem(spinOstan.getSelectedItemPosition(), "id");
                 if (!OstanFrist) {
                     if (spinOstan.getSelectedItemPosition() > 0) {
-                        lCity = geter.getList(Basic_Cities.class, "WHERE ProvinceID='" + adapOstan.getItemString(spinOstan.getSelectedItemPosition(), "ProvinceID") + "'");
-                        Basic_Cities dCity = new Basic_Cities();
+                        lCity = geter.getList(Basic_citi.class, "WHERE ProvinceID='" + adapOstan.getItemString(spinOstan.getSelectedItemPosition(), "ProvinceID") + "'");
+                        Basic_citi dCity = new Basic_citi();
                         dCity.CityTitle = ("شهر را انتخاب کنید");
                         lCity.add(0, dCity);
                         adapCity = new SpinAdapter(context, lCity, "CityTitle");
                         spinCity.setAdapter(adapCity);
                     } else {
                         lCity = new ArrayList<>();
-                        Basic_Cities dCity = new Basic_Cities();
+                        Basic_citi dCity = new Basic_citi();
                         dCity.CityTitle = ("شهر را انتخاب کنید");
                         lCity.add(dCity);
                         adapCity = new SpinAdapter(context, lCity, "CityTitle");
@@ -424,8 +424,8 @@ public class fragRegisterAdmin extends Fragment {
                 } else {
                     OstanFrist = false;
                     String aaa = adapOstan.getItemString(spinOstan.getSelectedItemPosition(), "ProvinceID");
-                    lCity = geter.getList(Basic_Cities.class, "WHERE ProvinceID='" + aaa + "'");
-                    Basic_Cities dCity = new Basic_Cities();
+                    lCity = geter.getList(Basic_citi.class, "WHERE ProvinceID='" + aaa + "'");
+                    Basic_citi dCity = new Basic_citi();
                     dCity.CityTitle = ("شهر را انتخاب کنید");
                     lCity.add(0, dCity);
                     adapCity = new SpinAdapter(context, lCity, "CityTitle");

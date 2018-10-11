@@ -76,7 +76,7 @@ public class fragComissionPriod extends Fragment {
         imgBack.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
 
-        lCommissionPriod = geter.getList(MarketingCommissionPeriods.class);
+        lCommissionPriod = geter.getList(MarketingCommissionPeriods.class, " WHERE Deleted='0'");
 
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +118,7 @@ public class fragComissionPriod extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        lCommissionPriod = geter.getList(MarketingCommissionPeriods.class);
+        lCommissionPriod = geter.getList(MarketingCommissionPeriods.class, " WHERE Deleted='0'");
         RefreshList();
         if(lCommissionPriod.size() == 0) {
             lblHelp1.setVisibility(View.VISIBLE);

@@ -163,6 +163,17 @@ public class RSQLite extends SQLiteOpenHelper {
         }catch (Exception Ex){
             return false;
         }
+    }
+    public boolean Delete(Object objects, String WHERE){
+        try{
+            SQLiteDatabase db = this.getWritableDatabase();
+            deleteObjectHandler(db, objects, WHERE.replace("WHERE", ""));
+            db.close();
+
+            return true;
+        }catch (Exception Ex){
+            return false;
+        }
     }// DELETE ALL Datas From Your All Tables Using Objects
     public <T> List<T> Select(String Query, Class mClass){
         SQLiteDatabase db = this.getWritableDatabase();

@@ -122,7 +122,7 @@ public class fragVisitorPriod extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        lPriod = geter.getList(MarketingVisitTours.class);
+        lPriod = geter.getList(MarketingVisitTours.class, " WHERE Deleted='0'");
         RefreshList();
         if(lPriod.size() == 0) {
             lblHelp1.setVisibility(View.VISIBLE);

@@ -9,10 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.behincom.behincome.Activityes.Customer.AddCustomer.fragActivityField;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.Keys.TagType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 

@@ -1,7 +1,5 @@
 package com.behincom.behincome.Loader;
 
-import android.text.Html;
-
 import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Datas.BaseData.BasicDatas;
@@ -13,7 +11,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_ActivityStates;
 import com.behincom.behincome.Datas.BaseData.Basic_Acts;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_BusinessManagerMarketerStates;
-import com.behincom.behincome.Datas.BaseData.Basic_Cities;
+import com.behincom.behincome.Datas.BaseData.Basic_citi;
 import com.behincom.behincome.Datas.BaseData.Basic_Color;
 import com.behincom.behincome.Datas.BaseData.Basic_CommissionTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
@@ -27,9 +25,9 @@ import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
-import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
+import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_taks;
 import com.behincom.behincome.Datas.Keys.APIKeys;
 import com.behincom.behincome.Datas.Marketing.MarketingActResults;
 import com.behincom.behincome.Datas.Marketing.MarketingActivityFields;
@@ -45,7 +43,6 @@ import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -147,10 +144,8 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_ActivityFieldGroups, "Basic_ActivityFieldGroups");
             SQL.Insert(data.Basic_ActivityFields, "Basic_ActivityFields");
             SQL.Insert(data.Basic_ActResults, "Basic_ActResults");
-            SQL.Insert(data.Basic_ActivityStates, "Basic_ActivityStates");
             SQL.Insert(data.Basic_ArchiveTypes, "Basic_ArchiveTypes");
-            SQL.Insert(data.Basic_BusinessManagerMarketerStates, "Basic_BusinessManagerMarketerStates");
-            SQL.Insert(data.Basic_Cities, "Basic_Cities");
+            SQL.Insert(data.Basic_citi, "Basic_citi");
             SQL.Insert(data.Basic_CommissionTypes, "Basic_CommissionTypes");
             SQL.Insert(data.Basic_CustomerStates, "Basic_CustomerStates");
             SQL.Insert(data.Basic_ContactTypes, "Basic_ContactTypes");
@@ -163,9 +158,9 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_PersonTypes, "Basic_PersonTypes");
             SQL.Insert(data.Basic_Properties, "Basic_Properties");
             SQL.Insert(data.Basic_PropertyGroups, "Basic_PropertyGroups");
-            SQL.Insert(data.Basic_Provinces, "Basic_Provinces");
-            SQL.Insert(data.Basic_TagGroups, "Basic_TagGroups");
-            SQL.Insert(data.Basic_Tags, "Basic_Tags");
+            SQL.Insert(data.Basic_Ostan, "Basic_Ostan");
+            SQL.Insert(data.Basic_takGroups, "Basic_takGroups");
+            SQL.Insert(data.Basic_taks, "Basic_taks");
             SQL.Insert(data.MarketingActivityFields, "MarketingActivityFields");
             SQL.Insert(data.MarketingActResults, "MarketingActResults");
             SQL.Insert(data.MarketingCities, "MarketingCities");
@@ -256,17 +251,6 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_ActivityStates dataa : data.Basic_ActivityStates) {
-                    if(geter.Any(dataa.getClass(), " WHERE ActivityStateID" + "='" + dataa.ActivityStateID + "'")){
-                        SQL.Update(dataa, " WHERE ActivityStateID" + "='" + dataa.ActivityStateID + "'");
-                    }else{
-                        SQL.Insert(dataa);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
                 for (Basic_ArchiveTypes dataa : data.Basic_ArchiveTypes) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE ArchiveTypeID" + "='" + dataa.ArchiveTypeID + "'")){
@@ -282,22 +266,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_BusinessManagerMarketerStates dataa : data.Basic_BusinessManagerMarketerStates) {
-                    try {
-                        if(geter.Any(dataa.getClass(), " WHERE BusinessManagerMarketerStateID" + "='" + dataa.BusinessManagerMarketerStateID + "'")){
-                            SQL.Update(dataa, " WHERE BusinessManagerMarketerStateID" + "='" + dataa.BusinessManagerMarketerStateID + "'");
-                        }else{
-                            SQL.Insert(dataa);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                for (Basic_Cities dataa : data.Basic_Cities) {
+                for (Basic_citi dataa : data.Basic_citi) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE CityID" + "='" + dataa.CityID + "'")){
                             SQL.Update(dataa, " WHERE CityID" + "='" + dataa.CityID + "'");
@@ -492,7 +461,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_Provinces dataa : data.Basic_Provinces) {
+                for (Basic_Ostan dataa : data.Basic_Ostan) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE ProvinceID" + "='" + dataa.ProvinceID + "'")){
                             SQL.Update(dataa, " WHERE ProvinceID" + "='" + dataa.ProvinceID + "'");
@@ -507,7 +476,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_TagGroups dataa : data.Basic_TagGroups) {
+                for (Basic_takGroups dataa : data.Basic_takGroups) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE TagGroupID" + "='" + dataa.TagGroupID + "'")){
                             SQL.Update(dataa, " WHERE TagGroupID" + "='" + dataa.TagGroupID + "'");
@@ -522,7 +491,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_Tags dataa : data.Basic_Tags) {
+                for (Basic_taks dataa : data.Basic_taks) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE TagID" + "='" + dataa.TagID + "'")){
                             SQL.Update(dataa, " WHERE TagID" + "='" + dataa.TagID + "'");

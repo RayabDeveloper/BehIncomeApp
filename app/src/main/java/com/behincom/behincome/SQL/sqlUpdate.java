@@ -47,6 +47,10 @@ class sqlUpdate {
             if (!(mField[i].getAnnotation(RAnnot.class) instanceof RAnnot)) {
                 Object value = mField[i].get(mClass);
                 String fValue = value.toString();
+                if(fValue.equalsIgnoreCase("false"))
+                    fValue = "0";
+                else if(fValue.equalsIgnoreCase("true"))
+                    fValue = "1";
                 Query += mField[i].getName() + "='" + fValue + "', ";
             }
         }
@@ -63,6 +67,10 @@ class sqlUpdate {
                 if (!(mField[i].getAnnotation(RAnnot.class) instanceof RAnnot)) {
                     Object value = mField[i].get(mClass.get(j));
                     String fValue = value.toString();
+                    if(fValue.equalsIgnoreCase("false"))
+                        fValue = "0";
+                    else if(fValue.equalsIgnoreCase("true"))
+                        fValue = "1";
                     Query += mField[i].getName() + "='" + fValue + "', ";
                 }
             }
