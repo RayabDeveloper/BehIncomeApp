@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Device;
@@ -24,10 +26,30 @@ public class actSplash extends AppCompatActivity {
 
     Context context = this;
 
+    RelativeLayout btnRefresh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_splash);
+
+        btnRefresh = findViewById(R.id.btnRefresh);
+        btnRefresh.setVisibility(View.GONE);
+
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mA == 0)
+                    mA = 3;
+                try{
+                    getDatas(mA);
+                }catch (Exception Ex){
+                    String Er = Ex.getMessage();
+                }
+                btnRefresh.setVisibility(View.GONE);
+            }
+        });
+
         try{
             getDatas(mA);
         }catch (Exception Ex){
@@ -59,7 +81,7 @@ public class actSplash extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(context, "تلاش مجدد", Toast.LENGTH_SHORT).show();
+                                        btnRefresh.setVisibility(View.VISIBLE);
                                         getDatas(mA--);
                                     }
                                 });
@@ -68,15 +90,15 @@ public class actSplash extends AppCompatActivity {
                     }, new LoadBaseData.onFailedLoad() {
                         @Override
                         public void onFailed(String Error) {
-                            String Er = Error;
+                            btnRefresh.setVisibility(View.VISIBLE);
+                            Toast.makeText(context, Error, Toast.LENGTH_LONG).show();
                         }
                     });
                 }else{
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "عدم دسترسی به سرور به هر دلیلی", Toast.LENGTH_SHORT).show();
-                            finishAffinity();
+                            btnRefresh.setVisibility(View.VISIBLE);
                         }
                     });
                 }

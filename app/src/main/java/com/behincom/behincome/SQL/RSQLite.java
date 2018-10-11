@@ -195,6 +195,8 @@ public class RSQLite extends SQLiteOpenHelper {
 
                             if (cField.getType().equals(int.class)) {
                                 cField.set(Obj, cursor.getInt(CorsurColumn));
+                            } else if (cField.getType().equals(long.class) || cField.getType().equals(Long.class)) {
+                                cField.set(Obj, cursor.getLong(CorsurColumn));
                             } else if (cField.getType().equals(String.class)) {
                                 cField.set(Obj, cursor.getString(CorsurColumn));
                             } else if (cField.getType().equals(Double.class)) {

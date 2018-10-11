@@ -75,6 +75,15 @@ public class fragAddVisitorPriod extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        txtName.setText("");
+        txtFromDate.setText("");
+        txtToDate.setText("");
+        txtDescription.setText("");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_add_visitor_priod, container, false);
 

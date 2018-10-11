@@ -19,6 +19,8 @@ public class Basic_ActivityFieldGroups {
     public int ActivityFieldGroupUserId = 0;
     @SerializedName("AdjustedByAdmin")
     public boolean AdjustedByAdmin = true;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     @RAnnot
     public boolean isCheck = false;

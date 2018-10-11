@@ -15,6 +15,8 @@ public class Basic_ActResultsMaker {
     public String ActResultsTitle = "";
     @SerializedName("ActResultsType")
     public int ActResultsType = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 

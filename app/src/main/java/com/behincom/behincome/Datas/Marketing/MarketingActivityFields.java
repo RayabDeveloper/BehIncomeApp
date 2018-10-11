@@ -10,5 +10,7 @@ public class MarketingActivityFields {
     public int UserID = 0;
     @SerializedName("ActivityFieldID")
     public int ActivityFieldID = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

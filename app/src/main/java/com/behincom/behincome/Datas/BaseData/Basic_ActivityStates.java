@@ -10,6 +10,8 @@ public class Basic_ActivityStates {
     public String ActivityStateTitle = "";
     @SerializedName("ActivityStateOrder")
     public String ActivityStateOrder = "";
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 

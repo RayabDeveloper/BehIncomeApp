@@ -21,8 +21,12 @@ class sqlInsert {
         for(int i=0; i<mField.length - 2; i++){
             if (!(mField[i].getAnnotation(RAnnot.class) instanceof RAnnot)) {
                 Object value = mField[i].get(mClass);
-                String fValue = value.toString();
-                Query += "'" + fValue + "', ";
+                if(value == null) {
+                    Query += "'', ";
+                }else {
+                    String fValue = value.toString();
+                    Query += "'" + fValue + "', ";
+                }
             }
         }
         return Query.substring(0, Query.length() - 2) + ")";

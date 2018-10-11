@@ -20,10 +20,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Setting.fragBasicData;
@@ -32,9 +34,14 @@ import com.behincom.behincome.Adapters.Setting.adapCustomerState;
 import com.behincom.behincome.Adapters.SwipeItems.Customers.OnCustomerListChangedListener;
 import com.behincom.behincome.Adapters.SwipeItems.Helper.OnStartDragListener;
 import com.behincom.behincome.Adapters.SwipeItems.SwipeAndDragHelper;
+import com.behincom.behincome.Datas.Base.Basics;
+import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Color;
+import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.RSQLGeter;
+import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
@@ -72,7 +79,7 @@ public class fragCustomerState extends Fragment{
     static LinearLayout ViewEditor;
     LinearLayout dialogAdd, btnDeleter, btnUpdate;
     TextInputEditText txtTitle;
-    CardView cardSubmit;
+    CardView cardSubmit, cardCancell;
     FloatingActionButton btnAdd;
 
     private List<Basic_CustomerStates> lState = new ArrayList<>();
@@ -86,9 +93,18 @@ public class fragCustomerState extends Fragment{
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        slideDown(dialogAdd);
+        slideDown(ViewEditor);
+        txtTitle.setText("");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_customer_state, container, false);
 
+        cardCancell = view.findViewById(R.id.cardCancell);
         ViewEditor = view.findViewById(R.id.ViewEditor);
         btnDeleter = view.findViewById(R.id.btnDeleter);
         btnUpdate = view.findViewById(R.id.btnUpdate);
@@ -114,6 +130,13 @@ public class fragCustomerState extends Fragment{
         lblTitle.setText("وضعیت مشتری");
         itemUpTitle.setText("ثبت اولیه");
         itemDownTitle.setText("پایان کار");
+        cardCancell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideDown(dialogAdd);
+                txtTitle.setText("");
+            }
+        });
         try {
             ByteArrayOutputStream stream = null;
             try {
@@ -159,11 +182,39 @@ public class fragCustomerState extends Fragment{
         btnDeleter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                slideDown(ViewEditor);
+
                 Map<String, Object> BodyParameters = new HashMap<>();
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("customerStateId", lList.CustomerStateID);
+                List<Integer> ids = new ArrayList<>();
+                ids.add(lList.CustomerStateID);
+                BodyParameters.put("Ids", ids);
 
                 Call Delete = rInterface.RQDeleteBasicCustomerStates(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if(response.isSuccessful()){
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Delete(lList.getClass(), " WHERE CustomerStateID='" + lList.CustomerStateID + "'");
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        lState = geter.getList(Basic_CustomerStates.class, " WHERE ");
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -212,29 +263,67 @@ public class fragCustomerState extends Fragment{
                     BodyParameters.put("CustomerStateFontIcon", "");
 
                     Call Insert = rInterface.RQInsertBasicCustomerStates(Setting.getToken(), new HashMap<>(BodyParameters));
-                    Insert.enqueue(new Callback() {
+                    Insert.enqueue(new Callback<SimpleResponse>() {
                         @Override
-                        public void onResponse(Call call, Response response) {
+                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if(response.isSuccessful()){
-                                String asd = "ASD";
+                                SimpleResponse simple = response.body();
+                                Map<String, Object> addional = simple.AdditionalData;
+                                String mID = addional.get("ItemId").toString();
+                                int Id = Integer.parseInt(mID.replace(".0", ""));
+
+                                Basic_CustomerStates data = new Basic_CustomerStates();
+                                data.CustomerStateAdjustedByAdmin = false;
+                                data.CustomerStateID = Id;
+                                data.CustomerStateTitle = txtTitle.getText().toString();
+                                data.CustomerStateColor = "";
+                                data.isCheck = true;
+
+                                SQL.Insert(data);
                             }
+                            lState = geter.getList(Basic_CustomerStates.class);
+                            adapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
-                            String asd = "ASD";
+                            Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                         }
                     });
                 }else{
                     Map<String, Object> BodyParameters = new HashMap<>();
                     BodyParameters = new HashMap<>();
-                    BodyParameters.put("CustomerStateID", 0);
+                    BodyParameters.put("CustomerStateID", lList.CustomerStateID);
                     BodyParameters.put("CustomerStateTitle", txtTitle.getText().toString());
                     BodyParameters.put("CustomerStateColor", ColorID);
-                    BodyParameters.put("CustomerStateOrder", 0);
+                    BodyParameters.put("CustomerStateOrder", lList.CustomerStateOrder);
                     BodyParameters.put("CustomerStateFontIcon", "");
 
                     Call Update = rInterface.RQUpdateBasicCustomerStates(Setting.getToken(), new HashMap<>(BodyParameters));
+                    Update.enqueue(new Callback<SimpleResponse>() {
+                        @Override
+                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                            if(response.isSuccessful()){
+                                SimpleResponse simple = response.body();
+                                if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                    SQL.Update(lList, " WHERE CustomerStateID='" + lList.CustomerStateID + "'");
+                                }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                    String Err = "";
+                                    for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                        Err = entry.getValue().toString();
+                                    }
+                                    Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                                }
+                                lState = geter.getList(Basic_CustomerStates.class);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             }
         });
@@ -280,7 +369,7 @@ public class fragCustomerState extends Fragment{
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
-    private static void slideDown(View view) {
+    private static void slideDown(final View view) {
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
@@ -288,6 +377,22 @@ public class fragCustomerState extends Fragment{
                 view.getHeight()); // toYDelta
         animate.setDuration(200);
         animate.setFillAfter(true);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         view.startAnimation(animate);
     }
 

@@ -14,17 +14,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Setting.CustomerState.fragCustomerState;
 import com.behincom.behincome.Adapters.Setting.adapArchiveType;
 import com.behincom.behincome.Adapters.Setting.adapContactType;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
@@ -93,9 +98,35 @@ public class fragContactType extends Fragment {
             public void onClick(View v) {
                 Map<String, Object> BodyParameters = new HashMap<>();
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("archiveTypeId", lList.ContactTypeID);
+                List<Integer> ids = new ArrayList<>();
+                ids.add(lList.ContactTypeID);
+                BodyParameters.put("Ids", ids);
 
                 Call Delete = rInterface.RQDeleteBasicContactTypes(Setting.getToken(), new HashMap<>(BodyParameters));
+                Delete.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if(response.isSuccessful()){
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                SQL.Delete(lList.getClass(), " WHERE ContactTypeID='" + lList.ContactTypeID + "'");
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
+                                }
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        lState = geter.getList(Basic_ContactTypes.class);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+                        Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +185,7 @@ public class fragContactType extends Fragment {
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
-                            String asd = "ASD";
+                            Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                         }
                     });
                 }else{
@@ -173,6 +204,15 @@ public class fragContactType extends Fragment {
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if(response.isSuccessful()){
                                 SimpleResponse simple = response.body();
+                                if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                    SQL.Update(lList, " WHERE ContactTypeID='" + lList.ContactTypeID + "'");
+                                }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                    String Err = "";
+                                    for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                        Err = entry.getValue().toString();
+                                    }
+                                    Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                                }
 //                                Map<String, Object> addional = simple.AdditionalData;
 //                                String mID = addional.get("ItemId").toString();
 //                                int Id = Integer.parseInt(mID.replace(".0", ""));
@@ -192,7 +232,7 @@ public class fragContactType extends Fragment {
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
-                            String asd = "ASD";
+                            Toast.makeText(context, Basics.ServerError, Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -220,7 +260,7 @@ public class fragContactType extends Fragment {
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
-    private static void slideDown(View view) {
+    private static void slideDown(final View view) {
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
                 0,                 // toXDelta
@@ -228,6 +268,22 @@ public class fragContactType extends Fragment {
                 view.getHeight()); // toYDelta
         animate.setDuration(200);
         animate.setFillAfter(true);
+        animate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         view.startAnimation(animate);
     }
 

@@ -15,6 +15,8 @@ public class Basic_CommissionTypes {
     public String CommissionTypeFontIcon = "327";
     @SerializedName("CommissionTypeColor")
     public String CommissionTypeColor = "FFFFFF";
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 

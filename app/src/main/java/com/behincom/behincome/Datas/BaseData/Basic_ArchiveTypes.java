@@ -18,6 +18,8 @@ public class Basic_ArchiveTypes {
     public String ArchiveTypeColor = "FFFFFF";
     @SerializedName("AdjustedByAdmin")
     public boolean AdjustedByAdmin = true;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 }

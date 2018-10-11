@@ -14,6 +14,8 @@ public class Basic_BusinessManagerMarketerStates {
     public String BusinessManagerMarketerStateFontIcon = "327";
     @SerializedName("BusinessManagerMarketerStateColor")
     public String BusinessManagerMarketerStateColor = "FFFFFF";
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 }

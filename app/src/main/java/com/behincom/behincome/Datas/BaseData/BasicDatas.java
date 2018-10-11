@@ -86,4 +86,6 @@ public class BasicDatas {
     public List<com.behincom.behincome.Datas.Marketing.MarketingVisitTours> MarketingVisitTours = new ArrayList<>();
     @SerializedName("MarketingSetups")
     public MarketingSetups MarketingSetups = new MarketingSetups();
+    @SerializedName("BasicColors")
+    public List<Basic_Color> Basic_Color = new ArrayList<>();
 }

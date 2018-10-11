@@ -326,6 +326,7 @@ public class fragBasicData<T> extends Fragment {
         lstMain.setAdapter(adapterMain);
         lstSub.setAdapter(adapterSub);
 
+
         Field[] fields = objects.SubItems().get(0).getClass().getDeclaredFields();
         for (Field field : fields) {
             if (field.getName().contains(objects.MainFieldIdName())) {

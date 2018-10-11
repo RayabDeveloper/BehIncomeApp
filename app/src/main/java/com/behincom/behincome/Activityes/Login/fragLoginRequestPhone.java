@@ -13,9 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Dialog;
+import com.behincom.behincome.Accesories.Setting;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.DataRequestVerificationCode;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.WebRequest.Keys.RWAction;
@@ -80,6 +84,8 @@ public class fragLoginRequestPhone extends Fragment {
         lblTitle.setText("ورود به بهینکام");
         rInterface = Retrofite.getClient().create(RWInterface.class);
 
+        Setting.Save("ReloadAll", "true");
+
         txtPhoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -98,119 +104,46 @@ public class fragLoginRequestPhone extends Fragment {
             @Override
             public void onClick(View v) {
                 final String mPhoneNumber = txtPhoneNumber.getText().toString();
+                String PhoneNumber = "";
                 DataRequestVerificationCode data = new DataRequestVerificationCode();
                 if (mPhoneNumber.matches("^[0]{1}[9]{1}[0-9]{2}[0-9]{7}")) {
-                    data.PhoneNumber = mPhoneNumber;
+                    PhoneNumber = mPhoneNumber;
                 } else {
                     lblError.setText("خطا");
                 }
                 pDialog = new Dialog(getActivity());
                 pDialog.Show();
 
-                ObjectMapper oMapper = new ObjectMapper();
-                Map map = oMapper.convertValue(data, Map.class);
+//                ObjectMapper oMapper = new ObjectMapper();
+//                Map map = oMapper.convertValue(data, Map.class);
 
-//                RWObject RRequest = new RWObject();
-//                RRequest.Method = RWMethod.POST;
-//                RRequest.Controller = RWController.Account;
-//                RRequest.Action = RequestPhoneVerificationCode;
-//                RRequest.Type = RWType.Body;
-//                RRequest.isToken = false;
-//                RRequest.Object = map;
-//                final RQController RQ = new RQController<SimpleResponse>(RRequest);
-//                RQ.setOnSuccess(new RQController.onSuccess() {
-//                    @Override
-//                    public void onSuccess(Response Response) {
-//                        if (Response.isSuccessful()) {
-//                            Response result0 = null;
-//                            SimpleResponse result = new SimpleResponse();;
-//                            try {
-//                                result0 = Response.class.cast(Response);
-//
-//                                try {
-//                                    HashMap<String, Object> mmap = new HashMap<>();
-//                                    mmap = RQ.getMapResult(result0.body());
-//                                    Class aClass = result.getClass();
-//                                    for (Field field : aClass.getFields()) {
-//                                        if (mmap.containsKey(field.getName())) {
-//                                            field.set(result, mmap.get(field.getName()));
-//                                        }
-//                                    }
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                                try {
-//                                    SimpleResponse mobj = SimpleResponse.class.cast(RQ.getMapResult(result0.body()));
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//
-//                                for (Map.Entry<String, Object> entry : result.AdditionalData.entrySet()) {
-//                                    String key = entry.getKey();
-//                                    String value = entry.getValue().toString();
-//
-//                                    if (key.contains("VerificationCodeHashMD5")) {
-//                                        String hashedKey = value;
-//                                        fragLoginRequestCode.PhoneNumber = mPhoneNumber;
-//                                        fragLoginRequestCode.HashedKey = hashedKey;
-//                                        actLogin.STATE = 2;
-//                                        actLogin.addFragRequestCode();
-//                                    }
-//                                }
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        } else {
-//                            try {
-//                                SimpleResponse result = SimpleResponse.class.cast(Response.body());
-//
-//                                String Err = "";
-//                                for (Map.Entry<String, Object> entry : result.AdditionalData.entrySet()) {
-//                                    Err += entry.getValue().toString() + "<br>";
-//                                }
-//                                lblError.setText(Html.fromHtml(Err));
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        pDialog.DisMiss();
-//                    }
-//                }, new RQController.onFaile() {
-//                    @Override
-//                    public void onFailed(RWError E) {
-//                        String asd = "ASD";
-//                        pDialog.DisMiss();
-//                    }
-//                });
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("PhoneNumber", PhoneNumber);
 
                 Call VerficationCode = rInterface.RQSendPhoneNumber(new HashMap<>(map));
+                final String finalPhoneNumber = PhoneNumber;
                 VerficationCode.enqueue(new Callback<SimpleResponse>() {
                     @Override
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         try {
                             if (response.isSuccessful()) {
                                 SimpleResponse result = response.body();
-
-                                for (Map.Entry<String, Object> entry : result.AdditionalData.entrySet()) {
-                                    String key = entry.getKey();
-                                    String value = entry.getValue().toString();
-
-                                    if (key.contains("VerificationCodeHashMD5")) {
-                                        String hashedKey = value;
-                                        fragLoginRequestCode.PhoneNumber = mPhoneNumber;
-                                        fragLoginRequestCode.HashedKey = hashedKey;
-                                        actLogin.STATE = 2;
-                                        actLogin.addFragRequestCode();
+                                if(result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                    String Err = "";
+                                    for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                        String value = entry.getValue().toString();
+                                        Err += value + "<br>";
                                     }
+                                    lblError.setText(Html.fromHtml(Err));
+                                }else if(result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                    fragLoginRequestCode.IsUser = result.AdditionalData.get("IsUser").toString().equalsIgnoreCase("false") ? false : true;
+                                    fragLoginRequestCode.PhoneNumber = finalPhoneNumber;
+                                    fragLoginRequestCode.HashedKey = result.AdditionalData.get("VerificationCode").toString();
+                                    actLogin.STATE = 2;
+                                    actLogin.addFragRequestCode();
                                 }
                             } else {
-                                SimpleResponse result = response.body();
-
-                                String Err = "";
-                                for (Map.Entry<String, Object> entry : result.AdditionalData.entrySet()) {
-                                    Err += entry.getValue().toString() + "<br>";
-                                }
-                                lblError.setText(Html.fromHtml(Err));
+                                lblError.setText(Basics.ServerError);
                             }
                         } catch (Exception Ex) {
                             String Er = Ex.getMessage();
@@ -220,77 +153,16 @@ public class fragLoginRequestPhone extends Fragment {
 
                     @Override
                     public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                        lblError.setText("مشکل در برقراری ارتباط با سرور");
+                        lblError.setText(Basics.ServerError);
                         pDialog.DisMiss();
                     }
                 });
             }
         });
 
-
-        /*String token = Setting.getToken();
-        Call cMarketingData = rInterface.RQGetMarketingAllData("Bearer " + token);
-        cMarketingData.enqueue(new Callback<MarketingDatas>() {
-            @Override
-            public void onResponse(Call<MarketingDatas> call, Response<MarketingDatas> response) {
-                if(response.isSuccessful()){
-                    MarketingDatas datas = response.body();
-                    String gg = "ASD";
-                }
-            }
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                String asdf = "ASD";
-            }
-        });*/
-
-        /*Device device = new Device(context);
-        Call RQLogin = rInterface.RQLogin(
-                device.IMEI(),
-                "AndroidEmulator",//todo
-                "Android API 23",//todo
-                "2",//todo
-                APIKeys.password.toString(),
-                "09010278030",
-                "Rayab6941");
-        RQLogin.enqueue(new Callback<Loginer>() {
-            @Override
-            public void onResponse(Call<Loginer> call, Response<Loginer> response) {
-                if(response.isSuccessful()) {
-                    Loginer result = response.body();
-                    RDate date = new RDate(result.issued);
-                    String issued = date.getMiladiDateToString();
-                    date = new RDate(result.expires);
-                    String expires = date.getMiladiDateToString();
-
-                    Setting setting = new Setting();
-                    setting.Save("access_token", result.access_token);
-                    setting.Save("token_type", result.token_type);
-                    setting.Save("expires_in", Integer.toString(result.expires_in));
-                    setting.Save("userName", result.userName);
-                    setting.Save("password", "Rayab6941");
-                    setting.Save("issued", issued);
-                    setting.Save("expires", expires);
-
-                    Intent intent = new Intent(context, actSplash.class);
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                String asdweq = "ASD";
-            }
-        });*/
-
         return view;
     }
 
-    //    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        savedInstanceState.putString("PhoneNumber", PhoneNumber);
-//        super.onSaveInstanceState(savedInstanceState);
-//    }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -300,4 +172,13 @@ public class fragLoginRequestPhone extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            txtPhoneNumber.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

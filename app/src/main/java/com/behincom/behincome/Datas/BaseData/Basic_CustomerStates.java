@@ -18,6 +18,8 @@ public class Basic_CustomerStates {
     public String CustomerStateFontIcon = "";
     @SerializedName("CustomerStateAdjustedByAdmin")
     public boolean CustomerStateAdjustedByAdmin = true;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 }

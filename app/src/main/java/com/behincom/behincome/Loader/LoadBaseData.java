@@ -14,6 +14,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_Acts;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_BusinessManagerMarketerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_Cities;
+import com.behincom.behincome.Datas.BaseData.Basic_Color;
 import com.behincom.behincome.Datas.BaseData.Basic_CommissionTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
@@ -175,6 +176,7 @@ public class LoadBaseData {
             SQL.Insert(data.MarketingTags, "MarketingTags");
             SQL.Insert(data.MarketingVisitTours, "MarketingVisitTours");
             SQL.Insert(data.MarketingSetups, "MarketingSetups");
+            SQL.Insert(data.Basic_Color, "Basic_Color");
 
             SubmitData();
         }else{
@@ -524,6 +526,21 @@ public class LoadBaseData {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE TagID" + "='" + dataa.TagID + "'")){
                             SQL.Update(dataa, " WHERE TagID" + "='" + dataa.TagID + "'");
+                        }else{
+                            SQL.Insert(dataa);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                for (Basic_Color dataa : data.Basic_Color) {
+                    try {
+                        if(geter.Any(dataa.getClass(), " WHERE ColorID" + "='" + dataa.ColorID + "'")){
+                            SQL.Update(dataa, " WHERE ColorID" + "='" + dataa.ColorID + "'");
                         }else{
                             SQL.Insert(dataa);
                         }

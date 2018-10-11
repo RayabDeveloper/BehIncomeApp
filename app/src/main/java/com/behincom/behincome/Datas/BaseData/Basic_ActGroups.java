@@ -14,6 +14,8 @@ public class Basic_ActGroups {
     public String ActGroupColor = "FFFFFF";
     @SerializedName("ActGroupOrder")
     public String ActGroupOrder = "";
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 }

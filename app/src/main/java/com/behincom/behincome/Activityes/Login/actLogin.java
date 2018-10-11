@@ -51,8 +51,8 @@ public class actLogin extends AppCompatActivity {
                 finish();
             }
         }else{
-            STATE = 6;//STATE = 6; Login Or Register
-//            STATE = 1;//STATE = 6; Login Or Register
+//            STATE = 6;//STATE = 6; Login Or Register
+            STATE = 1;//STATE = 6; Login Or Register
         }
 
         setState(STATE);

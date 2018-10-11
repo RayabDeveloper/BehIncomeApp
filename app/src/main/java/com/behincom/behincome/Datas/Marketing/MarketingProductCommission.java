@@ -10,5 +10,7 @@ public class MarketingProductCommission {
     public long CommissionPriceTo;
     @SerializedName("CommissionPercent")
     public int CommissionPercent = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

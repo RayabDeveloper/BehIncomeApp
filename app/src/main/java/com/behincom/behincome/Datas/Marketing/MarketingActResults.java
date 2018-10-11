@@ -12,5 +12,7 @@ public class MarketingActResults {
     public int ActResultID = 0;
     @SerializedName("Point")
     public int Point = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

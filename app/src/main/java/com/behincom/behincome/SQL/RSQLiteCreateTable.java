@@ -25,6 +25,7 @@ public class RSQLiteCreateTable {
                     "ActivityFieldGroupColor					TEXT, " +
                     "ActivityFieldGroupUserId					INTEGER, " +
                     "AdjustedByAdmin					        INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "ActivityFieldGroupTitle					TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_ActivityFields +//Table :Basic_ActivityFields
@@ -62,6 +63,7 @@ public class RSQLiteCreateTable {
                     "ActivityStateID					        INTEGER PRIMARY KEY, " +
                     "isCheck                                    INTEGER, " +
                     "ActivityStateOrder                         INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "ActivityStateTitle					        TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_ActGroups +//Table :Basic_ActGroups
@@ -71,6 +73,7 @@ public class RSQLiteCreateTable {
                     "ActGroupOrder                              INTEGER, " +
                     "ActGroupTitle					            TEXT, " +
                     "ActGroupFontIcon					        TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "ActGroupColor					            TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_ArchiveTypes +//Table :Basic_ArchiveTypes
@@ -82,6 +85,7 @@ public class RSQLiteCreateTable {
                     "AdjustedByAdmin                            INTEGER, " +
                     "ArchiveTypeTitle					        TEXT, " +
                     "ArchiveTypeFontIcon					    TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "ArchiveTypeColor					        TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_BusinessManagerMarketerStates +//Table :Basic_BusinessManagerMarketerStates
@@ -91,6 +95,7 @@ public class RSQLiteCreateTable {
                     "BusinessManagerMarketerStateOrder          INTEGER, " +
                     "BusinessManagerMarketerStateTitle			TEXT, " +
                     "BusinessManagerMarketerStateFontIcon		TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "BusinessManagerMarketerStateColor			TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_Cities +//Table :Basic_Cities
@@ -109,6 +114,7 @@ public class RSQLiteCreateTable {
                     "CommissionTypeOrder                        INTEGER, " +
                     "CommissionTypeTitle					    TEXT, " +
                     "CommissionTypeFontIcon					    TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "CommissionTypeColor					    TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_ContactTypes +//Table :Basic_ContactTypes
@@ -121,6 +127,7 @@ public class RSQLiteCreateTable {
                     "AdjustedByAdmin                            INTEGER, " +
                     "ContactTypeTitle					        TEXT, " +
                     "ContactTypeFontIcon					    TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "ContactTypeColor					        TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_CustomerStates +//Table :Basic_CustomerStates
@@ -132,6 +139,7 @@ public class RSQLiteCreateTable {
                     "CustomerStateColor					        TEXT, " +
                     "CustomerStateFontIcon					    TEXT, " +
                     "CustomerStateAdjustedByAdmin				INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "CustomerStateTitle					        TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_CustomerStatus +//Table :Basic_CustomerStatus
@@ -275,6 +283,14 @@ public class RSQLiteCreateTable {
                     "TagOrder                                   INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
+            "CREATE TABLE " + Tables.Basic_Color +//Table :Basic_Color
+                    " (" +
+                    "ColorID					                INTEGER PRIMARY KEY, " +
+                    "ColorCode					                INTEGER, " +
+                    "ColorOrder					                TEXT, " +
+                    "Deleted                                    INTEGER, " +
+                    "LastUpdateDate                             INTEGER, " +
+                    ");",
             "CREATE TABLE " + Tables.Basic_AndroidKeyboardTypes +//Table :Basic_AndroidKeyboardTypes
                     " (" +
                     "AndroidKeyboardTypeID					    INTEGER PRIMARY KEY, " +
@@ -285,6 +301,7 @@ public class RSQLiteCreateTable {
                     " (" +
                     "MarketingActivityFieldID				    INTEGER PRIMARY KEY, " +
                     "UserID					                    INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "ActivityFieldID					        INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingActResults +//Table :MarketingActResults
@@ -292,12 +309,14 @@ public class RSQLiteCreateTable {
                     "MarketingActResultID				        INTEGER PRIMARY KEY, " +
                     "UserID					                    INTEGER, " +
                     "ActResultID					            INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "Point					                    INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingCities +//Table :MarketingCities
                     " (" +
                     "MarketingCityID					        INTEGER PRIMARY KEY, " +
                     "UserID					                    INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "CityID					                    INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingCommissionPeriods +//Table :MarketingCommissionPeriods
@@ -307,6 +326,7 @@ public class RSQLiteCreateTable {
                     "MarketingCommissionPeriodTitle			    TEXT, " +
                     "MarketingCommissionPeriodDateFrom			TEXT, " +
                     "MarketingCommissionPeriodDateTo			TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "MarketingCommissionPeriodDescription	    TEXT " +
                     ");",
             "CREATE TABLE " + Tables.MarketingProductCommissions +//Table :MarketingProductCommissions
@@ -315,6 +335,7 @@ public class RSQLiteCreateTable {
                     "MarketingProductID					        INTEGER, " +
                     "CommissionPriceFrom					    INTEGER, " +
                     "CommissionPriceTo					        INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "CommissionPercent					        INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingProducts +//Table :MarketingProducts
@@ -323,18 +344,21 @@ public class RSQLiteCreateTable {
                     "UserID					                    INTEGER, " +
                     "CommissionTypeID					        INTEGER, " +
                     "MarketingProductTitle					    TEXT, " +
+                    "Deleted					                INTEGER, " +
                     "MarketingProductDescription			    TEXT " +
                     ");",
             "CREATE TABLE " + Tables.MarketingProperties +//Table :MarketingProperties
                     " (" +
                     "MarkettingPropertyID					    INTEGER PRIMARY KEY, " +
                     "UserID					                    INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "PropertyID					                INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingTags +//Table :MarketingTags
                     " (" +
                     "MarketingTagID					            INTEGER PRIMARY KEY, " +
                     "UserID					                    INTEGER, " +
+                    "Deleted					                INTEGER, " +
                     "TagID					                    INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingVisitTours +//Table :MarketingVisitTours
@@ -350,6 +374,7 @@ public class RSQLiteCreateTable {
             "CREATE TABLE " + Tables.Keyboards +//Table :Keyboards
                     " (" +
                     "KeyboardID					                INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "Deleted					                INTEGER, " +
                     "AndroidKeyboardTypeTitle					TEXT" +
                     ");",
             "CREATE TABLE " + Tables.MarketingSetups +//Table :MarketingSetups

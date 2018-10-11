@@ -16,5 +16,7 @@ public class MarketingCommissionPeriods {
     public String MarketingCommissionPeriodDateFrom;
     @SerializedName("MarketingCommissionPeriodDateTo")
     public String MarketingCommissionPeriodDateTo;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

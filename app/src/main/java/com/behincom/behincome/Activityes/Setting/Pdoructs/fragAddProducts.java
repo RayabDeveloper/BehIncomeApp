@@ -92,6 +92,15 @@ public class fragAddProducts extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        txtName.setText("");
+        txtDescription.setText("");
+        lCommission = new ArrayList<>();
+        spinCommissionType.setSelection(0);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_add_products, container, false);
 

@@ -10,5 +10,7 @@ public class MarketingProperties {
     public int UserID = 0;
     @SerializedName("PropertyID")
     public int PropertyID = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

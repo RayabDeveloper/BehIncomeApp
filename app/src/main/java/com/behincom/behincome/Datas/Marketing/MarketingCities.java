@@ -10,5 +10,7 @@ public class MarketingCities {
     public int UserID = 0;
     @SerializedName("CityID")
     public int CityID = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

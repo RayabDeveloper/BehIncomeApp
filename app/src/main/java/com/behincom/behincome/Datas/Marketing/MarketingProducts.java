@@ -14,5 +14,7 @@ public class MarketingProducts {
     public String MarketingProductTitle = "";
     @SerializedName("MarketingProductDescription")
     public String MarketingProductDescription = "";
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

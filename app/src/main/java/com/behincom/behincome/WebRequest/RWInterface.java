@@ -47,14 +47,16 @@ public interface RWInterface<T> {
 
 
     final String Account = "account";
-    final String RequestPhoneVerificationCode = "ResendMobileVerificationCodeAsync";
+//    final String LoginByPhone = "ResendMobileVerificationCodeAsync";
+    final String LoginByPhone = "LoginByPhone";
     final String RequestPhoneVerificationCodeCall = "RecallMobileVerificationCodeAsync";
     final String RequestVerificationPhoneNUmber = "VerifyPhoneNumber";
     final String register = "register";
     final String login = "login";
     final String RequestForgotPasswordToken = "RequestForgotPasswordToken";
     final String ForgotPassword = "ForgotPassword";
-    final String ControllerActionManager_Account_1 = Account + "/" + RequestPhoneVerificationCode;
+//    final String ControllerActionManager_Account_1 = Account + "/" + LoginByPhone;
+    final String ControllerActionManager_Account_1 = Account + "/" + LoginByPhone;
     final String ControllerActionManager_Account_7 = Account + "/" + RequestPhoneVerificationCodeCall;
     final String ControllerActionManager_Account_2 = Account + "/" + RequestVerificationPhoneNUmber;
     final String ControllerActionManager_Account_3 = Account + "/" + register;
@@ -299,6 +301,11 @@ public interface RWInterface<T> {
     @FormUrlEncoded
     @POST(ControllerActionManager_Account_4)
     Call<Loginer> RQLogin(@Header("IMEI") String IMEI, @Header("DeviceFullname") String DeviceFullname, @Header("OsVersion") String OsVersion, @Header("ProfileTypeID") String ProfileTypeID, @Field("grant_type") String grant_type, @Field("username") String username, @Field("password") String password);//grant_type=password&username=Mehdi.K&password=Password_123
+
+    @Headers(ContentType)
+    @FormUrlEncoded
+    @POST(ControllerActionManager_Account_4)
+    Call<Loginer> RQLogin(@Header ("AuthenticationMethod") String LoginHeader, @Header("IMEI") String IMEI, @Header("DeviceFullname") String DeviceFullname, @Header("OsVersion") String OsVersion, @Header("ProfileTypeID") String ProfileTypeID, @Field("grant_type") String grant_type, @Field("username") String username, @Field("password") String password);//grant_type=password&username=Mehdi.K&password=Password_123
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Account_5)

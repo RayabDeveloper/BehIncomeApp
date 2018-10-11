@@ -32,6 +32,7 @@ public enum Tables{
 	Basic_TagGroups,
 	Basic_Tags,
 	mBasic_Tags,
+	Basic_Color,
 	Basic_AndroidKeyboardTypes,
 	MarketingActivityFields, MarketingActResults,
 	MarketingCities,

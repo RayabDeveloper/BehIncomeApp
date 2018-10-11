@@ -6,9 +6,37 @@
     android:layout_height="match_parent"
     tools:context=".Activityes.Splash.actSplash">
 
-    <pl.droidsonroids.gif.GifTextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/splash"/>
+        android:layout_height="match_parent">
+
+        <pl.droidsonroids.gif.GifTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/splash"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+            <RelativeLayout
+                android:id="@+id/btnRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/txtGray1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Blue.Bold"
+                    android:gravity="center"
+                    android:text="تلاش مجدد"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

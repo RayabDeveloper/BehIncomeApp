@@ -10,5 +10,7 @@ public class MarketingTags {
     public int UserID = 0;
     @SerializedName("TagID")
     public int TagID = 0;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
 
 }

@@ -18,11 +18,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Accesories.Dialog;
 import com.behincom.behincome.Accesories.MD5;
+import com.behincom.behincome.Accesories.MessageDialogHandler;
+import com.behincom.behincome.Accesories.RDate;
 import com.behincom.behincome.Accesories.Setting;
+import com.behincom.behincome.Activityes.Splash.actSplash;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.DataRequestVerificationCode;
 import com.behincom.behincome.Datas.Keys.APIKeys;
+import com.behincom.behincome.Datas.Result.Loginer;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.WebRequest.Keys.RWAction;
@@ -66,6 +72,7 @@ public class fragLoginRequestCode extends Fragment {
     long stopWatchTimeRemainingStatic = 91000;
     long countDownInterval = 1000;
     protected static String PhoneNumber = "", HashedKey = "";
+    protected static boolean IsUser = false;
     boolean isTrue = false;
     String mDigitCode = "";
 
@@ -94,8 +101,6 @@ public class fragLoginRequestCode extends Fragment {
         imgBack.setVisibility(View.GONE);
         lblTitle.setText("ورود به بهینکام");
         rInterface = Retrofite.getClient().create(RWInterface.class);
-
-        Setting.Save("ReloadAll", "false");
 
         txtDigitCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -143,32 +148,87 @@ public class fragLoginRequestCode extends Fragment {
             @Override
             public void onClick(View v) {
                 if(isTrue) {
-                    pDialog = new Dialog(getActivity());
-                    pDialog.Show();
+                    if(IsUser){
+                        Device device = new Device(context);
+                        pDialog = new Dialog(context);
+                        pDialog.Show();
 
-                    Map<String, String> VerifyPhoneNumber = new HashMap<>();
-                    VerifyPhoneNumber.put(APIKeys.PhoneNumber.toString(), PhoneNumber);
-                    VerifyPhoneNumber.put(APIKeys.VerificationCode.toString(), mDigitCode);
+                        Call RQLogin = rInterface.RQLogin(
+                                "LoginByPhoneCode",
+                                device.IMEI(),
+                                device.DeviceName(),
+                                Integer.toString(device.OSVersion()),
+                                Integer.toString(Setting.getType()),
+                                APIKeys.password.toString(),
+                                PhoneNumber,
+                                txtDigitCode.getText().toString());
+                        RQLogin.enqueue(new Callback<Loginer>() {
+                            @Override
+                            public void onResponse(Call<Loginer> call, Response<Loginer> response) {
+                                if (response.isSuccessful()) {
+                                    Loginer result = response.body();
+                                    RDate date = new RDate(result.issued);
+                                    String issued = date.getMiladiDateToString();
+                                    date = new RDate(result.expires);
+                                    String expires = date.getMiladiDateToString();
 
-                    Call RQSendDigitCode = rInterface.RQSendDigitCode(new HashMap<>(VerifyPhoneNumber));
-                    RQSendDigitCode.enqueue(new Callback<SimpleResponse>() {
-                        @Override
-                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                            if(response.isSuccessful()){
-                                actLogin.STATE = 3;
-                                actLogin.addFragRegister();
-                                fragRegister.PhoneNumber = PhoneNumber;
+                                    Setting setting = new Setting();
+                                    setting.Save("access_token", result.access_token);
+                                    setting.Save("token_type", result.token_type);
+                                    setting.Save("expires_in", Integer.toString(result.expires_in));
+                                    setting.Save("userName", result.userName);
+                                    setting.Save("password", txtDigitCode.getText().toString());
+                                    setting.Save("issued", issued);
+                                    setting.Save("expires", expires);
+                                    setting.Save("isLogin", "1");
+
+                                    String tokenOnly = result.access_token;
+                                    String tokenBearer = Setting.getToken();
+                                    Call cGetUserID = rInterface.RQGetUserID("Bearer " + result.access_token);
+                                    cGetUserID.enqueue(new Callback<Integer>() {
+                                        @Override
+                                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                            if (response.isSuccessful()) {
+                                                Setting.Save("UserID", Integer.toString(response.body()));
+
+                                                if(Setting.getType() == 2) {
+                                                    actLogin.STATE = 5;
+                                                    actLogin.addFragBMM();
+                                                }else{
+                                                    Intent intent = new Intent(getActivity(), actSplash.class);
+                                                    getActivity().startActivity(intent);
+                                                    getActivity().finish();
+                                                }
+                                            }
+                                            pDialog.DisMiss();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call call, Throwable t) {
+                                            pDialog.DisMiss();
+                                        }
+                                    });
+                                }else {
+                                    pDialog.DisMiss();
+                                    MessageDialogHandler Toast = new MessageDialogHandler(context, Basics.ServerError);
+                                }
                             }
-                             pDialog.DisMiss();
-                        }
-                        @Override
-                        public void onFailure(Call call, Throwable t) {
-                            pDialog.DisMiss();
-                            //todo set lblError
-                        }
-                    });
+
+                            @Override
+                            public void onFailure(Call call, Throwable t) {
+                                pDialog.DisMiss();
+                                MessageDialogHandler Toast = new MessageDialogHandler(context, t.getMessage());
+                            }
+                        });
+                    }else{
+                        actLogin.STATE = 3;
+                        actLogin.addFragRegister();
+                        fragRegister.PhoneNumber = PhoneNumber;
+                        fragRegister.VerficateCode = txtDigitCode.getText().toString();
+                    }
+
                 }else{
-                    //todo set lblError
+                    lblError.setText("کد صحیح نیست");
                 }
             }
         });

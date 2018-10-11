@@ -22,9 +22,11 @@ import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Accesories.Dialog;
+import com.behincom.behincome.Accesories.MessageDialogHandler;
 import com.behincom.behincome.Accesories.RDate;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Splash.actSplash;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.Keys.APIKeys;
 import com.behincom.behincome.Datas.Profile.BussinessManagerMarketing;
 import com.behincom.behincome.Datas.Result.Loginer;
@@ -60,7 +62,8 @@ public class fragRegister extends Fragment {
     AppCompatRadioButton radMan, radWoman;
 
     boolean passShower = false;
-    public static String PhoneNumber = "";
+    protected static String PhoneNumber = "";
+    protected static String VerficateCode = "";
     int Sex = 0;
 
     @Override
@@ -99,12 +102,12 @@ public class fragRegister extends Fragment {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txtName.getText().toString().length() > 0 && txtFamily.getText().toString().length() > 0 && txtPassword.getText().toString().length() > 6) {
+                if(txtName.getText().toString().length() > 0 && txtFamily.getText().toString().length() > 0) {
                     pDialog = new Dialog(context);
                     pDialog.Show();
 
                     final Device device = new Device(context);
-                    Map<String, String> Register = new HashMap<>();
+                    Map<String, Object> Register = new HashMap<>();
                     Register.put(APIKeys.Firstname.toString(), txtName.getText().toString());
                     Register.put(APIKeys.Lastname.toString(), txtFamily.getText().toString());
                     Register.put(APIKeys.Username.toString(), PhoneNumber);
@@ -115,6 +118,8 @@ public class fragRegister extends Fragment {
                     Register.put(APIKeys.RefererID.toString(), txtMoaref.getText().toString());
                     Register.put(APIKeys.ProfileTypeID.toString(), Integer.toString(Setting.getType()));
                     Register.put(APIKeys.DeviceImei.toString(), device.IMEI());
+                    Register.put(APIKeys.CreateWithPhoneCode.toString(), true);
+                    Register.put(APIKeys.VerificationCode.toString(), VerficateCode);
 
                     Call RQRegistery = rInterface.RQRegister(new HashMap<>(Register));
                     RQRegistery.enqueue(new Callback() {
@@ -122,17 +127,18 @@ public class fragRegister extends Fragment {
                         public void onResponse(Call call, Response response) {
                             if (response.isSuccessful()) {
                                 Call RQLogin = rInterface.RQLogin(
+                                        "LoginByPhoneCode",
                                         device.IMEI(),
                                         device.DeviceName(),
                                         Integer.toString(device.OSVersion()),
                                         Integer.toString(Setting.getType()),
                                         APIKeys.password.toString(),
                                         PhoneNumber,
-                                        txtPassword.getText().toString());
+                                        VerficateCode);
                                 RQLogin.enqueue(new Callback<Loginer>() {
                                     @Override
                                     public void onResponse(Call<Loginer> call, Response<Loginer> response) {
-                                        if(response.isSuccessful()) {
+                                        if (response.isSuccessful()) {
                                             Loginer result = response.body();
                                             RDate date = new RDate(result.issued);
                                             String issued = date.getMiladiDateToString();
@@ -144,25 +150,27 @@ public class fragRegister extends Fragment {
                                             setting.Save("token_type", result.token_type);
                                             setting.Save("expires_in", Integer.toString(result.expires_in));
                                             setting.Save("userName", result.userName);
-                                            setting.Save("password", txtPassword.getText().toString());
+                                            setting.Save("password", VerficateCode);
                                             setting.Save("issued", issued);
                                             setting.Save("expires", expires);
                                             setting.Save("isLogin", "1");
 
-                                            Call cGetUserID = rInterface.RQGetUserID(Setting.getToken());
+                                            String tokenOnly = result.access_token;
+                                            String tokenBearer = Setting.getToken();
+                                            Call cGetUserID = rInterface.RQGetUserID("Bearer " + result.access_token);
                                             cGetUserID.enqueue(new Callback<Integer>() {
                                                 @Override
                                                 public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                                    if(response.isSuccessful()){
-                                                        Setting.Save("ReloadAll", "true");
+                                                    if (response.isSuccessful()) {
                                                         Setting.Save("UserID", Integer.toString(response.body()));
 
                                                         if(Setting.getType() == 2) {
                                                             actLogin.STATE = 5;
                                                             actLogin.addFragBMM();
                                                         }else{
-                                                            actLogin.STATE = 7;
-                                                            actLogin.addFragRegisterAdmin();
+                                                            Intent intent = new Intent(getActivity(), actSplash.class);
+                                                            getActivity().startActivity(intent);
+                                                            getActivity().finish();
                                                         }
                                                     }
                                                     pDialog.DisMiss();
@@ -173,13 +181,16 @@ public class fragRegister extends Fragment {
                                                     pDialog.DisMiss();
                                                 }
                                             });
+                                        }else {
+                                            pDialog.DisMiss();
+                                            MessageDialogHandler Toast = new MessageDialogHandler(context, Basics.ServerError);
                                         }
-                                        pDialog.DisMiss();
                                     }
 
                                     @Override
                                     public void onFailure(Call call, Throwable t) {
                                         pDialog.DisMiss();
+                                        MessageDialogHandler Toast = new MessageDialogHandler(context, t.getMessage());
                                     }
                                 });
                             }else {

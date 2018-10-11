@@ -20,6 +20,8 @@ public class Basic_ContactTypes {
     public String ContactTypeColor = "FFFFFF";
     @SerializedName("AdjustedByAdmin")
     public boolean AdjustedByAdmin = true;
+    @SerializedName("Deleted")
+    public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
 }
