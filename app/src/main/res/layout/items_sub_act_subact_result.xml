@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/linMainTitle"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -39,38 +40,21 @@
                 android:layout_height="match_parent"
                 style="@style/TextView.Normal"
                 android:gravity="center|right"
-                android:layout_marginRight="26dp"
+                android:layout_marginRight="6dp"
                 android:text="مثلا عنوان SubActResult"/>
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/linTitle"
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="right"
-                android:layout_marginLeft="46dp"
-                android:layout_marginRight="52dp">
-
-                <TextView
-                    android:id="@+id/lblTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    style="@style/TextView.Normal"
-                    android:gravity="center|right"
-                    android:text="مثلا اسم نتیجه"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="left"
-                android:layout_marginRight="52dp">
+                android:layout_weight="7">
 
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/ch"
@@ -80,7 +64,35 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:layout_weight="0.9"
+                android:padding="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="مثلا اسم نتیجه"/>
+
+                <Spinner
+                    android:id="@+id/spinPoint"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/Spinner.Normal"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

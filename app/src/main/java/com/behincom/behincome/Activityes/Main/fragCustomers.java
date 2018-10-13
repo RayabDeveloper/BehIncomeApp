@@ -39,12 +39,11 @@ import com.behincom.behincome.Adapters.Main.adapMainCustomers;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
-import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
-import com.behincom.behincome.Datas.Customer.Customers;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.DataDates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
@@ -190,9 +189,9 @@ public class fragCustomers extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Basic_citi> lCit = geter.getListIsCheck(Basic_citi.class);
+                List<Basic_Cities> lCit = geter.getListIsCheck(Basic_Cities.class);
                 List<Basic_ActivityFields> lAct = geter.getListIsCheck(Basic_ActivityFields.class);
-                List<Basic_taks> lTag = geter.getListIsCheck(Basic_taks.class);
+                List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);
                 List<Basic_Properties> lProp = geter.getListIsCheck(Basic_Properties.class);
                 List<Basic_ContactTypes> lCont = geter.getList(Basic_ContactTypes.class);
                 List<Basic_PersonRoles> lRole = geter.getList(Basic_PersonRoles.class);

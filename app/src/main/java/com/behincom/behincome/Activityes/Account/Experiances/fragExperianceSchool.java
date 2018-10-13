@@ -26,7 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
+import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
@@ -56,7 +56,7 @@ public class fragExperianceSchool extends Fragment {
     ImageView imgBack, btnCheck;
 
     List<String> Ostan = new ArrayList<>();
-    List<Basic_Ostan> lOstan = new ArrayList<>();
+    List<Basic_Provinces> lOstan = new ArrayList<>();
 
     boolean isFrom = false, isTo = false, isEmpty = false;
 
@@ -115,8 +115,8 @@ public class fragExperianceSchool extends Fragment {
             }
         });
 
-        lOstan = SQL.Select("SELECT * FROM TB_Ostan", Basic_Ostan.class);
-        for (Basic_Ostan data : lOstan) {
+        lOstan = SQL.Select("SELECT * FROM TB_Ostan", Basic_Provinces.class);
+        for (Basic_Provinces data : lOstan) {
             String oName = data.ProvinceTitle;
             Ostan.add(oName);
         }

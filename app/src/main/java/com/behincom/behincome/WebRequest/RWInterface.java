@@ -2,8 +2,8 @@ package com.behincom.behincome.WebRequest;
 
 import com.behincom.behincome.Datas.Activityes.Invoice;
 import com.behincom.behincome.Datas.BaseData.BasicDatas;
-import com.behincom.behincome.Datas.BaseData.Basic_citi;
-import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
+import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
 import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Marketing.MarketingDatas;
@@ -45,6 +45,7 @@ public interface RWInterface<T> {
     final String Insert = "Insert";
     final String Update = "Update";
     final String Delete = "Delete";
+    final String ChangePosition = "ChangePosition";
 
 
     final String Account = "account";
@@ -129,7 +130,9 @@ public interface RWInterface<T> {
     final String RemoveActivityField = "RemoveActivityField";
     final String AddCities = "AddCities";
     final String RemoveCities = "RemoveCities";
-    final String AddActivityResult = "AddActivityResult";
+    final String AddActivityResult = "AddActResult";
+    final String RemoveActResult = "RemoveActResult";
+    final String AddActResultPoint = "ChangePoint";
     final String AddProduct = "AddProduct";
     final String AddProductCommission = "AddProductCommission";
     final String AddCommissionPeriod = "AddCommissionPeriod";
@@ -153,6 +156,8 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Marketing_4 = Marketing + "/" + AddCities;
     final String ControllerActionManager_Marketing_22 = Marketing + "/" + RemoveCities;
     final String ControllerActionManager_Marketing_5 = Marketing + "/" + AddActivityResult;
+    final String ControllerActionManager_Marketing_55 = Marketing + "/" + RemoveActResult;
+    final String ControllerActionManager_Marketing_56 = Marketing + "/" + AddActResultPoint;
     final String ControllerActionManager_Marketing_8 = Marketing + "/" + AddProduct;
     final String ControllerActionManager_Marketing_9 = Marketing + "/" + AddProductCommission;
     final String ControllerActionManager_Marketing_10 = Marketing + "/" + AddCommissionPeriod;
@@ -189,6 +194,7 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Marketing_41 = BasicActivityFieldGroups + "/" + Delete;
     final String ControllerActionManager_Marketing_42 = BasicCustomerStates + "/" + Insert;
     final String ControllerActionManager_Marketing_43 = BasicCustomerStates + "/" + Update;
+    final String ControllerActionManager_Marketing_54 = BasicCustomerStates + "/" + ChangePosition;
     final String ControllerActionManager_Marketing_44 = BasicCustomerStates + "/" + Delete;
     final String ControllerActionManager_Marketing_45 = BasicArchiveTypes + "/" + Insert;
     final String ControllerActionManager_Marketing_46 = BasicArchiveTypes + "/" + Update;
@@ -393,10 +399,10 @@ public interface RWInterface<T> {
     Call<String> RQGetServerDateTime();//Get Server Date Time : 2018-01-01T12:12:12 +4:30 ( +4:30 is between your time to GEM Time )
 
     @GET(ControllerActionManager_BaseData_4)
-    Call<List<Basic_Ostan>> RQGetProvinces();//Get Provinces
+    Call<List<Basic_Provinces>> RQGetProvinces();//Get Provinces
 
     @GET(ControllerActionManager_BaseData_5)
-    Call<List<Basic_citi>> RQGetCities();//Get Cities
+    Call<List<Basic_Cities>> RQGetCities();//Get Cities
 
     //=========================================================================================================
     //Marketing :                                     - Marketing -
@@ -434,7 +440,15 @@ public interface RWInterface<T> {
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_5)
-    Call<SimpleResponse> RQAddMarketingActivityResults(@Header(HeaderToken) String Token, @Body List<HashMap<String, Object>> Parameters);//{"ActResultID":1,"Point":10} - Add Your Integer Array into MarketingActResults Table
+    Call<SimpleResponse> RQAddMarketingActivityResults(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ActResultID":1,"Point":10} - Add Your Integer Array into MarketingActResults Table
+
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Marketing_55)
+    Call<SimpleResponse> RQRemoveMarketingActivityResults(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ActResultID":1,"Point":10} - Add Your Integer Array into MarketingActResults Table
+
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Marketing_56)
+    Call<SimpleResponse> RQAddPointMarketingActivityResults(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ActResultID":1,"Point":10} - Add Your Integer Array into MarketingActResults Table
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_8)
@@ -577,6 +591,10 @@ public interface RWInterface<T> {
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_43)
     Call<SimpleResponse> RQUpdateBasicCustomerStates(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ProductCommissionID":1,"MarketingProductID":1,"CommissionPriceFrom":1.1,"CommissionPriceTo":1.1,"CommissionPercent":1} - Add Object into MarketingVisitTour Table
+
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Marketing_54)
+    Call<SimpleResponse> RQChangePositionBasicCustomerStates(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ProductCommissionID":1,"MarketingProductID":1,"CommissionPriceFrom":1.1,"CommissionPriceTo":1.1,"CommissionPercent":1} - Add Object into MarketingVisitTour Table
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_44)

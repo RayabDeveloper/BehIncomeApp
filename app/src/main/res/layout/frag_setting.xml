@@ -365,6 +365,30 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/btnMarketingSetup"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="16dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/activity_field_icon_red"/>
+
+                    <TextView
+                        android:id="@+id/lblMarketingSetup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TextView.Normal"
+                        android:gravity="right|center"
+                        android:layout_marginRight="25dp"
+                        android:text="تنظیمات بازاریاب"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </ScrollView>

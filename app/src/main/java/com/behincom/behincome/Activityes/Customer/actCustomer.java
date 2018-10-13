@@ -13,7 +13,7 @@ import com.behincom.behincome.Activityes.Customer.AddCustomer.fragProperty;
 import com.behincom.behincome.Activityes.Customer.AddCustomer.fragTag;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -41,8 +41,8 @@ public class actCustomer extends AppCompatActivity {
         context = this;
 
         RSQLite SQL = new RSQLite();
-        List<Basic_taks> lTag = SQL.Select("SELECT * FROM Basic_taks WHERE isCheck='1'", Basic_taks.class);
-        List<Basic_taks> lTag2 = SQL.Select("SELECT TagID, TagGroupID, TagTitle, Deleted, (0) as isCheck FROM Basic_taks", Basic_taks.class);
+        List<Basic_Tags> lTag = SQL.Select("SELECT * FROM Basic_Tags WHERE isCheck='1'", Basic_Tags.class);
+        List<Basic_Tags> lTag2 = SQL.Select("SELECT TagID, TagGroupID, TagTitle, Deleted, (0) as isCheck FROM Basic_Tags", Basic_Tags.class);
         String asd = "ASD";
 
         getFragByState(STATE);
@@ -77,7 +77,7 @@ public class actCustomer extends AppCompatActivity {
         transaction.replace(R.id.frameLayout, fragActivityField.newInstance(context, lList));
         transaction.commit();
     }
-    protected static void ShowFragTags(List<Basic_taks> lList){
+    protected static void ShowFragTags(List<Basic_Tags> lList){
         frameLayout.removeAllViewsInLayout();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frameLayout, fragTag.newInstance(context, lList));

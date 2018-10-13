@@ -5,7 +5,7 @@ import com.behincom.behincome.Datas.Keys.Tables;
 public class RSQLiteCreateTable {
 
     //Create Tables Here
-    protected static String[] getCreatTableQuery = new String[]{
+    public static String[] getCreatTableQuery = new String[]{
             "CREATE TABLE " + Tables.Basic_Acts +//Table :Basic_Acts
                     " (" +
                     "ActID					                    INTEGER PRIMARY KEY, " +
@@ -55,6 +55,7 @@ public class RSQLiteCreateTable {
                     "ActResultFontIcon					        TEXT, " +
                     "ActResultColor					            TEXT, " +
                     "isCheck                                    INTEGER, " +
+                    "Point                                      INTEGER, " +
                     "ActResultOrder                             INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
@@ -98,7 +99,7 @@ public class RSQLiteCreateTable {
                     "Deleted					                INTEGER, " +
                     "BusinessManagerMarketerStateColor			TEXT " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_citi +//Table :Basic_citi
+            "CREATE TABLE " + Tables.Basic_Cities +//Table :Basic_Cities
                     " (" +
                     "CityID					                    INTEGER PRIMARY KEY, " +
                     "ProvinceID					                INTEGER, " +
@@ -244,7 +245,7 @@ public class RSQLiteCreateTable {
                     "PropertyGroupAdjustedByAdmin               INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_Ostan +//Table :Basic_Ostan
+            "CREATE TABLE " + Tables.Basic_Provinces +//Table :Basic_Provinces
                     " (" +
                     "ProvinceID					                INTEGER PRIMARY KEY, " +
                     "ProvinceTitle					            TEXT, " +
@@ -252,7 +253,7 @@ public class RSQLiteCreateTable {
                     "ProvinceOrder                              INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_takGroups +//Table :Basic_takGroups
+            "CREATE TABLE " + Tables.Basic_TagGroups +//Table :Basic_TagGroups
                     " (" +
                     "TagGroupID					                INTEGER PRIMARY KEY, " +
                     "TagGroupTitle					            TEXT, " +
@@ -265,7 +266,7 @@ public class RSQLiteCreateTable {
                     "TagGroupTypeId                             INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.Basic_taks +//Table :Basic_taks
+            "CREATE TABLE " + Tables.Basic_Tags +//Table :Basic_Tags
                     " (" +
                     "TagID					                    INTEGER PRIMARY KEY, " +
                     "TagGroupID					                INTEGER, " +
@@ -274,7 +275,7 @@ public class RSQLiteCreateTable {
                     "TagOrder                                   INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
-            "CREATE TABLE " + Tables.mBasic_Tags +//Table :Basic_taks
+            "CREATE TABLE " + Tables.mBasic_Tags +//Table :Basic_Tags
                     " (" +
                     "TagID					                    INTEGER PRIMARY KEY, " +
                     "TagGroupID					                INTEGER, " +

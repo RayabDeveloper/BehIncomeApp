@@ -29,7 +29,6 @@
             android:layout_margin="6dp">
 
             <LinearLayout
-                android:id="@+id/btnMove"
                 android:layout_width="60dp"
                 android:layout_height="32dp"
                 android:layout_marginRight="6dp"
@@ -38,12 +37,14 @@
                 android:layout_gravity="center">
 
                 <ImageView
+                    android:id="@+id/btnUp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginLeft="6dp"
                     android:src="@drawable/move_up"/>
 
                 <ImageView
+                    android:id="@+id/btnDown"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="6dp"

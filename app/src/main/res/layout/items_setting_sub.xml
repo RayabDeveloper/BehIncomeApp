@@ -26,17 +26,6 @@
                 android:layout_height="match_parent"
                 android:gravity="left|center"/>
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/ch2"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:button="@drawable/radio_shape_blue"
-                android:scaleY="1.70"
-                android:scaleX="1.70"
-                android:gravity="left|center"/>
-
         </RelativeLayout>
 
         <TextView

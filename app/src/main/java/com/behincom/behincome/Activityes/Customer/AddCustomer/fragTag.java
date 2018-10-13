@@ -18,8 +18,8 @@ import com.behincom.behincome.Activityes.Customer.actCustomer;
 import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
 import com.behincom.behincome.Adapters.Customer.AddCustomer.adapAddCustomerTagMain;
 import com.behincom.behincome.Adapters.Customer.AddCustomer.adapAddCustomerTagSub;
-import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -43,22 +43,22 @@ public class fragTag extends Fragment {
     static RecyclerView lstSub;
     CardView cardSubmit;
 
-//    private List<Basic_takGroups> lTagGroup = geter.getListIsCheck(Basic_takGroups.class);
-    private List<Basic_takGroups> lTagGroup = new ArrayList<>();
-    private static List<Basic_taks> lTag = geter.getListIsCheck(Basic_taks.class);
-    private static List<Basic_takGroups> lTagGroupForCustomer = new ArrayList<>();
-    public static List<Basic_taks> lTagForCustomer = new ArrayList<>();
-    private static List<Basic_taks> lTagForCustomerBackup = new ArrayList<>();
+//    private List<Basic_TagGroups> lTagGroup = geter.getListIsCheck(Basic_TagGroups.class);
+    private List<Basic_TagGroups> lTagGroup = new ArrayList<>();
+    private static List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);
+    private static List<Basic_TagGroups> lTagGroupForCustomer = new ArrayList<>();
+    public static List<Basic_Tags> lTagForCustomer = new ArrayList<>();
+    private static List<Basic_Tags> lTagForCustomerBackup = new ArrayList<>();
 
     public static int position = 0, MainIDSelected = 0;
 
-    public static fragTag newInstance(Context mContext, List<Basic_taks> lTager) {
+    public static fragTag newInstance(Context mContext, List<Basic_Tags> lTager) {
         fragTag fragment = new fragTag();
         context = mContext;
         lTagForCustomer = lTager;
         lTagForCustomerBackup.addAll(lTager);
-        for (Basic_taks data : lTager) {
-            List<Basic_takGroups> lGroup = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+        for (Basic_Tags data : lTager) {
+            List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
             if(lGroup.size() > 0)
                 lTagGroupForCustomer.add(lGroup.get(0));
         }
@@ -94,11 +94,11 @@ public class fragTag extends Fragment {
         lstSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(context).colorResId(R.color.BaseBackgroundColor).size(2).build());
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
-        lTag = geter.getListIsCheck(Basic_taks.class);
-        for (Basic_taks data : lTag) {
-            List<Basic_takGroups> lGrop = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+        lTag = geter.getListIsCheck(Basic_Tags.class);
+        for (Basic_Tags data : lTag) {
+            List<Basic_TagGroups> lGrop = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
             boolean isIn = false;
-            for (Basic_takGroups mData : lTagGroup){
+            for (Basic_TagGroups mData : lTagGroup){
                 if(mData.TagGroupID == lGrop.get(0).TagGroupID) {
                     isIn = true;
                     break;
@@ -110,9 +110,9 @@ public class fragTag extends Fragment {
 
         adapterMain = new adapAddCustomerTagMain(lTagGroup, context);
         RSQLite SQL = new RSQLite();
-        lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_taks WHERE isCheck='1' AND TagGroupID='" + lTagGroup.get(0).TagGroupID + "'", Basic_taks.class);
-        for (Basic_taks data : lTag) {
-            for (Basic_taks des : lTagForCustomer) {
+        lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1' AND TagGroupID='" + lTagGroup.get(0).TagGroupID + "'", Basic_Tags.class);
+        for (Basic_Tags data : lTag) {
+            for (Basic_Tags des : lTagForCustomer) {
                 if (data.TagID == des.TagID)
                     data.isCheck = true;
             }
@@ -133,12 +133,12 @@ public class fragTag extends Fragment {
 
     public static void refreshTags(int TagGroupID){
         RSQLite SQL = new RSQLite();
-        lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_taks WHERE isCheck='1' AND TagGroupID='" + TagGroupID + "'", Basic_taks.class);
+        lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1' AND TagGroupID='" + TagGroupID + "'", Basic_Tags.class);
         adapterSub = new adapAddCustomerTagSub(lTag, lTagForCustomer, context);
         lstSub.setAdapter(adapterSub);
     }
 
-    public static void onBackPressed(List<Basic_taks> lList){
+    public static void onBackPressed(List<Basic_Tags> lList){
         lTag = new ArrayList<>();
         lTagGroupForCustomer = new ArrayList<>();
         lTagForCustomer = new ArrayList<>();

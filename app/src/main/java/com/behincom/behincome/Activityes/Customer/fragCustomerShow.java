@@ -56,12 +56,11 @@ import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Customer.CustomerActivityFields;
 import com.behincom.behincome.Datas.Customer.CustomerPersonnel;
 import com.behincom.behincome.Datas.Customer.CustomerProperties;
 import com.behincom.behincome.Datas.Customer.CustomerTags;
-import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
@@ -661,7 +660,7 @@ public class fragCustomerShow extends Fragment {
         List<CustomerTags> lTag = Customer.Customers.Customers_Tags;
         try {
             for (int i = 0; i < lTag.size(); i++) {
-                List<Basic_taks> lTags = geter.getList(Basic_taks.class, "WHERE TagID='" + lTag.get(i).TagID + "'");
+                List<Basic_Tags> lTags = geter.getList(Basic_Tags.class, "WHERE TagID='" + lTag.get(i).TagID + "'");
                 Tags += lTags.get(0).TagTitle + "<br>";
                 MiniTag += lTags.get(0).TagTitle + "، ";
             }

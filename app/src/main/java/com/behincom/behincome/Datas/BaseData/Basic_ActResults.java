@@ -20,5 +20,7 @@ public class Basic_ActResults {
     public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
+    @Expose
+    public int Point = 0;
 
 }

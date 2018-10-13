@@ -35,6 +35,7 @@ public enum FragmentState {
     PersonRole,
     ContactType,
     ArchiveType,
+    MarketingSetup,
 
     AddUser,
     Marketers,

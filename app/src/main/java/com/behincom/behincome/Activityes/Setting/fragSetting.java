@@ -33,8 +33,10 @@ public class fragSetting extends Fragment {
     TextView lblPersonRole;
     TextView lblContactType;
     TextView lblArchiveType;
+    TextView lblMarketingSetup;
     ImageView imgBack;
     ImageView btnCheck;
+    LinearLayout btnMarketingSetup;
     LinearLayout btnCustomerState;
     LinearLayout btnPoint;
     LinearLayout btnDetail;
@@ -61,6 +63,8 @@ public class fragSetting extends Fragment {
         View view = inflater.inflate(R.layout.frag_setting, container, false);
 
         //Define Elements
+        btnMarketingSetup = view.findViewById(R.id.btnMarketingSetup);
+        lblMarketingSetup = view.findViewById(R.id.lblMarketingSetup);
         btnPersonRole = view.findViewById(R.id.btnPersonRole);
         btnContactType = view.findViewById(R.id.btnContactType);
         btnArchiveType = view.findViewById(R.id.btnArchiveType);
@@ -105,6 +109,12 @@ public class fragSetting extends Fragment {
         btnCheck.setVisibility(View.GONE);
 
         //OnClick on Elements
+        btnMarketingSetup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ACTSetting.getFragByState(FragmentState.MarketingSetup);
+            }
+        });
         btnPersonRole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

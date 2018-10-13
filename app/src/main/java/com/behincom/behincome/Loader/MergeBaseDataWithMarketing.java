@@ -36,9 +36,9 @@ public class MergeBaseDataWithMarketing {
 
             SQL.Execute("UPDATE Basic_ActivityFields SET isCheck='0'");
             SQL.Execute("UPDATE Basic_ActResults SET isCheck='0'");
-            SQL.Execute("UPDATE Basic_citi SET isCheck='0'");
+            SQL.Execute("UPDATE Basic_Cities SET isCheck='0'");
             SQL.Execute("UPDATE Basic_Properties SET isCheck='0'");
-            SQL.Execute("UPDATE Basic_taks SET isCheck='0'");
+            SQL.Execute("UPDATE Basic_Tags SET isCheck='0'");
 
             for (MarketingActivityFields data : lActivityField) {
                 SQL.Execute("UPDATE Basic_ActivityFields SET isCheck='1' WHERE ActivityFieldID='" + data.ActivityFieldID + "'");
@@ -47,13 +47,13 @@ public class MergeBaseDataWithMarketing {
                 SQL.Execute("UPDATE Basic_ActResults SET isCheck='1' WHERE ActResultID='" + data.ActResultID + "'");
             }
             for (MarketingCities data : lCities) {
-                SQL.Execute("UPDATE Basic_citi SET isCheck='1' WHERE CityID='" + data.CityID + "'");
+                SQL.Execute("UPDATE Basic_Cities SET isCheck='1' WHERE CityID='" + data.CityID + "'");
             }
             for (MarketingProperties data : lProperties) {
                 SQL.Execute("UPDATE Basic_Properties SET isCheck='1' WHERE PropertyID='" + data.PropertyID + "'");
             }
             for (MarketingTags data : lTag) {
-                SQL.Execute("UPDATE Basic_taks SET isCheck='1' WHERE TagID='" + data.TagID + "'");
+                SQL.Execute("UPDATE Basic_Tags SET isCheck='1' WHERE TagID='" + data.TagID + "'");
             }
             return true;
         }catch (Exception Ex){

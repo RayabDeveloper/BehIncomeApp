@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.behincom.behincome.Activityes.Setting.fragBasicData;
-import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.TagType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -200,8 +200,8 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
     private boolean checkFatherType(int Id){
         boolean isRad = false;
         if(MainIdName == "TagGroupID") {
-            List<Basic_taks> mList1 = geter.getList(Basic_taks.class, " WHERE TagID='" + Id + "'");
-            List<Basic_takGroups> mList2 = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + mList1.get(0).TagGroupID + "'");
+            List<Basic_Tags> mList1 = geter.getList(Basic_Tags.class, " WHERE TagID='" + Id + "'");
+            List<Basic_TagGroups> mList2 = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + mList1.get(0).TagGroupID + "'");
             isRad = mList2.get(0).TagGroupTypeId == TagType.RadioButton;
         }
         return isRad;
@@ -217,7 +217,6 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
             super(itemView);
             lblSubTitle = itemView.findViewById(R.id.lblSubTitle);
             ch = itemView.findViewById(R.id.ch);
-            ch2 = itemView.findViewById(R.id.ch2);
         }
 
     }

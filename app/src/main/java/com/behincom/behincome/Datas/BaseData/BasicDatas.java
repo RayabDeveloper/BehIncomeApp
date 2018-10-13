@@ -40,15 +40,15 @@ public class BasicDatas {
     @SerializedName("Basic_PropertyGroups")
     public List<Basic_PropertyGroups> Basic_PropertyGroups = new ArrayList<>();
     @SerializedName("Basic_TagGroups")
-    public List<com.behincom.behincome.Datas.BaseData.Basic_takGroups> Basic_takGroups = new ArrayList<>();
+    public List<Basic_TagGroups> Basic_TagGroups = new ArrayList<>();
     @SerializedName("Basic_Tags")
-    public List<Basic_taks> Basic_taks = new ArrayList<>();
+    public List<Basic_Tags> Basic_Tags = new ArrayList<>();
     @SerializedName("Basic_Cities")
-    public List<com.behincom.behincome.Datas.BaseData.Basic_citi> Basic_citi = new ArrayList<>();
+    public List<Basic_Cities> Basic_Cities = new ArrayList<>();
     @SerializedName("Basic_Properties")
     public List<Basic_Properties> Basic_Properties = new ArrayList<>();
     @SerializedName("Basic_Provinces")
-    public List<com.behincom.behincome.Datas.BaseData.Basic_Ostan> Basic_Ostan = new ArrayList<>();
+    public List<Basic_Provinces> Basic_Provinces = new ArrayList<>();
     @SerializedName("Basic_ActivityFields")
     public List<Basic_ActivityFields> Basic_ActivityFields = new ArrayList<>();
     @SerializedName("Basic_AndroidKeyboardTypes")

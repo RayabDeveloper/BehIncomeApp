@@ -182,10 +182,10 @@ public class RSQLite extends SQLiteOpenHelper {
             String OrderField = "";
             Field[] kField = mClass.getDeclaredFields();
             for (Field tField : kField) {
-                if(tField.getName().contains("Order"))
+                if (tField.getName().contains("Order"))
                     OrderField = tField.getName();
             }
-            if(OrderField.length() > 4)
+            if (OrderField.length() > 4)
                 Query = Query + " ORDER BY " + OrderField;
             @SuppressLint("Recycle") Cursor cursor = db.rawQuery(Query, null);
             cursor.moveToFirst();
@@ -203,7 +203,9 @@ public class RSQLite extends SQLiteOpenHelper {
                         }catch (Exception ignored){}
                         if(!oxx.equalsIgnoreCase("oxx")) {
                             cField.setAccessible(true);
-
+                            if(cField.getName().equalsIgnoreCase("ProvinceTitle")){
+                                Toast.makeText(AppController.getContext, cursor.getString(CorsurColumn) + "", Toast.LENGTH_LONG).show();
+                            }
                             if (cField.getType().equals(int.class)) {
                                 cField.set(Obj, cursor.getInt(CorsurColumn));
                             } else if (cField.getType().equals(long.class) || cField.getType().equals(Long.class)) {
@@ -217,8 +219,6 @@ public class RSQLite extends SQLiteOpenHelper {
                             } else if (cField.getType().equals(Long.class)) {
                                 cField.set(Obj, cursor.getLong(CorsurColumn));
                             } else if (cField.getType().equals(boolean.class)) {
-                                String aa = cursor.getString(CorsurColumn);
-                                int aaa = cursor.getInt(CorsurColumn);
                                 cField.set(Obj, (cursor.getInt(CorsurColumn) == 1 ? true : false));
                             }
                         }

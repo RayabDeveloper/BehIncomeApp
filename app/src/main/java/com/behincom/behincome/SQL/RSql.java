@@ -151,7 +151,7 @@ public class RSql extends SQLiteOpenHelper{
             String Er = Ex.getMessage();
         }
     }
-    protected static class DatabaseInfo{
+    public static class DatabaseInfo{
         String Name, Type;
 
         public String Name() {

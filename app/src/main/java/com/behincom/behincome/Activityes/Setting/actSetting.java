@@ -6,10 +6,12 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.behincom.behincome.Activityes.Setting.ArchiveType.fragArchiveType;
 import com.behincom.behincome.Activityes.Setting.ContactType.fragContactType;
 import com.behincom.behincome.Activityes.Setting.CustomerState.fragCustomerState;
+import com.behincom.behincome.Activityes.Setting.MarketingSetting.fragMarketingSetting;
 import com.behincom.behincome.Activityes.Setting.Pdoructs.fragAddProducts;
 import com.behincom.behincome.Activityes.Setting.Pdoructs.fragProducts;
 import com.behincom.behincome.Activityes.Setting.PersonRole.fragPersonRole;
@@ -17,17 +19,19 @@ import com.behincom.behincome.Activityes.Setting.Priods.Comissions.fragAddComiss
 import com.behincom.behincome.Activityes.Setting.Priods.Comissions.fragComissionPriod;
 import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragAddVisitorPriod;
 import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragVisitorPriod;
+import com.behincom.behincome.Activityes.Setting.Results.fragActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
-import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
-import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
+import com.behincom.behincome.app.AppController;
 
 import java.util.List;
 
@@ -51,6 +55,9 @@ public class actSetting extends AppCompatActivity {
         context = this;
 
         getFragByState(FragmentState.Setting);
+
+        List<Basic_Provinces> list = geter.getList(Basic_Provinces.class);
+        Toast.makeText(AppController.getContext, list.get(2).ProvinceTitle, Toast.LENGTH_LONG).show();
     }
 
     public void getFragByState(FragmentState mState){
@@ -71,24 +78,14 @@ public class actSetting extends AppCompatActivity {
                 STATE = FragmentState.ActivityFields;
                 break;
             case Cities:
-                frag.objects = new Initializer<>(
-                        geter.getList(Basic_Ostan.class),
-                        geter.getList(Basic_citi.class),
-                        Basic_citi.class,
-                        "ProvinceID",
-                        "CityID",
-                        "ProvinceTitle",
-                        "CityTitle",
-                        "ProvinceID",
-                        "استان و شهر");
-                addFragBaseData();
+                addFragCity();
                 STATE = FragmentState.Cities;
                 break;
             case Tags:
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_takGroups.class),
-                        geter.getList(Basic_taks.class),
-                        Basic_taks.class,
+                        geter.getList(Basic_TagGroups.class),
+                        geter.getList(Basic_Tags.class),
+                        Basic_Tags.class,
                         "TagGroupID",
                         "TagID",
                         "TagGroupTitle",
@@ -148,7 +145,6 @@ public class actSetting extends AppCompatActivity {
                 addFragCustomerState();
                 STATE = FragmentState.CustomerState;
                 break;
-
             case PersonRole:
                 addFragPersonRole();
                 STATE = FragmentState.PersonRole;
@@ -161,9 +157,25 @@ public class actSetting extends AppCompatActivity {
                 addFragArchiveType();
                 STATE = FragmentState.ArchiveType;
                 break;
+            case MarketingSetup:
+                addFragMarketingSetup();
+                STATE = FragmentState.MarketingSetup;
+                break;
         }
     }
 
+    private void addFragCity(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragBaseDataCity.newInstance(context));
+        transaction.commit();
+    }
+    private void addFragMarketingSetup(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragMarketingSetting.newInstance(context));
+        transaction.commit();
+    }
     private void addFragPersonRole(){
         frameLayout.removeAllViewsInLayout();
         FragmentTransaction transaction = manager.beginTransaction();

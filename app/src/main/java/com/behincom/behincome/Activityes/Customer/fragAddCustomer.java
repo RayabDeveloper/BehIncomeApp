@@ -49,21 +49,20 @@ import com.behincom.behincome.Adapters.Customer.adapStoreContact;
 import com.behincom.behincome.Adapters.Customer.adapStorePic;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
-import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
-import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Customer.CustomerActivityFields;
 import com.behincom.behincome.Datas.Customer.CustomerPersonnel;
 import com.behincom.behincome.Datas.Customer.CustomerProperties;
 import com.behincom.behincome.Datas.Customer.CustomerTags;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Customer.ToSend.AddCustomerToSend;
-import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.Customer.ToSend.AddCustomerToSendActivityFields;
 import com.behincom.behincome.Datas.Customer.ToSend.AddCustomerToSendImages;
 import com.behincom.behincome.Datas.Customer.ToSend.AddCustomerToSendPersonnels;
@@ -142,14 +141,14 @@ public class fragAddCustomer extends Fragment {
     GoogleMap GMap;
 
     //Lists
-    private static List<Basic_Ostan> lProvinces = new ArrayList<>();
-    private static List<Basic_citi> lCities = new ArrayList<>();
+    private static List<Basic_Provinces> lProvinces = new ArrayList<>();
+    private static List<Basic_Cities> lCities = new ArrayList<>();
     public static List<String> Prefix = new ArrayList<>();
     public static List<String> ActivityField = new ArrayList<>();
     public static List<CustomerPersonnel> lContact = new ArrayList<>();
     public static List<Basic_Properties> lProperty = new ArrayList<>();
-    public static List<Basic_taks> lTags = new ArrayList<>();
-    public static List<Basic_taks> lTag = new ArrayList<>();
+    public static List<Basic_Tags> lTags = new ArrayList<>();
+    public static List<Basic_Tags> lTag = new ArrayList<>();
     public static List<Basic_ActivityFields> lActivityFields = new ArrayList<>();
     public static List<Basic_ActivityFields> lActivityField = new ArrayList<>();
     public static List<Basic_Properties> lProperties = new ArrayList<>();
@@ -374,9 +373,9 @@ public class fragAddCustomer extends Fragment {
                     try {
                         spinerCity.setSelection(spinAdap_City.getItemPosition("CityID", Integer.toString(Customer.Customers.CityID)));
 
-                        lCities = geter.getList(Basic_citi.class, "WHERE ProvinceID='" + spinAdap_Ostan.getItemString(spinerOstan.getSelectedItemPosition(), "ProvinceID") + "' AND isCheck='1'");
+                        lCities = geter.getList(Basic_Cities.class, "WHERE ProvinceID='" + spinAdap_Ostan.getItemString(spinerOstan.getSelectedItemPosition(), "ProvinceID") + "' AND isCheck='1'");
                         if (lCities.size() > 1) {
-                            Basic_citi dCity = new Basic_citi();
+                            Basic_Cities dCity = new Basic_Cities();
                             dCity.CityTitle = ("شهر را انتخاب کنید");
                             lCities.add(0, dCity);
                             spinAdap_City = new SpinAdapter(contexti, lCities, "CityTitle");
@@ -397,9 +396,9 @@ public class fragAddCustomer extends Fragment {
                     if (spinerOstan.getSelectedItemPosition() > 0) {
                         try {
                             String hhh = spinAdap_Ostan.getItemString(spinerOstan.getSelectedItemPosition(), "ProvinceID");
-                            lCities = geter.getList(Basic_citi.class, "WHERE ProvinceID='" + hhh + "' AND isCheck='1'");
+                            lCities = geter.getList(Basic_Cities.class, "WHERE ProvinceID='" + hhh + "' AND isCheck='1'");
                             if (lCities.size() > 1) {
-                                Basic_citi dCity = new Basic_citi();
+                                Basic_Cities dCity = new Basic_Cities();
                                 dCity.CityTitle = ("شهر را انتخاب کنید");
                                 lCities.add(0, dCity);
                                 spinAdap_City = new SpinAdapter(contexti, lCities, "CityTitle");
@@ -418,7 +417,7 @@ public class fragAddCustomer extends Fragment {
                         try {
                             lCities = new ArrayList<>();
                             if (lCities.size() > 1) {
-                                Basic_citi dCity = new Basic_citi();
+                                Basic_Cities dCity = new Basic_Cities();
                                 dCity.CityTitle = ("شهر را انتخاب کنید");
                                 lCities.add(dCity);
                                 spinAdap_City = new SpinAdapter(contexti, lCities, "CityTitle");
@@ -764,7 +763,7 @@ public class fragAddCustomer extends Fragment {
             data.CustomerDescription = ("AASD");//TODO Description nadare ???
 
             List<AddCustomerToSendTags> lTagToSend = new ArrayList<>();
-            for (Basic_taks datas : lTags) {
+            for (Basic_Tags datas : lTags) {
                 AddCustomerToSendTags mData = new AddCustomerToSendTags();
                 mData.TagID = (datas.TagID);
 
@@ -834,7 +833,7 @@ public class fragAddCustomer extends Fragment {
         data.CustomerDescription = ("AASD");//TODO Description nadare ???
 
         List<EditCustomerToSendTags> lTagToSend = new ArrayList<>();
-        for (Basic_taks datas : lTags) {
+        for (Basic_Tags datas : lTags) {
             EditCustomerToSendTags mData = new EditCustomerToSendTags();
             mData.TagID = (datas.TagID);
 
@@ -927,9 +926,9 @@ public class fragAddCustomer extends Fragment {
         lCities = new ArrayList<>();
         lProvinces = new ArrayList<>();
 
-        lCities = geter.getListIsCheck(Basic_citi.class);
-        for (Basic_citi data : lCities) {
-            List<Basic_Ostan> lProv = geter.getList(Basic_Ostan.class, "WHERE ProvinceID='" + data.ProvinceID + "'");
+        lCities = geter.getListIsCheck(Basic_Cities.class);
+        for (Basic_Cities data : lCities) {
+            List<Basic_Provinces> lProv = geter.getList(Basic_Provinces.class, "WHERE ProvinceID='" + data.ProvinceID + "'");
             if (lProv.size() > 0) lProvinces.add(lProv.get(0));
         }
 //        for(int k=0; k<lProvinces.size(); k++) {
@@ -955,7 +954,7 @@ public class fragAddCustomer extends Fragment {
         }
 //        }
         if (lProvinces.size() > 1) {
-            Basic_Ostan dOstan = new Basic_Ostan();
+            Basic_Provinces dOstan = new Basic_Provinces();
             dOstan.ProvinceTitle = ("استان را انتخاب کنید");
             lProvinces.add(0, dOstan);
             spinerOstan.setVisibility(View.VISIBLE);
@@ -966,7 +965,7 @@ public class fragAddCustomer extends Fragment {
             lblProvince.setVisibility(View.VISIBLE);
         }
         if (lCities.size() > 1) {
-            Basic_citi dCity = new Basic_citi();
+            Basic_Cities dCity = new Basic_Cities();
             dCity.CityTitle = ("شهر را انتخاب کنید");
             lCities.add(0, dCity);
             spinerCity.setVisibility(View.VISIBLE);
@@ -1054,16 +1053,16 @@ public class fragAddCustomer extends Fragment {
                 isTag = true;
                 lTags = new ArrayList<>();
                 for (CustomerTags tData : Customer.Customers.Customers_Tags) {
-//                    Basic_taks tTag = new Basic_taks();
+//                    Basic_Tags tTag = new Basic_Tags();
 //                    tTag.TagID = (tData.TagID);
-                    List<Basic_taks> pList = geter.getList(Basic_taks.class, " WHERE TagID='" + tData.TagID + "'");
+                    List<Basic_Tags> pList = geter.getList(Basic_Tags.class, " WHERE TagID='" + tData.TagID + "'");
                     if(pList.size() > 0)
                         lTags.add(pList.get(0));
                 }
             }
             try {
-                for (Basic_taks data : lTags) {
-                    List<Basic_takGroups> lGroup = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+                for (Basic_Tags data : lTags) {
+                    List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
                     if(lGroup.get(0).TagGroupTypeId == TagType.CheckBox)
                         lblTager += "☑ - " + data.TagTitle + "<br>";
                     else
@@ -1115,8 +1114,8 @@ public class fragAddCustomer extends Fragment {
             if (lblPropertier.length() > 0) lblDetails.setText(Html.fromHtml(lblPropertier));
             else lblDetails.setText("برای اضافه کردن اینجا را لمس کنید.");
             try {
-                List<Basic_citi> lCit = geter.getList(Basic_citi.class, "WHERE CityID='" + Customer.Customers.CityID + "'");
-                List<Basic_Ostan> lProv = geter.getList(Basic_Ostan.class, "WHERE ProvinceID='" + lCit.get(0).ProvinceID + "'");
+                List<Basic_Cities> lCit = geter.getList(Basic_Cities.class, "WHERE CityID='" + Customer.Customers.CityID + "'");
+                List<Basic_Provinces> lProv = geter.getList(Basic_Provinces.class, "WHERE ProvinceID='" + lCit.get(0).ProvinceID + "'");
                 spinerOstan.setSelection(spinAdap_Ostan.getItemPosition("ProvinceID", Integer.toString(lProv.get(0).ProvinceID)));
             } catch (Exception Ex) {
                 String Er = Ex.getMessage();
@@ -1137,8 +1136,8 @@ public class fragAddCustomer extends Fragment {
 
             String lblTager = "";
             try {
-                for (Basic_taks data : lTags) {
-                    List<Basic_takGroups> lGroup = geter.getList(Basic_takGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+                for (Basic_Tags data : lTags) {
+                    List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
                     if(lGroup.get(0).TagGroupTypeId == TagType.CheckBox)
                         lblTager += "☑ - " + data.TagTitle + "<br>";
                     else
@@ -1527,30 +1526,30 @@ public class fragAddCustomer extends Fragment {
 //        TextView lblCancell = lDialog.findViewById(R.id.lblCancell);
 
 //        if (isTag) {
-//            lTag = geter.getListIsCheck(Basic_taks.class);
+//            lTag = geter.getListIsCheck(Basic_Tags.class);
 //            isTag = false;
-//            for (Basic_taks ddata : lTag) {
+//            for (Basic_Tags ddata : lTag) {
 //                ddata.isCheck = false;
 //            }
-//            for (Basic_taks fild : lTags) {
-//                for (Basic_taks mField : lTag) {
+//            for (Basic_Tags fild : lTags) {
+//                for (Basic_Tags mField : lTag) {
 //                    if (fild.TagID == mField.TagID) {
 //                        mField.isCheck = true;
 //                    }
 //                }
 //            }
-//            for (Basic_taks data : lTags) {
+//            for (Basic_Tags data : lTags) {
 //                boolean isIn = false;
-//                for (Basic_taks dataa : lTag) {
+//                for (Basic_Tags dataa : lTag) {
 //                    if(data.TagID == dataa.TagID) {
 //                        isIn = true;
 //                        break;
 //                    }
 //                }
 //                if(!isIn){
-//                    List<Basic_taks> lTagO = geter.getList(Basic_taks.class, " WHERE TagID='" + data.TagID + "'");
+//                    List<Basic_Tags> lTagO = geter.getList(Basic_Tags.class, " WHERE TagID='" + data.TagID + "'");
 //                    if(lTagO.size() > 0) {
-//                        Basic_taks oData = new Basic_taks();
+//                        Basic_Tags oData = new Basic_Tags();
 //                        oData.TagID = lTagO.get(0).TagID;
 //                        oData.isCheck = true;
 //                        oData.TagGroupID = lTagO.get(0).TagGroupID;
@@ -1563,8 +1562,8 @@ public class fragAddCustomer extends Fragment {
 //            }
 //        } else {
 //            if (lTag.size() == 0) {
-//                lTag = geter.getListIsCheck(Basic_taks.class);
-//                for (Basic_taks data : lTag) {
+//                lTag = geter.getListIsCheck(Basic_Tags.class);
+//                for (Basic_Tags data : lTag) {
 //                    data.isCheck = false;
 //                }
 //            }
@@ -1585,8 +1584,8 @@ public class fragAddCustomer extends Fragment {
 ////
 ////            @Override
 ////            public void onTextChanged(CharSequence s, int start, int before, int count) {
-////                List<Basic_taks> lTag = new ArrayList<>();
-////                lTag = geter.getList(Basic_taks.class, "WHERE TagTitle LIKE '%" + txtSearch.getText().toString() + "%'");
+////                List<Basic_Tags> lTag = new ArrayList<>();
+////                lTag = geter.getList(Basic_Tags.class, "WHERE TagTitle LIKE '%" + txtSearch.getText().toString() + "%'");
 ////                adapStoreTag adapter = new adapStoreTag(lTag);
 ////                lstLable.setAdapter(adapter);
 ////
@@ -1601,7 +1600,7 @@ public class fragAddCustomer extends Fragment {
 //            public void onClick(View v) {
 //                lTags = new ArrayList<>();
 //                String tName = "";
-//                for (Basic_taks data : lTag) {
+//                for (Basic_Tags data : lTag) {
 //                    if (data.isCheck) {
 //                        tName += data.TagTitle + "<br>";
 //                        lTags.add(data);

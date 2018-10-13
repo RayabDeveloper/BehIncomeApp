@@ -1,9 +1,13 @@
 package com.behincom.behincome.Datas.BaseData;
 
+import android.content.Context;
+import android.support.multidex.MultiDex;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Basic_ActGroups {
+
     @SerializedName("ActGroupID")
     public int ActGroupID = 0;
     @SerializedName("ActGroupTitle")

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 
@@ -21,8 +21,8 @@ public class adapStoreTag extends RecyclerView.Adapter<adapStoreTag.AdapterMembe
     Context context;
     RSQLite SQL = new RSQLite();
 
-    public List<Basic_taks> lList;
-    public adapStoreTag(List<Basic_taks> lList){
+    public List<Basic_Tags> lList;
+    public adapStoreTag(List<Basic_Tags> lList){
         this.lList = lList;
     }
 
@@ -62,17 +62,17 @@ public class adapStoreTag extends RecyclerView.Adapter<adapStoreTag.AdapterMembe
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(chTag.isChecked()) {
-//                    SQL.Execute("UPDATE Basic_taks SET isCheck='1' WHERE TagID='" + lList.get(position).TagID + "'");
+//                    SQL.Execute("UPDATE Basic_Tags SET isCheck='1' WHERE TagID='" + lList.get(position).TagID + "'");
 //                    SQL.Insert(lList.get(position), mBasic_Tags.class);
-                    for (Basic_taks data : fragAddCustomer.lTag) {
+                    for (Basic_Tags data : fragAddCustomer.lTag) {
                         if(data.TagID == lList.get(position).TagID){
                             data.isCheck = true;
                         }
                     }
                 }else {
-//                    SQL.Execute("UPDATE Basic_taks SET isCheck='0' WHERE TagID='" + lList.get(position).TagID + "'");
+//                    SQL.Execute("UPDATE Basic_Tags SET isCheck='0' WHERE TagID='" + lList.get(position).TagID + "'");
 //                    SQL.Execute("DELETE FROM " + Tables.mBasic_Tags + " WHERE TagID='" + lList.get(position).TagID + "'");
-                    for (Basic_taks data : fragAddCustomer.lTag) {
+                    for (Basic_Tags data : fragAddCustomer.lTag) {
                         if(data.TagID == lList.get(position).TagID){
                             data.isCheck = false;
                         }

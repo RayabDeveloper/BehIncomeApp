@@ -1,5 +1,7 @@
 package com.behincom.behincome.Loader;
 
+import android.widget.Toast;
+
 import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Datas.BaseData.BasicDatas;
@@ -7,11 +9,9 @@ import com.behincom.behincome.Datas.BaseData.Basic_ActGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
-import com.behincom.behincome.Datas.BaseData.Basic_ActivityStates;
 import com.behincom.behincome.Datas.BaseData.Basic_Acts;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
-import com.behincom.behincome.Datas.BaseData.Basic_BusinessManagerMarketerStates;
-import com.behincom.behincome.Datas.BaseData.Basic_citi;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_Color;
 import com.behincom.behincome.Datas.BaseData.Basic_CommissionTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
@@ -25,10 +25,11 @@ import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_Ostan;
-import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.APIKeys;
+import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.Marketing.MarketingActResults;
 import com.behincom.behincome.Datas.Marketing.MarketingActivityFields;
 import com.behincom.behincome.Datas.Marketing.MarketingCities;
@@ -43,6 +44,7 @@ import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
+import com.behincom.behincome.app.AppController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -145,7 +147,7 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_ActivityFields, "Basic_ActivityFields");
             SQL.Insert(data.Basic_ActResults, "Basic_ActResults");
             SQL.Insert(data.Basic_ArchiveTypes, "Basic_ArchiveTypes");
-            SQL.Insert(data.Basic_citi, "Basic_citi");
+            SQL.Insert(data.Basic_Cities, "Basic_Cities");
             SQL.Insert(data.Basic_CommissionTypes, "Basic_CommissionTypes");
             SQL.Insert(data.Basic_CustomerStates, "Basic_CustomerStates");
             SQL.Insert(data.Basic_ContactTypes, "Basic_ContactTypes");
@@ -158,11 +160,14 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_PersonTypes, "Basic_PersonTypes");
             SQL.Insert(data.Basic_Properties, "Basic_Properties");
             SQL.Insert(data.Basic_PropertyGroups, "Basic_PropertyGroups");
-            SQL.Insert(data.Basic_Ostan, "Basic_Ostan");
-            SQL.Insert(data.Basic_takGroups, "Basic_takGroups");
-            SQL.Insert(data.Basic_taks, "Basic_taks");
+            SQL.Insert(data.Basic_Provinces, "Basic_Provinces");
+            SQL.Insert(data.Basic_TagGroups, "Basic_TagGroups");
+            SQL.Insert(data.Basic_Tags, "Basic_Tags");
             SQL.Insert(data.MarketingActivityFields, "MarketingActivityFields");
             SQL.Insert(data.MarketingActResults, "MarketingActResults");
+            for (MarketingActResults mData : data.MarketingActResults) {
+                SQL.Execute("UPDATE " + Tables.Basic_ActResults + " SET Point='" + mData.Point + "' WHERE ActResultID='" + mData.ActResultID + "'");
+            }
             SQL.Insert(data.MarketingCities, "MarketingCities");
             SQL.Insert(data.MarketingCommissionPeriods, "MarketingCommissionPeriods");
             SQL.Insert(data.MarketingProductCommissions, "MarketingProductCommissions");
@@ -266,7 +271,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_citi dataa : data.Basic_citi) {
+                for (Basic_Cities dataa : data.Basic_Cities) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE CityID" + "='" + dataa.CityID + "'")){
                             SQL.Update(dataa, " WHERE CityID" + "='" + dataa.CityID + "'");
@@ -461,7 +466,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_Ostan dataa : data.Basic_Ostan) {
+                for (Basic_Provinces dataa : data.Basic_Provinces) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE ProvinceID" + "='" + dataa.ProvinceID + "'")){
                             SQL.Update(dataa, " WHERE ProvinceID" + "='" + dataa.ProvinceID + "'");
@@ -476,7 +481,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_takGroups dataa : data.Basic_takGroups) {
+                for (Basic_TagGroups dataa : data.Basic_TagGroups) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE TagGroupID" + "='" + dataa.TagGroupID + "'")){
                             SQL.Update(dataa, " WHERE TagGroupID" + "='" + dataa.TagGroupID + "'");
@@ -491,7 +496,7 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                for (Basic_taks dataa : data.Basic_taks) {
+                for (Basic_Tags dataa : data.Basic_Tags) {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE TagID" + "='" + dataa.TagID + "'")){
                             SQL.Update(dataa, " WHERE TagID" + "='" + dataa.TagID + "'");
@@ -548,6 +553,7 @@ public class LoadBaseData {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    SQL.Execute("UPDATE " + Tables.Basic_ActResults + " SET Point='" + dataa.Point + "' WHERE ActResultID='" + dataa.ActResultID + "'");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

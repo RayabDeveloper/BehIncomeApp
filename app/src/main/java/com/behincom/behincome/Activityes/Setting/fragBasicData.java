@@ -35,8 +35,8 @@ import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_AndroidKeyboardTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_PropertyGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_takGroups;
-import com.behincom.behincome.Datas.BaseData.Basic_taks;
+import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Keys.Tables;
@@ -100,7 +100,6 @@ public class fragBasicData<T> extends Fragment {
 
     public static String IdsToSend = "";
 
-    //todo String asd = IdsToSend; ( To Get All Checked on Current Sub Only )
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_basic_data, container, false);
@@ -509,7 +508,7 @@ public class fragBasicData<T> extends Fragment {
                     });
                 }
                 break;
-            case "Basic_citi":
+            case "Basic_Cities":
                 Map<String, Object> CityList = new HashMap<>();
                 CityList.put("Ids", IDs);
 
@@ -519,7 +518,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_citi + " SET isCheck='1' WHERE CityID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_Cities + " SET isCheck='1' WHERE CityID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -535,7 +534,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_citi + " SET isCheck='0' WHERE CityID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_Cities + " SET isCheck='0' WHERE CityID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -547,7 +546,7 @@ public class fragBasicData<T> extends Fragment {
                     });
                 }
                 break;
-            case "Basic_taks":
+            case "Basic_Tags":
                 Map<String, Object> TagList = new HashMap<>();
                 TagList.put("Ids", IDs);
 
@@ -557,7 +556,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_taks + " SET isCheck='1' WHERE TagID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_Tags + " SET isCheck='1' WHERE TagID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -573,7 +572,7 @@ public class fragBasicData<T> extends Fragment {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                             if (response.isSuccessful()) {
-                                SQL.Execute("UPDATE " + Tables.Basic_taks + " SET isCheck='0' WHERE TagID='" + Id + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_Tags + " SET isCheck='0' WHERE TagID='" + Id + "'");
                             }
                             pDialog.DisMiss();
                         }
@@ -676,9 +675,9 @@ public class fragBasicData<T> extends Fragment {
         switch (objects.SubClass().getSimpleName()){
             case "Basic_ActivityFields":
                 return 1;
-            case "Basic_citi":
+            case "Basic_Cities":
                 return 2;
-            case "Basic_taks":
+            case "Basic_Tags":
                 return 3;
             case "Basic_Properties":
                 return 4;
@@ -755,7 +754,7 @@ public class fragBasicData<T> extends Fragment {
                                 Map<String, Object> addional = simple.AdditionalData;
                                 String mID = addional.get("ItemId").toString();
                                 int Id = Integer.parseInt(mID.replace(".0", ""));
-                                Basic_takGroups data = new Basic_takGroups();
+                                Basic_TagGroups data = new Basic_TagGroups();
                                 data.TagGroupID = Id;
                                 data.TagGroupTitle = Title;
                                 data.TagGroupAdjustedByAdmin = false;
@@ -763,7 +762,7 @@ public class fragBasicData<T> extends Fragment {
                                 data.isCheck = true;
                                 SQL.Insert(data);
 
-                                objects.MainItems(geter.getList(Basic_takGroups.class, " WHERE Deleted='0'"));
+                                objects.MainItems(geter.getList(Basic_TagGroups.class, " WHERE Deleted='0'"));
                                 adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
                                 lstMain.setAdapter(adapterMain);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -893,7 +892,7 @@ public class fragBasicData<T> extends Fragment {
                                 Map<String, Object> addional = simple.AdditionalData;
                                 String mID = addional.get("ItemId").toString();
                                 int Id = Integer.parseInt(mID.replace(".0", ""));
-                                Basic_taks data = new Basic_taks();
+                                Basic_Tags data = new Basic_Tags();
                                 data.TagID = Id;
                                 data.TagGroupID = MainIdSelected;
                                 data.TagOrder = "1";
@@ -1013,7 +1012,7 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_takGroups + " WHERE TagGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("DELETE FROM " + Tables.Basic_TagGroups + " WHERE TagGroupID='" + MainIdSelected + "'");
 
                                 FilterSubItemsFromMainItemSelected(MainIdSelected);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1132,7 +1131,7 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_taks + " WHERE TagID='" + mIDi + "'");
+                                SQL.Execute("DELETE FROM " + Tables.Basic_Tags + " WHERE TagID='" + mIDi + "'");
 
                                 FilterSubItemsFromMainItemSelected(MainIdSelected);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1248,7 +1247,7 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                Basic_takGroups lList = new Basic_takGroups();
+                                Basic_TagGroups lList = new Basic_TagGroups();
                                 lList.TagGroupTitle = Title;
                                 lList.TagGroupID = MainIdSelected;
                                 lList.TagGroupOrder = "0";
@@ -1256,7 +1255,7 @@ public class fragBasicData<T> extends Fragment {
                                 lList.Deleted = false;
                                 SQL.Update(lList, " WHERE TagGroupID='" + MainIdSelected + "'");
 
-                                adapterMain = new adapSettingMainItems<>(geter.getList(Basic_takGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                adapterMain = new adapSettingMainItems<>(geter.getList(Basic_TagGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
                                 lstMain.setAdapter(adapterMain);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
@@ -1375,7 +1374,7 @@ public class fragBasicData<T> extends Fragment {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                            Basic_taks lList = new Basic_taks();
+                            Basic_Tags lList = new Basic_Tags();
                             lList.TagTitle = Title;
                             lList.TagOrder = "0";
                             lList.TagID = ID;

@@ -11,6 +11,8 @@ public class Basic_ActResultsMaker {
     public int ActTypeID = 0;
     @SerializedName("ActID")
     public int ActID = 0;
+    @SerializedName("Point")
+    public int Point = 0;
     @SerializedName("ActResultsTitle")
     public String ActResultsTitle = "";
     @SerializedName("ActResultsType")
