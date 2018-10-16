@@ -48,7 +48,7 @@ public class fragAccess extends Fragment {
     RecyclerView.LayoutManager mLayoutManager;
 
     private static List<Marketers> lMarketers = new ArrayList<>();
-    public Marketers Marketer = new Marketers();
+    public static Marketers Marketer = new Marketers();
 
     public static fragAccess newInstance(Context mContext){
         fragAccess fragment = new fragAccess();
@@ -82,9 +82,6 @@ public class fragAccess extends Fragment {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Marketers> lList = new ArrayList<>();
-                lList = adapter.lList;
-
                 List<ToSendMarketerUserAccess> lMarketersToSend = new ArrayList<>();
                 for (Marketers data : adapter.lList) {
                     if(data.isCheck) {

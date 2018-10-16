@@ -21,6 +21,7 @@ import com.behincom.behincome.Datas.Marketing.MarketingCommissionPeriods;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class adapCommissionPriod extends RecyclerView.Adapter<adapCommissionPriod.AdapterMember>{
@@ -63,16 +64,6 @@ public class adapCommissionPriod extends RecyclerView.Adapter<adapCommissionPrio
         TextView lblDescription = holder.lblDescription;
         TextView lblDescription1 = holder.lblDescription1;
         CardView cardView = holder.cardView;
-
-//        final Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblName.setTypeface(tf);
-//        lblName1.setTypeface(tf);
-//        lblFromDate.setTypeface(tf);
-//        lblFromDate1.setTypeface(tf);
-//        lblToDate.setTypeface(tf);
-//        lblToDate1.setTypeface(tf);
-//        lblDescription.setTypeface(tf);
-//        lblDescription1.setTypeface(tf);
 
         DateConverter DC = new DateConverter();
         String FromDate = DC.getToHijri(lList.get(position).MarketingCommissionPeriodDateFrom);

@@ -112,8 +112,8 @@ public class fragRegister extends Fragment {
                     Register.put(APIKeys.Lastname.toString(), txtFamily.getText().toString());
                     Register.put(APIKeys.Username.toString(), PhoneNumber);
                     Register.put(APIKeys.Email.toString(), "");
-                    Register.put(APIKeys.Password.toString(), txtPassword.getText().toString());
-                    Register.put(APIKeys.ConfirmPassword.toString(), txtPassword.getText().toString());
+                    Register.put(APIKeys.Password.toString(), VerficateCode);
+                    Register.put(APIKeys.ConfirmPassword.toString(), VerficateCode);
                     Register.put(APIKeys.GenderTypeID.toString(), (radMan.isChecked() ? "1" : "2"));
                     Register.put(APIKeys.RefererID.toString(), txtMoaref.getText().toString());
                     Register.put(APIKeys.ProfileTypeID.toString(), Integer.toString(Setting.getType()));

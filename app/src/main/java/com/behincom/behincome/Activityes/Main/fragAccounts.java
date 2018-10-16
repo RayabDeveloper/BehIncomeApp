@@ -125,7 +125,6 @@ public class fragAccounts extends Fragment {
                 actUserManager.STATE = FragmentState.Marketers;
                 actUserManager.Type = 0;
                 getActivity().startActivity(intent);
-                getActivity().finish();
             }
         });
 

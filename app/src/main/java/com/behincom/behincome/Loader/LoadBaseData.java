@@ -10,6 +10,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_Acts;
+import com.behincom.behincome.Datas.BaseData.Basic_AndroidKeyboardTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_Color;
@@ -163,6 +164,7 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_Provinces, "Basic_Provinces");
             SQL.Insert(data.Basic_TagGroups, "Basic_TagGroups");
             SQL.Insert(data.Basic_Tags, "Basic_Tags");
+            SQL.Insert(data.Basic_AndroidKeyboardTypes, "Basic_AndroidKeyboardTypes");
             SQL.Insert(data.MarketingActivityFields, "MarketingActivityFields");
             SQL.Insert(data.MarketingActResults, "MarketingActResults");
             for (MarketingActResults mData : data.MarketingActResults) {
@@ -515,6 +517,21 @@ public class LoadBaseData {
                     try {
                         if(geter.Any(dataa.getClass(), " WHERE ColorID" + "='" + dataa.ColorID + "'")){
                             SQL.Update(dataa, " WHERE ColorID" + "='" + dataa.ColorID + "'");
+                        }else{
+                            SQL.Insert(dataa);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                for (Basic_AndroidKeyboardTypes dataa : data.Basic_AndroidKeyboardTypes) {
+                    try {
+                        if(geter.Any(dataa.getClass(), " WHERE AndroidKeyboardTypeID" + "='" + dataa.AndroidKeyboardTypeID + "'")){
+                            SQL.Update(dataa, " WHERE AndroidKeyboardTypeID" + "='" + dataa.AndroidKeyboardTypeID + "'");
                         }else{
                             SQL.Insert(dataa);
                         }

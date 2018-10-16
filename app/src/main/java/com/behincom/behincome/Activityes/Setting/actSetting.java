@@ -55,9 +55,6 @@ public class actSetting extends AppCompatActivity {
         context = this;
 
         getFragByState(FragmentState.Setting);
-
-        List<Basic_Provinces> list = geter.getList(Basic_Provinces.class);
-        Toast.makeText(AppController.getContext, list.get(2).ProvinceTitle, Toast.LENGTH_LONG).show();
     }
 
     public void getFragByState(FragmentState mState){
@@ -78,7 +75,18 @@ public class actSetting extends AppCompatActivity {
                 STATE = FragmentState.ActivityFields;
                 break;
             case Cities:
-                addFragCity();
+//                addFragCity();
+                frag.objects = new Initializer<>(
+                        geter.getList(Basic_Provinces.class),
+                        geter.getList(Basic_Cities.class),
+                        Basic_Cities.class,
+                        "ProvinceID",
+                        "CityID",
+                        "ProvinceTitle",
+                        "CityTitle",
+                        "ProvinceID",
+                        "انتخاب شهر و استان");
+                addFragBaseData();
                 STATE = FragmentState.Cities;
                 break;
             case Tags:

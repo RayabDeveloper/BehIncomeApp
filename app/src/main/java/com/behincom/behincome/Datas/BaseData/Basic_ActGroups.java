@@ -1,8 +1,5 @@
 package com.behincom.behincome.Datas.BaseData;
 
-import android.content.Context;
-import android.support.multidex.MultiDex;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -22,4 +19,5 @@ public class Basic_ActGroups {
     public boolean Deleted = false;
     @Expose
     public boolean isCheck = false;
+
 }

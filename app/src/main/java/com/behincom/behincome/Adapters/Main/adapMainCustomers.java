@@ -87,6 +87,8 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         TextView lblName = holder.lblName;
         final ImageView imgCondition = holder.imgCondition;
         final ImageView imgLogo = holder.imgLogo;
+        final ImageView imgTaskCount = holder.imgTaskCount;
+        final ImageView imgAssignCount = holder.imgAssignCount;
         TextView lbltaskCount = holder.lbltaskCount;
         TextView lblAssignCount = holder.lblAssignCount;
         TextView lblLocation = holder.lblLocation;
@@ -96,6 +98,12 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         lbltaskCount.setText(Integer.toString(lList.get(position).ActivityCount));
         lblAssignCount.setText(Integer.toString(lList.get(position).MarketerUserAccessProfile.size()));
         lblAssignCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragCustomers.ShowMarketers(lList.get(position).MarketerUserAccessProfile);
+            }
+        });
+        imgTaskCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragCustomers.ShowMarketers(lList.get(position).MarketerUserAccessProfile);
@@ -210,6 +218,8 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         public TextView lblName;
         public ImageView imgCondition;
         public ImageView imgLogo;
+        public ImageView imgTaskCount;
+        public ImageView imgAssignCount;
         public TextView lbltaskCount;
         public TextView lblAssignCount;
         public TextView lblLocation;
@@ -222,6 +232,8 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
             lblName = itemView.findViewById(R.id.lblName);
             imgCondition = itemView.findViewById(R.id.imgCondition);
             imgLogo = itemView.findViewById(R.id.imgLogo);
+            imgTaskCount = itemView.findViewById(R.id.imgTaskCount);
+            imgAssignCount = itemView.findViewById(R.id.imgAssignCount);
             lbltaskCount = itemView.findViewById(R.id.lbltaskCount);
             lblAssignCount = itemView.findViewById(R.id.lblAssignCount);
             lblLocation = itemView.findViewById(R.id.lblLocation);

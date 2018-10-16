@@ -63,15 +63,6 @@ public class adapCommission extends RecyclerView.Adapter<adapCommission.AdapterM
         final EditText txtPercent = holder.txtPercent;
         ImageView imgDelete = holder.imgDelete;
 
-//        Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblFromTitle.setTypeface(tf);
-//        lblFromNumber.setTypeface(tf);
-//        lblToTitle.setTypeface(tf);
-//        lblToNumber.setTypeface(tf);
-//        txtToNumber.setTypeface(tf);
-//        lblPercent.setTypeface(tf);
-//        txtPercent.setTypeface(tf);
-
         txtToNumber.setTransformationMethod(null);
         txtPercent.setTransformationMethod(null);
         txtToNumber.requestFocus();

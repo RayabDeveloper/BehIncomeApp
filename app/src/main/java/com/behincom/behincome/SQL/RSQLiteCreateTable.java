@@ -26,6 +26,7 @@ public class RSQLiteCreateTable {
                     "ActivityFieldGroupUserId					INTEGER, " +
                     "AdjustedByAdmin					        INTEGER, " +
                     "Deleted					                INTEGER, " +
+                    "isCheck					                INTEGER, " +
                     "ActivityFieldGroupTitle					TEXT " +
                     ");",
             "CREATE TABLE " + Tables.Basic_ActivityFields +//Table :Basic_ActivityFields
@@ -297,6 +298,7 @@ public class RSQLiteCreateTable {
                     " (" +
                     "AndroidKeyboardTypeID					    INTEGER PRIMARY KEY, " +
                     "AndroidKeyboardTypeTitle					TEXT, " +
+                    "isCheck					                INTEGER, " +
                     "Deleted					                INTEGER " +
                     ");",
             "CREATE TABLE " + Tables.MarketingActivityFields +//Table :MarketingActivityFields

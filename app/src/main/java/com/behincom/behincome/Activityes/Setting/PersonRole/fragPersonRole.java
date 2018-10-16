@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Setting.CustomerState.fragCustomerState;
+import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Setting.adapArchiveType;
 import com.behincom.behincome.Adapters.Setting.adapContactType;
 import com.behincom.behincome.Adapters.Setting.adapCustomerState;
@@ -35,6 +36,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
+import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -100,6 +102,13 @@ public class fragPersonRole extends Fragment {
         btnCheck.setVisibility(View.GONE);
         lblTitle.setText("نوع بایگانی");
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                actSetting act = new actSetting();
+                act.getFragByState(FragmentState.Setting);
+            }
+        });
         btnCancell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

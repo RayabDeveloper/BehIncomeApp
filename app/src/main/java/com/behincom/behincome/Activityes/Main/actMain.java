@@ -1,10 +1,16 @@
 package com.behincom.behincome.Activityes.Main;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.speech.RecognizerIntent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -13,6 +19,8 @@ import android.widget.Toast;
 import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Activityes.Account.fragAccount;
 import com.behincom.behincome.Activityes.Account.fragProfileSubmiter;
+import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.R;
 
@@ -27,6 +35,8 @@ public class actMain extends AppCompatActivity {
 
     static FrameLayout frameLayout;
     public static FragmentState STATE = FragmentState.MainTasks;
+
+    boolean isGrant = false, isGrant_GPS = false, isGrant_GPS2 = false;
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
@@ -45,6 +55,39 @@ public class actMain extends AppCompatActivity {
 
         getFragByState(FragmentState.MainTasks);
 
+        isGrant = askForPermission(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+    }
+
+    protected static boolean askForPermission(String[] permission, int rCode) {
+        if (ContextCompat.checkSelfPermission(context, permission[0]) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(context, permission[1]) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(((Activity) context), permission[0])
+                    || ActivityCompat.shouldShowRequestPermissionRationale(((Activity) context), permission[1])) {
+                ActivityCompat.requestPermissions(((Activity) context), permission, rCode);
+                return false;
+            } else {
+                ActivityCompat.requestPermissions(((Activity) context), permission, rCode);
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 1) {
+            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && permissions[1].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                isGrant = true;
+            } else {
+//                Toast.makeText(context, Basics.NeedPermission, Toast.LENGTH_LONG).show();
+                askForPermission(new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
     }
 
     public void getFragByState(FragmentState mState){

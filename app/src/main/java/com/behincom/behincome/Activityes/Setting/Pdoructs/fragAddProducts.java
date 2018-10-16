@@ -81,7 +81,6 @@ public class fragAddProducts extends Fragment {
     public static List<MarketingProductCommissions> lCommission = new ArrayList<>();
     public static boolean toEdit = false;
 
-    String AccountId = "0";
     boolean ApiFrist = false;
 
     public static fragAddProducts newInstance(Context mContext){
@@ -98,6 +97,9 @@ public class fragAddProducts extends Fragment {
         txtDescription.setText("");
         lCommission = new ArrayList<>();
         spinCommissionType.setSelection(0);
+        toEdit = false;
+        mData = new MarketingProducts();
+        lCommission = new ArrayList<>();
     }
 
     @Override
@@ -120,30 +122,10 @@ public class fragAddProducts extends Fragment {
         btnDelete = view.findViewById(R.id.btnDelete);
         cardView = view.findViewById(R.id.cardView);
 
-
-//        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblTitle.setTypeface(tFace);
-//        lblCommissionType.setTypeface(tFace);
-//        lblName.setTypeface(tFace);
-//        lblDescription.setTypeface(tFace);
-//        txtDescription.setTypeface(tFace);
-//        txtName.setTypeface(tFace);
-//        lstMain.setNestedScrollingEnabled(false);
-
         lblTitle.setText("اضافه کردن محصول");
         imgBack.setVisibility(View.VISIBLE);
-//        lblAccept.setText("اضافه کردن");
 
         List<Basic_CommissionTypes> lBaseData = geter.getList(Basic_CommissionTypes.class);
-//        if(lBaseData.size() > 0){
-//            Basic_CommissionTypes data = new Basic_CommissionTypes();
-//            data.CommissionTypeTitle=("نوع پورسانت");
-//            lBaseData.add(0, data);
-//        }else{
-//            Basic_CommissionTypes data = new Basic_CommissionTypes();
-//            data.CommissionTypeTitle=("نوع پورسانت");
-//            lBaseData.add(data);
-//        }
 
         adapCommissionType = new SpinAdapter(context, lBaseData, "CommissionTypeTitle");
         spinCommissionType.setAdapter(adapCommissionType);
@@ -212,7 +194,7 @@ public class fragAddProducts extends Fragment {
                                             dataProduct.CommissionTypeID = Integer.parseInt(adapCommissionType.getItemString(spinCommissionType.getSelectedItemPosition(), "CommissionTypeID"));
                                             dataProduct.MarketingProductDescription = txtDescription.getText().toString();
                                             dataProduct.MarketingProductTitle = txtName.getText().toString();
-                                            dataProduct.MarketingProductID = Integer.parseInt(response.body().AdditionalData.get("MarketingProductID").toString().replace(".0", ""));
+                                            dataProduct.MarketingProductID = mData.MarketingProductID;
 
                                             SQL.Execute("DELETE FROM MarketingProducts WHERE MarketingProductID='" + mData.MarketingProductID + "'");
                                             SQL.Execute("DELETE FROM MarketingProductCommissions WHERE MarketingProductID='" + mData.MarketingProductID + "'");
@@ -252,7 +234,7 @@ public class fragAddProducts extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Comming Soon", Toast.LENGTH_SHORT).show();
+                //todo NotHaveDelete
             }
         });
 

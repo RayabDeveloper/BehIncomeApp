@@ -68,15 +68,8 @@ public class adapProduct extends RecyclerView.Adapter<adapProduct.AdapterMember>
         TextView lblCommissionType = holder.lblCommissionType;
         TextView lblCommissionType1 = holder.lblCommissionType1;
         RelativeLayout btnDown = holder.btnDown;
+        FloatingActionButton btnDown2 = holder.btnDown2;
         final TextView lblCommissions = holder.lblCommissions;
-
-//        Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblName.setTypeface(tf);
-//        lblName1.setTypeface(tf);
-//        lblCommissionType.setTypeface(tf);
-//        lblCommissionType1.setTypeface(tf);
-//        lblDescription.setTypeface(tf);
-//        lblDescription1.setTypeface(tf);
 
         List<Basic_CommissionTypes> lBaseData = geter.getList(Basic_CommissionTypes.class, "WHERE CommissionTypeID='" + lList.get(position).CommissionTypeID + "'");
         String Commission = "انتخاب نشده";
@@ -85,7 +78,6 @@ public class adapProduct extends RecyclerView.Adapter<adapProduct.AdapterMember>
 
         lblName1.setText(lList.get(position).MarketingProductTitle);
         lblCommissionType1.setText(Commission);
-//        lblDescription1.setText((lList.get(position).MarketingProductDescription != null ? lList.get(position).MarketingProductDescription : ""));
 
         String ComisionS = "";
         List<MarketingProductCommissions> lComision = geter.getList(MarketingProductCommissions.class, "WHERE MarketingProductID='" + lList.get(position).MarketingProductID + "'");
@@ -94,7 +86,7 @@ public class adapProduct extends RecyclerView.Adapter<adapProduct.AdapterMember>
         }
         if(lComision.size() > 0) {
             try {
-                ComisionS = Commission.substring(0, ComisionS.length() - 4);
+                ComisionS = ComisionS.substring(0, ComisionS.length() - 4);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -121,6 +113,16 @@ public class adapProduct extends RecyclerView.Adapter<adapProduct.AdapterMember>
                 }
             }
         });
+        btnDown2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lblCommission.getVisibility() == View.GONE){
+                    lblCommission.setVisibility(View.VISIBLE);
+                }else{
+                    lblCommission.setVisibility(View.GONE);
+                }
+            }
+        });
     }
     public static class AdapterMember extends RecyclerView.ViewHolder {
 
@@ -133,6 +135,7 @@ public class adapProduct extends RecyclerView.Adapter<adapProduct.AdapterMember>
         public TextView lblDescription;
         public TextView lblCommissions;
         public RelativeLayout btnDown;
+        public FloatingActionButton btnDown2;
 
         public AdapterMember(View itemView){
             super(itemView);
@@ -145,6 +148,7 @@ public class adapProduct extends RecyclerView.Adapter<adapProduct.AdapterMember>
             lblDescription = itemView.findViewById(R.id.lblDescription);
             lblCommissions = itemView.findViewById(R.id.lblCommissions);
             btnDown = itemView.findViewById(R.id.btnDown);
+            btnDown2 = itemView.findViewById(R.id.btnDown2);
         }
 
     }

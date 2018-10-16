@@ -445,7 +445,8 @@ public class fragCustomers extends Fragment {
                     if (response.isSuccessful()) {
                         lCustomer.addAll(response.body());
                         adapter.lList = lCustomer;
-                        page++;
+                        if(response.body().size() > 0)
+                            page++;
                         loading = true;
 
                         if (swipeRefresher.isRefreshing())

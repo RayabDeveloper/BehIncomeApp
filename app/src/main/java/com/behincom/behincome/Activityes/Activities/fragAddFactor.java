@@ -79,6 +79,7 @@ public class fragAddFactor extends Fragment {
     RecyclerView lstMain;
 
     public static String name = "", price = "", des = "";
+    public static Activities Activity = new Activities();
     public static int currentId = 0;
     public static List<Invoice> lFactores = new ArrayList<>();
     public static int position = 0;

@@ -34,5 +34,7 @@ public class Profile {
     public String Address = "";
     @SerializedName("PhotoFilename")
     public String PhotoFilename = "";
+    @SerializedName("ActiveStatusId")
+    public int ActiveStatusId = 0;
 
 }

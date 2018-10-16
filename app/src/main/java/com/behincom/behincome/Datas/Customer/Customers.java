@@ -41,6 +41,18 @@ public class Customers {
     public boolean Deleted = false;
     @SerializedName("LastUpdateDate")
     public String LastUpdateDate = "";
+    @SerializedName("CustomerCreateDate")
+    public String CustomerCreateDate = "2018-01-01T00:00:00";
+    @SerializedName("CustomerEditDateTime")
+    public String CustomerEditDateTime = "2018-01-01T00:00:00";
+    @SerializedName("CustomerPointDecription")
+    public String CustomerPointDecription = "";
+    @SerializedName("CustomerPoint")
+    public int CustomerPoint = 0;
+    @SerializedName("CustomerPointStateId")
+    public int CustomerPointStateId = 0;
+    @SerializedName("CustomerUserEditId")
+    public int CustomerUserEditId = 0;
     @SerializedName("Customers_ActivityFields")
     public List<CustomerActivityFields> Customers_ActivityFields = new ArrayList<>();
     @SerializedName("Customers_Images")

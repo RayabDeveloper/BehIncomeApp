@@ -13,10 +13,9 @@ android {
     defaultConfig {
         applicationId "com.behincom.behincome"
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 26
         versionCode 29
         versionName "1.2.9"
-        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -28,7 +27,6 @@ android {
             }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            multiDexKeepProguard file('multidex-config.pro')
         }
         debug {
             applicationIdSuffix ".debug"
@@ -60,5 +58,4 @@ dependencies {
     implementation 'com.github.roojin:persian-calendar-view:1.2.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.0'
-    implementation 'com.android.support:multidex:1.0.3'
 }

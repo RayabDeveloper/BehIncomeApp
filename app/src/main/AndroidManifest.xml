@@ -26,6 +26,7 @@
             android:name=".Activityes.Setting.actSetting"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait">
+
         </activity>
         <activity android:name=".Activityes.Splash.actSplash"
             android:screenOrientation="portrait"/>

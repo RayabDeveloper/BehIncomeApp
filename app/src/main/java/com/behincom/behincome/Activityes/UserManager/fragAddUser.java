@@ -29,6 +29,8 @@ import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Adapters.UserManager.adapMarketers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.GenderType;
+import com.behincom.behincome.Datas.Keys.MaritalType;
 import com.behincom.behincome.Datas.Profile.Marketers;
 import com.behincom.behincome.Datas.Profile.Profile;
 import com.behincom.behincome.Datas.Roles.User_Roles;
@@ -122,65 +124,70 @@ public class fragAddUser extends Fragment {
         });
         btnCheck.setVisibility(View.GONE);
 
+        txtSearche.setTransformationMethod(null);
+
         txtSearche.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("UserID", txtSearche.getText().toString());
+                if(txtSearche.getText().toString().length() >= 6) {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("ReferedCode", txtSearche.getText().toString());
 
-                Call cGetUser = rInterface.RQGetProfileByCode(Setting.getToken(), new HashMap<>(map));
-                cGetUser.enqueue(new Callback<Profile>() {
-                    @Override
-                    public void onResponse(Call<Profile> call, Response<Profile> response) {
-                        if(response.isSuccessful()){
-                            try {
-                                data = response.body();
+                    String asdf = Setting.getToken();
 
-                                linProfileProfile.setVisibility(View.VISIBLE);
-                                btnCheck.setVisibility(View.VISIBLE);
 
-                                UserID = data.UserID;
-                                UserName = data.Firstname + " " + data.Lastname;
-                                lblName.setText(UserName);
-                                DateConverter DC = new DateConverter();
-                                lblBirthDay.setText(DC.getToHijri(data.BirthDate));
-                                lblSex.setText(data.GenderTypeID == 1 ? "مرد" : "زن");
-                                lblMarri.setText(data.MaritalStatusID == 1 ? "متاهل" : "مجرد");
-                                lblNationality.setText(data.NationalCode);
-                                lblAddress.setText(data.Address);
+                    Call cGetUser = rInterface.RQGetProfileByCode(Setting.getToken(), new HashMap<>(map));
+                    cGetUser.enqueue(new Callback<Profile>() {
+                        @Override
+                        public void onResponse(Call<Profile> call, Response<Profile> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    data = response.body();
+
+                                    linProfileProfile.setVisibility(View.VISIBLE);
+                                    btnCheck.setVisibility(View.VISIBLE);
+
+                                    UserID = data.UserID;
+                                    UserName = data.Firstname + " " + data.Lastname;
+                                    lblName.setText(UserName);
+                                    DateConverter DC = new DateConverter();
+                                    lblBirthDay.setText(DC.getToHijri(data.BirthDate));
+                                    lblSex.setText(GenderType.getGenderString(data.GenderTypeID));
+                                    lblMarri.setText(MaritalType.getMaritalString(data.MaritalStatusID));
+                                    lblNationality.setText(data.NationalCode);
+                                    lblAddress.setText(data.Address);
 //                                lblAbout.setText(data.);AboutMe
 //                                Glide.with(context).load(data.PhotoFilename).asBitmap().into(new BitmapImageViewTarget(imgProfile) {});
-                                Glide.with(context).load(data.PhotoFilename).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgProfile) {
-                                    @Override
-                                    protected void setResource(Bitmap resource) {
-                                        RoundedBitmapDrawable circularBitmapDrawable =
-                                                RoundedBitmapDrawableFactory.create(getActivity().getResources(), resource);
-                                        circularBitmapDrawable.setCircular(true);
-                                        imgProfile.setImageDrawable(circularBitmapDrawable);
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                data = new Profile();
-                                linProfileProfile.setVisibility(View.GONE);
-                                btnCheck.setVisibility(View.GONE);
+                                    Glide.with(context).load(data.PhotoFilename).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgProfile) {
+                                        @Override
+                                        protected void setResource(Bitmap resource) {
+                                            RoundedBitmapDrawable circularBitmapDrawable =
+                                                    RoundedBitmapDrawableFactory.create(getActivity().getResources(), resource);
+                                            circularBitmapDrawable.setCircular(true);
+                                            imgProfile.setImageDrawable(circularBitmapDrawable);
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    data = new Profile();
+                                    linProfileProfile.setVisibility(View.GONE);
+                                    btnCheck.setVisibility(View.GONE);
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-                        String Er = t.getMessage();
-                        //Nothing
-                    }
-                });
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            String Er = t.getMessage();
+                        }
+                    });
+                }
             }
             @Override
             public void afterTextChanged(Editable s) {
-                String tt = "ASD";
             }
         });
 
@@ -209,7 +216,6 @@ public class fragAddUser extends Fragment {
                             TextView lblCancell = mDialog.findViewById(R.id.lblCancell);
                             TextView lblAccept = mDialog.findViewById(R.id.lblAccept);
                             TextView lblSubmiteDate = mDialog.findViewById(R.id.lblSubmiteDate);
-                            lblCancell.setVisibility(View.GONE);
 
                             List<User_Roles> lRoles = response.body();
                             final SpinAdapter spinAdap = new SpinAdapter(getActivity(), lRoles, "RoleName");
@@ -220,7 +226,7 @@ public class fragAddUser extends Fragment {
                             String[] mDate = Datess[0].split("-");
 
                             lblSubmiteDate.setText(mDate[0] + "/" + mDate[1] + "/" + mDate[2]);
-                            
+
                             lblAccept.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

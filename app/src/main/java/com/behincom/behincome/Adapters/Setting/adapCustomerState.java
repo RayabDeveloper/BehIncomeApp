@@ -187,17 +187,21 @@ public class adapCustomerState extends RecyclerView.Adapter<adapCustomerState.Ad
 //                        SQL.Update(lList, " WHERE CustomerStateID='" + lList.CustomerStateID + "'");
                         SQL.Execute("UPDATE " + Tables.Basic_CustomerStates + " SET CustomerStateOrder='" + FromOrder + "' WHERE CustomerStateID='" + CustomerID2 + "'");
                         SQL.Execute("UPDATE " + Tables.Basic_CustomerStates + " SET CustomerStateOrder='" + ToOrder + "' WHERE CustomerStateID='" + CustomerID1 + "'");
-                        lList.set(FromPosition, lList.get(FromPosition));
-                        lList.set(ToPosition, lList.get(ToPosition));
+                        Basic_CustomerStates data = new Basic_CustomerStates();
+                        data = lList.get(FromPosition);
+                        lList.set(FromPosition, lList.get(ToPosition));
+                        lList.set(ToPosition, data);
                         MoverNotify(FromPosition, ToPosition);
                     }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                         for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
                             Err = entry.getValue().toString();
+                            Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                         }
                     }
+                }else{
+                    Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                 }
                 pDialog.DisMiss();
-                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
             }
 
             @Override

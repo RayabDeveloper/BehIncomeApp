@@ -102,18 +102,6 @@ public class fragAddVisitorPriod extends Fragment {
         ImageView btnCheck = view.findViewById(R.id.btnCheck);
         ImageView btnDelete = view.findViewById(R.id.btnDelete);
 
-//        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblTitle.setTypeface(tFace);
-//        lblTitle.setTypeface(tFace);
-//        lblName.setTypeface(tFace);
-//        lblFromDate.setTypeface(tFace);
-//        lblToDate.setTypeface(tFace);
-//        txtToDate.setTypeface(tFace);
-//        txtFromDate.setTypeface(tFace);
-//        txtName.setTypeface(tFace);
-//        txtDescription.setTypeface(tFace);
-//        lblDescription.setTypeface(tFace);
-
         lblTitle.setText("دوره ویزیتور");
         imgBack.setVisibility(View.VISIBLE);
 
@@ -123,7 +111,6 @@ public class fragAddVisitorPriod extends Fragment {
             txtDescription.setText(mData.VisitTourDescription);
             DateConverter DC = new DateConverter(mData.DateFrom, true);
             String FromD = DC.getOnlyDate();
-//            String FromLongDate = DC.getStringLongDate();
             DC = new DateConverter(mData.DateTo, true);
             String FromT = DC.getOnlyDate();
             cFromDate = mData.DateFrom;
@@ -374,38 +361,67 @@ public class fragAddVisitorPriod extends Fragment {
         final String cToDate = DC.getCSharp();
 
         Map<String, Object> mVisitTour = new HashMap<>();
-        mVisitTour.put("VisitTourTitle", txtName.getText().toString());
-        mVisitTour.put("VisitTourDescription", txtDescription.getText().toString());
-        mVisitTour.put("DateFrom", cFromDate);
-        mVisitTour.put("DateTo", cToDate);
+        if(!toEdite){
+            mVisitTour.put("VisitTourTitle", txtName.getText().toString());
+            mVisitTour.put("VisitTourDescription", txtDescription.getText().toString());
+            mVisitTour.put("DateFrom", cFromDate);
+            mVisitTour.put("DateTo", cToDate);
 
-        Call<SimpleResponse> cCommission = rInterface.RQAddMarketingVisitTour(Setting.getToken(), new HashMap<>(mVisitTour));
-        cCommission.enqueue(new Callback<SimpleResponse>() {
-            @Override
-            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                if(response.isSuccessful()){
-                    SimpleResponse simple = response.body();
-                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                        MarketingVisitTours data = new MarketingVisitTours();
-                        data.VisitTourID = Integer.parseInt(response.body().AdditionalData.get("VisitTourID").toString().replace(".0", ""));
-                        data.VisitTourTitle = txtName.getText().toString();
-                        data.VisitTourDescription = txtName.getText().toString();
-                        data.DateFrom = cFromDate;
-                        data.DateTo = cToDate;
+            Call<SimpleResponse> cCommission = rInterface.RQAddMarketingVisitTour(Setting.getToken(), new HashMap<>(mVisitTour));
+            cCommission.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if(response.isSuccessful()){
+                        SimpleResponse simple = response.body();
+                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                            MarketingVisitTours data = new MarketingVisitTours();
+                            data.VisitTourID = Integer.parseInt(response.body().AdditionalData.get("VisitTourID").toString().replace(".0", ""));
+                            data.VisitTourTitle = txtName.getText().toString();
+                            data.VisitTourDescription = txtName.getText().toString();
+                            data.DateFrom = cFromDate;
+                            data.DateTo = cToDate;
 
-                        SQL.Insert(data);
+                            SQL.Insert(data);
 
-                        act.getFragByState(FragmentState.VisitTours);
+                            act.getFragByState(FragmentState.VisitTours);
+                        }
                     }
+                    pDialog.DisMiss();
                 }
-                pDialog.DisMiss();
-            }
 
-            @Override
-            public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                pDialog.DisMiss();
-            }
-        });
+                @Override
+                public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                    pDialog.DisMiss();
+                }
+            });
+        }else {
+            mVisitTour.put("VisitTourID", mData.VisitTourID);
+            mVisitTour.put("VisitTourTitle", txtName.getText().toString());
+            mVisitTour.put("VisitTourDescription", txtDescription.getText().toString());
+            mVisitTour.put("DateFrom", cFromDate);
+            mVisitTour.put("DateTo", cToDate);
+
+            Call<SimpleResponse> cCommission = rInterface.RQEditMarketingVisitTour(Setting.getToken(), new HashMap<>(mVisitTour));
+            cCommission.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if(response.isSuccessful()){
+                        SimpleResponse simple = response.body();
+                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                            SQL.Execute("UPDATE " + Tables.MarketingVisitTours + " SET VisitTourTitle='" + txtName.getText().toString() + "', VisitTourDescription='" + txtDescription.getText().toString() + "', DateFrom='" + cFromDate + "', DateTo='" + cToDate + "' WHERE VisitTourID='" + mData.VisitTourID + "'");
+
+                            act.getFragByState(FragmentState.VisitTours);
+                        }
+                    }
+                    pDialog.DisMiss();
+                }
+
+                @Override
+                public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                    pDialog.DisMiss();
+                }
+            });
+        }
     }
 
 }

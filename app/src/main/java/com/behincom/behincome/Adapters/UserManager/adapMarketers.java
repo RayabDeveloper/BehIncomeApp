@@ -154,8 +154,7 @@ public class adapMarketers extends RecyclerView.Adapter<adapMarketers.AdapterMem
                 btnAccess.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        fragAccess fer = new fragAccess();
-                        fer.Marketer = lList.get(position);
+                        fragAccess.Marketer = lList.get(position);
                         act.getFragByState(FragmentState.MarketerAccesss);
                         mDialog.dismiss();
                     }

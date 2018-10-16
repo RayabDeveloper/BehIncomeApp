@@ -92,9 +92,11 @@
                         android:gravity="center|right">
 
                         <ImageView
+                            android:id="@+id/imgTaskCount"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:src="@drawable/group_task"/>
+                            android:src="@drawable/time_set"
+                            android:layout_marginLeft="6dp"/>
 
                         <TextView
                             android:id="@+id/lbltaskCount"
@@ -104,10 +106,12 @@
                             android:text="6"/>
 
                         <ImageView
+                            android:id="@+id/imgAssignCount"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginRight="36dp"
-                            android:src="@drawable/group_task"/>
+                            android:layout_marginLeft="6dp"
+                            android:src="@drawable/customer_assign"/>
 
                         <TextView
                             android:id="@+id/lblAssignCount"

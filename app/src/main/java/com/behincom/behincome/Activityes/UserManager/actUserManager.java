@@ -71,8 +71,8 @@ public class actUserManager extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.frameLayout, fragMarketers.newInstance(context));
         transaction.commit();
-        fragMarketers fer = new fragMarketers();
-        fer.Type = 0;
+//        fragMarketers fer = new fragMarketers();
+//        fer.Type = 0;
     }
     private void AddUser(){
         frameLayout.removeAllViewsInLayout();

@@ -27,6 +27,8 @@ import com.behincom.behincome.SQL.RSQLite;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class fragComissionPriod extends Fragment {
@@ -66,12 +68,6 @@ public class fragComissionPriod extends Fragment {
         lstMain = view.findViewById(R.id.lstMain);
         CardView cardView = view.findViewById(R.id.cardView);
 
-
-//        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblTitle.setTypeface(tFace);
-//        lblHelp1.setTypeface(tFace);
-//        lblAccept.setTypeface(tFace);
-
         lblTitle.setText("دوره کمیسیون");
         imgBack.setVisibility(View.VISIBLE);
         btnCheck.setVisibility(View.GONE);
@@ -108,7 +104,19 @@ public class fragComissionPriod extends Fragment {
     private void newPriod(){
         act.getFragByState(FragmentState.AddCommissionPeriods);
         if(lCommissionPriod.size() > 0) {
-            fragAddComissionPriod.LastDate = lCommissionPriod.get(lCommissionPriod.size() - 1).MarketingCommissionPeriodDateTo;
+            String lDate = lCommissionPriod.get(lCommissionPriod.size() - 1).MarketingCommissionPeriodDateTo;
+            String[] Dates = lDate.split("T");
+            String[] mDates = Dates[0].split("-");
+            int y = Integer.parseInt(mDates[0]);
+            int m = Integer.parseInt(mDates[1]);
+            int d = Integer.parseInt(mDates[2]);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, y);
+            calendar.set(Calendar.MONTH, m);
+            calendar.set(Calendar.DAY_OF_MONTH, d);
+            calendar.add(Calendar.DATE, 1);
+            String Date = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "T00:00:00";
+            fragAddComissionPriod.LastDate = Date;
             fragAddComissionPriod.isFristDate = false;
         }else {
             fragAddComissionPriod.LastDate = Setting.getServerDateTime();

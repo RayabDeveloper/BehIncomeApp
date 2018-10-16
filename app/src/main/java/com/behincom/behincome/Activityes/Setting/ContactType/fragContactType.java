@@ -24,12 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
+import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Setting.adapArchiveType;
 import com.behincom.behincome.Adapters.Setting.adapContactType;
 import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
+import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -99,6 +101,13 @@ public class fragContactType extends Fragment {
             @Override
             public void onClick(View v) {
                 slideDown(ViewEditor);
+            }
+        });
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                actSetting act = new actSetting();
+                act.getFragByState(FragmentState.Setting);
             }
         });
         btnDeleter.setOnClickListener(new View.OnClickListener() {

@@ -217,6 +217,7 @@ public class adapSettingSubItems<T> extends RecyclerView.Adapter<adapSettingSubI
             super(itemView);
             lblSubTitle = itemView.findViewById(R.id.lblSubTitle);
             ch = itemView.findViewById(R.id.ch);
+            ch2 = itemView.findViewById(R.id.ch2);
         }
 
     }

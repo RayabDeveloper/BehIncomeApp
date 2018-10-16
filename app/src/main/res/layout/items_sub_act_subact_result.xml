@@ -59,8 +59,7 @@
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/ch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"/>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -69,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:gravity="right"
                 android:layout_weight="0.9"
-                android:padding="2dp"
+                android:layout_marginRight="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -83,7 +82,7 @@
 
                 <Spinner
                     android:id="@+id/spinPoint"
-                    android:layout_width="60dp"
+                    android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:visibility="gone"
                     android:layout_marginLeft="6dp"

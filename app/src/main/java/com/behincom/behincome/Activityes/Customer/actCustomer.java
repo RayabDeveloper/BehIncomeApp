@@ -1,5 +1,8 @@
 package com.behincom.behincome.Activityes.Customer;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -11,6 +14,8 @@ import android.widget.Toast;
 import com.behincom.behincome.Activityes.Customer.AddCustomer.fragActivityField;
 import com.behincom.behincome.Activityes.Customer.AddCustomer.fragProperty;
 import com.behincom.behincome.Activityes.Customer.AddCustomer.fragTag;
+import com.behincom.behincome.Activityes.Login.fragLoginRequestCode;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_Tags;
@@ -173,5 +178,6 @@ public class actCustomer extends AppCompatActivity {
         }
         getFragByState(FragmentState.valueOf(savedInstanceState.getString("STATE")));
     }
+
 
 }

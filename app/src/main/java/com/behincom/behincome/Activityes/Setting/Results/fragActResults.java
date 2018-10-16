@@ -10,7 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.behincom.behincome.Accesories.Dialog;
@@ -58,6 +61,8 @@ public class fragActResults extends Fragment {
     private static RecyclerView lstMain, lstSub;
     private ImageView btnCheck, imgBack;
     private TextView lblTitle;
+    Switch sw;
+    static LinearLayout linMain;
 
     private List<Basic_ActResults> lSubActResult = new ArrayList<>();
     private static List<Basic_ActResultsMaker> lMaker = new ArrayList<>();
@@ -79,10 +84,12 @@ public class fragActResults extends Fragment {
         View view = inflater.inflate(R.layout.frag_act_results, container, false);
 
         lblTitle = view.findViewById(R.id.lblTitle);
+        linMain = view.findViewById(R.id.linMain);
         lstSub = view.findViewById(R.id.lstSub);
         lstMain = view.findViewById(R.id.lstMain);
         imgBack = view.findViewById(R.id.imgBack);
         btnCheck = view.findViewById(R.id.btnCheck);
+        sw = view.findViewById(R.id.sw);
 
         IdsToSend = 0;
 
@@ -96,9 +103,37 @@ public class fragActResults extends Fragment {
             }
         });
 
+        sw.setChecked(true);
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    showMain();
+                else
+                    hideMain();
+            }
+        });
+
         return view;
     }
-
+    public static void hideMain(){
+        try {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) linMain.getLayoutParams();
+            params.width = 230;
+            linMain.setLayoutParams(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void showMain(){
+        try {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) linMain.getLayoutParams();
+            params.width = params.MATCH_PARENT;
+            linMain.setLayoutParams(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();

@@ -29,11 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
+import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Setting.adapColor;
 import com.behincom.behincome.Adapters.Setting.adapCustomerState;
 import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_Color;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
+import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -121,6 +123,13 @@ public class fragCustomerState extends Fragment{
         itemUpTitle.setText("ثبت اولیه");
         itemDownTitle.setText("پایان کار");
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                actSetting act = new actSetting();
+                act.getFragByState(FragmentState.Setting);
+            }
+        });
         lState = geter.getList(Basic_CustomerStates.class, " WHERE Deleted='0'");
         try {
             ByteArrayOutputStream stream = null;
@@ -373,7 +382,9 @@ public class fragCustomerState extends Fragment{
                                     data.CustomerStateID = Id;
                                     data.CustomerStateOrder = mOrder;
                                     data.CustomerStateTitle = txtTitle.getText().toString();
-                                    data.CustomerStateColor = "";
+                                    List<Basic_Color> lCol = geter.getList(Basic_Color.class, " WHERE ColorID='" + ColorID + "'");
+                                    if(lCol.size() > 0)
+                                        data.CustomerStateColor = lCol.get(0).ColorCode;
                                     data.isCheck = true;
                                 } catch (NumberFormatException e) {
                                     e.printStackTrace();

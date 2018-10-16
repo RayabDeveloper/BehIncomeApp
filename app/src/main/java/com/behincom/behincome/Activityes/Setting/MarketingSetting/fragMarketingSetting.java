@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Dialog;
 import com.behincom.behincome.Accesories.Setting;
+import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Datas.Base.Basics;
+import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.Marketing.ToSend.MarketingSetups;
@@ -84,14 +86,15 @@ public class fragMarketingSetting extends Fragment {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                actSetting act = new actSetting();
+                act.getFragByState(FragmentState.Setting);
             }
         });
 
         try {
             lSetup = geter.getList(MarketingSetups.class);
-            txtAddCustomer.setText(lSetup.get(0).PointCustomerAdd);
-            txtAddInvoice.setText(lSetup.get(0).PointInvoiseAdd);
+            txtAddCustomer.setText(Integer.toString(lSetup.get(0).PointCustomerAdd));
+            txtAddInvoice.setText(Integer.toString(lSetup.get(0).PointInvoiseAdd));
             String cTime = lSetup.get(0).CustmerEditTime;
             String aTime = lSetup.get(0).ActivityEditTime;
             String[] ccTime = cTime.split(":");

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    android:background="@color/txtGray0">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="86dp"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="عنوان : "/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="6dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtName"
+                        style="@style/EditText.Normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:fontFamily="@font/ir_sans"
+                        android:hint="عنوان را وارد کنید"
+                        android:inputType="text"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/spinSubAct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Spinner.Normal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="116dp"
+            android:layout_marginTop="6dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="86dp"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="شرح : "/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="6dp">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/txtDetails"
+                        style="@style/EditText.MultiLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:gravity="right"
+                        android:fontFamily="@font/ir_sans"
+                        android:hint="توضیحاتی بنویسید"
+                        android:inputType="text"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/viewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="86dp"
+                android:layout_height="46dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="86dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextView.Normal"
+                    android:text="نتیجه : "/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Spinner
+                    android:id="@+id/spinResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Spinner.Normal"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="6dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lstFactor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

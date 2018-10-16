@@ -82,7 +82,7 @@
                             android:id="@+id/txtFromDate"
                             android:layout_width="86dp"
                             android:layout_height="30dp"
-                            style="@style/TextView.Background"
+                            style="@style/TextView.Normal"
                             android:hint="از تاریخ"/>
 
                         <TextView

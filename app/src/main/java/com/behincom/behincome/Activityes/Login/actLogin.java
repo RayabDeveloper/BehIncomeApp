@@ -1,6 +1,8 @@
 package com.behincom.behincome.Activityes.Login;
 
+import android.Manifest;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -10,9 +12,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Splash.actSplash;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
@@ -160,17 +164,15 @@ public class actLogin extends AppCompatActivity {
         sCodee = savedInstanceState.getInt("Codee");
     }
 
-    private boolean askForPermission(String permission) {
-        if (ContextCompat.checkSelfPermission(actLogin.this, permission) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(actLogin.this, permission)) {
-                ActivityCompat.requestPermissions(actLogin.this, new String[]{permission}, 3);
-                return false;
-            } else {
-                ActivityCompat.requestPermissions(actLogin.this, new String[]{permission}, 3);
-                return false;
-            }
-        } else {
-            return true;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        if(requestCode == 1)
+        if (permissions[0].equals(Manifest.permission.READ_PHONE_STATE)
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            fragLoginRequestCode.isGrant = true;
+        }else{
+            Toast.makeText(context, Basics.NeedPermission, Toast.LENGTH_LONG).show();
+            fragLoginRequestCode.askForPermission(Manifest.permission.READ_PHONE_STATE);
         }
     }
 }

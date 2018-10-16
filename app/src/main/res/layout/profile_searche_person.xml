@@ -25,7 +25,7 @@
             android:id="@+id/txtSearche"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/EditText.Normal"
+            style="@style/EditText.NumberPassword.A"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:hint="کد کارمند را وارد کنید"/>

@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ir_sans"
                         android:hint="نام و نام خانوادگی"
-                        android:inputType="phone"
+                        android:inputType="text"
                         android:singleLine="true"/>
                 </android.support.design.widget.TextInputLayout>
 

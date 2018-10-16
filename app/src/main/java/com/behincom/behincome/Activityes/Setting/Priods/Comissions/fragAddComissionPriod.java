@@ -82,6 +82,9 @@ public class fragAddComissionPriod extends Fragment {
         txtFromDate.setText("");
         txtToDate.setText("");
         txtDescription.setText("");
+        toEdite = false;
+        position = 0;
+        mData = new MarketingCommissionPeriods();
     }
 
     @Override
@@ -104,18 +107,6 @@ public class fragAddComissionPriod extends Fragment {
         ImageView btnCheck = view.findViewById(R.id.btnCheck);
         ImageView btnDelete = view.findViewById(R.id.btnDelete);
         CardView cardView = view.findViewById(R.id.cardView);
-
-//        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblTitle.setTypeface(tFace);
-//        lblName.setTypeface(tFace);
-//        lblFromDate.setTypeface(tFace);
-//        lblToDate.setTypeface(tFace);
-//        lblAccept.setTypeface(tFace);
-//        txtToDate.setTypeface(tFace);
-//        txtFromDate.setTypeface(tFace);
-//        txtName.setTypeface(tFace);
-//        txtDescription.setTypeface(tFace);
-//        lblDescription.setTypeface(tFace);
 
         lblTitle.setText("دوره کمیسیون");
         imgBack.setVisibility(View.VISIBLE);
@@ -159,19 +150,29 @@ public class fragAddComissionPriod extends Fragment {
             btnDelete.setVisibility(View.GONE);
             txtName.setText("");
             txtDescription.setText("");
-            txtFromDate.setText("");
-            txtToDate.setText("");
+            DateConverter DC = new DateConverter(LastDate, true);
+            String FromD = DC.getOnlyDate();
+            String FromT = DC.getOnlyDate();
+            com.behincom.behincome.Accesories.PersianCalendar pc = new com.behincom.behincome.Accesories.PersianCalendar();
+            String[] pDate = FromD.split("/");
+            pc.setPersainCalendarWithJalali(Integer.parseInt(pDate[0]), Integer.parseInt(pDate[1]), Integer.parseInt(pDate[2]));
+            String FromDateLong = DC.getStringLongDate(pc.getDayOfWeek(), pc.getDay(), pc.getMonth(), pc.getYear());
+            txtFromDate.setText(FromD);
 
-            isFromDate = false;
+            lblFromLongDate.setText(FromDateLong);
+//            txtFromDate.setText("");
+            txtToDate.setText("");
+            lblToLongDate.setText("");
+
+            isFromDate = true;
             isToDate = false;
             DateType = 0;
-            cFromDate = "";
+            cFromDate = LastDate;
             cToDate = "";
 
             toEdite = false;
             position = 0;
-            LastDate = "";
-            isFristDate = false;
+            isFristDate = (LastDate.length() > 0);
             MarketingCommissionPeriods mData = new MarketingCommissionPeriods();
         }
 
@@ -216,11 +217,11 @@ public class fragAddComissionPriod extends Fragment {
         txtFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isFromDate) {
-                    isFromDate = true;
-                    DateDialog.show(getActivity().getFragmentManager(), "FromDate");
-                    DateType = 0;
-                }
+//                if (!isFromDate) {
+//                    isFromDate = true;
+//                    DateDialog.show(getActivity().getFragmentManager(), "FromDate");
+//                    DateType = 0;
+//                }
             }
         });
         txtToDate.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +248,7 @@ public class fragAddComissionPriod extends Fragment {
             @Override
             public void onClick(View v) {
                 DateConverter DC = new DateConverter();
-                if(DCDC.CompareDates(cFromDate) != 2) {
+//                if(DCDC.CompareDates(cFromDate) != 2) {
                     if (DC.CompareDates(cFromDate, cToDate) == 1) {
                         if (txtName.getText().toString().length() > 0 && txtFromDate.getText().toString().length() > 0 && txtToDate.getText().toString().length() > 0) {
                             if (!toEdite) {
@@ -281,12 +282,12 @@ public class fragAddComissionPriod extends Fragment {
                             }
                         } else Toast.makeText(context, "نام و تاریخ نباید خالی باشد", Toast.LENGTH_LONG).show();
                     } else Toast.makeText(context, "تاریخ شروع نباید بعد از تاریخ پایان ، یا یکی باشد.", Toast.LENGTH_LONG).show();
-                }else{
-                    if(isFristDate)
-                        Toast.makeText(context, "تاریخ شروع نباید از تاریخ امروز بیشتر باشد", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(context, "تاریخ شروع نباید از آخرین تاریخ دوره کمیسیون بیشتر باشد", Toast.LENGTH_LONG).show();
-                }
+//                }else{
+//                    if(isFristDate)
+//                        Toast.makeText(context, "تاریخ شروع نباید از تاریخ امروز بیشتر باشد", Toast.LENGTH_LONG).show();
+//                    else
+//                        Toast.makeText(context, "تاریخ شروع نباید از آخرین تاریخ دوره کمیسیون بیشتر باشد", Toast.LENGTH_LONG).show();
+//                }
             }
         });
         btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -367,7 +368,8 @@ public class fragAddComissionPriod extends Fragment {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        }
+                        }else
+                            pDialog.DisMiss();
                     }
 
                     @Override
@@ -394,46 +396,83 @@ public class fragAddComissionPriod extends Fragment {
         final String cToDate = DC.getCSharp();
 
         Map<String, Object> mCommission = new HashMap<>();
-        mCommission.put("MarketingCommissionPeriodTitle", txtName.getText().toString());
-        mCommission.put("MarketingCommissionPeriodDescription", txtDescription.getText().toString());
-        mCommission.put("MarketingCommissionPeriodDateFrom", cFromDate);
-        mCommission.put("MarketingCommissionPeriodDateTo", cToDate);
+        if(!toEdite) {
+            mCommission.put("MarketingCommissionPeriodTitle", txtName.getText().toString());
+            mCommission.put("MarketingCommissionPeriodDescription", txtDescription.getText().toString());
+            mCommission.put("MarketingCommissionPeriodDateFrom", cFromDate);
+            mCommission.put("MarketingCommissionPeriodDateTo", cToDate);
 
-        Call<SimpleResponse> cCommission = rInterface.RQAddMarketingCommissionPeriod(Setting.getToken(), new HashMap<>(mCommission));
-        cCommission.enqueue(new Callback<SimpleResponse>() {
-            @Override
-            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                if(response.isSuccessful()){
-                    SimpleResponse simple = response.body();
-                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                        MarketingCommissionPeriods data = new MarketingCommissionPeriods();
-                        data.MarketingCommissionPeriodID = Integer.parseInt(response.body().AdditionalData.get("MarketingCommissionPeriodID").toString().replace(".0", ""));
-                        data.MarketingCommissionPeriodTitle = txtName.getText().toString();
-                        data.MarketingCommissionPeriodDescription = txtName.getText().toString();
-                        data.MarketingCommissionPeriodDateFrom = cFromDate;
-                        data.MarketingCommissionPeriodDateTo = cToDate;
+            Call<SimpleResponse> cCommission = rInterface.RQAddMarketingCommissionPeriod(Setting.getToken(), new HashMap<>(mCommission));
+            cCommission.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if (response.isSuccessful()) {
+                        SimpleResponse simple = response.body();
+                        if (simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                            MarketingCommissionPeriods data = new MarketingCommissionPeriods();
+                            data.MarketingCommissionPeriodID = Integer.parseInt(response.body().AdditionalData.get("MarketingCommissionPeriodID").toString().replace(".0", ""));
+                            data.MarketingCommissionPeriodTitle = txtName.getText().toString();
+                            data.MarketingCommissionPeriodDescription = txtName.getText().toString();
+                            data.MarketingCommissionPeriodDateFrom = cFromDate;
+                            data.MarketingCommissionPeriodDateTo = cToDate;
 
-                        SQL.Insert(data);
+                            SQL.Insert(data);
 
-                        act.getFragByState(FragmentState.CommissionPeriods);
-                    }else{
-                        String eror = "خطا";
-                        try {
-                            eror = simple.Errors.get("NotJoinedDate").toString();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            act.getFragByState(FragmentState.CommissionPeriods);
+                        } else {
+                            String eror = "خطا";
+                            try {
+                                eror = simple.Errors.get("NotJoinedDate").toString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(context, eror, Toast.LENGTH_LONG).show();
                         }
-                        Toast.makeText(context, eror, Toast.LENGTH_LONG).show();
                     }
+                    pDialog.DisMiss();
                 }
-                pDialog.DisMiss();
-            }
 
-            @Override
-            public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                pDialog.DisMiss();
-            }
-        });
+                @Override
+                public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                    pDialog.DisMiss();
+                }
+            });
+        }else {
+            mCommission.put("MarketingCommissionPeriodID", mData.MarketingCommissionPeriodID);
+            mCommission.put("MarketingCommissionPeriodTitle", txtName.getText().toString());
+            mCommission.put("MarketingCommissionPeriodDescription", txtDescription.getText().toString());
+            mCommission.put("MarketingCommissionPeriodDateFrom", cFromDate);
+            mCommission.put("MarketingCommissionPeriodDateTo", cToDate);
+
+            Call<SimpleResponse> cCommission = rInterface.RQEditMarketingProductCommission(Setting.getToken(), new HashMap<>(mCommission));
+            cCommission.enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                    if (response.isSuccessful()) {
+                        SimpleResponse simple = response.body();
+                        if (simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                            SQL.Execute("UPDATE " + Tables.MarketingCommissionPeriods + " SET MarketingCommissionPeriodTitle='" + txtName.getText().toString() + "', MarketingCommissionPeriodDescription='" + txtName.getText().toString() + "', MarketingCommissionPeriodDateFrom='" + cFromDate + "', MarketingCommissionPeriodDateTo='" + cToDate + "' WHERE MarketingCommissionPeriodID='" + mData.MarketingCommissionPeriodID + "'");
+
+                            act.getFragByState(FragmentState.CommissionPeriods);
+                        } else {
+                            String eror = "خطا";
+                            try {
+                                eror = simple.Errors.get("NotJoinedDate").toString();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(context, eror, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    pDialog.DisMiss();
+                }
+
+                @Override
+                public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                    pDialog.DisMiss();
+                }
+            });
+        }
     }
 
 }

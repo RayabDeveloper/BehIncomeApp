@@ -153,6 +153,12 @@ public class adapActivityResultsMaker extends RecyclerView.Adapter<adapActivityR
             @Override
             public void onClick(View v) {
                 Checker(ch.isChecked(), position);
+                if(!ch.isChecked()) {
+                    spinPoint.setSelection(adapPoint.getItemPosition("Point", "0"));
+                    spinPoint.setVisibility(View.GONE);
+                    lList.get(position).Point = 0;
+                }else
+                    spinPoint.setVisibility(View.VISIBLE);
             }
         });
         spinPoint.setOnTouchListener(new View.OnTouchListener() {
@@ -166,11 +172,12 @@ public class adapActivityResultsMaker extends RecyclerView.Adapter<adapActivityR
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int positionn, long id) {
                 if (isFirst) {
+                    isFirst = false;
                     try {
                         pDialog = new Dialog(context);
                         pDialog.Show();
 
-                        final String Point = adapPoint.getItemString(position, "Point");
+                        final String Point = adapPoint.getItemString(positionn, "Point");
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("ActResultId", lList.get(position).ActResultsID);
                         map.put("Point", Integer.parseInt(Point));
@@ -191,6 +198,7 @@ public class adapActivityResultsMaker extends RecyclerView.Adapter<adapActivityR
                                             Err = entry.getValue().toString();
                                         }
                                         Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                                        spinPoint.setSelection(adapPoint.getItemPosition("Point", "0"));
                                     }
                                 }
                                 pDialog.DisMiss();

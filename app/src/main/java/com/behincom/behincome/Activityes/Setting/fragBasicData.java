@@ -628,7 +628,7 @@ public class fragBasicData<T> extends Fragment {
     public static void hideMain(){
         try {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) linMain.getLayoutParams();
-            params.width = 90;
+            params.width = 170;
             linMain.setLayoutParams(params);
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,14 +20,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="100dp"
             android:background="@color/txtWhite">
 
             <LinearLayout
                 android:id="@+id/viewEnterExit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <!--Enter Button & Enter Info-->
                 <LinearLayout
@@ -37,15 +38,16 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/btnEnter"
+                        android:id="@+id/viewEnterShow"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:src="@drawable/task_enter" />
 
                         <TextView
@@ -57,10 +59,11 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/infoEnter"
+                        android:id="@+id/viewEnterInfo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="right|center"
+                        android:layout_marginRight="6dp"
                         android:visibility="gone"
                         android:orientation="vertical">
 
@@ -70,34 +73,11 @@
                             android:src="@drawable/task_enter" />
 
                         <TextView
+                            android:id="@+id/lblEnterInfo"
                             style="@style/TextView.Blue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ورود در : " />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="پنج شنبه" />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3 خرداد ماه" />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1397" />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ساعت 20:45" />
+                            android:text="چهار شنبه 22 اردیبهشت 1397" />
 
                     </LinearLayout>
 
@@ -120,19 +100,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/btnExit"
+                            android:id="@+id/viewExitShow"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
+                            android:visibility="gone"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:src="@drawable/task_exit" />
 
                             <TextView
@@ -144,46 +124,26 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/infoExit"
+                            android:id="@+id/viewExitInfo"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center"
+                            android:gravity="right|center"
+                            android:layout_marginRight="6dp"
+                            android:visibility="gone"
                             android:orientation="vertical">
 
                             <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_marginRight="16dp"
                                 android:src="@drawable/task_exit" />
 
                             <TextView
+                                android:id="@+id/lblExitInfo"
                                 style="@style/TextView.Blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="خروج در : " />
-
-                            <TextView
-                                style="@style/TextView.Blue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="پنج شنبه" />
-
-                            <TextView
-                                style="@style/TextView.Blue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="3 خرداد ماه" />
-
-                            <TextView
-                                style="@style/TextView.Blue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="1397" />
-
-                            <TextView
-                                style="@style/TextView.Blue"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="ساعت 20:45" />
+                                android:text="چهار شنبه 29 اردیبهشت 1397" />
 
                         </LinearLayout>
 
@@ -197,15 +157,16 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/btnTask"
+                            android:id="@+id/viewTaskShow"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
+                            android:visibility="gone"
                             android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:src="@drawable/time_set" />
 
                             <TextView
@@ -224,20 +185,21 @@
 
             <!--Compelete Enter And Exit Icon-->
             <RelativeLayout
+                android:id="@+id/viewEnterExitEnd"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="bottom|center"
+                android:gravity="top|center"
                 android:visibility="gone">
 
                 <LinearLayout
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:gravity="center"
                     android:background="@color/txtWhite">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/task_complete"/>
 
                 </LinearLayout>
@@ -246,10 +208,11 @@
 
             <!--Task Info & Cancell Task To Enter & Task Buttons-->
             <RelativeLayout
+                android:id="@+id/viewTaskInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:gravity="center">
+                android:gravity="center"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -265,39 +228,17 @@
                         android:orientation="vertical">
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:src="@drawable/time_set" />
 
                         <TextView
+                            android:id="@+id/lblTaskInfo"
                             style="@style/TextView.Blue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="وظیفه در : " />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="پنج شنبه" />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3 خرداد ماه" />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1397" />
-
-                        <TextView
-                            style="@style/TextView.Blue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ساعت 20:45" />
+                            android:layout_marginRight="66dp"
+                            android:text="چهار شنبه 22 اردیبهشت 1397" />
 
                     </LinearLayout>
 
@@ -310,6 +251,7 @@
                     android:layout_marginLeft="250dp">
 
                     <ImageView
+                        android:id="@+id/btnReNew"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:src="@drawable/cancell"/>

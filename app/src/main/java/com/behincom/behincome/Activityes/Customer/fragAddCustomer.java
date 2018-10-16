@@ -121,7 +121,7 @@ public class fragAddCustomer extends Fragment {
     com.behincom.behincome.Accesories.Dialog lpDialog;
     static SpinAdapter spinAdapRole, spinAdapType;
     adapStorePic adapPic;
-    GPSTracker gpsTracker;
+    static GPSTracker gpsTracker;
     SpinAdapter spinAdap_Ostan, spinAdap_City, spinAdap_Prefix;
 
     //Elements
@@ -157,11 +157,9 @@ public class fragAddCustomer extends Fragment {
     //Variables
     static String Name = "", Address = "";
     static int Perfix = 0, Hoze = 0;
-    int sOstan = 0, sCity = 0;
-    List<String> lProfileImg = new ArrayList<>();
-    boolean isGrant = false, isGrant_GPS = false;
+    static int sOstan = 0, sCity = 0;
+    static List<String> lProfileImg = new ArrayList<>();
     private static int Zamine = 0, Ostane = 0, Citye = 0;
-
     public static boolean mType = false;
     public static FragmentState FragStateCondition = FragmentState.BigMap;
     public static int StateId = 1;
@@ -217,7 +215,6 @@ public class fragAddCustomer extends Fragment {
         btnGetLocation = view.findViewById(R.id.btnGetLocation);
         btnAddPic = view.findViewById(R.id.btnAddPic);
 
-
         rInterface = Retrofite.getClient().create(RWInterface.class);
         if (!mType) {
             lblTitle.setText("اضافه کردن فروشگاه");
@@ -225,9 +222,9 @@ public class fragAddCustomer extends Fragment {
             lblTitle.setText("ویرایش فروشگاه");
         }
         imgBack.setVisibility(View.VISIBLE);
+        gpsTracker = new GPSTracker(contexti);
 
         lContact = new ArrayList<>();
-        gpsTracker = new GPSTracker(contexti);
         ActivityField = new ArrayList<>();
         scrollV.fullScroll(View.FOCUS_UP);
 
@@ -292,25 +289,6 @@ public class fragAddCustomer extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mMap.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                GMap = googleMap;
-                googleMap.setMyLocationEnabled(true);
-                GMap.getUiSettings().setScrollGesturesEnabled(false);
-
-                GMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        Toast.makeText(contexti, "ASD", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                LatLng MainCameraPoint = new LatLng(35.827339, 50.959113);
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(MainCameraPoint).zoom(12).build();
-                GMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            }
-        });
 
         btnGetAddressLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -349,6 +327,25 @@ public class fragAddCustomer extends Fragment {
         SQL.Execute("DELETE FROM mBasic_ActivityFields");
         SQL.Execute("DELETE FROM mBasic_Tags");
         SQL.Execute("DELETE FROM mBasic_Properties");
+
+        mMap.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                GMap = googleMap;
+                if (ActivityCompat.checkSelfPermission(contexti, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(contexti, Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                googleMap.setMyLocationEnabled(true);
+                GMap.getUiSettings().setScrollGesturesEnabled(false);
+
+                LatLng MainCameraPoint = new LatLng(35.827339, 50.959113);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(MainCameraPoint).zoom(12).build();
+                GMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        });
 
         List<Basic_NamePrefixes> lPrefix = geter.getList(Basic_NamePrefixes.class);
         spinAdap_Prefix = new SpinAdapter(contexti, lPrefix, "NamePrefixTitle");
@@ -546,7 +543,7 @@ public class fragAddCustomer extends Fragment {
 
                         final RWInterface rInterface = Retrofite.getClient().create(RWInterface.class);
 
-                        if(lProfileImg.size() > 0) {
+                        if (lProfileImg.size() > 0) {
                             MultipartBody.Part[] body = new MultipartBody.Part[lProfileImg.size()];
                             for (int i = 0; i < lProfileImg.size(); i++) {
                                 File file = new File(lProfileImg.get(i));
@@ -609,7 +606,7 @@ public class fragAddCustomer extends Fragment {
                                     lpDialog.DisMiss();
                                 }
                             });
-                        }else {
+                        } else {
                             Map<String, Object> mCustomer = new HashMap<>();
                             ObjectMapper oMapper = new ObjectMapper();
                             mCustomer = oMapper.convertValue(getrCustomerDataToAdd(new ArrayList<String>()), Map.class);
@@ -643,7 +640,7 @@ public class fragAddCustomer extends Fragment {
 
                         final RWInterface rInterface = Retrofite.getClient().create(RWInterface.class);
 
-                        if(lProfileImg.size() > 0) {
+                        if (lProfileImg.size() > 0) {
                             MultipartBody.Part[] body = new MultipartBody.Part[lProfileImg.size()];
                             for (int i = 0; i < lProfileImg.size(); i++) {
                                 File file = new File(lProfileImg.get(i));
@@ -701,7 +698,7 @@ public class fragAddCustomer extends Fragment {
                                     lpDialog.DisMiss();
                                 }
                             });
-                        }else {
+                        } else {
                             Map<String, Object> mCustomer = new HashMap<>();
                             ObjectMapper oMapper = new ObjectMapper();
                             mCustomer = oMapper.convertValue(getrCustomerDataToEdit(new ArrayList<String>()), Map.class);
@@ -735,6 +732,7 @@ public class fragAddCustomer extends Fragment {
 
         return view;
     }
+
     private AddCustomerToSend getrCustomerDataToAdd(List<String> PhotoURL) {
         final AddCustomerToSend data = new AddCustomerToSend();
         try {
@@ -813,6 +811,7 @@ public class fragAddCustomer extends Fragment {
         }
         return data;
     }
+
     private EditCustomerToSend getrCustomerDataToEdit(List<String> PhotoURL) {
         EditCustomerToSend data = new EditCustomerToSend();
         data.NamePrefixID = (Integer.parseInt(spinAdap_Prefix.getItemString(spinadaPrefix.getSelectedItemPosition(), "NamePrefixID")));
@@ -882,19 +881,7 @@ public class fragAddCustomer extends Fragment {
 
         return data;
     }
-    private boolean askForPermission(String permission, int rCode) {
-        if (ContextCompat.checkSelfPermission(contexti, permission) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(((Activity) contexti), permission)) {
-                ActivityCompat.requestPermissions(((Activity) contexti), new String[]{permission}, rCode);
-                return false;
-            } else {
-                ActivityCompat.requestPermissions(((Activity) contexti), new String[]{permission}, rCode);
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -912,6 +899,12 @@ public class fragAddCustomer extends Fragment {
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
                         GMap = googleMap;
+                        if (ActivityCompat.checkSelfPermission(contexti, Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED
+                                && ActivityCompat.checkSelfPermission(contexti, Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
                         googleMap.setMyLocationEnabled(true);
                         GMap.getUiSettings().setScrollGesturesEnabled(false);
                         CameraPosition cameraPosition = new CameraPosition.Builder().target(cPosition).zoom(18).build();
@@ -1002,8 +995,6 @@ public class fragAddCustomer extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        isGrant = askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 3);
-        isGrant_GPS = askForPermission(Manifest.permission.ACCESS_FINE_LOCATION, 2);
         ContactRefresher2();
 
         if (mType) {
@@ -1784,8 +1775,6 @@ public class fragAddCustomer extends Fragment {
             sOstan = 0;
             sCity = 0;
             lProfileImg = new ArrayList<>();
-            isGrant = false;
-            isGrant_GPS = false;
             Zamine = 0;
             Ostane = 0;
             Citye = 0;
