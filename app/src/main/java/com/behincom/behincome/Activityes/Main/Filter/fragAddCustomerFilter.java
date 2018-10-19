@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.behincom.behincome.Accesories.DateConverter;
 import com.behincom.behincome.Activityes.Main.actMain;
+import com.behincom.behincome.Activityes.Main.fragCustomers;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
@@ -35,6 +36,8 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 import java.util.ArrayList;
 import java.util.List;
 
+import saman.zamani.persiandate.PersianDate;
+
 public class fragAddCustomerFilter extends Fragment {
 
     static Context context;
@@ -45,21 +48,23 @@ public class fragAddCustomerFilter extends Fragment {
 
     ImageView btnCheck, imgBack;
     TextView lblPrefix, lblActivityField, lblTag, lblCustomerState, lblCustomerStatus, lblArchiveType, lblTitle;
-    LinearLayout btnNamePrefix, btnActivityField, btnTag, btnCustomerState, btnCustomerStatus, btnArchiveType;
+    LinearLayout btnNamePrefix, btnActivityField, btnTag, btnCustomerState, btnCustomerStatus, btnArchiveType, viewArchive;
     TextView lblFromCreateDate, lblToCreateDate, lblFromArchiveDate, lblToArchiveDate, lblFromReturnDate, lblToReturnDate;
     TextView lblLongFromCreateDate, lblLongToCreateDate, lblLongFromArchiveDate, lblLongToArchiveDate, lblLongFromReturnDate, lblLongToReturnDate;
 
+    public static CustomerFilter Filter = new CustomerFilter();
     protected static List<Basic_ActivityFields> lActivityFields = new ArrayList<>();
-    public static List<Basic_Tags> lTags = new ArrayList<>();
-    public static List<Basic_ArchiveTypes> lArchiveTypes = new ArrayList<>();
-    public static List<Basic_CustomerStates> lCustomerStates = new ArrayList<>();
-    public static List<Basic_CustomerStatus> lCustomerStatus = new ArrayList<>();
-    public static List<Basic_NamePrefixes> lNamePrefixes = new ArrayList<>();
+    protected static List<Basic_Tags> lTags = new ArrayList<>();
+    protected static List<Basic_ArchiveTypes> lArchiveTypes = new ArrayList<>();
+    protected static List<Basic_CustomerStates> lCustomerStates = new ArrayList<>();
+    protected static List<Basic_CustomerStatus> lCustomerStatus = new ArrayList<>();
+    protected static List<Basic_NamePrefixes> lNamePrefixes = new ArrayList<>();
     private DateType DateDialogChoiser;
     private boolean isCreateFrom = false, isCreateTo = false, isArchiveFrom = false, isArchiveTo = false, isReturnFrom = false, isReturnTo = false;
     private String cCreateFrom = "", cCreateTo = "", cArchiveFrom = "", cArchiveTo = "", cReturnFrom = "", cReturnTo = "";
 
-    public static fragAddCustomerFilter newInstance(Context mContext) {
+    public static fragAddCustomerFilter newInstance(Context mContext, CustomerFilter lList) {
+        Filter = lList;
         fragAddCustomerFilter fragment = new fragAddCustomerFilter();
         context = mContext;
         return fragment;
@@ -69,6 +74,7 @@ public class fragAddCustomerFilter extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_customer_filter, container, false);
 
+        viewArchive = view.findViewById(R.id.viewArchive);
         btnNamePrefix = view.findViewById(R.id.btnNamePrefix);
         btnActivityField = view.findViewById(R.id.btnActivityField);
         btnTag = view.findViewById(R.id.btnTag);
@@ -97,16 +103,35 @@ public class fragAddCustomerFilter extends Fragment {
         lblLongFromReturnDate = view.findViewById(R.id.lblLongFromReturnDate);
         lblLongToReturnDate = view.findViewById(R.id.lblLongToReturnDate);
 
+        lblTitle.setText("فیلتر مشتری");
+        imgBack.setImageResource(0);
+        imgBack.setBackground(context.getDrawable(R.drawable.cancell_white));
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                lTags = new ArrayList<>();
+                lActivityFields = new ArrayList<>();
+                lCustomerStates = new ArrayList<>();
+                lCustomerStatus = new ArrayList<>();
+                lNamePrefixes = new ArrayList<>();
+                cCreateFrom = "";
+                cCreateTo = "";
+                cArchiveFrom = "";
+                cArchiveTo = "";
+                cReturnFrom = "";
+                cReturnTo = "";
+                fragCustomers.Filter = getFilters();
+                act.getFragByState(FragmentState.MainCustomers);
             }
         });
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Filter = new CustomerFilter();
+                Filter = getFilters();
+                fragCustomers.Filter = Filter;
+                act.getFragByState(FragmentState.MainCustomers);
             }
         });
         btnNamePrefix.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +272,7 @@ public class fragAddCustomerFilter extends Fragment {
                 ir.mirrajabi.persiancalendar.core.models.PersianDate tPD = new ir.mirrajabi.persiancalendar.core.models.PersianDate(year, monthOfYear + 1, dayOfMonth);
                 String mDate = Integer.toString(year) + "/" + Integer.toString(monthOfYear + 1) + "/" + Integer.toString(dayOfMonth);
                 DateConverter DC = new DateConverter(year, monthOfYear + 1, dayOfMonth);
-                switch (DateDialogChoiser){
+                switch (DateDialogChoiser) {
                     case FromCreateDate:
                         isCreateFrom = false;
                         cCreateFrom = DC.getCSharp();
@@ -319,9 +344,10 @@ public class fragAddCustomerFilter extends Fragment {
         super.onResume();
         String ActivityField = "";
         try {
-            if (lActivityFields.size() > 0) {
-                for (Basic_ActivityFields tData : lActivityFields) {
-                    List<Basic_ActivityFields> pList = geter.getList(Basic_ActivityFields.class, " WHERE ActivityFieldID='" + tData.ActivityFieldID + "'");
+            if (Filter.ActivityFields.size() > 0) {
+                lActivityFields = new ArrayList<>();
+                for (int tData : Filter.ActivityFields) {
+                    List<Basic_ActivityFields> pList = geter.getList(Basic_ActivityFields.class, " WHERE ActivityFieldID='" + tData + "'");
                     if (pList.size() > 0)
                         lActivityFields.add(pList.get(0));
                 }
@@ -335,42 +361,46 @@ public class fragAddCustomerFilter extends Fragment {
                 String Er = Ex.getMessage();
             }
             if (ActivityField.length() > 0) lblActivityField.setText(Html.fromHtml(ActivityField));
-            else lblActivityField.setText("برای اضافه کردن اینجا را لمس کنید.");
+            else lblActivityField.setText("برای انتخاب زمینه فعالیت اینجا را لمس کنید.");
         } catch (Exception Ex) {
             String Er = Ex.getMessage();
         }
         String Tager = "";
-        if (lTags.size() > 0) {
-            lTags = new ArrayList<>();
-            for (Basic_Tags tData : lTags) {
-                List<Basic_Tags> pList = geter.getList(Basic_Tags.class, " WHERE TagID='" + tData.TagID + "'");
-                if (pList.size() > 0)
-                    lTags.add(pList.get(0));
-            }
-        }
         try {
-            for (Basic_Tags data : lTags) {
-                List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
-                if (lGroup.get(0).TagGroupTypeId == TagType.CheckBox)
-                    Tager += "☑ - " + data.TagTitle + "<br>";
-                else
-                    Tager += "◉ - " + data.TagTitle + "<br>";
+            if (Filter.Tags.size() > 0) {
+                lTags = new ArrayList<>();
+                for (int tData : Filter.Tags) {
+                    List<Basic_Tags> pList = geter.getList(Basic_Tags.class, " WHERE TagID='" + tData + "'");
+                    if (pList.size() > 0)
+                        lTags.add(pList.get(0));
+                }
             }
-        } catch (Exception Ex) {
-            String Er = Ex.getMessage();
+            try {
+                for (Basic_Tags data : lTags) {
+                    List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+                    if (lGroup.get(0).TagGroupTypeId == TagType.CheckBox)
+                        Tager += "☑ - " + data.TagTitle + "<br>";
+                    else
+                        Tager += "◉ - " + data.TagTitle + "<br>";
+                }
+            } catch (Exception Ex) {
+                String Er = Ex.getMessage();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         if (Tager.length() > 0) lblTag.setText(Html.fromHtml(Tager));
-        else lblTag.setText("برای اضافه کردن اینجا را لمس کنید.");
+        else lblTag.setText("برای انتخاب وضعیت اینجا را لمس کنید.");
         String ArchiveTyper = "";
-        if (lArchiveTypes.size() > 0) {
-            lArchiveTypes = new ArrayList<>();
-            for (Basic_ArchiveTypes tData : lArchiveTypes) {
-                List<Basic_ArchiveTypes> pList = geter.getList(Basic_ArchiveTypes.class, " WHERE ArchiveTypeID='" + tData.ArchiveTypeID + "'");
-                if (pList.size() > 0)
-                    lArchiveTypes.add(pList.get(0));
-            }
-        }
         try {
+            if (Filter.ArchiveType.size() > 0) {
+                lArchiveTypes = new ArrayList<>();
+                for (int tData : Filter.ArchiveType) {
+                    List<Basic_ArchiveTypes> pList = geter.getList(Basic_ArchiveTypes.class, " WHERE ArchiveTypeID='" + tData + "'");
+                    if (pList.size() > 0)
+                        lArchiveTypes.add(pList.get(0));
+                }
+            }
             for (Basic_ArchiveTypes data : lArchiveTypes) {
                 ArchiveTyper += "☑ - " + data.ArchiveTypeTitle + "<br>";
             }
@@ -378,17 +408,17 @@ public class fragAddCustomerFilter extends Fragment {
             String Er = Ex.getMessage();
         }
         if (ArchiveTyper.length() > 0) lblArchiveType.setText(Html.fromHtml(ArchiveTyper));
-        else lblArchiveType.setText("برای اضافه کردن اینجا را لمس کنید.");
+        else lblArchiveType.setText("برای انتخاب نوع بایگانی اینجا را لمس کنید.");
         String CustomerStater = "";
-        if (lCustomerStates.size() > 0) {
-            lCustomerStates = new ArrayList<>();
-            for (Basic_CustomerStates tData : lCustomerStates) {
-                List<Basic_CustomerStates> pList = geter.getList(Basic_CustomerStates.class, " WHERE CustomerStateID='" + tData.CustomerStateID + "'");
-                if (pList.size() > 0)
-                    lCustomerStates.add(pList.get(0));
-            }
-        }
         try {
+            if (Filter.CustomerState.size() > 0) {
+                lCustomerStates = new ArrayList<>();
+                for (int tData : Filter.CustomerState) {
+                    List<Basic_CustomerStates> pList = geter.getList(Basic_CustomerStates.class, " WHERE CustomerStateID='" + tData + "'");
+                    if (pList.size() > 0)
+                        lCustomerStates.add(pList.get(0));
+                }
+            }
             for (Basic_CustomerStates data : lCustomerStates) {
                 CustomerStater += "☑ - " + data.CustomerStateTitle + "<br>";
             }
@@ -396,35 +426,36 @@ public class fragAddCustomerFilter extends Fragment {
             String Er = Ex.getMessage();
         }
         if (CustomerStater.length() > 0) lblCustomerState.setText(Html.fromHtml(CustomerStater));
-        else lblCustomerState.setText("برای اضافه کردن اینجا را لمس کنید.");
+        else lblCustomerState.setText("برای انتخاب وضعیت اینجا را لمس کنید.");
         String CustomerStatuser = "";
-        if (lCustomerStatus.size() > 0) {
-            lCustomerStatus = new ArrayList<>();
-            for (Basic_CustomerStatus tData : lCustomerStatus) {
-                List<Basic_CustomerStatus> pList = geter.getList(Basic_CustomerStatus.class, " WHERE CustomerStatusID='" + tData.CustomerStatusID + "'");
-                if (pList.size() > 0)
-                    lCustomerStatus.add(pList.get(0));
-            }
-        }
         try {
+            if (Filter.CustomerStatues.size() > 0) {
+                lCustomerStatus = new ArrayList<>();
+                for (int tData : Filter.CustomerStatues) {
+                    List<Basic_CustomerStatus> pList = geter.getList(Basic_CustomerStatus.class, " WHERE CustomerStatusID='" + tData + "'");
+                    if (pList.size() > 0)
+                        lCustomerStatus.add(pList.get(0));
+                }
+            }
             for (Basic_CustomerStatus data : lCustomerStatus) {
                 CustomerStatuser += "☑ - " + data.CustomerStatusTitle + "<br>";
             }
         } catch (Exception Ex) {
             String Er = Ex.getMessage();
         }
-        if (CustomerStatuser.length() > 0) lblCustomerStatus.setText(Html.fromHtml(CustomerStatuser));
-        else lblCustomerStatus.setText("برای اضافه کردن اینجا را لمس کنید.");
+        if (CustomerStatuser.length() > 0)
+            lblCustomerStatus.setText(Html.fromHtml(CustomerStatuser));
+        else lblCustomerStatus.setText("برای انتخاب نوع وضعیت اینجا را لمس کنید.");
         String NamePrefixer = "";
-        if (lNamePrefixes.size() > 0) {
-            lNamePrefixes = new ArrayList<>();
-            for (Basic_NamePrefixes tData : lNamePrefixes) {
-                List<Basic_NamePrefixes> pList = geter.getList(Basic_NamePrefixes.class, " WHERE NamePrefixID='" + tData.NamePrefixID + "'");
-                if (pList.size() > 0)
-                    lNamePrefixes.add(pList.get(0));
-            }
-        }
         try {
+            if (Filter.CustomerPrefixID.size() > 0) {
+                lNamePrefixes = new ArrayList<>();
+                for (int tData : Filter.CustomerPrefixID) {
+                    List<Basic_NamePrefixes> pList = geter.getList(Basic_NamePrefixes.class, " WHERE NamePrefixID='" + tData + "'");
+                    if (pList.size() > 0)
+                        lNamePrefixes.add(pList.get(0));
+                }
+            }
             for (Basic_NamePrefixes data : lNamePrefixes) {
                 NamePrefixer += "☑ - " + data.NamePrefixTitle + "<br>";
             }
@@ -432,10 +463,83 @@ public class fragAddCustomerFilter extends Fragment {
             String Er = Ex.getMessage();
         }
         if (NamePrefixer.length() > 0) lblPrefix.setText(Html.fromHtml(NamePrefixer));
-        else lblPrefix.setText("برای اضافه کردن اینجا را لمس کنید.");
+        else lblPrefix.setText("برای انتخاب نوع پیشوند مشتری اینجا را لمس کنید.");
+        //FromTo Create Date
+        lblFromCreateDate.setText(getShortDate(Filter.FromCreateDate));
+        lblLongFromCreateDate.setText(getLongDate(Filter.FromCreateDate));
+        lblToCreateDate.setText(getShortDate(Filter.ToCreateDate));
+        lblLongToCreateDate.setText(getLongDate(Filter.ToCreateDate));
+        //FromTo Archive Date
+        lblFromArchiveDate.setText(getShortDate(Filter.FromArchiveDate));
+        lblLongFromArchiveDate.setText(getLongDate(Filter.FromArchiveDate));
+        lblToArchiveDate.setText(getShortDate(Filter.ToArchiveDate));
+        lblLongToArchiveDate.setText(getLongDate(Filter.ToArchiveDate));
+        //FromTo Return Date
+        lblFromReturnDate.setText(getShortDate(Filter.FromReturnArchiveDate));
+        lblLongFromReturnDate.setText(getLongDate(Filter.FromReturnArchiveDate));
+        lblToReturnDate.setText(getShortDate(Filter.ToReturnArchiveDate));
+        lblLongToReturnDate.setText(getLongDate(Filter.ToReturnArchiveDate));
+        //Visible Gone Archive Views
+        boolean isArchive = false;
+        for (Basic_CustomerStatus data : lCustomerStatus) {
+            if(data.CustomerStatusID == 3) {
+                isArchive = true;
+                break;
+            }
+        }
+        if(isArchive){
+            viewArchive.setVisibility(View.VISIBLE);
+        }else{
+            viewArchive.setVisibility(View.GONE);
+            lArchiveTypes = new ArrayList<>();
+            cArchiveFrom = "";
+            cReturnFrom = "";
+            cArchiveTo = "";
+            cReturnTo = "";
+        }
+
+        Filter = new CustomerFilter();
+        Filter = getFilters();
     }
 
-    private CustomerFilter getFilters(){
+    private String getShortDate(String Date){
+        try {
+            PersianDate pDate = new PersianDate();
+            String[] DateTime = Date.split("T");
+            String[] Dates = DateTime[0].split("-");
+            pDate.setGrgYear(Integer.parseInt(Dates[0]));
+            pDate.setGrgMonth(Integer.parseInt(Dates[1]));
+            pDate.setGrgDay(Integer.parseInt(Dates[2]));
+            int shY = pDate.getShYear();
+            int shM = pDate.getShMonth();
+            int shD = pDate.getShDay();
+
+            return Integer.toString(shY) + "/" + Integer.toString(shM) + "/" + Integer.toString(shD);
+        } catch (NumberFormatException e) {
+            return "";
+        }
+    }
+    private String getLongDate(String Date){
+        try {
+            PersianDate pDate = new PersianDate();
+            String[] DateTime = Date.split("T");
+            String[] Dates = DateTime[0].split("-");
+            pDate.setGrgYear(Integer.parseInt(Dates[0]));
+            pDate.setGrgMonth(Integer.parseInt(Dates[1]));
+            pDate.setGrgDay(Integer.parseInt(Dates[2]));
+            int shY = pDate.getShYear();
+            int shM = pDate.getShMonth();
+            int shD = pDate.getShDay();
+            ir.mirrajabi.persiancalendar.core.models.PersianDate tPD = new ir.mirrajabi.persiancalendar.core.models.PersianDate(shY, shM, shD);
+            DateConverter DC = new DateConverter(shY, shM, shD);
+
+            return DC.getStringLongDate(tPD.getDayOfWeek(), tPD.getDayOfMonth(), tPD.getMonth(), tPD.getYear());
+        } catch (NumberFormatException e) {
+            return "";
+        }
+    }
+
+    private CustomerFilter getFilters() {
         CustomerFilter Filter = new CustomerFilter();
         for (Basic_NamePrefixes data : lNamePrefixes) {
             Filter.CustomerPrefixID.add(data.NamePrefixID);
@@ -464,7 +568,7 @@ public class fragAddCustomerFilter extends Fragment {
         return Filter;
     }
 
-    private enum DateType{
+    private enum DateType {
         FromCreateDate,
         ToCreateDate,
         FromArchiveDate,

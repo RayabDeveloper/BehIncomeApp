@@ -166,25 +166,25 @@ public class fragTaskShow extends Fragment {
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragAddTask.lData = lData;
-                fragAddTask.currentId = lData.ActivityID;
-                fragAddTask.Name = Customer.CustomerName;
-                fragAddTask.customer_id = Customer.CustomerID;
-                fragAddTask.toEdite = true;
-                fragAddTask.sResult = lData.ActivityResultID;
-
-                fragAddTask.TaskShowCustomerId = CustomerId;
-                fragAddTask.TaskShowCustomer = Customer;
-                fragAddTask.TaskShowlData = lData;
-                fragAddTask.TaskShowType = true;
+//                fragAddTask.lData = lData;
+//                fragAddTask.currentId = lData.ActivityID;
+//                fragAddTask.Name = Customer.CustomerName;
+//                fragAddTask.customer_id = Customer.CustomerID;
+//                fragAddTask.toEdite = true;
+//                fragAddTask.sResult = lData.ActivityResultID;
+//
+//                fragAddTask.TaskShowCustomerId = CustomerId;
+//                fragAddTask.TaskShowCustomer = Customer;
+//                fragAddTask.TaskShowlData = lData;
+//                fragAddTask.TaskShowType = true;
 
                 DateConverter DC = new DateConverter(lData.TodoDate, true);
 
-                fragAddTask.DateToSend = DC.getOnlyDate();
-                fragAddTask.TimeToSend = DC.getOnlyTime();
-                fragAddTask.todoDate = lData.TodoDate;
-
-                fragAddTask.Type = getType(lData.StateID);
+//                fragAddTask.DateToSend = DC.getOnlyDate();
+//                fragAddTask.TimeToSend = DC.getOnlyTime();
+//                fragAddTask.todoDate = lData.TodoDate;
+//
+//                fragAddTask.Type = getType(lData.StateID);
 
                 act.getFragByState(FragmentState.AddTask);
             }

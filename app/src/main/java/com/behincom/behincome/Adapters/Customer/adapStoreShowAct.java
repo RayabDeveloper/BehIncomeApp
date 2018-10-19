@@ -139,10 +139,10 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
             public void onClick(View v) {
                 Intent intent = new Intent(context, actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
-                fragAddTask.Name = fragCustomerShow.Customer.Customers.CustomerName;
-                fragAddTask.customer_id = fragCustomerShow.Customer.Customers.CustomerID;
-                fragAddTask.Type = 0;
-                fragAddTask.mParentID = lList.get(position).ActivityID;
+//                fragAddTask.Name = fragCustomerShow.Customer.Customers.CustomerName;
+//                fragAddTask.customer_id = fragCustomerShow.Customer.Customers.CustomerID;
+//                fragAddTask.Type = 0;
+//                fragAddTask.mParentID = lList.get(position).ActivityID;
                 context.startActivity(intent);
                 ((Activity) context).finish();
             }
@@ -159,35 +159,35 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
             public void onClick(View v) {
                 Intent intent = new Intent(context, actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
-                fragAddTask.currentId = lList.get(position).ActivityID;
-                fragAddTask.lFactor = lList.get(position).Invoice;
-                fragAddTask.lData = lList.get(position);
-                fragAddTask.Namee = lList.get(position).Title;
-                fragAddTask.Details = lList.get(position).ActivityDescription;
+//                fragAddTask.currentId = lList.get(position).ActivityID;
+//                fragAddTask.lFactor = lList.get(position).Invoice;
+//                fragAddTask.lData = lList.get(position);
+//                fragAddTask.Namee = lList.get(position).Title;
+//                fragAddTask.Details = lList.get(position).ActivityDescription;
                 if (lList.get(position).ExitDate != null) {
                     if (lList.get(position).ExitDate.length() > 5) {
                         String[] Timer = lList.get(position).ExitDate.split("T");
                         String[] Times = Timer[1].split(":");
-                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
+//                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
                     } else {
                         String[] Timer = lList.get(position).EnterDate.split("T");
                         String[] Times = Timer[1].split(":");
-                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
+//                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
                     }
-                    fragAddTask.Type = 2;//todo todo todo todo Check This
+//                    fragAddTask.Type = 2;//todo todo todo todo Check This
                 } else {
                     if (lList.get(position).EnterDate != null) {
                         if (lList.get(position).EnterDate.length() > 5) {
                             String[] Timer = lList.get(position).EnterDate.split("T");
                             String[] Times = Timer[1].split(":");
-                            fragAddTask.enterTime = Times[0] + ":" + Times[1];
+//                            fragAddTask.enterTime = Times[0] + ":" + Times[1];
                         } else {
                             Toast.makeText(context, "Fail 101", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(context, "Fail 101", Toast.LENGTH_SHORT).show();
                     }
-                    fragAddTask.Type = 1;//todo todo todo todo Check This
+//                    fragAddTask.Type = 1;//todo todo todo todo Check This
                 }
                 int ActID = 0;
                 int ActResult = 0;
@@ -246,15 +246,15 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
                         iResult = i + 1;
                     }
                 }
-                if (isAct)
-                    fragAddTask.spin1 = iAct;
-                else
-                    fragAddTask.spin1 = 0;
-                if (isActResult)
-                    fragAddTask.spin2 = iResult;
-                else
-                    fragAddTask.spin2 = 0;
-                fragAddTask.fac = true;
+//                if (isAct)
+//                    fragAddTask.spin1 = iAct;
+//                else
+//                    fragAddTask.spin1 = 0;
+//                if (isActResult)
+//                    fragAddTask.spin2 = iResult;
+//                else
+//                    fragAddTask.spin2 = 0;
+//                fragAddTask.fac = true;
                 ((Activity) context).startActivity(intent);
             }
         });

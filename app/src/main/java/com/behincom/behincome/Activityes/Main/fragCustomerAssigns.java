@@ -29,6 +29,7 @@ import com.behincom.behincome.R;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,15 +109,18 @@ public class fragCustomerAssigns extends Fragment {
                 map.put("CustomerIDs", CustomerIDs);
                 map.put("MarketerIDs", MarketerIDs);
 
+                Gson gson = new Gson();
+                String json = gson.toJson(map);
+
                 Call cAddUsers = rInterface.RQAssignCustomersToUsers(Setting.getToken(), map);
                 cAddUsers.enqueue(new Callback() {
                     @Override
                     public void onResponse(Call call, Response response) {
                         if(response.isSuccessful()){
-                            getActivity().finish();
-                            Intent intent = new Intent(getActivity(), actMain.class);
-                            getActivity().startActivity(intent);
-//                            act.getFragByState(FragmentState.MainEmpty);
+//                            getActivity().finish();
+//                            Intent intent = new Intent(getActivity(), actMain.class);
+//                            getActivity().startActivity(intent);
+                            act.getFragByState(FragmentState.MainCustomers);
                         }
                         pDialog.DisMiss();
                     }

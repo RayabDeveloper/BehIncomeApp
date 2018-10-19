@@ -37,6 +37,7 @@ import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Main.adapMainCustomerMarketers;
 import com.behincom.behincome.Adapters.Main.adapMainCustomers;
 import com.behincom.behincome.Adapters.SpinAdapter;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_Cities;
@@ -44,19 +45,25 @@ import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_PersonRoles;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
 import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.Customer.CustomerFilter;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.DataDates;
+import com.behincom.behincome.Datas.Keys.CustomerOrder;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Profile.MarketerUserAccessProfile;
 import com.behincom.behincome.Datas.RSQLGeter;
+import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -72,27 +79,30 @@ public class fragCustomers extends Fragment {
     static Context context;
     private RSQLite SQL = new RSQLite();
     private RSQLGeter geter = new RSQLGeter();
-    Dialog mDialog;
-    com.behincom.behincome.Accesories.Dialog pDialog;
-    RWInterface rInterface;
+    Dialog mDialog, oDialog;
+    static com.behincom.behincome.Accesories.Dialog pDialog;
+    static RWInterface rInterface;
     actMain act = new actMain();
-    adapMainCustomers adapter;
+    static adapMainCustomers adapter;
     static adapMainCustomerMarketers adapterMarketers;
+    static adapCustomerSuggestion adapterSuggestion;
 
-    TextView lblStore;
     RecyclerView lstMain;
     static RecyclerView lstMarketers;
+    static RecyclerView lstSuggestion;
     RecyclerView.LayoutManager mLayoutManager;
     public static TextInputEditText txtSearch;
     ImageView imgFilter;
+    ImageView imgOrder;
     ImageView imgVoice;
     ImageView btnAssign;
     ImageView btnDelete;
     ImageView btnArchive;
     ImageView btnCancellation;
-    SwipeRefreshLayout swipeRefresher;
+    static SwipeRefreshLayout swipeRefresher;
     RelativeLayout RelSetting;
     static RelativeLayout ViewMarketerList;
+    static RelativeLayout viewSuggestion;
     static LinearLayout linStatusBar;
     static LinearLayout linSearch;
     FloatingActionButton btnAdd;
@@ -103,7 +113,11 @@ public class fragCustomers extends Fragment {
     ImageView imgSetting, imgCancellSearch;
 
     public static List<MyCustomers> lCustomer = new ArrayList<>();
+    protected static List<String> lSuggestion = new ArrayList<>();
     private List<MyCustomers> lCustomer2 = new ArrayList<>();
+    public static CustomerFilter Filter = new CustomerFilter();
+    protected static int mCustomerOrder = 0;
+    protected static String SearchKey = "";
 
     public static fragCustomers newInstance(Context mContext) {
         fragCustomers fragment = new fragCustomers();
@@ -116,6 +130,8 @@ public class fragCustomers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_customers, container, false);
 
+        lstSuggestion = view.findViewById(R.id.lstSuggestion);
+        viewSuggestion = view.findViewById(R.id.viewSuggestion);
         lstMarketers = view.findViewById(R.id.lstMarketers);
         ViewMarketerList = view.findViewById(R.id.ViewMarketerList);
         imgCancellSearch = view.findViewById(R.id.imgCancellSearch);
@@ -135,11 +151,11 @@ public class fragCustomers extends Fragment {
         imgAccount = view.findViewById(R.id.imgAccount);
         swipeRefresher = view.findViewById(R.id.swipeRefresher);
         linSearch = view.findViewById(R.id.linSearch);
-        lblStore = view.findViewById(R.id.lblStore);
         lstMain = view.findViewById(R.id.lstMain);
         RelSetting = view.findViewById(R.id.RelSetting);
         txtSearch = view.findViewById(R.id.txtSearch);
         imgFilter = view.findViewById(R.id.imgFilter);
+        imgOrder = view.findViewById(R.id.imgOrder);
         imgVoice = view.findViewById(R.id.imgVoice);
         btnAssign = view.findViewById(R.id.btnAssign);
         btnDelete = view.findViewById(R.id.btnDelete);
@@ -152,6 +168,7 @@ public class fragCustomers extends Fragment {
             @Override
             public void onClick(View v) {
                 txtSearch.setText("");
+                viewSuggestion.setVisibility(View.GONE);
             }
         });
         imgSetting.setVisibility(View.VISIBLE);
@@ -195,11 +212,11 @@ public class fragCustomers extends Fragment {
                 List<Basic_Properties> lProp = geter.getListIsCheck(Basic_Properties.class);
                 List<Basic_ContactTypes> lCont = geter.getList(Basic_ContactTypes.class);
                 List<Basic_PersonRoles> lRole = geter.getList(Basic_PersonRoles.class);
-                if(lCit.size() > 0 && lAct.size() > 0 && lTag.size() > 0 && lProp.size() > 0 && lCont.size() > 0 && lRole.size() > 0) {
+                if (lCit.size() > 0 && lAct.size() > 0 && lTag.size() > 0 && lProp.size() > 0 && lCont.size() > 0 && lRole.size() > 0) {
                     Intent intent = new Intent(getActivity(), actCustomer.class);
                     actCustomer.STATE = FragmentState.AddCustomer;
                     startActivity(intent);
-                }else
+                } else
                     Toast.makeText(context, "لطفا ابتدا تمام موارد را در تنظیمات اطلاعات پایه تکمیل کنید.", Toast.LENGTH_LONG).show();
             }
         });
@@ -211,15 +228,17 @@ public class fragCustomers extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(txtSearch.getText().toString().length() > 0) {
-                    lCustomer2 = new ArrayList<>();
-                    for (MyCustomers data : lCustomer) {
-                        if (data.Customers.CustomerName.contains(txtSearch.getText().toString()))
-                            lCustomer2.add(data);
-                    }
-                    RefreshList();
+                if (txtSearch.getText().toString().length() > 0) {
+//                    lCustomer2 = new ArrayList<>();
+//                    for (MyCustomers data : lCustomer) {
+//                        if (data.Customers.CustomerName.contains(txtSearch.getText().toString()))
+//                            lCustomer2.add(data);
+//                    }
+//                    RefreshList();
+                    SearchKey = txtSearch.getText().toString();
+                    getSuggestion(page);
                     imgCancellSearch.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     imgCancellSearch.setVisibility(View.GONE);
                 }
             }
@@ -297,7 +316,7 @@ public class fragCustomers extends Fragment {
                     if (loading) {
                         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                             loading = false;
-                            getCustomers(page);
+                            getCustomers(page, false);
                         }
                     }
                 }
@@ -309,14 +328,119 @@ public class fragCustomers extends Fragment {
                 page = 0;
                 lCustomer = new ArrayList<>();
                 adapter.lList = new ArrayList<>();
-                getCustomers(page);
+                getCustomers(page, false);
+            }
+        });
+
+        imgFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.addFilter(Filter);
+            }
+        });
+        imgOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oDialog = new Dialog(context);
+                oDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                oDialog.setCancelable(true);
+                oDialog.setCanceledOnTouchOutside(true);
+                oDialog.setContentView(R.layout.dialog_customer_order);
+                Objects.requireNonNull(oDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+                TextView btnCreateDateDesc = oDialog.findViewById(R.id.btnCreateDateDesc);
+                TextView btnCreateDate = oDialog.findViewById(R.id.btnCreateDate);
+                TextView btnCustomerName = oDialog.findViewById(R.id.btnCustomerName);
+                TextView btnCustomerStatus = oDialog.findViewById(R.id.btnCustomerStatus);
+                TextView btnCustomerStates = oDialog.findViewById(R.id.btnCustomerStates);
+                TextView btnCustomerEditAble = oDialog.findViewById(R.id.btnCustomerEditAble);
+                TextView btnCustomerPointState = oDialog.findViewById(R.id.btnCustomerPointState);
+
+                btnCreateDateDesc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CreateDateDesc;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                btnCreateDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CreateDate;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                btnCustomerName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CustomerName;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                btnCustomerStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CustomerStatus;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                btnCustomerStates.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CustomerStates;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                btnCustomerEditAble.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CustomerEditAble;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                btnCustomerPointState.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCustomerOrder = CustomerOrder.CustomerPointState;
+                        page = 0;
+                        lCustomer = new ArrayList<>();
+                        adapter.lList = new ArrayList<>();
+                        getCustomers(0, true);
+                        oDialog.dismiss();
+                    }
+                });
+                oDialog.show();
             }
         });
 
         return view;
     }
 
-    private boolean loading = true;
+    private static boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     SpinAdapter spinAdapter_SubAct;
@@ -389,20 +513,34 @@ public class fragCustomers extends Fragment {
                 int d = PD.getGrgDay();
                 map.put("ReturnDate", y + "-" + m + "-" + d + "T00:00:00");
 
-                Call ChangeStates = rInterface.RQAddCustomersToArchive(Setting.getToken(), map);
-                ChangeStates.enqueue(new Callback() {
-                    @Override
-                    public void onResponse(Call call, Response response) {
-                        if (response.isSuccessful()) {
-                            getActivity().runOnUiThread(new Runnable() {
+                Gson gson = new Gson();
+                String json = gson.toJson(map);
 
-                                @Override
-                                public void run() {
-                                    HideStatusBar();
-                                    Toast.makeText(context, "فروشگاه ها بایگانی شدند", Toast.LENGTH_LONG).show();
-                                    aDialog.dismiss();
+                Call ChangeStates = rInterface.RQAddCustomersToArchive(Setting.getToken(), map);
+                ChangeStates.enqueue(new Callback<SimpleResponse>() {
+                    @Override
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        if (response.isSuccessful()) {
+                            SimpleResponse simple = response.body();
+                            if (simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.AdditionalData.entrySet()) {
+                                    Err = entry.getValue().toString() + ", ";
                                 }
-                            });
+                                if (Err.length() > 2)
+                                    Err = Err.substring(0, Err.length() - 2);
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                                aDialog.dismiss();
+                            } else if (simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString() + ", ";
+                                }
+                                if (Err.length() > 2)
+                                    Err = Err.substring(0, Err.length() - 2);
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
                         }
                         pDialog.DisMiss();
                     }
@@ -422,21 +560,90 @@ public class fragCustomers extends Fragment {
         });
         aDialog.show();
     }
+    private void Delete() {
+        pDialog = new com.behincom.behincome.Accesories.Dialog(context);
+        pDialog.Show();
 
+        List<Integer> lCustomerIDs = new ArrayList<>();
+        for (MyCustomers data : adapter.lList) {
+            if (data.Customers.isCheck) {
+                lCustomerIDs.add(data.Customers.CustomerID);
+            }
+        }
+        HashMap<String, Object> MapChangeState = new HashMap<>();
+        MapChangeState.put("CustomerIds", lCustomerIDs);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(MapChangeState);
+
+        Call ChangeState = rInterface.RQDeleteCustomer(Setting.getToken(), MapChangeState);
+        ChangeState.enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                if (response.isSuccessful()) {
+                    SimpleResponse simple = response.body();
+                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                        Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                        String Err = "";
+                        for (Map.Entry<String, Object> entry : simple.AdditionalData.entrySet()) {
+                            Err = entry.getValue().toString() + ", ";
+                        }
+                        if(Err.length() > 2)
+                            Err = Err.substring(0, Err.length() - 2);
+                        Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                        getCustomers(page, false);
+                        HideStatusBar();
+                    }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                        String Err = "";
+                        for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                            Err = entry.getValue().toString() + ", ";
+                        }
+                        if(Err.length() > 2)
+                            Err = Err.substring(0, Err.length() - 2);
+                        Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                    }
+                }
+                pDialog.DisMiss();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                pDialog.DisMiss();
+            }
+        });
+    }
     @Override
     public void onResume() {
         super.onResume();
-        getCustomers(page);
+        getCustomers(page, false);
     }
 
     private static int page = 0;
 
-    private void getCustomers(int mPage) {
+    private static void getCustomers(int mPage, boolean needLoading) {
         try {
+            if (needLoading) {
+                pDialog = new com.behincom.behincome.Accesories.Dialog(context);
+                pDialog.Show();
+            }
             rInterface = Retrofite.getClient().create(RWInterface.class);
 
+            int BMMU = 0;
+            try {
+                BMMU = Setting.getBMMUserID();
+            } catch (Exception e) {
+                BMMU = 0;
+            }
+
             HashMap<String, Object> map = new HashMap<>();
+            map.put("BusinessManagerId", BMMU);
+            map.put("FilterModel", Filter);
+            map.put("OrderTypeModel", mCustomerOrder);
             map.put("Page", mPage);
+            map.put("SearchKey", SearchKey);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
 
             Call cGetAll = rInterface.RQGetCustomerAllData(Setting.getToken(), map);
             cGetAll.enqueue(new Callback<List<MyCustomers>>() {
@@ -445,7 +652,7 @@ public class fragCustomers extends Fragment {
                     if (response.isSuccessful()) {
                         lCustomer.addAll(response.body());
                         adapter.lList = lCustomer;
-                        if(response.body().size() > 0)
+                        if (response.body().size() > 0)
                             page++;
                         loading = true;
 
@@ -453,17 +660,92 @@ public class fragCustomers extends Fragment {
                             swipeRefresher.setRefreshing(false);
                         adapter.notifyDataSetChanged();
                     }
+                    if (needLoading) {
+                        pDialog.DisMiss();
+                    }
                 }
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
                     if (swipeRefresher.isRefreshing())
                         swipeRefresher.setRefreshing(false);
+                    if (needLoading) {
+                        pDialog.DisMiss();
+                    }
                 }
             });
         } catch (Exception Ex) {
             String Er = Ex.getMessage();
         }
+    }
+
+    private void getSuggestion(int mPage) {
+        try {
+            rInterface = Retrofite.getClient().create(RWInterface.class);
+            int BMMU;
+            try {
+                BMMU = Setting.getBMMUserID();
+            } catch (Exception e) {
+                BMMU = 0;
+            }
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("BusinessManagerId", BMMU);
+            map.put("FilterModel", Filter);
+            map.put("OrderTypeModel", mCustomerOrder);
+            map.put("Page", mPage);
+            map.put("SearchKey", SearchKey);
+
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+
+            Call cGetAll = rInterface.RQGetSuggestion(Setting.getToken(), map);
+            cGetAll.enqueue(new Callback<List<String>>() {
+                @Override
+                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                    if (response.isSuccessful()) {
+                        lSuggestion = new ArrayList<>();
+                        lSuggestion = response.body();
+
+                        if (lSuggestion.size() > 0) {
+                            if (!SuggestionClicked) {
+                                viewSuggestion.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(context);
+                                lstSuggestion.setLayoutManager(mLayoutManager);
+                                lstSuggestion.setHasFixedSize(true);
+                                lstSuggestion.addItemDecoration(ItemDecoration.getDecoration(context));
+                                lstSuggestion.setItemAnimator(new DefaultItemAnimator());
+
+                                adapterSuggestion = new adapCustomerSuggestion(lSuggestion, getActivity());
+                                lstSuggestion.setAdapter(adapterSuggestion);
+                            } else {
+                                SuggestionClicked = false;
+                                viewSuggestion.setVisibility(View.GONE);
+                            }
+                        } else {
+                            viewSuggestion.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+
+                }
+            });
+        } catch (Exception Ex) {
+            String Er = Ex.getMessage();
+        }
+    }
+
+    static boolean SuggestionClicked = false;
+
+    public static void setSearch(String Suggestion) {
+        SuggestionClicked = true;
+        txtSearch.setText(Suggestion);
+        lSuggestion = new ArrayList<>();
+        viewSuggestion.setVisibility(View.GONE);
+        if (Suggestion.length() > 0)
+            getCustomers(page, true);
     }
 
     private static boolean statusState = false;
@@ -497,6 +779,7 @@ public class fragCustomers extends Fragment {
     }
 
     public static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
+
     public void startVoiceRecognitionActivity() {
         new VoiceType(context, VOICE_RECOGNITION_REQUEST_CODE);
     }
@@ -558,6 +841,7 @@ public class fragCustomers extends Fragment {
         animate.setFillAfter(true);
         view.startAnimation(animate);
     }
+
     private static void slideDown(final View view) {
         TranslateAnimation animate = new TranslateAnimation(
                 0,                 // fromXDelta
@@ -586,7 +870,7 @@ public class fragCustomers extends Fragment {
         view.startAnimation(animate);
     }
 
-    public static void ShowMarketers(List<MarketerUserAccessProfile> mProfiles){
+    public static void ShowMarketers(List<MarketerUserAccessProfile> mProfiles) {
         lstMarketers.setLayoutManager(new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false));
         lstMarketers.setHasFixedSize(true);
         lstMarketers.addItemDecoration(ItemDecoration.getDecoration(context));
@@ -597,7 +881,8 @@ public class fragCustomers extends Fragment {
 
         slideUp(ViewMarketerList);
     }
-    public static void closeView(){
+
+    public static void closeView() {
         slideDown(ViewMarketerList);
     }
 }

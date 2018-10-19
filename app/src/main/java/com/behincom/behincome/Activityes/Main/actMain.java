@@ -31,6 +31,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStatus;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.BaseData.Basic_Tags;
+import com.behincom.behincome.Datas.Customer.CustomerFilter;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.R;
 
@@ -136,10 +137,6 @@ public class actMain extends AppCompatActivity {
                 addFragProfileSubmiter();
                 STATE = FragmentState.ProfileSubmiter;
                 break;
-            case AddFilter:
-                addFilter();
-                STATE = FragmentState.AddFilter;
-                break;
         }
     }
     public void getActivityFragment(List<Basic_ActivityFields> lList){
@@ -184,13 +181,14 @@ public class actMain extends AppCompatActivity {
         transaction.commit();
         STATE = FragmentState.NamePrefixes;
     }
-
-    private void addFilter(){
+    public void addFilter(CustomerFilter Filter){
         frameLayout.removeAllViewsInLayout();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.frameLayout, fragAddCustomerFilter.newInstance(context));
+        transaction.replace(R.id.frameLayout, fragAddCustomerFilter.newInstance(context, Filter));
         transaction.commit();
+        STATE = FragmentState.AddFilter;
     }
+
     private void addAssign(){
         frameLayout.removeAllViewsInLayout();
         FragmentTransaction transaction = manager.beginTransaction();

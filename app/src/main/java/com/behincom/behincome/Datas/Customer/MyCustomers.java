@@ -13,6 +13,6 @@ public class MyCustomers {
     @SerializedName("ActivityCount")
     public int ActivityCount = 0;
     @SerializedName("Owner")
-    public List<com.behincom.behincome.Datas.Profile.MarketerUserAccessProfile> MarketerUserAccessProfile = new ArrayList<>();
+    public List<com.behincom.behincome.Datas.Profile.MarketerUserAccessProfile> Owner = new ArrayList<>();
 
 }

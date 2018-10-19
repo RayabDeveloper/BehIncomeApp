@@ -128,14 +128,14 @@ public class actActivities extends AppCompatActivity {
     public void onBackPressed() {
         switch (STATE) {
             case AddFactor:
-                fragAddTask.Namee = fragAddFactor.Name;
-                fragAddTask.Details = fragAddFactor.Details;
-                fragAddTask.enterTime = fragAddFactor.enterTime;
-                fragAddTask.spin1 = fragAddFactor.spin1;
-                fragAddTask.spin2 = fragAddFactor.spin2;
-                fragAddTask.Type = fragAddFactor.ActType;
-                fragAddTask.lFactor = fragAddFactor.lFactores;
-                fragAddTask.fac = false;
+//                fragAddTask.Namee = fragAddFactor.Name;
+//                fragAddTask.Details = fragAddFactor.Details;
+//                fragAddTask.enterTime = fragAddFactor.enterTime;
+//                fragAddTask.spin1 = fragAddFactor.spin1;
+//                fragAddTask.spin2 = fragAddFactor.spin2;
+//                fragAddTask.Type = fragAddFactor.ActType;
+//                fragAddTask.lFactor = fragAddFactor.lFactores;
+//                fragAddTask.fac = false;
                 getFragByState(AddTask);
                 break;
             case AddTasks:
@@ -151,26 +151,26 @@ public class actActivities extends AppCompatActivity {
                 mBackPressed = System.currentTimeMillis();
                 break;
             case AddTask:
-                if (!fragAddTask.TaskShowType) {
-                    if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
-                    {
-                        Intent intent = new Intent(context, actCustomer.class);
-                        fragCustomerShow.Customer = fragAddTask.mCustomer;
-                        fragCustomerShow.position = fragAddTask.mPosition;
-                        actCustomer.STATE = CustomerShow;
-                        startActivity(intent);
-                        super.onBackPressed();
-                        finish();
-                        return;
-                    }
-                    else { Toast.makeText(getBaseContext(), "برای خروج دوباره از گزینه برگشت استفاده کنید", Toast.LENGTH_SHORT).show(); }
-                    mBackPressed = System.currentTimeMillis();
-                } else {
-                    fragTaskShow.lData = fragAddTask.TaskShowlData;
-                    fragTaskShow.CustomerId = fragAddTask.TaskShowCustomerId;
-                    fragTaskShow.Customer = fragAddTask.TaskShowCustomer;
-                    getFragByState(TaskShow);
-                }
+//                if (!fragAddTask.TaskShowType) {
+//                    if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+//                    {
+//                        Intent intent = new Intent(context, actCustomer.class);
+////                        fragCustomerShow.Customer = fragAddTask.mCustomer;
+////                        fragCustomerShow.position = fragAddTask.mPosition;
+//                        actCustomer.STATE = CustomerShow;
+//                        startActivity(intent);
+//                        super.onBackPressed();
+//                        finish();
+//                        return;
+//                    }
+//                    else { Toast.makeText(getBaseContext(), "برای خروج دوباره از گزینه برگشت استفاده کنید", Toast.LENGTH_SHORT).show(); }
+//                    mBackPressed = System.currentTimeMillis();
+//                } else {
+////                    fragTaskShow.lData = fragAddTask.TaskShowlData;
+////                    fragTaskShow.CustomerId = fragAddTask.TaskShowCustomerId;
+////                    fragTaskShow.Customer = fragAddTask.TaskShowCustomer;
+//                    getFragByState(TaskShow);
+//                }
                 break;
             case AddTasksShow:actActivities act = new actActivities();
                 //todo todo todo
@@ -183,9 +183,9 @@ public class actActivities extends AppCompatActivity {
                 break;
             case AddTaskSetTime:
                 if(fragAddTaskSetTime.mType && fragAddTaskSetTime.isForGroup && fragAddTaskSetTime.GroupStartEndType == 0) {
-                    fragAddTask.ActSelected = fragAddTaskSetTime.ActSelected;
-                    fragAddTask.Descriptioned = fragAddTaskSetTime.Descriptioned;
-                    fragAddTask.Nameioned = fragAddTaskSetTime.Nameioned;
+//                    fragAddTask.ActSelected = fragAddTaskSetTime.ActSelected;
+//                    fragAddTask.Descriptioned = fragAddTaskSetTime.Descriptioned;
+//                    fragAddTask.Nameioned = fragAddTaskSetTime.Nameioned;
                     getFragByState(AddTask);
                 }else{
                     if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())

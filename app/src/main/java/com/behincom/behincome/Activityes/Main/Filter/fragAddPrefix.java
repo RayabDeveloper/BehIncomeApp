@@ -42,8 +42,8 @@ public class fragAddPrefix extends Fragment {
     protected static List<Basic_NamePrefixes> lTagForCustomer = new ArrayList<>();
     private static List<Basic_NamePrefixes> lTagForCustomerBackup = new ArrayList<>();
 
-    public static fragAddCustomerFilter newInstance(Context mContext, List<Basic_NamePrefixes> lTager) {
-        fragAddCustomerFilter fragment = new fragAddCustomerFilter();
+    public static fragAddPrefix newInstance(Context mContext, List<Basic_NamePrefixes> lTager) {
+        fragAddPrefix fragment = new fragAddPrefix();
         context = mContext;
         lTagForCustomer = lTager;
         lTagForCustomerBackup.addAll(lTager);
@@ -61,7 +61,7 @@ public class fragAddPrefix extends Fragment {
         lstSub = view.findViewById(R.id.lstSub);
 
         btnCheck.setVisibility(View.GONE);
-        lblTitle.setText("انتخاب برچسب");
+        lblTitle.setText("انتخاب پیشوند مشتری");
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +75,7 @@ public class fragAddPrefix extends Fragment {
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
         RSQLite SQL = new RSQLite();
-        lTag = SQL.Select("SELECT ArchiveTypeID, ArchiveTypeUserId, ArchiveTypeTitle, ArchiveTypeOrder, ArchiveTypeFontIcon, ArchiveTypeColor, AdjustedByAdmin, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1'", Basic_ArchiveTypes.class);
+        lTag = SQL.Select("SELECT NamePrefixID, NamePrefixTitle, NamePrefixOrder, NamePrefixFontIcon, NamePrefixColor, Deleted, 'false' as isCheck FROM Basic_NamePrefixes WHERE isCheck='0'", Basic_NamePrefixes.class);
         for (Basic_NamePrefixes data : lTag) {
             for (Basic_NamePrefixes des : lTagForCustomer) {
                 if (data.NamePrefixID == des.NamePrefixID)
@@ -88,6 +88,11 @@ public class fragAddPrefix extends Fragment {
         cardSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lTagForCustomer = new ArrayList<>();
+                for (Basic_NamePrefixes data : adapterSub.getList()) {
+                    if(data.isCheck)
+                        lTagForCustomer.add(data);
+                }
                 onBackPressed(lTagForCustomer);
             }
         });
@@ -100,8 +105,12 @@ public class fragAddPrefix extends Fragment {
         lTagForCustomer = new ArrayList<>();
         lTagForCustomerBackup = new ArrayList<>();
 
-        fragAddCustomerFilter.lNamePrefixes = lList;
-        act.getFragByState(FragmentState.AddFilter);
+        fragAddCustomerFilter.lNamePrefixes = new ArrayList<>();
+        fragAddCustomerFilter.Filter.CustomerPrefixID = new ArrayList<>();
+        for (Basic_NamePrefixes data : lList) {
+            fragAddCustomerFilter.Filter.CustomerPrefixID.add(data.NamePrefixID);
+        }
+        act.addFilter(fragAddCustomerFilter.Filter);
     }
 
 }

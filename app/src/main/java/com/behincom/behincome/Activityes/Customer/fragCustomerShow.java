@@ -50,6 +50,7 @@ import com.behincom.behincome.Adapters.Customer.adapStoreShowTask;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.Activityes.Activities;
 import com.behincom.behincome.Datas.Activityes.Invoice;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
@@ -61,8 +62,11 @@ import com.behincom.behincome.Datas.Customer.CustomerPersonnel;
 import com.behincom.behincome.Datas.Customer.CustomerProperties;
 import com.behincom.behincome.Datas.Customer.CustomerTags;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
+import com.behincom.behincome.Datas.DataDates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.RSQLGeter;
+import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
@@ -70,6 +74,7 @@ import com.behincom.behincome.WebRequest.Retrofite;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
 import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
@@ -78,11 +83,13 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import saman.zamani.persiandate.PersianDate;
 
 import static com.behincom.behincome.WebRequest.Retrofite.BASE;
 
@@ -880,53 +887,96 @@ public class fragCustomerShow extends Fragment {
         lstAct.setAdapter(adapter_Act);
     }
     private void Archive() {
-        aDialog = new Dialog(context);
+        final Dialog aDialog = new Dialog(context);
         aDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         aDialog.setCancelable(true);
         aDialog.setCanceledOnTouchOutside(true);
         aDialog.setContentView(R.layout.dialog_select_archive);
         Objects.requireNonNull(aDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
 
-        dialog_btnCancell = aDialog.findViewById(R.id.btnCancell);
-        dialog_cardViewMain = aDialog.findViewById(R.id.cardViewMain);
         final Spinner spinArchive = aDialog.findViewById(R.id.spinArchive);
-        TextView btnTimeTitle = aDialog.findViewById(R.id.btnTimeTitle);
-        TextView lblTitle = aDialog.findViewById(R.id.lblTitle);
+        final Spinner spinDay = aDialog.findViewById(R.id.spinDay);
+        final Spinner spinMonth = aDialog.findViewById(R.id.spinMonth);
+        final Spinner spinYear = aDialog.findViewById(R.id.spinYear);
         TextView btnCancell = aDialog.findViewById(R.id.lblCancell);
         TextView btnAccept = aDialog.findViewById(R.id.lblAccept);
+        final EditText txtDescription = aDialog.findViewById(R.id.txtDescription);
 
-        Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-        lblTitle.setTypeface(tFace);
-        btnTimeTitle.setTypeface(tFace);
-        btnCancell.setTypeface(tFace);
-        btnAccept.setTypeface(tFace);
-
-        lArchiveType = geter.getList(Basic_ArchiveTypes.class);
-        Basic_ArchiveTypes data = new Basic_ArchiveTypes();
-        data.ArchiveTypeTitle = ("نوع بایگانی");
-        lArchiveType.add(0, data);
-        spinAdapter_SubAct = new SpinAdapter(context, lArchiveType, "ArchiveTypeTitle");
+        lDataArchive = geter.getList(Basic_ArchiveTypes.class);
+        spinAdapter_SubAct = new SpinAdapter(context, lDataArchive, "ArchiveTypeTitle");
         spinArchive.setAdapter(spinAdapter_SubAct);
+
+        final SpinAdapter adapter1 = new SpinAdapter(context, Day(), "name");
+        spinDay.setAdapter(adapter1);
+        final SpinAdapter adapter2 = new SpinAdapter(context, Month(), "name");
+        spinMonth.setAdapter(adapter2);
+        final SpinAdapter adapter3 = new SpinAdapter(context, Year(), "name");
+        spinYear.setAdapter(adapter3);
+
+        String[] dates = Setting.getServerDateTime().split("T");
+        String[] date = dates[0].split("-");
+        int mY = Integer.parseInt(date[0]);
+        int mM = Integer.parseInt(date[1]);
+        int mD = Integer.parseInt(date[2]);
+        final PersianDate PD = new PersianDate();
+        PD.setGrgYear(mY);
+        PD.setGrgMonth(mM);
+        PD.setGrgDay(mD);
+        mY = PD.getShYear();
+        mM = PD.getShMonth();
+        mD = PD.getShDay();
+
+        spinYear.setSelection(adapter3.getItemPosition("name", Integer.toString(mY)));
+        spinMonth.setSelection(mM - 1);
+        spinDay.setSelection(mD - 1);
 
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pDialog = new com.behincom.behincome.Accesories.Dialog(context);
+                final com.behincom.behincome.Accesories.Dialog pDialog = new com.behincom.behincome.Accesories.Dialog(context);
                 pDialog.Show();
 
-                HashMap<String, Object> MapChangeState = new HashMap<>();
-                MapChangeState.put("CustomerID", Customer.Customers.CustomerID);
-                MapChangeState.put("ArchiveTypeID", Integer.parseInt(spinAdapter_SubAct.getItemString(spinArchive.getSelectedItemPosition(), "ArchiveTypeID")));
+                List<Integer> lCustomerIDs = new ArrayList<>();
+                lCustomerIDs.add(Customer.Customers.CustomerID);
+                int ArchiveType = Integer.parseInt(spinAdapter_SubAct.getItemString(spinArchive.getSelectedItemPosition(), "ArchiveTypeID"));
+                String description = txtDescription.getText().toString();
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("CustomerID", lCustomerIDs);
+                map.put("ArchiveTypeID", ArchiveType);
+                map.put("Description", description);
+                int y = PD.getGrgYear();
+                int m = PD.getGrgMonth();
+                int d = PD.getGrgDay();
+                map.put("ReturnDate", y + "-" + m + "-" + d + "T00:00:00");
 
-                Call ChangeState = rInterface.RQAddCustomerToArchive(Setting.getToken(), MapChangeState);
-                ChangeState.enqueue(new Callback() {
+                Gson gson = new Gson();
+                String json = gson.toJson(map);
+
+                Call ChangeStates = rInterface.RQAddCustomersToArchive(Setting.getToken(), map);
+                ChangeStates.enqueue(new Callback<SimpleResponse>() {
                     @Override
-                    public void onResponse(Call call, Response response) {
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
-                            Intent intent = new Intent(context, actMain.class);
-                            actMain.STATE = FragmentState.MainCustomers;
-                            context.startActivity(intent);
-                            getActivity().finish();
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.AdditionalData.entrySet()) {
+                                    Err = entry.getValue().toString() + ", ";
+                                }
+                                if(Err.length() > 2)
+                                    Err = Err.substring(0, Err.length() - 2);
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                                aDialog.dismiss();
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString() + ", ";
+                                }
+                                if(Err.length() > 2)
+                                    Err = Err.substring(0, Err.length() - 2);
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                            }
                         }
                         pDialog.DisMiss();
                     }
@@ -946,24 +996,92 @@ public class fragCustomerShow extends Fragment {
         });
         aDialog.show();
     }
+    List<Basic_ArchiveTypes> lDataArchive = new ArrayList<>();
+    private List<DataDates> Day() {
+        List<DataDates> mDay = new ArrayList<>();
+        for (int i = 1; i < 32; i++) {
+            DataDates data = new DataDates();
+            String nn = "";
+            if (i < 10)
+                nn = "0" + i;
+            else
+                nn = Integer.toString(i);
+            data.name(nn);
+            mDay.add(data);
+        }
+        return mDay;
+    }
+
+    private List<DataDates> Month() {
+        List<DataDates> mMonth = new ArrayList<>();
+        for (int i = 1; i < 13; i++) {
+            DataDates data = new DataDates();
+            String nn = "";
+            if (i < 10)
+                nn = "0" + i;
+            else
+                nn = Integer.toString(i);
+            data.name(nn);
+            mMonth.add(data);
+        }
+        return mMonth;
+    }
+
+    private List<DataDates> Year() {
+        List<DataDates> mYear = new ArrayList<>();
+        for (int i = 1370; i < 1451; i++) {
+            DataDates data = new DataDates();
+            String nn = "";
+            if (i < 10)
+                nn = "0" + i;
+            else
+                nn = Integer.toString(i);
+            data.name(nn);
+            mYear.add(data);
+        }
+        return mYear;
+    }
     private void Delete() {
         pDialog = new com.behincom.behincome.Accesories.Dialog(context);
         pDialog.Show();
 
+        List<Integer> lCustomerIDs = new ArrayList<>();
+        lCustomerIDs.add(Customer.Customers.CustomerID);
         HashMap<String, Object> MapChangeState = new HashMap<>();
-        MapChangeState.put("CustomerID", Customer.Customers.CustomerID);
+        MapChangeState.put("CustomerIds", lCustomerIDs);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(MapChangeState);
 
         Call ChangeState = rInterface.RQDeleteCustomer(Setting.getToken(), MapChangeState);
-        ChangeState.enqueue(new Callback() {
+        ChangeState.enqueue(new Callback<SimpleResponse>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if (response.isSuccessful()) {
-                    fragCustomers.lCustomer.remove(position);
-                    Toast.makeText(context, "فروشگاه حذف شد", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context, actMain.class);
-                    actMain.STATE = FragmentState.MainCustomers;
-                    getActivity().startActivity(intent);
-                    getActivity().finish();
+                    SimpleResponse simple = response.body();
+                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                        Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                        String Err = "";
+                        for (Map.Entry<String, Object> entry : simple.AdditionalData.entrySet()) {
+                            Err = entry.getValue().toString() + ", ";
+                        }
+                        if(Err.length() > 2)
+                            Err = Err.substring(0, Err.length() - 2);
+                        Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                        fragCustomers.lCustomer.remove(position);
+                        Intent intent = new Intent(context, actMain.class);
+                        actMain.STATE = FragmentState.MainCustomers;
+                        getActivity().startActivity(intent);
+                        getActivity().finish();
+                    }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                        String Err = "";
+                        for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                            Err = entry.getValue().toString() + ", ";
+                        }
+                        if(Err.length() > 2)
+                            Err = Err.substring(0, Err.length() - 2);
+                        Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                    }
                 }
                 pDialog.DisMiss();
             }

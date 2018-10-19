@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -15,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,25 +23,16 @@ import com.behincom.behincome.Activityes.Customer.actCustomer;
 import com.behincom.behincome.Activityes.Customer.fragCustomerShow;
 import com.behincom.behincome.Activityes.Main.fragCustomers;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
-import com.behincom.behincome.Datas.BaseData.Basic_CustomerStatus;
-import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
-import com.behincom.behincome.app.AppController;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.devsmart.android.ui.HorizontalListView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static com.behincom.behincome.WebRequest.Retrofite.BASE;
-import static com.behincom.behincome.WebRequest.Retrofite.BASE_URL;
 
 public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.AdapterMember> {
 
@@ -96,17 +85,23 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         lblName.setText(lList.get(position).Customers.CustomerName);
         String LocAdd = lList.get(position).Customers.CustomerAddress;
         lbltaskCount.setText(Integer.toString(lList.get(position).ActivityCount));
-        lblAssignCount.setText(Integer.toString(lList.get(position).MarketerUserAccessProfile.size()));
+        lblAssignCount.setText(Integer.toString(lList.get(position).Owner.size()));
         lblAssignCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragCustomers.ShowMarketers(lList.get(position).MarketerUserAccessProfile);
+                fragCustomers.ShowMarketers(lList.get(position).Owner);
+            }
+        });
+        imgAssignCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragCustomers.ShowMarketers(lList.get(position).Owner);
             }
         });
         imgTaskCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragCustomers.ShowMarketers(lList.get(position).MarketerUserAccessProfile);
+                fragCustomers.ShowMarketers(lList.get(position).Owner);
             }
         });
 

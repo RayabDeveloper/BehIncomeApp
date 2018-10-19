@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -48,8 +49,8 @@ public class fragAddActivityField extends Fragment {
 
     protected static int position = 0, MainIDSelected = 0;
 
-    public static fragAddCustomerFilter newInstance(Context mContext, List<Basic_ActivityFields> lActivityFielder) {
-        fragAddCustomerFilter fragment = new fragAddCustomerFilter();
+    public static fragAddActivityField newInstance(Context mContext, List<Basic_ActivityFields> lActivityFielder) {
+        fragAddActivityField fragment = new fragAddActivityField();
         context = mContext;
         lActivityFieldForCustomer = lActivityFielder;
         lActivityFieldForCustomerBackup.addAll(lActivityFielder);
@@ -90,9 +91,9 @@ public class fragAddActivityField extends Fragment {
         lstSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(context).colorResId(R.color.BaseBackgroundColor).size(2).build());
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
-        lActivityField = geter.getListIsCheck(Basic_ActivityFields.class);
+        lActivityField = geter.getListIsCheck(Basic_ActivityFields.class, " WHERE Deleted='0'");
         for (Basic_ActivityFields data : lActivityField) {
-            List<Basic_ActivityFieldGroups> lGrop = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "'");
+            List<Basic_ActivityFieldGroups> lGrop = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "' AND Deleted='0'");
             boolean isIn = false;
             for (Basic_ActivityFieldGroups mData : lActivityFieldGroup){
                 if(mData.ActivityFieldGroupID == lGrop.get(0).ActivityFieldGroupID) {
@@ -106,7 +107,7 @@ public class fragAddActivityField extends Fragment {
 
         adapterMain = new adapAddCustomerActivityFieldMain(lActivityFieldGroup, context);
         RSQLite SQL = new RSQLite();
-        lActivityField = SQL.Select("SELECT ActivityFieldID, ActivityFieldGroupID, ActivityFieldOrder, ActivityFieldTitle, ActivityFieldFontIcon, Deleted, 'false' as isCheck FROM Basic_ActivityFields WHERE isCheck='1' AND ActivityFieldGroupID='" + lActivityFieldGroup.get(0).ActivityFieldGroupID + "'", Basic_ActivityFields.class);
+        lActivityField = SQL.Select("SELECT ActivityFieldID, ActivityFieldGroupID, ActivityFieldOrder, ActivityFieldTitle, ActivityFieldFontIcon, Deleted, 'false' as isCheck FROM Basic_ActivityFields WHERE isCheck='1' AND ActivityFieldGroupID='" + lActivityFieldGroup.get(0).ActivityFieldGroupID + "' AND Deleted='0'", Basic_ActivityFields.class);
         for (Basic_ActivityFields data : lActivityField) {
             for (Basic_ActivityFields des : lActivityFieldForCustomer) {
                 if(data.ActivityFieldID == des.ActivityFieldID)
@@ -129,7 +130,7 @@ public class fragAddActivityField extends Fragment {
 
     protected static void refreshActivityFields(int ActivityFieldGroupID){
         RSQLite SQL = new RSQLite();
-        lActivityField = SQL.Select("SELECT ActivityFieldID, ActivityFieldGroupID, ActivityFieldOrder, ActivityFieldTitle, ActivityFieldFontIcon, Deleted, 'false' as isCheck FROM Basic_ActivityFields WHERE isCheck='1' AND ActivityFieldGroupID='" + ActivityFieldGroupID + "'", Basic_ActivityFields.class);
+        lActivityField = SQL.Select("SELECT ActivityFieldID, ActivityFieldGroupID, ActivityFieldOrder, ActivityFieldTitle, ActivityFieldFontIcon, Deleted, 'false' as isCheck FROM Basic_ActivityFields WHERE isCheck='1' AND ActivityFieldGroupID='" + ActivityFieldGroupID + "' AND Deleted='0'", Basic_ActivityFields.class);
         for (Basic_ActivityFields data : lActivityField) {
             for (Basic_ActivityFields des : lActivityFieldForCustomer) {
                 if (data.ActivityFieldID == des.ActivityFieldID)
@@ -149,8 +150,12 @@ public class fragAddActivityField extends Fragment {
         position = 0;
         MainIDSelected = 0;
 
-        fragAddCustomerFilter.lActivityFields = lList;
-        act.getFragByState(FragmentState.AddFilter);
+        fragAddCustomerFilter.lActivityFields = new ArrayList<>();
+        fragAddCustomerFilter.Filter.ActivityFields = new ArrayList<>();
+        for (Basic_ActivityFields data : lList) {
+            fragAddCustomerFilter.Filter.ActivityFields.add(data.ActivityFieldID);
+        }
+        act.addFilter(fragAddCustomerFilter.Filter);
     }
 
 }

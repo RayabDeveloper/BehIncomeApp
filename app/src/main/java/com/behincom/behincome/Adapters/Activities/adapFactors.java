@@ -123,14 +123,14 @@ public class adapFactors extends RecyclerView.Adapter<adapFactors.AdapterMember>
 
 
 
-                fragAddFactor.Name = fragAddTask.Namee;
-                fragAddFactor.Details = fragAddTask.Details;
-                fragAddFactor.enterTime = fragAddTask.lblTimeCondition.getText().toString();
-                fragAddFactor.spin1 = fragAddTask.ActSelected;
-                fragAddFactor.spin2 = fragAddTask.ResultSelected;
-                fragAddFactor.currentId = fragAddTask.currentId;
-                fragAddFactor.lFactores = fragAddTask.lFactor;
-                fragAddFactor.ActType = fragAddTask.Type;
+//                fragAddFactor.Name = fragAddTask.Namee;
+//                fragAddFactor.Details = fragAddTask.Details;
+//                fragAddFactor.enterTime = fragAddTask.lblTimeCondition.getText().toString();
+//                fragAddFactor.spin1 = fragAddTask.ActSelected;
+//                fragAddFactor.spin2 = fragAddTask.ResultSelected;
+//                fragAddFactor.currentId = fragAddTask.currentId;
+//                fragAddFactor.lFactores = fragAddTask.lFactor;
+//                fragAddFactor.ActType = fragAddTask.Type;
 
 
 
@@ -164,7 +164,7 @@ public class adapFactors extends RecyclerView.Adapter<adapFactors.AdapterMember>
                     @Override
                     public void onClick(View v) {
                         piDialog.show();
-                        fragAddTask.lFactor.remove(position);
+//                        fragAddTask.lFactor.remove(position);
                         notifyDataSetChanged();
                         piDialog.dismiss();
                     }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        card_view:cardPreventCornerOverlap="false"
+        app:cardCornerRadius="10dp"
+        card_view:cardElevation="6dp"
+        clickable="true"
+        fabsize="mini">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/lblTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Dialog.Bold"
+                android:text="مرتب سازی"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:background="@color/txtGray1"/>
+            <!--btnCreateDateDesc-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCreateDateDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="تاریخ ایجاد نزولی"/>
+
+            </LinearLayout>
+            <!--btnCreateDate-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCreateDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="تاریخ ایجاد صعودی"/>
+
+            </LinearLayout>
+            <!--btnCustomerName-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCustomerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="نام مشتری"/>
+
+            </LinearLayout>
+            <!--btnCustomerStatus-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCustomerStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="وضعیت مشتری"/>
+
+            </LinearLayout>
+            <!--btnCustomerStates-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCustomerStates"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="نوع وضعیت مشتری"/>
+
+            </LinearLayout>
+            <!--btnCustomerEditAble-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCustomerEditAble"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="نیاز به ویرایش"/>
+
+            </LinearLayout>
+            <!--btnCustomerPointState-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/btnCustomerPointState"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/TextView.Normal"
+                    android:gravity="center|right"
+                    android:text="تایید نشده"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

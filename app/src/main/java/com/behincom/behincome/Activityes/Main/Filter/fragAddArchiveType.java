@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
@@ -76,7 +77,7 @@ public class fragAddArchiveType extends Fragment {
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
         RSQLite SQL = new RSQLite();
-        lTag = SQL.Select("SELECT ArchiveTypeID, ArchiveTypeUserId, ArchiveTypeTitle, ArchiveTypeOrder, ArchiveTypeFontIcon, ArchiveTypeColor, AdjustedByAdmin, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1'", Basic_ArchiveTypes.class);
+        lTag = SQL.Select("SELECT ArchiveTypeID, ArchiveTypeUserId, ArchiveTypeTitle, ArchiveTypeOrder, ArchiveTypeFontIcon, ArchiveTypeColor, AdjustedByAdmin, Deleted, 'false' as isCheck FROM Basic_ArchiveTypes WHERE isCheck='0'", Basic_ArchiveTypes.class);
         for (Basic_ArchiveTypes data : lTag) {
             for (Basic_ArchiveTypes des : lTagForCustomer) {
                 if (data.ArchiveTypeID == des.ArchiveTypeID)
@@ -89,6 +90,11 @@ public class fragAddArchiveType extends Fragment {
         cardSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lTagForCustomer = new ArrayList<>();
+                for (Basic_ArchiveTypes data : adapterSub.getList()) {
+                    if(data.isCheck)
+                        lTagForCustomer.add(data);
+                }
                 onBackPressed(lTagForCustomer);
             }
         });
@@ -101,8 +107,12 @@ public class fragAddArchiveType extends Fragment {
         lTagForCustomer = new ArrayList<>();
         lTagForCustomerBackup = new ArrayList<>();
 
-        fragAddCustomerFilter.lArchiveTypes = lList;
-        act.getFragByState(FragmentState.AddFilter);
+        fragAddCustomerFilter.lArchiveTypes = new ArrayList<>();
+        fragAddCustomerFilter.Filter.ArchiveType = new ArrayList<>();
+        for (Basic_ArchiveTypes data : lList) {
+            fragAddCustomerFilter.Filter.ArchiveType.add(data.ArchiveTypeID);
+        }
+        act.addFilter(fragAddCustomerFilter.Filter);
     }
 
 }

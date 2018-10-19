@@ -47,6 +47,7 @@ import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Adapters.Customer.adapStoreContact;
 import com.behincom.behincome.Adapters.Customer.adapStorePic;
 import com.behincom.behincome.Adapters.SpinAdapter;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
@@ -74,6 +75,7 @@ import com.behincom.behincome.Datas.Customer.ToSend.EditCustomerToSendPersonnels
 import com.behincom.behincome.Datas.Customer.ToSend.EditCustomerToSendProperties;
 import com.behincom.behincome.Datas.Customer.ToSend.EditCustomerToSendTags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
+import com.behincom.behincome.Datas.Keys.ResponseMessageType;
 import com.behincom.behincome.Datas.Keys.TagType;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
@@ -90,6 +92,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -570,19 +573,33 @@ public class fragAddCustomer extends Fragment {
                                             ObjectMapper oMapper = new ObjectMapper();
                                             mCustomer = oMapper.convertValue(getrCustomerDataToAdd(lURLs), Map.class);
 
+                                            Gson gson = new Gson();
+                                            String json = gson.toJson(mCustomer);
+
                                             Call<SimpleResponse> AddCustomer = rInterface.RQAddCustomer(Setting.getToken(), new HashMap<>(mCustomer));
                                             AddCustomer.enqueue(new Callback<SimpleResponse>() {
                                                 @Override
                                                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                                                     if (response.isSuccessful()) {
-                                                        Intent intent = new Intent(contexti, actMain.class);
-                                                        actMain.STATE = FragmentState.MainCustomers;
-                                                        contexti.startActivity(intent);
-                                                        try {
-                                                            getActivity().finish();
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                            ((Activity) contexti).finish();
+                                                        SimpleResponse simple = response.body();
+                                                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                                            Intent intent = new Intent(contexti, actMain.class);
+                                                            actMain.STATE = FragmentState.MainCustomers;
+                                                            contexti.startActivity(intent);
+                                                            try {
+                                                                getActivity().finish();
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                                ((Activity) contexti).finish();
+                                                            }
+                                                        }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                                            String Err = "";
+                                                            for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                                                Err = Err + entry.getValue().toString() + ", ";
+                                                            }
+                                                            if(Err.length() > 2)
+                                                                Err = Err.substring(0, Err.length() - 2);
+                                                            Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
                                                         }
                                                     }
                                                     lpDialog.DisMiss();
@@ -610,19 +627,33 @@ public class fragAddCustomer extends Fragment {
                             ObjectMapper oMapper = new ObjectMapper();
                             mCustomer = oMapper.convertValue(getrCustomerDataToAdd(new ArrayList<String>()), Map.class);
 
+                            Gson gson = new Gson();
+                            String json = gson.toJson(mCustomer);
+
                             Call<SimpleResponse> AddCustomer = rInterface.RQAddCustomer(Setting.getToken(), new HashMap<>(mCustomer));
                             AddCustomer.enqueue(new Callback<SimpleResponse>() {
                                 @Override
                                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                                     if (response.isSuccessful()) {
-                                        Intent intent = new Intent(contexti, actMain.class);
-                                        actMain.STATE = FragmentState.MainCustomers;
-                                        contexti.startActivity(intent);
-                                        try {
-                                            getActivity().finish();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            ((Activity) contexti).finish();
+                                        SimpleResponse simple = response.body();
+                                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                            Intent intent = new Intent(contexti, actMain.class);
+                                            actMain.STATE = FragmentState.MainCustomers;
+                                            contexti.startActivity(intent);
+                                            try {
+                                                getActivity().finish();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                ((Activity) contexti).finish();
+                                            }
+                                        }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                            String Err = "";
+                                            for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                                Err = Err + entry.getValue().toString() + ", ";
+                                            }
+                                            if(Err.length() > 2)
+                                                Err = Err.substring(0, Err.length() - 2);
+                                            Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
                                         }
                                     }
                                     lpDialog.DisMiss();
@@ -701,6 +732,9 @@ public class fragAddCustomer extends Fragment {
                             Map<String, Object> mCustomer = new HashMap<>();
                             ObjectMapper oMapper = new ObjectMapper();
                             mCustomer = oMapper.convertValue(getrCustomerDataToEdit(new ArrayList<String>()), Map.class);
+
+                            Gson gson = new Gson();
+                            String json = gson.toJson(mCustomer);
 
                             Call<SimpleResponse> EditCustomer = rInterface.RQEditCustomer(Setting.getToken(), new HashMap<>(mCustomer));
                             EditCustomer.enqueue(new Callback<SimpleResponse>() {
@@ -1392,314 +1426,14 @@ public class fragAddCustomer extends Fragment {
     private void ActivityFieldManager() {
         goingToBigMap = true;
         actCustomer.ShowFragActivityFields(lActivityFields);
-//        fDialog = new Dialog(contexti);
-//        fDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        fDialog.setCancelable(true);
-//        fDialog.setCanceledOnTouchOutside(true);
-//        fDialog.setContentView(R.layout.dialog_field);
-//        Objects.requireNonNull(fDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//
-//        final RecyclerView lstFields = fDialog.findViewById(R.id.lstFields);
-//        TextView lblAccept = fDialog.findViewById(R.id.lblAccept);
-//        TextView lblCancell = fDialog.findViewById(R.id.lblCancell);
-//
-////        Typeface tf = Typeface.createFromAsset(contexti.getAssets(), "fonts/ir_sans.ttf");
-////        lblAccept.setTypeface(tf);
-////        lblCancell.setTypeface(tf);
-//
-//        if (isField) {
-//            lActivityField = geter.getListIsCheck(Basic_ActivityFields.class);
-//            isField = false;
-//            for (Basic_ActivityFields ddata : lActivityField) {
-//                ddata.isCheck = false;
-//            }
-//            for (Basic_ActivityFields fild : lActivityFields) {
-//                for (Basic_ActivityFields mField : lActivityField) {
-//                    if (fild.ActivityFieldID == mField.ActivityFieldID) {
-//                        mField.isCheck = true;
-//                    }
-//                }
-//            }
-//            for (Basic_ActivityFields data : lActivityFields) {
-//                boolean isIn = false;
-//                for (Basic_ActivityFields dataa : lActivityField) {
-//                    if(data.ActivityFieldID == dataa.ActivityFieldID) {
-//                        isIn = true;
-//                        break;
-//                    }
-//                }
-//                if(!isIn){
-//                    List<Basic_ActivityFields> lActFild = geter.getList(Basic_ActivityFields.class, " WHERE ActivityFieldID='" + data.ActivityFieldID + "'");
-//                    if(lActFild.size() > 0) {
-//                        Basic_ActivityFields oData = new Basic_ActivityFields();
-//                        oData.ActivityFieldID = lActFild.get(0).ActivityFieldID;
-//                        oData.isCheck = true;
-//                        oData.ActivityFieldGroupID = lActFild.get(0).ActivityFieldGroupID;
-//                        oData.ActivityFieldOrder = lActFild.get(0).ActivityFieldOrder;
-//                        oData.ActivityFieldTitle = lActFild.get(0).ActivityFieldTitle;
-//                        oData.Deleted = lActFild.get(0).Deleted;
-//                        lActivityField.add(oData);
-//                    }
-//                }
-//            }
-//        } else {
-//            if (lActivityField.size() == 0) {
-//                lActivityField = geter.getListIsCheck(Basic_ActivityFields.class);
-//                for (Basic_ActivityFields data : lActivityField) {
-//                    data.isCheck = false;
-//                }
-//            }
-//        }
-//
-//        adapStoreActivityField adapter = new adapStoreActivityField(lActivityField);
-//        lstFields.setHasFixedSize(true);
-//        mLayoutManageri = new LinearLayoutManager(contexti);
-//        lstFields.setLayoutManager(mLayoutManageri);
-//        lstFields.addItemDecoration(ItemDecoration.getDecoration(contexti));
-//        lstFields.setItemAnimator(new DefaultItemAnimator());
-//        lstFields.setAdapter(adapter);
-//
-//        lblAccept.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                lActivityFields = new ArrayList<>();
-//                String fName = "";
-//                for (Basic_ActivityFields data : lActivityField) {
-//                    if (data.isCheck) {
-//                        fName += data.ActivityFieldTitle + "<br>";
-//                        lActivityFields.add(data);
-//                    }
-//                }
-//                if (fName.length() > 1) {
-//                    fName = fName.substring(0, fName.length() - 2);
-//                } else {
-//                    fName = "برای اضافه کردن اینجا را لمس کنید";
-//                }
-//                lblField.setText(Html.fromHtml(fName));
-//                fDialog.dismiss();
-//            }
-//        });
-//        lblCancell.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                fDialog.dismiss();
-//            }
-//        });
-//
-//        fDialog.show();
     }
     private void TagManager() {
         goingToBigMap = true;
         actCustomer.ShowFragTags(lTags);
-//        lDialog = new Dialog(contexti);
-//        lDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        lDialog.setCancelable(true);
-//        lDialog.setCanceledOnTouchOutside(true);
-//        lDialog.setContentView(R.layout.dialog_lable);
-//        Objects.requireNonNull(lDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//
-//        final RecyclerView lstLable = lDialog.findViewById(R.id.lstLable);
-//        TextView lblAccept = lDialog.findViewById(R.id.lblAccept);
-//        TextView lblCancell = lDialog.findViewById(R.id.lblCancell);
-
-//        if (isTag) {
-//            lTag = geter.getListIsCheck(Basic_Tags.class);
-//            isTag = false;
-//            for (Basic_Tags ddata : lTag) {
-//                ddata.isCheck = false;
-//            }
-//            for (Basic_Tags fild : lTags) {
-//                for (Basic_Tags mField : lTag) {
-//                    if (fild.TagID == mField.TagID) {
-//                        mField.isCheck = true;
-//                    }
-//                }
-//            }
-//            for (Basic_Tags data : lTags) {
-//                boolean isIn = false;
-//                for (Basic_Tags dataa : lTag) {
-//                    if(data.TagID == dataa.TagID) {
-//                        isIn = true;
-//                        break;
-//                    }
-//                }
-//                if(!isIn){
-//                    List<Basic_Tags> lTagO = geter.getList(Basic_Tags.class, " WHERE TagID='" + data.TagID + "'");
-//                    if(lTagO.size() > 0) {
-//                        Basic_Tags oData = new Basic_Tags();
-//                        oData.TagID = lTagO.get(0).TagID;
-//                        oData.isCheck = true;
-//                        oData.TagGroupID = lTagO.get(0).TagGroupID;
-//                        oData.TagOrder = lTagO.get(0).TagOrder;
-//                        oData.TagTitle = lTagO.get(0).TagTitle;
-//                        oData.Deleted = lTagO.get(0).Deleted;
-//                        lTag.add(oData);
-//                    }
-//                }
-//            }
-//        } else {
-//            if (lTag.size() == 0) {
-//                lTag = geter.getListIsCheck(Basic_Tags.class);
-//                for (Basic_Tags data : lTag) {
-//                    data.isCheck = false;
-//                }
-//            }
-//        }
-//
-//        adapStoreTag adapter = new adapStoreTag(lTag);
-//        lstLable.setHasFixedSize(true);
-//        mLayoutManageri = new LinearLayoutManager(contexti);
-//        lstLable.setLayoutManager(mLayoutManageri);
-//        lstLable.addItemDecoration(ItemDecoration.getDecoration(contexti));
-//        lstLable.setItemAnimator(new DefaultItemAnimator());
-//        lstLable.setAdapter(adapter);
-//
-////        txtSearch.addTextChangedListener(new TextWatcher() {
-////            @Override
-////            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-////            }
-////
-////            @Override
-////            public void onTextChanged(CharSequence s, int start, int before, int count) {
-////                List<Basic_Tags> lTag = new ArrayList<>();
-////                lTag = geter.getList(Basic_Tags.class, "WHERE TagTitle LIKE '%" + txtSearch.getText().toString() + "%'");
-////                adapStoreTag adapter = new adapStoreTag(lTag);
-////                lstLable.setAdapter(adapter);
-////
-////            }
-////
-////            @Override
-////            public void afterTextChanged(Editable s) {
-////            }
-////        });
-//        lblAccept.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                lTags = new ArrayList<>();
-//                String tName = "";
-//                for (Basic_Tags data : lTag) {
-//                    if (data.isCheck) {
-//                        tName += data.TagTitle + "<br>";
-//                        lTags.add(data);
-//                    }
-//                }
-//                if (tName.length() > 1) {
-//                    tName = tName.substring(0, tName.length() - 2);
-//                } else {
-//                    tName = "برای اضافه کردن اینجا را لمس کنید";
-//                }
-//                lblTags.setText(Html.fromHtml(tName));
-//                lDialog.dismiss();
-//            }
-//        });
-//        lblCancell.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                lDialog.dismiss();
-//            }
-//        });
-//
-//        lDialog.show();
     }
     private void PropertiesManager() {
         goingToBigMap = true;
         actCustomer.ShowFragProperties(lProperties);
-//        mDialog = new Dialog(contexti);
-//        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        mDialog.setCancelable(true);
-//        mDialog.setCanceledOnTouchOutside(true);
-//        mDialog.setContentView(R.layout.dialog_detail);
-//        Objects.requireNonNull(mDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//
-//        final RecyclerView lstDetail = mDialog.findViewById(R.id.lstDetail);
-//        TextView lblAccept = mDialog.findViewById(R.id.lblAccept);
-//        TextView lblCancell = mDialog.findViewById(R.id.lblCancell);
-//
-//        Typeface tf = Typeface.createFromAsset(contexti.getAssets(), "fonts/ir_sans.ttf");
-//        lblAccept.setTypeface(tf);
-//        lblCancell.setTypeface(tf);
-//
-//        if (isDetail) {
-//            lPropertie = geter.getListIsCheck(Basic_Properties.class);
-//            isDetail = false;
-//            for (Basic_Properties ddata : lPropertie) {
-//                ddata.isCheck = false;
-//            }
-//            for (Basic_Properties fild : lProperties) {
-//                for (Basic_Properties mField : lPropertie) {
-//                    if (fild.PropertyID == mField.PropertyID) {
-//                        mField.isCheck = true;
-//                    }
-//                }
-//            }
-//            for (Basic_Properties data : lProperties) {
-//                boolean isIn = false;
-//                for (Basic_Properties dataa : lPropertie) {
-//                    if(data.PropertyID == dataa.PropertyID) {
-//                        isIn = true;
-//                        dataa.PropertyDescription = data.PropertyDescription;
-//                    }
-//                }
-//                if(!isIn){
-//                    List<Basic_Properties> lTagO = geter.getList(Basic_Properties.class, " WHERE PropertyID='" + data.PropertyID + "'");
-//                    if(lTagO.size() > 0) {
-//                        Basic_Properties oData = new Basic_Properties();
-//                        oData.PropertyID = lTagO.get(0).PropertyID;
-//                        oData.isCheck = true;
-//                        oData.PropertyGroupID = lTagO.get(0).PropertyGroupID;
-//                        oData.PropertyOrder = lTagO.get(0).PropertyOrder;
-//                        oData.PropertyTitle = lTagO.get(0).PropertyTitle;
-//                        oData.PropertyDescription = data.PropertyDescription;
-//                        oData.Deleted = lTagO.get(0).Deleted;
-//                        lPropertie.add(oData);
-//                    }
-//                }
-//            }
-//        } else {
-//            if (lPropertie.size() == 0) {
-//                lPropertie = geter.getListIsCheck(Basic_Properties.class);
-//                for (Basic_Properties data : lPropertie) {
-//                    data.isCheck = false;
-//                }
-//            }
-//        }
-//
-//        adapStoreDetail adapter = new adapStoreDetail(lPropertie);
-//        lstDetail.setHasFixedSize(true);
-//        mLayoutManageri = new LinearLayoutManager(contexti);
-//        lstDetail.setLayoutManager(mLayoutManageri);
-//        lstDetail.addItemDecoration(ItemDecoration.getDecoration(contexti));
-//        lstDetail.setItemAnimator(new DefaultItemAnimator());
-//        lstDetail.setAdapter(adapter);
-//
-//        lblAccept.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                lProperties = new ArrayList<>();
-//                String tName = "";
-//                for (Basic_Properties data : lPropertie) {
-//                    if (data.PropertyDescription.length() > 0) {
-//                        tName += data.PropertyTitle + " : " + data.PropertyDescription + "<br>";
-//                        lProperties.add(data);
-//                    }
-//                }
-//                if (tName.length() > 1) {
-//                    tName = tName.substring(0, tName.length() - 2);
-//                } else {
-//                    tName = "برای اضافه کردن اینجا را لمس کنید";
-//                }
-//                lblDetails.setText(Html.fromHtml(tName));
-//                mDialog.dismiss();
-//            }
-//        });
-//        lblCancell.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mDialog.dismiss();
-//            }
-//        });
-//
-//        mDialog.show();
     }
     private void PicManager() {
         pDialog = new Dialog(contexti);

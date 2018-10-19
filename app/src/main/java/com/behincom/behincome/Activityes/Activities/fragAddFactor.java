@@ -126,15 +126,15 @@ public class fragAddFactor extends Fragment {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragAddTask.Namee = Name;
-                fragAddTask.Details = Details;
-                fragAddTask.enterTime = enterTime;
-                fragAddTask.spin1 = spin1;
-                fragAddTask.spin2 = spin2;
-                fragAddTask.Type = ActType;
-                fragAddTask.lFactor = lFactores;
-                fragAddTask.currentId = currentId;
-                fragAddTask.fac = false;
+//                fragAddTask.Namee = Name;
+//                fragAddTask.Details = Details;
+//                fragAddTask.enterTime = enterTime;
+//                fragAddTask.spin1 = spin1;
+//                fragAddTask.spin2 = spin2;
+//                fragAddTask.Type = ActType;
+//                fragAddTask.lFactor = lFactores;
+//                fragAddTask.currentId = currentId;
+//                fragAddTask.fac = false;
                 act.getFragByState(FragmentState.AddTask);
             }
         });
@@ -186,15 +186,15 @@ public class fragAddFactor extends Fragment {
                         lFactores.add(factor);
                     }
                 }//else Toast
-                fragAddTask.Namee = Name;
-                fragAddTask.Details = Details;
-                fragAddTask.enterTime = enterTime;
-                fragAddTask.spin1 = spin1;
-                fragAddTask.spin2 = spin2;
-                fragAddTask.lFactor = lFactores;
-                fragAddTask.fac = true;
-                fragAddTask.Type = ActType;
-                fragAddTask.currentId = currentId;
+//                fragAddTask.Namee = Name;
+//                fragAddTask.Details = Details;
+//                fragAddTask.enterTime = enterTime;
+//                fragAddTask.spin1 = spin1;
+//                fragAddTask.spin2 = spin2;
+//                fragAddTask.lFactor = lFactores;
+//                fragAddTask.fac = true;
+//                fragAddTask.Type = ActType;
+//                fragAddTask.currentId = currentId;
                 act.getFragByState(FragmentState.AddTask);
             }
         });

@@ -45,7 +45,6 @@
         <activity android:name=".Activityes.Main.actMain"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
-
         </activity>
         <activity android:name=".Activityes.Activities.actActivities"
             android:screenOrientation="portrait"

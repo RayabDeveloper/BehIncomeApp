@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
+import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -42,8 +43,8 @@ public class fragAddCustomerState extends Fragment {
     protected static List<Basic_CustomerStates> lTagForCustomer = new ArrayList<>();
     private static List<Basic_CustomerStates> lTagForCustomerBackup = new ArrayList<>();
 
-    public static fragAddCustomerFilter newInstance(Context mContext, List<Basic_CustomerStates> lTager) {
-        fragAddCustomerFilter fragment = new fragAddCustomerFilter();
+    public static fragAddCustomerState newInstance(Context mContext, List<Basic_CustomerStates> lTager) {
+        fragAddCustomerState fragment = new fragAddCustomerState();
         context = mContext;
         lTagForCustomer = lTager;
         lTagForCustomerBackup.addAll(lTager);
@@ -75,7 +76,7 @@ public class fragAddCustomerState extends Fragment {
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
         RSQLite SQL = new RSQLite();
-        lTag = SQL.Select("SELECT ArchiveTypeID, ArchiveTypeUserId, ArchiveTypeTitle, ArchiveTypeOrder, ArchiveTypeFontIcon, ArchiveTypeColor, AdjustedByAdmin, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1'", Basic_ArchiveTypes.class);
+        lTag = SQL.Select("SELECT CustomerStateID, CustomerStateUserId, CustomerStateColor, CustomerStateTitle, CustomerStateOrder, CustomerStateFontIcon, CustomerStateAdjustedByAdmin, Deleted, 'false' as isCheck FROM Basic_CustomerStates WHERE isCheck='0'", Basic_CustomerStates.class);
         for (Basic_CustomerStates data : lTag) {
             for (Basic_CustomerStates des : lTagForCustomer) {
                 if (data.CustomerStateID == des.CustomerStateID)
@@ -88,6 +89,11 @@ public class fragAddCustomerState extends Fragment {
         cardSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                lTagForCustomer = new ArrayList<>();
+                for (Basic_CustomerStates data : adapterSub.getList()) {
+                    if(data.isCheck)
+                        lTagForCustomer.add(data);
+                }
                 onBackPressed(lTagForCustomer);
             }
         });
@@ -100,8 +106,12 @@ public class fragAddCustomerState extends Fragment {
         lTagForCustomer = new ArrayList<>();
         lTagForCustomerBackup = new ArrayList<>();
 
-        fragAddCustomerFilter.lCustomerStates = lList;
-        act.getFragByState(FragmentState.AddFilter);
+        fragAddCustomerFilter.lCustomerStates = new ArrayList<>();
+        fragAddCustomerFilter.Filter.CustomerState = new ArrayList<>();
+        for (Basic_CustomerStates data : lList) {
+            fragAddCustomerFilter.Filter.CustomerState.add(data.CustomerStateID);
+        }
+        act.addFilter(fragAddCustomerFilter.Filter);
     }
 
 }

@@ -20,6 +20,8 @@ import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Activityes.Main.Filter.adapAddTagMain;
 import com.behincom.behincome.Activityes.Main.Filter.adapAddTagSub;
+import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
+import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.BaseData.Basic_TagGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
@@ -53,8 +55,8 @@ public class fragAddTag extends Fragment {
 
     protected static int position = 0, MainIDSelected = 0;
 
-    public static fragAddCustomerFilter newInstance(Context mContext, List<Basic_Tags> lTager) {
-        fragAddCustomerFilter fragment = new fragAddCustomerFilter();
+    public static fragAddTag newInstance(Context mContext, List<Basic_Tags> lTager) {
+        fragAddTag fragment = new fragAddTag();
         context = mContext;
         lTagForCustomer = lTager;
         lTagForCustomerBackup.addAll(lTager);
@@ -95,9 +97,9 @@ public class fragAddTag extends Fragment {
         lstSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(context).colorResId(R.color.BaseBackgroundColor).size(2).build());
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
-        lTag = geter.getListIsCheck(Basic_Tags.class);
+        lTag = geter.getListIsCheck(Basic_Tags.class, " WHERE Deleted='0'");
         for (Basic_Tags data : lTag) {
-            List<Basic_TagGroups> lGrop = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+            List<Basic_TagGroups> lGrop = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "' AND Deleted='0'");
             boolean isIn = false;
             for (Basic_TagGroups mData : lTagGroup){
                 if(mData.TagGroupID == lGrop.get(0).TagGroupID) {
@@ -111,7 +113,7 @@ public class fragAddTag extends Fragment {
 
         adapterMain = new adapAddTagMain(lTagGroup, context);
         RSQLite SQL = new RSQLite();
-        lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1' AND TagGroupID='" + lTagGroup.get(0).TagGroupID + "'", Basic_Tags.class);
+        lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1' AND Deleted='0' AND TagGroupID='" + lTagGroup.get(0).TagGroupID + "'", Basic_Tags.class);
         for (Basic_Tags data : lTag) {
             for (Basic_Tags des : lTagForCustomer) {
                 if (data.TagID == des.TagID)
@@ -135,6 +137,12 @@ public class fragAddTag extends Fragment {
     protected static void refreshTags(int TagGroupID){
         RSQLite SQL = new RSQLite();
         lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1' AND TagGroupID='" + TagGroupID + "'", Basic_Tags.class);
+        for (Basic_Tags data : lTag) {
+            for (Basic_Tags des : lTagForCustomer) {
+                if (data.TagID == des.TagID)
+                    data.isCheck = true;
+            }
+        }
         adapterSub = new adapAddTagSub(lTag, lTagForCustomer, context);
         lstSub.setAdapter(adapterSub);
     }
@@ -148,8 +156,12 @@ public class fragAddTag extends Fragment {
         position = 0;
         MainIDSelected = 0;
 
-        fragAddCustomerFilter.lTags = lList;
-        act.getFragByState(FragmentState.AddFilter);
+        fragAddCustomerFilter.lTags = new ArrayList<>();
+        fragAddCustomerFilter.Filter.Tags = new ArrayList<>();
+        for (Basic_Tags data : lList) {
+            fragAddCustomerFilter.Filter.Tags.add(data.TagID);
+        }
+        act.addFilter(fragAddCustomerFilter.Filter);
     }
 
 }

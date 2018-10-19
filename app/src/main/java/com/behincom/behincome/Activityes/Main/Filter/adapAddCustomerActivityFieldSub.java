@@ -74,10 +74,15 @@ public class adapAddCustomerActivityFieldSub extends RecyclerView.Adapter<adapAd
             public void onClick(View v) {
                 if(ch00.isChecked()){
                     lListCustomer.add(lList.get(position));
+                    lList.get(position).isCheck = true;
                 }else{
-                    lListCustomer.remove(lList.get(position));
+                    for (int i=0; i<lListCustomer.size(); i++) {
+                        if(lListCustomer.get(i).ActivityFieldID == lList.get(position).ActivityFieldID)
+                            lListCustomer.remove(i);
+                    }
+                    lList.get(position).isCheck = false;
                 }
-                lList.get(position).isCheck = ch00.isChecked();
+//                lList.get(position).isCheck = ch00.isChecked();
                 notifyDataSetChanged();
             }
         });

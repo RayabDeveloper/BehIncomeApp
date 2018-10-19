@@ -214,6 +214,7 @@ public interface RWInterface<T> {
     final String ChangeCustomerStatues = "ChangeCustomerStatues";
     final String ChangeCustomersStatues = "ChangeCustomersStatues";
     final String GetMyCustomer = "GetMyCustomer";
+    final String GetSuggestion = "GetSuggestion";
     final String GetCustomersArchived = "GetCustomersArchived";
     final String GetCustomer = "GetCustomer";
     final String GetInCirclePointCustomer = "GetInCirclePointCustomer";
@@ -234,6 +235,7 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Customer_12 = Customer + "/" + AddCustomerToExitArchive;
     final String ControllerActionManager_Customer_13 = Customer + "/" + AddCustomersToExitArchive;
     final String ControllerActionManager_Customer_6 = Customer + "/" + GetMyCustomer;
+    final String ControllerActionManager_Customer_17 = Customer + "/" + GetSuggestion;
     final String ControllerActionManager_Customer_10 = Customer + "/" + GetCustomersArchived;
     final String ControllerActionManager_Customer_7 = Customer + "/" + GetCustomer;
     final String ControllerActionManager_Customer_8 = Customer + "/" + GetInCirclePointCustomer;
@@ -682,6 +684,10 @@ public interface RWInterface<T> {
     @Headers(ContentType)
     @POST(ControllerActionManager_Customer_6)
     Call<List<MyCustomers>> RQGetCustomerAllData(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Customer ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
+
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Customer_17)
+    Call<List<String>> RQGetSuggestion(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Customer ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
 
     @GET(ControllerActionManager_Customer_10)
     Call<List<Customers>> RQGetCustomerAllDataArchived(@Header(HeaderToken) String Token);//Get All Customer ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
