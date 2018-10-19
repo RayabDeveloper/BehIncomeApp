@@ -17,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -1013,20 +1012,12 @@ public class fragAddCustomer extends Fragment {
                 if (Customer.Customers.Customers_ActivityFields.size() > 0) {
                     isField = true;
                     for (CustomerActivityFields tData : Customer.Customers.Customers_ActivityFields) {
-//                        Basic_ActivityFields fField = new Basic_ActivityFields();
-//                        fField.ActivityFieldID = (tData.ActivityFieldID);
                         List<Basic_ActivityFields> pList = geter.getList(Basic_ActivityFields.class, " WHERE ActivityFieldID='" + tData.ActivityFieldID + "'");
                         if(pList.size() > 0)
                             lActivityFields.add(pList.get(0));
                     }
                 }
                 try {
-//                    List<CustomerActivityFields> lField = Customer.Customers_ActivityFields;
-//                    for (int i = 0; i < lField.size(); i++) {
-//                        List<Basic_ActivityFields> lFields = geter.getList(Basic_ActivityFields.class, "WHERE ActivityFieldID='" + lField.get(i).ActivityFieldID + "'");
-//                        aFields += lFields.get(0).ActivityFieldTitle + "<br>";
-//                    }
-//                    aFields = aFields.substring(0, aFields.length() - 4);
                     for (Basic_ActivityFields data : lActivityFields) {
                         lblActivityField += "☑ - " + data.ActivityFieldTitle + "<br>";
                     }
@@ -1044,8 +1035,6 @@ public class fragAddCustomer extends Fragment {
                 isTag = true;
                 lTags = new ArrayList<>();
                 for (CustomerTags tData : Customer.Customers.Customers_Tags) {
-//                    Basic_Tags tTag = new Basic_Tags();
-//                    tTag.TagID = (tData.TagID);
                     List<Basic_Tags> pList = geter.getList(Basic_Tags.class, " WHERE TagID='" + tData.TagID + "'");
                     if(pList.size() > 0)
                         lTags.add(pList.get(0));
@@ -1068,9 +1057,6 @@ public class fragAddCustomer extends Fragment {
                 isDetail = true;
                 lProperties = new ArrayList<>();
                 for (CustomerProperties tData : Customer.Customers.Customers_Properties) {
-//                    Basic_Properties tDetail = new Basic_Properties();
-//                    tDetail.PropertyID = (tData.PropertyID);
-//                    tDetail.PropertyDescription = (tData.Value);
                     List<Basic_Properties> pList = geter.getList(Basic_Properties.class, " WHERE PropertyID='" + tData.PropertyID + "'");
                     if(pList.size() > 0) {
                         Basic_Properties dat = new Basic_Properties();

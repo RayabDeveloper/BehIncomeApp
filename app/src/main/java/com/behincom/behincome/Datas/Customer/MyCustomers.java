@@ -12,7 +12,7 @@ public class MyCustomers {
     public Customers Customers = new Customers();
     @SerializedName("ActivityCount")
     public int ActivityCount = 0;
-    @SerializedName("MarketerUserAccessProfile")
+    @SerializedName("Owner")
     public List<com.behincom.behincome.Datas.Profile.MarketerUserAccessProfile> MarketerUserAccessProfile = new ArrayList<>();
 
 }

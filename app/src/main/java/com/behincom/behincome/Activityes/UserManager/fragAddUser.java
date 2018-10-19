@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.DateConverter;
 import com.behincom.behincome.Accesories.Dialog;
@@ -31,6 +32,7 @@ import com.behincom.behincome.Adapters.UserManager.adapMarketers;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.GenderType;
 import com.behincom.behincome.Datas.Keys.MaritalType;
+import com.behincom.behincome.Datas.Profile.GetProfile;
 import com.behincom.behincome.Datas.Profile.Marketers;
 import com.behincom.behincome.Datas.Profile.Profile;
 import com.behincom.behincome.Datas.Roles.User_Roles;
@@ -77,7 +79,7 @@ public class fragAddUser extends Fragment {
     CardView cardAcceptTask;
     ScrollView scrollV;
 
-    private static Profile data = new Profile();
+    private static GetProfile data = new GetProfile();
     private static int UserID = 0;
     private static String UserName = "";
     public static List<Marketers> lMarketers = new ArrayList<>();
@@ -132,7 +134,7 @@ public class fragAddUser extends Fragment {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(txtSearche.getText().toString().length() >= 6) {
+                if(txtSearche.getText().toString().length() == 7) {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("ReferedCode", txtSearche.getText().toString());
 
@@ -140,9 +142,9 @@ public class fragAddUser extends Fragment {
 
 
                     Call cGetUser = rInterface.RQGetProfileByCode(Setting.getToken(), new HashMap<>(map));
-                    cGetUser.enqueue(new Callback<Profile>() {
+                    cGetUser.enqueue(new Callback<GetProfile>() {
                         @Override
-                        public void onResponse(Call<Profile> call, Response<Profile> response) {
+                        public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
                             if (response.isSuccessful()) {
                                 try {
                                     data = response.body();
@@ -151,28 +153,33 @@ public class fragAddUser extends Fragment {
                                     btnCheck.setVisibility(View.VISIBLE);
 
                                     UserID = data.UserID;
-                                    UserName = data.Firstname + " " + data.Lastname;
-                                    lblName.setText(UserName);
-                                    DateConverter DC = new DateConverter();
-                                    lblBirthDay.setText(DC.getToHijri(data.BirthDate));
-                                    lblSex.setText(GenderType.getGenderString(data.GenderTypeID));
-                                    lblMarri.setText(MaritalType.getMaritalString(data.MaritalStatusID));
-                                    lblNationality.setText(data.NationalCode);
-                                    lblAddress.setText(data.Address);
-//                                lblAbout.setText(data.);AboutMe
-//                                Glide.with(context).load(data.PhotoFilename).asBitmap().into(new BitmapImageViewTarget(imgProfile) {});
-                                    Glide.with(context).load(data.PhotoFilename).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgProfile) {
-                                        @Override
-                                        protected void setResource(Bitmap resource) {
-                                            RoundedBitmapDrawable circularBitmapDrawable =
-                                                    RoundedBitmapDrawableFactory.create(getActivity().getResources(), resource);
-                                            circularBitmapDrawable.setCircular(true);
-                                            imgProfile.setImageDrawable(circularBitmapDrawable);
-                                        }
-                                    });
+
+                                    if(UserID != -2 && UserID != -1) {
+                                        UserName = data.Firstname + " " + data.Lastname;
+                                        lblName.setText(UserName);
+                                        DateConverter DC = new DateConverter();
+                                        lblBirthDay.setText(DC.getToHijri(data.BirthDate));
+                                        lblSex.setText(GenderType.getGenderString(data.GenderTypeID));
+                                        lblMarri.setText(MaritalType.getMaritalString(data.MaritalStatusID));
+                                        lblNationality.setText(data.NationalCode);
+                                        lblAddress.setText(data.Address);
+                                        lblUserPhone2.setText(data.PhoneNumber);
+                                        Glide.with(context).load(data.PhotoFilename).asBitmap().centerCrop().into(new BitmapImageViewTarget(imgProfile) {
+                                            @Override
+                                            protected void setResource(Bitmap resource) {
+                                                RoundedBitmapDrawable circularBitmapDrawable =
+                                                        RoundedBitmapDrawableFactory.create(getActivity().getResources(), resource);
+                                                circularBitmapDrawable.setCircular(true);
+                                                imgProfile.setImageDrawable(circularBitmapDrawable);
+                                            }
+                                        });
+                                    }else if(UserID == -1)
+                                        Toast.makeText(context, "کاربر پیدا نشد", Toast.LENGTH_LONG).show();
+                                    else if(UserID == -2)
+                                        Toast.makeText(context, "کاربر قبلا اضافه شده", Toast.LENGTH_LONG).show();
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    data = new Profile();
+                                    data = new GetProfile();
                                     linProfileProfile.setVisibility(View.GONE);
                                     btnCheck.setVisibility(View.GONE);
                                 }

@@ -212,6 +212,21 @@
         <item name="android:layoutDirection">ltr</item>
         <item name="android:imeOptions">actionDone</item>
         <!--<item name="android:fontFamily">@font/ir_sans</item>-->
+    </style><style name="EditText.NumberPassword.00"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/txt_border_green1</item>
+        <item name="android:textColor">@color/txtGray4</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/ApplicationBaseFontSize</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:numeric">integer</item>
+        <item name="android:maxLength">7</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textDirection">ltr</item>
+        <item name="android:layoutDirection">ltr</item>
+        <item name="android:imeOptions">actionDone</item>
+        <!--<item name="android:fontFamily">@font/ir_sans</item>-->
     </style>
     <style name="EditText.NumberPassword.B"
         parent="Widget.AppCompat.EditText">

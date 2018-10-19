@@ -207,9 +207,9 @@ public class fragAddTaskSetTime extends Fragment {
             @Override
             public void onClick(View v) {
                 if(mType && isForGroup && GroupStartEndType == 0) {
-                    fragAddTask.ActSelected = ActSelected;
-                    fragAddTask.Descriptioned = Descriptioned;
-                    fragAddTask.Nameioned = Nameioned;
+//                    fragAddTask.ActSelected = ActSelected;
+//                    fragAddTask.Descriptioned = Descriptioned;
+//                    fragAddTask.Nameioned = Nameioned;
                     act.getFragByState(FragmentState.AddTask);
                 }else{
                     Intent intent = new Intent(context, actMain.class);
@@ -602,18 +602,23 @@ public class fragAddTaskSetTime extends Fragment {
                             if(txtDuration.getText().toString().length() == 0)
                                 txtDuration.setText("15");
                             if (Integer.parseInt(txtDuration.getText().toString()) <= 600) {
-                                fragAddTask.Date = Date;
-                                fragAddTask.DateToSend = DateToSend;
-                                fragAddTask.TimeToSend = TimeToSend;
-                                fragAddTask.isAlarmSet = isAlarm;
-                                fragAddTask.ActSelected = ActSelected;
-                                fragAddTask.Descriptioned = Descriptioned;
-                                fragAddTask.Nameioned = Nameioned;
-                                fragAddTask.duration = Integer.parseInt(txtDuration.getText().toString());
+//                                fragAddTask.Date = Date;
+//                                fragAddTask.DateToSend = DateToSend;//2018/01/01
+//                                fragAddTask.TimeToSend = TimeToSend;//11:11
+//                                fragAddTask.duration = Integer.parseInt(txtDuration.getText().toString());
+
+                                DateConverter DC = new DateConverter(DateToSend, TimeToSend);
+                                String DT = (DC.getCSharp2());
+//                                fragAddTask.Activity.TodoDate = DT;
+                                int duration = Integer.parseInt(txtDuration.getText().toString());
+                                int hours = duration / 60;
+                                int minutes = duration % 60;//todo todo todo todo todo Duration todo Mehrnush todo inja
+//                                fragAddTask.Activity.Duration = "2001-01-01T" + (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":00";
+
                                 act.getFragByState(FragmentState.AddTask);
 //                                dDialog.dismiss();
                             } else
-                                Toast.makeText(context, "مدت زمان نباید بیشتر از 600 دقیقه باشد", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "مدت زمان نباید بیشتر از 600 دقیقه ( 10 ساعت ) باشد", Toast.LENGTH_LONG).show();
                         } else
                             Toast.makeText(context, "مدت زمان نباید از امروز بگذرد", Toast.LENGTH_LONG).show();
                     } else
@@ -650,20 +655,6 @@ public class fragAddTaskSetTime extends Fragment {
                             final Spinner spinVisitorTour = mDialog.findViewById(R.id.spinVisitorTour);
 
                             txtSpaceTime.setTransformationMethod(null);
-
-//                            Typeface tFace = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//                            lblStartTime.setTypeface(tFace);
-//                            lblEndTime.setTypeface(tFace);
-//                            txtDescription.setTypeface(tFace);
-//                            lblAct.setTypeface(tFace);
-//                            lblVisitorTour.setTypeface(tFace);
-//                            lblDetails.setTypeface(tFace);
-//                            lblSpacing.setTypeface(tFace);
-//                            txtSpaceTime.setTypeface(tFace);
-//                            lblError.setTypeface(tFace);
-//                            lblError2.setTypeface(tFace);
-//                            lblCancell.setTypeface(tFace);
-//                            lblAccept.setTypeface(tFace);
 
                             List<Basic_ActResults> lSubActResult = geter.getList(Basic_ActResults.class, "WHERE isCheck='1'");
                             List<Basic_Acts> lSubAct = new ArrayList<>();
@@ -703,71 +694,6 @@ public class fragAddTaskSetTime extends Fragment {
                                 public void onClick(View v) {
                                     GroupStartEndType = 0;
                                     setTime();
-//                                    final Dialog timeDialog = new Dialog(context);
-//                                    timeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                                    timeDialog.setCancelable(true);
-//                                    timeDialog.setCanceledOnTouchOutside(true);
-//                                    timeDialog.setContentView(R.layout.dialog_set_time_task);
-//                                    Objects.requireNonNull(timeDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//
-//                                    final Spinner spinH = timeDialog.findViewById(R.id.spinHour);
-//                                    final Spinner spinM = timeDialog.findViewById(R.id.spinMinute);
-//                                    final Spinner lblCancell = timeDialog.findViewById(R.id.lblCancell);
-//                                    final Spinner lblAccept = timeDialog.findViewById(R.id.lblAccept);
-//
-//                                    List<CurrentHour> lH = new ArrayList<>();
-//                                    for(int i=0; i<23; i++){
-//                                        CurrentHour data = new CurrentHour();
-//                                        data.id = i;
-//                                        String nameH = Integer.toString(i);
-//                                        if(nameH.length() == 1)
-//                                            nameH = "0" + nameH;
-//                                        data.Name = nameH;
-//
-//                                        lH.add(data);
-//                                    }
-//                                    List<CurrentMinute> lM = new ArrayList<>();
-//                                    for(int i=0; i<23; i++){
-//                                        CurrentMinute data = new CurrentMinute();
-//                                        data.id = i;
-//                                        String nameM = Integer.toString(i);
-//                                        if(nameM.length() == 1)
-//                                            nameM = "0" + nameM;
-//                                        data.Name = nameM;
-//
-//                                        lM.add(data);
-//                                    }
-//                                    final SpinAdapter HSpinAdap = new SpinAdapter(context, lH, "Name");
-//                                    final SpinAdapter MSpinAdap = new SpinAdapter(context, lM, "Name");
-//
-//                                    spinH.setAdapter(HSpinAdap);
-//                                    spinM.setAdapter(MSpinAdap);
-//
-//                                    Time now = new Time();
-//                                    now.setToNow();
-//
-//                                    spinH.setSelection(HSpinAdap.getItemPosition("id", Integer.toString(now.hour)));
-//                                    spinM.setSelection(MSpinAdap.getItemPosition("id", Integer.toString(now.hour)));
-//
-//                                    lblCancell.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            timeDialog.dismiss();
-//                                        }
-//                                    });
-//                                    lblAccept.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            String h = HSpinAdap.getItemString(spinH.getSelectedItemPosition(), "Name");
-//                                            String m = MSpinAdap.getItemString(spinM.getSelectedItemPosition(), "Name");
-//                                            lblStartTime.setText(h + ":" + m);
-//                                            String Time = DC.getTime(Integer.parseInt(h), Integer.parseInt(m));
-//                                            TimeToSend1 = Time;
-//                                            lblStartTime.setText(Time);
-//                                            timeDialog.dismiss();
-//                                        }
-//                                    });
-//                                    timeDialog.show();
                                 }
                             });
                             lblEndTime.setOnClickListener(new View.OnClickListener() {
@@ -775,71 +701,6 @@ public class fragAddTaskSetTime extends Fragment {
                                 public void onClick(View v) {
                                     GroupStartEndType = 1;
                                     setTime();
-//                                    final Dialog timeDialog = new Dialog(context);
-//                                    timeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                                    timeDialog.setCancelable(true);
-//                                    timeDialog.setCanceledOnTouchOutside(true);
-//                                    timeDialog.setContentView(R.layout.dialog_set_time_task);
-//                                    Objects.requireNonNull(timeDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//
-//                                    final Spinner spinH = timeDialog.findViewById(R.id.spinHour);
-//                                    final Spinner spinM = timeDialog.findViewById(R.id.spinMinute);
-//                                    final Spinner lblCancell = timeDialog.findViewById(R.id.lblCancell);
-//                                    final Spinner lblAccept = timeDialog.findViewById(R.id.lblAccept);
-//
-//                                    List<CurrentHour> lH = new ArrayList<>();
-//                                    for(int i=0; i<23; i++){
-//                                        CurrentHour data = new CurrentHour();
-//                                        data.id = i;
-//                                        String nameH = Integer.toString(i);
-//                                        if(nameH.length() == 1)
-//                                            nameH = "0" + nameH;
-//                                        data.Name = nameH;
-//
-//                                        lH.add(data);
-//                                    }
-//                                    List<CurrentMinute> lM = new ArrayList<>();
-//                                    for(int i=0; i<23; i++){
-//                                        CurrentMinute data = new CurrentMinute();
-//                                        data.id = i;
-//                                        String nameM = Integer.toString(i);
-//                                        if(nameM.length() == 1)
-//                                            nameM = "0" + nameM;
-//                                        data.Name = nameM;
-//
-//                                        lM.add(data);
-//                                    }
-//                                    final SpinAdapter HSpinAdap = new SpinAdapter(context, lH, "Name");
-//                                    final SpinAdapter MSpinAdap = new SpinAdapter(context, lM, "Name");
-//
-//                                    spinH.setAdapter(HSpinAdap);
-//                                    spinM.setAdapter(MSpinAdap);
-//
-//                                    Time now = new Time();
-//                                    now.setToNow();
-//
-//                                    spinH.setSelection(HSpinAdap.getItemPosition("id", Integer.toString(now.hour)));
-//                                    spinM.setSelection(MSpinAdap.getItemPosition("id", Integer.toString(now.hour)));
-//
-//                                    lblCancell.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            timeDialog.dismiss();
-//                                        }
-//                                    });
-//                                    lblAccept.setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            String h = HSpinAdap.getItemString(spinH.getSelectedItemPosition(), "Name");
-//                                            String m = MSpinAdap.getItemString(spinM.getSelectedItemPosition(), "Name");
-//                                            lblStartTime.setText(h + ":" + m);
-//                                            String Time = DC.getTime(Integer.parseInt(h), Integer.parseInt(m));
-//                                            TimeToSend2 = Time;
-//                                            lblEndTime.setText(Time);
-//                                            timeDialog.dismiss();
-//                                        }
-//                                    });
-//                                    timeDialog.show();
                                 }
                             });
                             txtSpaceTime.addTextChangedListener(new TextWatcher() {

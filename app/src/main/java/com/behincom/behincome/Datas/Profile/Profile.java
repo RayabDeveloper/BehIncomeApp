@@ -14,8 +14,6 @@ public class Profile {
     public int MaritalStatusID = 0;
     @SerializedName("MilitaryStatusID")
     public int MilitaryStatusID = 0;
-    @SerializedName("ProvinceID")
-    public int ProvinceID = 0;
     @SerializedName("CityID")
     public int CityID = 0;
     @SerializedName("ReferedCode")

@@ -1,0 +1,543 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:textDirection="rtl"
+    tools:context="com.behincom.behincome.Activityes.Main.Filter.fragAddCustomerFilter">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/txtGray0"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_standard"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!--Prefix-->
+                <LinearLayout
+                    android:id="@+id/btnNamePrefix"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/txtGray">
+
+                        <TextView
+                            style="@style/TextView.Blue.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:text="نوع پیشوند مشتری" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/lblPrefix"
+                            style="@style/TextView.Normal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center"
+                            android:text="برای انتخاب نوع پیشوند مشتری اینجا را لمس کنید." />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--ActivityField-->
+                <LinearLayout
+                    android:id="@+id/btnActivityField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/txtGray">
+
+                        <TextView
+                            style="@style/TextView.Blue.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:text="زمینه فعالیت" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/lblActivityField"
+                            style="@style/TextView.Normal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center"
+                            android:text="برای انتخاب زمینه فعالیت اینجا را لمس کنید." />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--Tags-->
+                <LinearLayout
+                    android:id="@+id/btnTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/txtGray">
+
+                        <TextView
+                            style="@style/TextView.Blue.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:text="برچسب" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/lblTag"
+                            style="@style/TextView.Normal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center"
+                            android:text="برای انتخاب برچسب اینجا را لمس کنید." />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--CustomerState-->
+                <LinearLayout
+                    android:id="@+id/btnCustomerState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/txtGray">
+
+                        <TextView
+                            style="@style/TextView.Blue.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:text="وضعیت" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/lblCustomerState"
+                            style="@style/TextView.Normal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center"
+                            android:text="برای انتخاب وضعیت اینجا را لمس کنید." />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--CreateDate-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/txtGray">
+
+                        <TextView
+                            style="@style/TextView.Blue.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:text="تاریخ ایجاد" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextView.Normal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="از تاریخ" />
+
+                            <TextView
+                                android:id="@+id/lblFromCreateDate"
+                                android:layout_width="100dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="6dp"
+                                style="@style/TextView.Background"
+                                android:text="انتخاب تاریخ"
+                                android:textColor="@color/txtGray2"/>
+
+                            <TextView
+                                android:id="@+id/lblLongFromCreateDate"
+                                style="@style/TextView.Normal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="6dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextView.Normal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="تا تاریخ" />
+
+                            <TextView
+                                android:id="@+id/lblToCreateDate"
+                                android:layout_width="100dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginRight="6dp"
+                                style="@style/TextView.Background"
+                                android:text="انتخاب تاریخ"
+                                android:textColor="@color/txtGray2"/>
+
+                            <TextView
+                                android:id="@+id/lblLongToCreateDate"
+                                style="@style/TextView.Normal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="6dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--CustomerStatus-->
+                <LinearLayout
+                    android:id="@+id/btnCustomerStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/txtGray">
+
+                        <TextView
+                            style="@style/TextView.Blue.Bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right|center"
+                            android:text="نوع وضعیت" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lblCustomerStatus"
+                            style="@style/TextView.Normal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right|center"
+                            android:text="برای انتخاب نوع وضعیت اینجا را لمس کنید." />
+
+                        <LinearLayout
+                            android:id="@+id/viewArchive"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!--ArchiveType-->
+                            <LinearLayout
+                                android:id="@+id/btnArchiveType"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:background="@color/txtGray">
+
+                                    <TextView
+                                        style="@style/TextView.Blue.Bold"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="right|center"
+                                        android:text="نوع بایگانی" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/lblArchiveType"
+                                        style="@style/TextView.Normal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="right|center"
+                                        android:text="برای انتخاب نوع بایگانی اینجا را لمس کنید." />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--CreateArchiveDate-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:background="@color/txtGray">
+
+                                    <TextView
+                                        style="@style/TextView.Blue.Bold"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="right|center"
+                                        android:text="تاریخ بایگانی" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="از تاریخ" />
+
+                                        <TextView
+                                            android:id="@+id/lblFromArchiveDate"
+                                            android:layout_width="100dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="6dp"
+                                            android:layout_marginRight="6dp"
+                                            style="@style/TextView.Background"
+                                            android:text="انتخاب تاریخ"
+                                            android:textColor="@color/txtGray2"/>
+
+                                        <TextView
+                                            android:id="@+id/lblLongFromArchiveDate"
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginRight="6dp"/>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="تا تاریخ" />
+
+                                        <TextView
+                                            android:id="@+id/lblToArchiveDate"
+                                            android:layout_width="100dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="6dp"
+                                            android:layout_marginRight="6dp"
+                                            style="@style/TextView.Background"
+                                            android:text="انتخاب تاریخ"
+                                            android:textColor="@color/txtGray2"/>
+
+                                        <TextView
+                                            android:id="@+id/lblLongToArchiveDate"
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginRight="6dp"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <!--ReturnArchiveDate-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginBottom="6dp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="30dp"
+                                    android:background="@color/txtGray">
+
+                                    <TextView
+                                        style="@style/TextView.Blue.Bold"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="right|center"
+                                        android:text="تاریخ بازگشت بایگانی" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="از تاریخ" />
+
+                                        <TextView
+                                            android:id="@+id/lblFromReturnDate"
+                                            android:layout_width="100dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="6dp"
+                                            android:layout_marginRight="6dp"
+                                            style="@style/TextView.Background"
+                                            android:text="انتخاب تاریخ"
+                                            android:textColor="@color/txtGray2"/>
+
+                                        <TextView
+                                            android:id="@+id/lblLongFromReturnDate"
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginRight="6dp"/>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="6dp"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="تا تاریخ" />
+
+                                        <TextView
+                                            android:id="@+id/lblToReturnDate"
+                                            android:layout_width="100dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="6dp"
+                                            android:layout_marginRight="6dp"
+                                            style="@style/TextView.Background"
+                                            android:text="انتخاب تاریخ"
+                                            android:textColor="@color/txtGray2"/>
+
+                                        <TextView
+                                            android:id="@+id/lblLongToReturnDate"
+                                            style="@style/TextView.Normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginRight="6dp"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

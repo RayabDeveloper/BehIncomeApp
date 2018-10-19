@@ -27,6 +27,7 @@ import com.behincom.behincome.WebRequest.Retrofite;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,7 +129,10 @@ public class fragAccess extends Fragment {
         pDialog = new Dialog(getActivity());
         pDialog.Show();
 
-        Call cGetAll = rInterface.RQGetMarketers(Setting.getToken());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("ManagerId", Setting.getBMMUserID());
+
+        Call cGetAll = rInterface.RQGetMarketers(Setting.getToken(), map);
         cGetAll.enqueue(new Callback<List<Marketers>>() {
             @Override
             public void onResponse(Call<List<Marketers>> call, Response<List<Marketers>> response) {

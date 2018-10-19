@@ -1,13 +1,14 @@
 package com.behincom.behincome.Datas.Keys;
 
 public enum FragmentState {
-    Cities, Tags, Properties, ActivityResults, ActivityFields, CustomerState,
+    Cities, Tags, Properties, ActivityResults, ActivityFields, CustomerState, CustomerStatus, NamePrefixes,
     CommissionPeriods, Products,
     VisitTours,
     Setting, AddCommissionPeriods,
     AddProducts,
     AddVisitTour,
     AddCustomer,
+    AddFilter,
     BigMap,
     MainTasks,
     MainCustomers,

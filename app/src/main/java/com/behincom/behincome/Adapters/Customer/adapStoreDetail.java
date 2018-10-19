@@ -2,29 +2,23 @@ package com.behincom.behincome.Adapters.Customer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
-import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
-import com.behincom.behincome.Datas.BaseData.mBasic_Properties;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class adapStoreDetail extends RecyclerView.Adapter<adapStoreDetail.AdapterMember> {
 

@@ -106,7 +106,7 @@ public class adapMarketers extends RecyclerView.Adapter<adapMarketers.AdapterMem
         }
         lblName.setText(lList.get(position).UserName);
 //        lblRole.setText(lList.get(position).RoleName);todo todo todo
-        lblRole.setText("فلان سمت");
+        lblRole.setText(lList.get(position).RoleName);
         DateConverter DC = new DateConverter();
         lblSubmitDate.setText(DC.getToHijri(lList.get(position).SubmitDate));
 

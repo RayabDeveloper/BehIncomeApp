@@ -16,15 +16,26 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Activityes.Account.fragAccount;
 import com.behincom.behincome.Activityes.Account.fragProfileSubmiter;
-import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
-import com.behincom.behincome.Datas.Base.Basics;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddActivityField;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddArchiveType;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddCustomerFilter;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddCustomerState;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddCustomerStatus;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddPrefix;
+import com.behincom.behincome.Activityes.Main.Filter.fragAddTag;
+import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
+import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
+import com.behincom.behincome.Datas.BaseData.Basic_CustomerStatus;
+import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
+import com.behincom.behincome.Datas.BaseData.Basic_Tags;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.behincom.behincome.Activityes.Main.fragCustomers.VOICE_RECOGNITION_REQUEST_CODE;
 
@@ -125,9 +136,61 @@ public class actMain extends AppCompatActivity {
                 addFragProfileSubmiter();
                 STATE = FragmentState.ProfileSubmiter;
                 break;
+            case AddFilter:
+                addFilter();
+                STATE = FragmentState.AddFilter;
+                break;
         }
     }
+    public void getActivityFragment(List<Basic_ActivityFields> lList){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddActivityField.newInstance(context, lList));
+        transaction.commit();
+        STATE = FragmentState.ActivityFields;
+    }
+    public void getTagFragment(List<Basic_Tags> lList){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddTag.newInstance(context, lList));
+        transaction.commit();
+        STATE = FragmentState.Tags;
+    }
+    public void getArchiveFragment(List<Basic_ArchiveTypes> lList){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddArchiveType.newInstance(context, lList));
+        transaction.commit();
+        STATE = FragmentState.ArchiveType;
+    }
+    public void getCustomerStateFragment(List<Basic_CustomerStates> lList){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddCustomerState.newInstance(context, lList));
+        transaction.commit();
+        STATE = FragmentState.CustomerState;
+    }
+    public void getCustomerStatusFragment(List<Basic_CustomerStatus> lList){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddCustomerStatus.newInstance(context, lList));
+        transaction.commit();
+        STATE = FragmentState.CustomerStatus;
+    }
+    public void getNamePrefixFragment(List<Basic_NamePrefixes> lList){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddPrefix.newInstance(context, lList));
+        transaction.commit();
+        STATE = FragmentState.NamePrefixes;
+    }
 
+    private void addFilter(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragAddCustomerFilter.newInstance(context));
+        transaction.commit();
+    }
     private void addAssign(){
         frameLayout.removeAllViewsInLayout();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -233,6 +296,8 @@ public class actMain extends AppCompatActivity {
                 break;
             case ProfileSubmiter:
                 getFragByState(FragmentState.Account);
+            case AddFilter:
+                getFragByState(FragmentState.AddFilter);
         }
     }
 

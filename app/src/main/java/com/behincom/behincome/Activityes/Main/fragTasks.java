@@ -370,14 +370,18 @@ public class fragTasks extends Fragment {
 
                                             lActivityes = response.body();
 
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    adapMainTask adapter = new adapMainTask(lActivityes, getActivity());
-                                                    lstTask.setAdapter(adapter);
-                                                    lblDate.setText(gDate);
-                                                }
-                                            });
+                                            try {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        adapMainTask adapter = new adapMainTask(lActivityes, getActivity());
+                                                        lstTask.setAdapter(adapter);
+                                                        lblDate.setText(gDate);
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     }
 

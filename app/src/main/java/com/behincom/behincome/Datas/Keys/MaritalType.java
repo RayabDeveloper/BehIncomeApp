@@ -13,8 +13,13 @@ public class MaritalType {
 
     private static RSQLGeter geter = new RSQLGeter();
     public static String getMaritalString(int Marital){
-        List<Basic_MaritalStatus> lList = geter.getList(Basic_MaritalStatus.class, " WHERE MaritalStatusID='" + Marital + "'");
-        return lList.get(0).MaritalStatusTitle;
+        try {
+            List<Basic_MaritalStatus> lList = geter.getList(Basic_MaritalStatus.class, " WHERE MaritalStatusID='" + Marital + "'");
+            return lList.get(0).MaritalStatusTitle;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "مشخص نشده";
+        }
     }
 
 }

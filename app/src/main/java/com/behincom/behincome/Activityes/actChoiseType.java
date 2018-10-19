@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRadioButton;
+import android.text.Html;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Setting;
@@ -37,15 +39,12 @@ public class actChoiseType extends AppCompatActivity {
 
     Button btnSelect;
     AppCompatRadioButton radOffline, radOnline, radManager, radMarketer;
-    ImageView imgBig, imgSmall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_choise_type);
 
-        imgBig = findViewById(R.id.imgBig);
-        imgSmall = findViewById(R.id.imgSmall);
         btnSelect = findViewById(R.id.btnSelect);
         radMarketer = findViewById(R.id.radMarketer);
         radManager = findViewById(R.id.radManager);

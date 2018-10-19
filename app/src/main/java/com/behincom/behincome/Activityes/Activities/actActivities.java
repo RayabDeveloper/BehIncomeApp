@@ -10,16 +10,12 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.behincom.behincome.Activityes.Customer.actCustomer;
-import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
-import com.behincom.behincome.Activityes.Customer.fragBigMap;
-import com.behincom.behincome.Activityes.Customer.fragCustomerOnMap;
 import com.behincom.behincome.Activityes.Customer.fragCustomerShow;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
 
-import static com.behincom.behincome.Datas.Keys.FragmentState.AddCustomer;
 import static com.behincom.behincome.Datas.Keys.FragmentState.AddFactor;
 import static com.behincom.behincome.Datas.Keys.FragmentState.AddTask;
 import static com.behincom.behincome.Datas.Keys.FragmentState.AddTaskSetTime;

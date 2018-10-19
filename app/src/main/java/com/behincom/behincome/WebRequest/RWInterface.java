@@ -348,7 +348,7 @@ public interface RWInterface<T> {
 
     @Headers(ContentType)
     @POST(ControllerActionManager_7)
-    Call<com.behincom.behincome.Datas.Profile.Profile> RQGetProfileByCode(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile Object  : {"UserID":1}
+    Call<com.behincom.behincome.Datas.Profile.GetProfile> RQGetProfileByCode(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile Object  : {"UserID":1}
 
     @Headers(ContentType)
     @POST(ControllerActionManager_8)
@@ -365,8 +365,9 @@ public interface RWInterface<T> {
 //    @POST(ControllerActionManager_11)
 //    Call<SimpleResponse> RQEditUserRole(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile : {"UserID":1,"LastRoleID":1,"RoleID":1,"MarketerName":"MehdiSafavie"}
 
-    @GET(ControllerActionManager_12)
-    Call<List<Marketers>> RQGetMarketers(@Header(HeaderToken) String Token);
+    @Headers(ContentType)
+    @POST(ControllerActionManager_12)
+    Call<List<Marketers>> RQGetMarketers(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);
 
     @Headers(ContentType)
     @POST(ControllerActionManager_11)

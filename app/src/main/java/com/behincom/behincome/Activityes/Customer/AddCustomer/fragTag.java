@@ -43,7 +43,6 @@ public class fragTag extends Fragment {
     static RecyclerView lstSub;
     CardView cardSubmit;
 
-//    private List<Basic_TagGroups> lTagGroup = geter.getListIsCheck(Basic_TagGroups.class);
     private List<Basic_TagGroups> lTagGroup = new ArrayList<>();
     private static List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);
     private static List<Basic_TagGroups> lTagGroupForCustomer = new ArrayList<>();

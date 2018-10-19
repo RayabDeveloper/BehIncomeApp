@@ -40,7 +40,6 @@ import com.behincom.behincome.Accesories.DateConverter;
 import com.behincom.behincome.Accesories.ItemDecoration;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Activities.actActivities;
-import com.behincom.behincome.Activityes.Activities.fragAddTask;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Activityes.Main.fragCustomers;
 import com.behincom.behincome.Adapters.Customer.adapCustomerInvoice;
@@ -813,11 +812,11 @@ public class fragCustomerShow extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
-                fragAddTask.Name = Customer.Customers.CustomerName;
-                fragAddTask.customer_id = Customer.Customers.CustomerID;
-                fragAddTask.Type = 0;
-                fragAddTask.mCustomer = Customer;
-                fragAddTask.mPosition = position;
+//                fragAddTask.Name = Customer.Customers.CustomerName;
+//                fragAddTask.customer_id = Customer.Customers.CustomerID;
+//                fragAddTask.Type = 0;
+//                fragAddTask.mCustomer = Customer;
+//                fragAddTask.mPosition = position;
                 getActivity().startActivity(intent);
                 getActivity().finish();
             }
