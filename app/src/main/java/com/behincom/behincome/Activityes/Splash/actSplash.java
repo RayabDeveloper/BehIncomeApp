@@ -5,21 +5,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.behincom.behincome.Accesories.Device;
-import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Main.actMain;
-import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Loader.LoadBaseData;
-import com.behincom.behincome.Loader.LoadMarketingData;
 import com.behincom.behincome.R;
-import com.behincom.behincome.SQL.RSQLite;
-import com.behincom.behincome.WebRequest.RWInterface;
-import com.behincom.behincome.WebRequest.Retrofite;
 
 public class actSplash extends AppCompatActivity {
 

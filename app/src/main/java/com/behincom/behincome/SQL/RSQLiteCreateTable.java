@@ -383,11 +383,13 @@ public class RSQLiteCreateTable {
                     ");",
             "CREATE TABLE " + Tables.MarketingSetups +//Table :MarketingSetups
                     " (" +
-                    "MarketingSetupId					        INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "MarketingSetupId					        INTEGER, " +
                     "PointCustomerAdd					        INTEGER, " +
                     "PointInvoiseAdd					        INTEGER, " +
                     "CustmerEditTime					        TEXT, " +
                     "ActivityEditTime					        TEXT, " +
+                    "InvoiceEditTime					        TEXT, " +
+                    "ActivityNotDoneNegativePoint				INTEGER, " +
                     "Deleted					                INTEGER, " +
                     "OwnerId					                INTEGER " +
                     ");"

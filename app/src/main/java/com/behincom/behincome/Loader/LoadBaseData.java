@@ -711,11 +711,16 @@ public class LoadBaseData {
                 e.printStackTrace();
             }
             try {
-                if(geter.Any(data.MarketingSetups.getClass(), " WHERE MarketingSetupId" + "='" + data.MarketingSetups.MarketingSetupId + "'")){
-                    SQL.Update(data.MarketingSetups, " WHERE MarketingSetupId" + "='" + data.MarketingSetups.MarketingSetupId + "'");
-                }else{
-                    SQL.Insert(data.MarketingSetups);
-                }
+//                if(geter.Any(data.MarketingSetups.getClass(), " WHERE MarketingSetupId" + "='" + data.MarketingSetups.MarketingSetupId + "'")){
+////                    SQL.Update(data.MarketingSetups, " WHERE MarketingSetupId" + "='" + data.MarketingSetups.MarketingSetupId + "'");
+//                }else{
+//                    SQL.Insert(data.MarketingSetups);
+//                }
+                SQL.Execute("UPDATE MarketingSetups SET MarketingSetupId='" + data.MarketingSetups.MarketingSetupId + "' ," +
+                        " PointCustomerAdd='" + data.MarketingSetups.PointCustomerAdd + "' , PointInvoiseAdd='" +
+                        data.MarketingSetups.PointInvoiseAdd + "' , CustmerEditTime='" + data.MarketingSetups.CustmerEditTime + "', ActivityEditTime='" +
+                        data.MarketingSetups.ActivityEditTime + "', ActivityNotDoneNegativePoint='" + data.MarketingSetups.ActivityNotDoneNegativePoint +
+                         "', InvoiceEditTime='" + data.MarketingSetups.InvoiceEditTime + "', Deleted='0', OwnerId='" + data.MarketingSetups.OwnerId + "'");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.DateConverter;
 import com.behincom.behincome.Accesories.Dialog;
+import com.behincom.behincome.Accesories.GPSTracker;
 import com.behincom.behincome.Accesories.ItemDecoration;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Main.actMain;
@@ -35,6 +36,7 @@ import com.behincom.behincome.Adapters.Activities.adapFactors;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.Activityes.Activities;
 import com.behincom.behincome.Datas.Activityes.Invoice;
+import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_Acts;
 import com.behincom.behincome.Datas.Keys.FragmentState;
@@ -44,6 +46,9 @@ import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,10 +75,11 @@ public class fragAddTask extends Fragment {
     RWInterface rInterface = Retrofite.getClient().create(RWInterface.class);
     actActivities act = new actActivities();
     android.app.Dialog mDialog;
+    static GPSTracker gpsTracker;
 
     TextView lblTitle, lblEnterInfo, lblExitInfo, lblTaskInfo;
     ImageView btnCheck, imgBack, btnReNew;
-    LinearLayout viewEnterExit, viewEnterShow, viewEnterInfo, viewExitShow, viewExitInfo, viewTaskShow, infoTask;
+    LinearLayout viewEnterExit, viewEnterShow, viewEnterInfo, viewExitShow, viewExitInfo, viewTaskShow, infoTask, viewResult;
     RelativeLayout viewEnterExitEnd, viewTaskInfo;
     TextInputEditText txtTitle, txtDescription;
     Spinner spinSubAct, spinResult;
@@ -114,6 +120,7 @@ public class fragAddTask extends Fragment {
         viewTaskShow = view.findViewById(R.id.viewTaskShow);
         infoTask = view.findViewById(R.id.infoTask);
         viewEnterExitEnd = view.findViewById(R.id.viewEnterExitEnd);
+        viewResult = view.findViewById(R.id.viewResult);
         viewTaskInfo = view.findViewById(R.id.viewTaskInfo);
         txtTitle = view.findViewById(R.id.txtName);
         txtDescription = view.findViewById(R.id.txtDetails);
@@ -122,6 +129,8 @@ public class fragAddTask extends Fragment {
         lstFactor = view.findViewById(R.id.lstFactor);
         btnNewInvoice = view.findViewById(R.id.btnNewInvoice);
         btnSend = view.findViewById(R.id.cardAcceptTask);
+
+        gpsTracker = new GPSTracker(context);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +142,7 @@ public class fragAddTask extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SelectedAct = spinSubAct.getSelectedItemPosition();
+                Activity.ActID = Integer.parseInt(spinAdapter_SubAct.getItemString(SelectedAct, "ActID"));
             }
 
             @Override
@@ -144,6 +154,7 @@ public class fragAddTask extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SelectedResult = spinResult.getSelectedItemPosition();
+                Activity.ActID = Integer.parseInt(spinAdapter_Result.getItemString(SelectedResult, "ActResultID"));
             }
 
             @Override
@@ -155,10 +166,13 @@ public class fragAddTask extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Title = txtTitle.getText().toString();
+                Activity.Title = txtTitle.getText().toString();
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -167,10 +181,13 @@ public class fragAddTask extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Description = txtDescription.getText().toString();
+                Activity.ActivityDescription = txtDescription.getText().toString();
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -182,7 +199,7 @@ public class fragAddTask extends Fragment {
                 pDialog.Show();
 
                 HashMap<String, Object> map = new HashMap<>();
-                if(Activity.ActivityID > 0) {//EnterForTask
+                if (Activity.ActivityID > 0) {//EnterForTask
                     map.put("ActivityID", Activity.ActivityID);
                     map.put("Title", Activity.ActivityID);
                     map.put("ActID", Activity.ActivityID);
@@ -200,7 +217,7 @@ public class fragAddTask extends Fragment {
                                     SimpleResponse result = response.body();
                                     if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
                                         viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult);
-                                    }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                         for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                             String value = entry.getValue().toString();
                                             Toast.makeText(context, value, Toast.LENGTH_LONG).show();
@@ -219,17 +236,17 @@ public class fragAddTask extends Fragment {
                             pDialog.DisMiss();
                         }
                     });
-                }else{//EnterForNewActivity
+                } else {//EnterForNewActivity
                     map.put("ParentID", Activity.ParentID);
-                    map.put("ActivityAddedByUserID", Activity.ActivityAddedByUserID);
-                    map.put("ActivityOwnerUserID", Activity.ActivityOwnerUserID);
+                    map.put("ActivityAddedByUserID", 0);
+                    map.put("ActivityOwnerUserID", Setting.getBMMUserID());
                     map.put("CustomerID", Activity.CustomerID);
                     map.put("Title", Activity.Title);
                     map.put("ActID", Activity.ActID);
                     map.put("ActivityDescription", Activity.ActivityDescription);
-                    map.put("EnterDate", Activity.EnterDate);
-                    map.put("EnterLatutide", Activity.EnterLatutide);
-                    map.put("EnterLongitude", Activity.EnterLongitude);
+                    map.put("EnterDate", "");
+                    map.put("EnterLatutide", MyLocation.latitude);
+                    map.put("EnterLongitude", MyLocation.longitude);
 
                     Call Enter = rInterface.RQAddActivityEnter(Setting.getToken(), map);
                     Enter.enqueue(new Callback<SimpleResponse>() {
@@ -239,19 +256,22 @@ public class fragAddTask extends Fragment {
                                 try {
                                     SimpleResponse result = response.body();
                                     if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                        viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult);
-                                    }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                        Activity.ActivityID = Integer.parseInt(response.body().AdditionalData.get("ActivityID").toString().replace(".0", ""));
+                                        Activity.EnterDate = response.body().AdditionalData.get("EnterDate").toString();
+                                        lblEnterInfo.setText(getLongDate(Activity.EnterDate));
+                                        viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult, viewResult);
+                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                         for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                             String value = entry.getValue().toString();
                                             Toast.makeText(context, value, Toast.LENGTH_LONG).show();
                                         }
-                                    }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Warning.toString())) {
+                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Warning.toString())) {
                                         for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                             String key = entry.getKey();
                                             String value = entry.getValue().toString();
-                                            if(!key.equalsIgnoreCase("ActivityID"))
+                                            if (!key.equalsIgnoreCase("ActivityID"))
                                                 Toast.makeText(context, value, Toast.LENGTH_LONG).show();
-                                            else{
+                                            else {
                                                 //todo Call That Activity And Goto That
                                             }
                                         }
@@ -265,6 +285,7 @@ public class fragAddTask extends Fragment {
 
                         @Override
                         public void onFailure(Call call, Throwable t) {
+                            pDialog.DisMiss();
                             Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -277,7 +298,7 @@ public class fragAddTask extends Fragment {
                 pDialog = new Dialog(context);
                 pDialog.Show();
 
-                if(lInvoice.size() > 0){
+                if (lInvoice.size() > 0) {
                     MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
                     for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
                         File file = new File(lInvoice.get(i).InvoiceImage.get(i).ImageFilename);
@@ -289,7 +310,7 @@ public class fragAddTask extends Fragment {
                     addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 List<HashMap<String, Object>> lMapURLs = new ArrayList<>();
                                 try {
                                     Object[] keys = response.body().AdditionalData.keySet().toArray();
@@ -320,11 +341,11 @@ public class fragAddTask extends Fragment {
 
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("ActivityID", Activity.ActivityID);
-                                map.put("ActivityResultID", Activity.ActivityID);
-                                map.put("ActivityDescription", Activity.ActivityID);
-                                map.put("ExitDate", Activity.ActivityID);
-                                map.put("ExitLatutide", Activity.ActivityID);
-                                map.put("ExitLongitude", Activity.ActivityID);
+                                map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+                                map.put("ActivityDescription", Activity.ActivityDescription);
+                                map.put("ExitDate", "");
+                                map.put("ExitLatutide", MyLocation.latitude);
+                                map.put("ExitLongitude", MyLocation.longitude);
                                 map.put("Invoices", lMapInvoice);
 
                                 Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
@@ -335,8 +356,10 @@ public class fragAddTask extends Fragment {
                                             try {
                                                 SimpleResponse result = response.body();
                                                 if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                                    viewShower(viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
-                                                }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                                    Activity.ExitDate = response.body().AdditionalData.get("ExitDate").toString();
+                                                    lblExitInfo.setText(getLongDate(Activity.ExitDate));
+                                                    viewShower(btnCheck, viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
+                                                } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                                     for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                                         String value = entry.getValue().toString();
                                                         Toast.makeText(context, value, Toast.LENGTH_LONG).show();
@@ -365,15 +388,26 @@ public class fragAddTask extends Fragment {
                             Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else {
+                } else {
+                    List<HashMap<String, Object>> lMaps = new ArrayList<>();
+                    for (Invoice data : lInvoice) {
+                        HashMap<String, Object> mapp = new HashMap<>();
+                        mapp.put("InvoiceNumber", data.InvoiceNumber);
+                        mapp.put("InvoiceMarketingProductID", data.InvoiceMarketingProductID);
+                        mapp.put("InvoiceActivityID", Activity.ActivityID);
+                        mapp.put("InvoicePrice", data.InvoicePrice);
+                        mapp.put("InvoiceDescription", data.InvoiceDescription);
+
+                        lMaps.add(mapp);
+                    }
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("ActivityID", Activity.ActivityID);
-                    map.put("ActivityResultID", Activity.ActivityID);
-                    map.put("ActivityDescription", Activity.ActivityID);
-                    map.put("ExitDate", Activity.ActivityID);
-                    map.put("ExitLatutide", Activity.ActivityID);
-                    map.put("ExitLongitude", Activity.ActivityID);
-                    map.put("Invoices", new HashMap<String, Object>());
+                    map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+                    map.put("ActivityDescription", Activity.ActivityDescription);
+                    map.put("ExitDate", "");
+                    map.put("ExitLatutide", MyLocation.latitude);
+                    map.put("ExitLongitude", MyLocation.longitude);
+                    map.put("Invoices", lMaps);
 
                     Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
                     cExitActivity.enqueue(new Callback<SimpleResponse>() {
@@ -383,8 +417,10 @@ public class fragAddTask extends Fragment {
                                 try {
                                     SimpleResponse result = response.body();
                                     if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                        viewShower(viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
-                                    }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                        Activity.ExitDate = response.body().AdditionalData.get("ExitDate").toString();
+                                        lblExitInfo.setText(getLongDate(Activity.ExitDate));
+                                        viewShower(btnCheck, viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
+                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                         for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                             String value = entry.getValue().toString();
                                             Toast.makeText(context, value, Toast.LENGTH_LONG).show();
@@ -431,48 +467,198 @@ public class fragAddTask extends Fragment {
                 pDialog.Show();
 
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("ActivityID", Activity.ActivityID);
-                map.put("Description", Activity.ActivityDescription);
-                map.put("Invoices", Activity.Invoice);
-                map.put("ActivityResultID", Activity.ActivityResultID);
-
-                Call cConfirm = rInterface.RQConfirmActivity(Setting.getToken(), map);
-                cConfirm.enqueue(new Callback<SimpleResponse>() {
-                    @Override
-                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                SimpleResponse result = response.body();
-                                if(result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                    Intent intent = new Intent(context, actMain.class);
-                                    actMain.STATE = FragmentState.MainCustomers;
-                                    getActivity().startActivity(intent);
-                                    getActivity().finish();
-                                }else if(result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
-                                    for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
-                                        String value = entry.getValue().toString();
-                                        Toast.makeText(context, value, Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            } catch (Exception Ex) {
-                                String Er = Ex.getMessage();
-                            }
-                        } else {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-//                                    mToast("خطا در برقراری ارتباط با سرور.");
-                                }
-                            });
+                if (Activity.ActivityID > 0) {
+                    if (lInvoice.size() > 0) {
+                        MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
+                        for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
+                            File file = new File(lInvoice.get(i).InvoiceImage.get(i).ImageFilename);
+                            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file);
+                            body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
                         }
-                        pDialog.DisMiss();
-                    }
 
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-                        pDialog.DisMiss();
+                        Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), body);
+                        addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
+                            @Override
+                            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                if (response.isSuccessful()) {
+                                    List<HashMap<String, Object>> lMapURLs = new ArrayList<>();
+                                    try {
+                                        Object[] keys = response.body().AdditionalData.keySet().toArray();
+                                        for (Object data : keys) {
+                                            String val = response.body().AdditionalData.get(data.toString()).toString();
+                                            HashMap<String, Object> mapURLs = new HashMap<>();
+                                            mapURLs.put("InvoiceFileName", val);
+                                            lMapURLs.add(mapURLs);
+
+
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    List<HashMap<String, Object>> lMapInvoice = new ArrayList<>();
+                                    for (Invoice datas : lInvoice) {
+                                        HashMap<String, Object> mapInvoice = new HashMap<>();
+                                        mapInvoice.put("InvoiceNumber", datas.InvoiceNumber);
+                                        mapInvoice.put("InvoiceMarketingProductID", datas.InvoiceMarketingProductID);
+                                        mapInvoice.put("InvoiceActivityID", datas.InvoiceActivityID);
+                                        mapInvoice.put("InvoicePrice", datas.InvoicePrice);
+                                        mapInvoice.put("InvoiceDescription", datas.InvoiceDescription);
+                                        mapInvoice.put("InvoiceImages", lMapURLs);
+
+                                        lMapInvoice.add(mapInvoice);
+                                    }
+
+                                    HashMap<String, Object> mapse = new HashMap<>();
+                                    mapse.put("ActivityID", Activity.ActivityID);
+                                    mapse.put("Description", Activity.ActivityDescription);
+                                    mapse.put("Invoices", lMapInvoice);
+                                    mapse.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+
+                                    Call cConfirm = rInterface.RQConfirmActivity(Setting.getToken(), mapse);
+                                    cConfirm.enqueue(new Callback<SimpleResponse>() {
+                                        @Override
+                                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                            if (response.isSuccessful()) {
+                                                try {
+                                                    SimpleResponse result = response.body();
+                                                    if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                                        Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                                        for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                                            String value = entry.getValue().toString();
+                                                            Toast.makeText(context, value, Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                } catch (Exception Ex) {
+                                                    String Er = Ex.getMessage();
+                                                }
+                                            } else {
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+//                                    mToast("خطا در برقراری ارتباط با سرور.");
+                                                    }
+                                                });
+                                            }
+                                            pDialog.DisMiss();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call call, Throwable t) {
+                                            pDialog.DisMiss();
+                                        }
+                                    });
+                                }
+                                pDialog.DisMiss();
+                            }
+
+                            @Override
+                            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                                pDialog.DisMiss();
+                                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        List<HashMap<String, Object>> lMaps = new ArrayList<>();
+                        for (Invoice data : lInvoice) {
+                            HashMap<String, Object> mapp = new HashMap<>();
+                            mapp.put("InvoiceNumber", data.InvoiceNumber);
+                            mapp.put("InvoiceMarketingProductID", data.InvoiceMarketingProductID);
+                            mapp.put("InvoiceActivityID", Activity.ActivityID);
+                            mapp.put("InvoicePrice", data.InvoicePrice);
+                            mapp.put("InvoiceDescription", data.InvoiceDescription);
+
+                            lMaps.add(mapp);
+                        }
+                        HashMap<String, Object> mapse = new HashMap<>();
+                        mapse.put("ActivityID", Activity.ActivityID);
+                        mapse.put("Description", Activity.ActivityDescription);
+                        mapse.put("Invoices", lMaps);
+                        mapse.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+
+                        Call cConfirm = rInterface.RQConfirmActivity(Setting.getToken(), mapse);
+                        cConfirm.enqueue(new Callback<SimpleResponse>() {
+                            @Override
+                            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                if (response.isSuccessful()) {
+                                    try {
+                                        SimpleResponse result = response.body();
+                                        if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                            Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                                        } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                            for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                                String value = entry.getValue().toString();
+                                                Toast.makeText(context, value, Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    } catch (Exception Ex) {
+                                        String Er = Ex.getMessage();
+                                    }
+                                } else {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+//                                    mToast("خطا در برقراری ارتباط با سرور.");
+                                        }
+                                    });
+                                }
+                                pDialog.DisMiss();
+                            }
+
+                            @Override
+                            public void onFailure(Call call, Throwable t) {
+                                pDialog.DisMiss();
+                            }
+                        });
                     }
-                });
+                } else {
+                    map.put("CustomerID", Activity.CustomerID);
+                    map.put("ActivityOwnerUserID", Setting.getBMMUserID());
+                    map.put("Title", Activity.Title);
+                    map.put("ActID", Integer.parseInt(spinAdapter_SubAct.getItemString(spinSubAct.getSelectedItemPosition(), "ActID")));
+                    map.put("ActivityDescription", Activity.ActivityDescription);
+                    map.put("TaskDate", Activity.TodoDate);
+                    map.put("DurationDate", Activity.DurationDate);
+//                    map.put("VisitTourID", Activity.VisitTourID);
+                    map.put("VisitTourID", 1);//Todo
+                    map.put("TodoDateEnd", Activity.TodoDate);
+
+                    Call cConfirm = rInterface.RQAddTask(Setting.getToken(), map);
+                    cConfirm.enqueue(new Callback<SimpleResponse>() {
+                        @Override
+                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                            if (response.isSuccessful()) {
+                                try {
+                                    SimpleResponse result = response.body();
+                                    if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                        getActivity().finish();
+                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                        for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                            String value = entry.getValue().toString();
+                                            Toast.makeText(context, value, Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                } catch (Exception Ex) {
+                                    String Er = Ex.getMessage();
+                                }
+                            } else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+//                                    mToast("خطا در برقراری ارتباط با سرور.");
+                                    }
+                                });
+                            }
+                            pDialog.DisMiss();
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            pDialog.DisMiss();
+                        }
+                    });
+                }
             }
         });
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -481,7 +667,7 @@ public class fragAddTask extends Fragment {
                 pDialog = new Dialog(context);
                 pDialog.Show();
 
-                if(lInvoice.size() > 0){
+                if (lInvoice.size() > 0) {
                     MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
                     for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
                         File file = new File(lInvoice.get(i).InvoiceImage.get(i).ImageFilename);
@@ -493,7 +679,7 @@ public class fragAddTask extends Fragment {
                     addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 List<HashMap<String, Object>> lMapURLs = new ArrayList<>();
                                 try {
                                     Object[] keys = response.body().AdditionalData.keySet().toArray();
@@ -524,11 +710,11 @@ public class fragAddTask extends Fragment {
 
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("ActivityID", Activity.ActivityID);
-                                map.put("ActivityResultID", Activity.ActivityID);
-                                map.put("ActivityDescription", Activity.ActivityID);
+                                map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+                                map.put("ActivityDescription", Activity.ActivityDescription);
                                 map.put("Invoices", lMapInvoice);
 
-                                Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
+                                Call cExitActivity = rInterface.RQSendActivity(Setting.getToken(), map);
                                 cExitActivity.enqueue(new Callback<SimpleResponse>() {
                                     @Override
                                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
@@ -536,11 +722,8 @@ public class fragAddTask extends Fragment {
                                             try {
                                                 SimpleResponse result = response.body();
                                                 if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                                    Intent intent = new Intent(context, actMain.class);
-                                                    actMain.STATE = FragmentState.MainCustomers;
-                                                    getActivity().startActivity(intent);
                                                     getActivity().finish();
-                                                }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                                } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                                     for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                                         String value = entry.getValue().toString();
                                                         Toast.makeText(context, value, Toast.LENGTH_LONG).show();
@@ -569,14 +752,25 @@ public class fragAddTask extends Fragment {
                             Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else {
+                } else {
+                    List<HashMap<String, Object>> lMaps = new ArrayList<>();
+                    for (Invoice data : lInvoice) {
+                        HashMap<String, Object> mapp = new HashMap<>();
+                        mapp.put("InvoiceNumber", data.InvoiceNumber);
+                        mapp.put("InvoiceMarketingProductID", data.InvoiceMarketingProductID);
+                        mapp.put("InvoiceActivityID", Activity.ActivityID);
+                        mapp.put("InvoicePrice", data.InvoicePrice);
+                        mapp.put("InvoiceDescription", data.InvoiceDescription);
+
+                        lMaps.add(mapp);
+                    }
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("ActivityID", Activity.ActivityID);
-                    map.put("ActivityResultID", Activity.ActivityID);
-                    map.put("ActivityDescription", Activity.ActivityID);
-                    map.put("Invoices", new HashMap<String, Object>());
+                    map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+                    map.put("ActivityDescription", Activity.ActivityDescription);
+                    map.put("Invoices", lMaps);
 
-                    Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
+                    Call cExitActivity = rInterface.RQSendActivity(Setting.getToken(), map);
                     cExitActivity.enqueue(new Callback<SimpleResponse>() {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
@@ -584,11 +778,8 @@ public class fragAddTask extends Fragment {
                                 try {
                                     SimpleResponse result = response.body();
                                     if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                        Intent intent = new Intent(context, actMain.class);
-                                        actMain.STATE = FragmentState.MainCustomers;
-                                        getActivity().startActivity(intent);
                                         getActivity().finish();
-                                    }else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                         for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
                                             String value = entry.getValue().toString();
                                             Toast.makeText(context, value, Toast.LENGTH_LONG).show();
@@ -613,10 +804,22 @@ public class fragAddTask extends Fragment {
 
         return view;
     }
+
+    private static LatLng MyLocation = new LatLng(0.0, 0.0);
+
     @Override
     public void onResume() {
         super.onResume();
         ViewManager();
+        try {
+            if (gpsTracker.getIsGPSTrackingEnabled()) {
+                MyLocation = new LatLng(gpsTracker.latitude, gpsTracker.longitude);
+            } else {
+                gpsTracker.showSettingsAlert();
+            }
+        } catch (Exception Ex) {
+            String Er = Ex.getMessage();
+        }
         //get Server Now Time
         Call GetTime = rInterface.RQGetServerDateTime();
         GetTime.enqueue(new Callback<String>() {
@@ -641,12 +844,12 @@ public class fragAddTask extends Fragment {
             }
         }
         try {
-            for (int i=0; i<lSubAct.size(); i++){
+            for (int i = 0; i < lSubAct.size(); i++) {
                 try {
                     int ID = lSubAct.get(i).ActID;
-                    for(int j=i+1; j<lSubAct.size(); j++){
+                    for (int j = i + 1; j < lSubAct.size(); j++) {
                         try {
-                            if(ID == lSubAct.get(j).ActID){
+                            if (ID == lSubAct.get(j).ActID) {
                                 lSubAct.remove(j);
                                 j--;
                             }
@@ -669,15 +872,37 @@ public class fragAddTask extends Fragment {
         int ResultPosition = spinAdapter_SubAct.getItemPosition("ActResultID", Integer.toString(Activity.ActivityResultID));
         //Set Datas
         txtTitle.setText(Activity.Title);
-        txtDescription.setText(Activity.Title);
-        lblEnterInfo.setText(getLongDate(Activity.EnterDate));
-        lblExitInfo.setText(getLongDate(Activity.ExitDate));
-        lblTaskInfo.setText(getLongDate(Activity.TodoDate) + " به مدت " + getHM(Activity.DurationDate));
-        spinResult.setSelection(ResultPosition);
-        spinSubAct.setSelection(ActPosition);
+        txtDescription.setText(Activity.ActivityDescription);
+        try {
+            lblEnterInfo.setText(getLongDate(Activity.EnterDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            lblExitInfo.setText(getLongDate(Activity.ExitDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            String lbTask = getLongDate(Activity.TodoDate) + " به مدت " + getHM(Activity.DurationDate);
+            lblTaskInfo.setText(lbTask);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            spinResult.setSelection(ResultPosition);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            spinSubAct.setSelection(ActPosition);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         lInvoice = Activity.Invoice;
         RefreshFactorList();
     }
+
     //Refresh List
     private void RefreshFactorList() {
         adapFactors adapter = new adapFactors(lInvoice, context);
@@ -687,25 +912,40 @@ public class fragAddTask extends Fragment {
         lstFactor.setItemAnimator(new DefaultItemAnimator());
         lstFactor.setAdapter(adapter);
     }
+
     //Get LongDateTime String
-    private String getLongDate(String cDate){
-        PersianDate pDate = new PersianDate(getYear(cDate), getMonth(cDate), getDay(cDate));
-        DateConverter DC = new DateConverter(pDate);
+    private String getLongDate(String cDate) {
+        int y = getYear(cDate);
+        int m = getMonth(cDate);
+        int d = getDay(cDate);
+        saman.zamani.persiandate.PersianDate pDate = new saman.zamani.persiandate.PersianDate();
+        pDate.setGrgYear(y);
+        pDate.setGrgMonth(m);
+        pDate.setGrgDay(d);
+        y = pDate.getShYear();
+        m = pDate.getShMonth();
+        d = pDate.getShDay();
+        PersianDate pDatee = new PersianDate(y, m, d);
+        DateConverter DC = new DateConverter(pDatee);
         return DC.getStringLongDate();
     }
-    private int getYear(String Date){
+
+    private int getYear(String Date) {
         return getDate(Date, 0);
     }
-    private int getMonth(String Date){
+
+    private int getMonth(String Date) {
         return getDate(Date, 1);
     }
-    private int getDay(String Date){
+
+    private int getDay(String Date) {
         return getDate(Date, 2);
     }
-    private int getDate(String Date, int Type){
+
+    private int getDate(String Date, int Type) {
         String[] DatesTimes = Date.split("T");
         String[] Dates = DatesTimes[0].split("-");
-        switch (Type){
+        switch (Type) {
             case 0://GetYearOnly
                 return Integer.parseInt(Dates[0]);
             case 1://GetMonthOnly
@@ -715,55 +955,60 @@ public class fragAddTask extends Fragment {
         }
         return Integer.parseInt(Dates[0]);
     }
+
     //Get Houre & Minute
-    private String getHM(String Date){
+    private String getHM(String Date) {
         String[] DatesTimes = Date.split("T");
         String[] Times = DatesTimes[1].split(":");
         return Times[0] + ":" + Times[1];
     }
+
     //View Manager
-    private void ViewManager(){
-        switch (getViewType()){
+    private void ViewManager() {
+        switch (getViewType()) {
             case EnterShowTaskShow:
                 viewShower(viewEnterShow, viewTaskShow, viewEnterExit);
                 break;
             case EnterInfoExitShow:
-                viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult);
+                viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult, viewResult);
                 break;
             case EnterInfoExitInfo:
-                viewShower(viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
+                viewShower(btnCheck, viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, viewResult, btnSend);
                 break;
             case TaskShow:
-                viewShower(viewTaskInfo);
+                viewShower(viewTaskInfo, infoTask, btnCheck);
                 break;
             case TaskNotShow:
                 viewShower(viewEnterShow, viewEnterExit);
                 break;
         }
     }
-    private ViewType getViewType(){
-        if(Activity.EnterDate.length() == 0 && Activity.TodoDate.length() == 0)
+
+    private ViewType getViewType() {
+        if (Activity.EnterDate.length() == 0 && Activity.TodoDate.length() == 0)
             return ViewType.EnterShowTaskShow;
-        else if(Activity.TodoDate.length() > 0 && Activity.ActivityID == 0)
+        else if (Activity.TodoDate.length() > 0 && Activity.ActivityID == 0)
             return ViewType.TaskShow;
-        else if(Activity.EnterDate.length() > 0 && Activity.ExitDate.length() == 0)
+        else if (Activity.EnterDate.length() > 0 && Activity.ExitDate.length() == 0)
             return ViewType.EnterInfoExitShow;
-        else if(Activity.EnterDate.length() > 0 && Activity.ExitDate.length() > 0)
+        else if (Activity.EnterDate.length() > 0 && Activity.ExitDate.length() > 0)
             return ViewType.EnterInfoExitInfo;
-        else if(Activity.TodoDate.length() > 0 && Activity.EnterDate.length() == 0 && Activity.ActivityID != 0)
+        else if (Activity.TodoDate.length() > 0 && Activity.EnterDate.length() == 0 && Activity.ActivityID != 0)
             return ViewType.TaskNotShow;
 
         return ViewType.EnterShowTaskShow;
     }
-    private void viewShower(View... Views){
+
+    private void viewShower(View... Views) {
         for (View v : AllViews()) {
             for (View view : Views) {
-                if(v == view)
+                if (v == view)
                     v.setVisibility(View.VISIBLE);
             }
         }
     }
-    private List<View> AllViews(){
+
+    private List<View> AllViews() {
         List<View> lView = new ArrayList<>();
         lView.add(viewEnterExit);
         lView.add(viewEnterShow);
@@ -775,15 +1020,18 @@ public class fragAddTask extends Fragment {
         lView.add(viewEnterExitEnd);
         lView.add(viewTaskInfo);
         lView.add(btnSend);
+        lView.add(btnCheck);
         lView.add(btnNewInvoice);
         lView.add(lstFactor);
         lView.add(spinResult);
+        lView.add(viewResult);
         for (View view : lView) {
             view.setVisibility(View.GONE);
         }
         return lView;
     }
-    private enum ViewType{
+
+    private enum ViewType {
         EnterShowTaskShow,
         EnterInfoExitShow,
         EnterInfoExitInfo,

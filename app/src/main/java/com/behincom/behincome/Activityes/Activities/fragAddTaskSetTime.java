@@ -442,7 +442,7 @@ public class fragAddTaskSetTime extends Fragment {
             @Override
             public void onChanged(PersianDate persianDate) {
                 DateConverter DC2 = new DateConverter(persianDate);
-                DateToSend = DC2.getDate();
+//                DateToSend = DC2.getDate();
                 Date = DC2.getStringLongDate();
                 String mName = DC2.getMonthName(persianDate.getMonth() - 1);
                 String Year = Integer.toString(persianDate.getYear());
@@ -609,11 +609,12 @@ public class fragAddTaskSetTime extends Fragment {
 
                                 DateConverter DC = new DateConverter(DateToSend, TimeToSend);
                                 String DT = (DC.getCSharp2());
-//                                fragAddTask.Activity.TodoDate = DT;
+                                fragAddTask.Activity.TodoDate = DT;
                                 int duration = Integer.parseInt(txtDuration.getText().toString());
                                 int hours = duration / 60;
-                                int minutes = duration % 60;//todo todo todo todo todo Duration todo Mehrnush todo inja
-//                                fragAddTask.Activity.Duration = "2001-01-01T" + (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":00";
+                                int minutes = duration % 60;
+                                String aDuration = "2001-01-01T" + (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":00";
+                                fragAddTask.Activity.DurationDate = aDuration;
 
                                 act.getFragByState(FragmentState.AddTask);
 //                                dDialog.dismiss();

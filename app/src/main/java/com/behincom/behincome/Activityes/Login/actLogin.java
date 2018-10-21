@@ -42,6 +42,8 @@ public class actLogin extends AppCompatActivity {
         frameLayout = findViewById(R.id.frameLayout);
 
         Setting.Save("ServerDateTime", "2018-01-01T11:11:11");
+        Setting.Save("ServerURL", "http://164.138.17.243/");
+        Setting.Save("AccountType", "1");
 
         manager = getSupportFragmentManager();
         context = this;

@@ -59,8 +59,6 @@ public class actChoiseType extends AppCompatActivity {
 //        resize.setDuration(1000);
 //        imgBig.startAnimation(resize);
 
-        Setting.Save("ServerDateTime", "2018-01-01T11:11:11");
-
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +66,7 @@ public class actChoiseType extends AppCompatActivity {
 //                    Setting.Save("ServerURL", "http://192.168.1.17/BehincomeWeb/");
 //                else
 //                    Setting.Save("ServerURL", "http://164.138.17.243/");
+                Setting.Save("ServerDateTime", "2018-01-01T11:11:11");
                 Setting.Save("ServerURL", "http://164.138.17.243/");
 
                 if(radManager.isChecked())

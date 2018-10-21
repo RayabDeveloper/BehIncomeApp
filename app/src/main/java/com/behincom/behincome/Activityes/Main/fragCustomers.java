@@ -33,6 +33,7 @@ import com.behincom.behincome.Accesories.ItemDecoration;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Accesories.VoiceType;
 import com.behincom.behincome.Activityes.Customer.actCustomer;
+import com.behincom.behincome.Activityes.Customer.fragAddCustomer;
 import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Main.adapMainCustomerMarketers;
 import com.behincom.behincome.Adapters.Main.adapMainCustomers;
@@ -206,6 +207,7 @@ public class fragCustomers extends Fragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragAddCustomer.reNewer();
                 List<Basic_Cities> lCit = geter.getListIsCheck(Basic_Cities.class);
                 List<Basic_ActivityFields> lAct = geter.getListIsCheck(Basic_ActivityFields.class);
                 List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);

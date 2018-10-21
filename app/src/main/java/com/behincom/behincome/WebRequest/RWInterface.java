@@ -133,6 +133,7 @@ public interface RWInterface<T> {
     final String AddActivityResult = "AddActResult";
     final String RemoveActResult = "RemoveActResult";
     final String AddActResultPoint = "ChangePoint";
+    final String EditMarketingSetting = "EditMarketingSetting";
     final String AddProduct = "AddProduct";
     final String AddProductCommission = "AddProductCommission";
     final String AddCommissionPeriod = "AddCommissionPeriod";
@@ -159,6 +160,7 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Marketing_5 = Marketing + "/" + AddActivityResult;
     final String ControllerActionManager_Marketing_55 = Marketing + "/" + RemoveActResult;
     final String ControllerActionManager_Marketing_56 = Marketing + "/" + AddActResultPoint;
+    final String ControllerActionManager_Marketing_58 = BaseData + "/" + EditMarketingSetting;
     final String ControllerActionManager_Marketing_8 = Marketing + "/" + AddProduct;
     final String ControllerActionManager_Marketing_9 = Marketing + "/" + AddProductCommission;
     final String ControllerActionManager_Marketing_10 = Marketing + "/" + AddCommissionPeriod;
@@ -454,6 +456,10 @@ public interface RWInterface<T> {
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_56)
     Call<SimpleResponse> RQAddPointMarketingActivityResults(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ActResultID":1,"Point":10} - Add Your Integer Array into MarketingActResults Table
+
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Marketing_58)
+    Call<SimpleResponse> ControllerActionManager_Marketing_58(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ActResultID":1,"Point":10} - Add Your Integer Array into MarketingActResults Table
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_8)

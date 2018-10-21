@@ -157,6 +157,42 @@ public class fragAddCustomer extends Fragment {
     public static List<Basic_Properties> lProperties = new ArrayList<>();
     public static List<Basic_Properties> lPropertie = new ArrayList<>();
 
+    public static void reNewer(){
+        lProvinces = new ArrayList<>();
+        lCities = new ArrayList<>();
+        Prefix = new ArrayList<>();
+        ActivityField = new ArrayList<>();
+        lContact = new ArrayList<>();
+        lProperty = new ArrayList<>();
+        lTags = new ArrayList<>();
+        lTag = new ArrayList<>();
+        lActivityFields = new ArrayList<>();
+        lActivityField = new ArrayList<>();
+        lProperties = new ArrayList<>();
+        lPropertie = new ArrayList<>();
+        isMap = false;
+        goingToBigMap = false;
+        Name = "";
+        Address = "";
+        Perfix = 0;
+        Hoze = 0;
+        sOstan = 0;
+        sCity = 0;
+        lProfileImg = new ArrayList<>();
+        Zamine = 0;
+        Ostane = 0;
+        Citye = 0;
+        mType = false;
+        FragStateCondition = FragmentState.BigMap;
+        StateId = 1;
+        Customer = new MyCustomers();
+        OstanSelect = false;
+        cPosition = new LatLng(1, 1);
+        sName = "";
+        sAdrese = "";
+        lPersoneler = new ArrayList<>();
+    }
+
     //Variables
     static String Name = "", Address = "";
     static int Perfix = 0, Hoze = 0;

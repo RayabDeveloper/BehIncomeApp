@@ -14,8 +14,8 @@ android {
         applicationId "com.behincom.behincome"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 103
-        versionName "1.2.3"
+        versionCode 105
+        versionName "1.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -19,7 +19,13 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activityes.Login.actLogin"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Activityes.actHesh"
             android:screenOrientation="portrait"/>
         <activity
@@ -51,11 +57,6 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".Activityes.actChoiseType"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data

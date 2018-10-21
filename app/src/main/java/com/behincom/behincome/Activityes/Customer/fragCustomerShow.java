@@ -40,6 +40,7 @@ import com.behincom.behincome.Accesories.DateConverter;
 import com.behincom.behincome.Accesories.ItemDecoration;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Activities.actActivities;
+import com.behincom.behincome.Activityes.Activities.fragAddTask;
 import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Activityes.Main.fragCustomers;
 import com.behincom.behincome.Adapters.Customer.adapCustomerInvoice;
@@ -630,7 +631,7 @@ public class fragCustomerShow extends Fragment {
             }
         });//Set Alarm
 
-        if(Customer.Customers.CustomerAddress.length() > 38)
+        if (Customer.Customers.CustomerAddress.length() > 38)
             lblMiniAddress.setText(Customer.Customers.CustomerAddress.substring(0, 38) + " ...");
         else
             lblMiniAddress.setText(Customer.Customers.CustomerAddress);
@@ -644,17 +645,16 @@ public class fragCustomerShow extends Fragment {
                 Fields += lActivityField.get(0).ActivityFieldTitle + "<br>";
                 MiniFields += lActivityField.get(0).ActivityFieldTitle + "، ";
             }
-            if (lFieldd.size() > 0)
-            {
+            if (lFieldd.size() > 0) {
                 Fields = Fields.substring(0, Fields.length() - 1);
                 MiniFields = MiniFields.substring(0, MiniFields.length() - 2);
-                if(MiniFields.length() > 27)//27 = Tedad Chari ke test kardam didam khube ( Jeloe Title Zamine Faaliat )
+                if (MiniFields.length() > 27)//27 = Tedad Chari ke test kardam didam khube ( Jeloe Title Zamine Faaliat )
                     MiniFields = MiniFields.substring(0, 27) + " ...";
 
                 lblActivityFields.setText(Html.fromHtml(Fields));
                 lblMiniActivity.setText(MiniFields);
                 linActivityOpener.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 linActivityOpener.setVisibility(View.GONE);
                 lblMiniActivity.setText("");
             }
@@ -673,16 +673,16 @@ public class fragCustomerShow extends Fragment {
         } catch (Exception Ex) {
             String Er = Ex.getMessage();
         }
-        if(lTag.size() > 0){
+        if (lTag.size() > 0) {
             Tags = Tags.substring(0, Tags.length() - 1);
             MiniTag = MiniTag.substring(0, MiniTag.length() - 2);
-            if(MiniTag.length() > 37)
+            if (MiniTag.length() > 37)
                 MiniTag = MiniTag.substring(0, 37) + " ...";
 
             lblMiniTag.setText(MiniTag);
             lblTagList.setText(Html.fromHtml(Tags));
             linTagOpener.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             linTagOpener.setVisibility(View.GONE);
             lblMiniTag.setText("");
         }//lblTags
@@ -698,16 +698,16 @@ public class fragCustomerShow extends Fragment {
         } catch (Exception Ex) {
             String Er = Ex.getMessage();
         }
-        if(lProperties.size() > 0){
+        if (lProperties.size() > 0) {
             Property = Property.substring(0, Property.length() - 1);
             MiniProperty = MiniProperty.substring(0, MiniProperty.length() - 2);
-            if(MiniProperty.length() > 37)
+            if (MiniProperty.length() > 37)
                 MiniProperty = MiniProperty.substring(0, 37) + " ...";
 
             lblMiniProperty.setText(MiniProperty);
             lblDetailList.setText(Html.fromHtml(Property));
             linPropertyOpener.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             linPropertyOpener.setVisibility(View.GONE);
             lblMiniProperty.setText("");
         }//lblDetails
@@ -715,11 +715,11 @@ public class fragCustomerShow extends Fragment {
         linActivityOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lblActivityFields.getVisibility() == View.GONE){
+                if (lblActivityFields.getVisibility() == View.GONE) {
                     ActivityFieldHolder = lblMiniActivity.getText().toString();
                     lblMiniActivity.setText("");
                     lblActivityFields.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     lblMiniActivity.setText(ActivityFieldHolder);
                     ActivityFieldHolder = "";
                     lblActivityFields.setVisibility(View.GONE);
@@ -729,11 +729,11 @@ public class fragCustomerShow extends Fragment {
         linTagOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lblTagList.getVisibility() == View.GONE){
+                if (lblTagList.getVisibility() == View.GONE) {
                     TagHolder = lblMiniTag.getText().toString();
                     lblMiniTag.setText("");
                     lblTagList.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     lblMiniTag.setText(TagHolder);
                     TagHolder = "";
                     lblTagList.setVisibility(View.GONE);
@@ -743,11 +743,11 @@ public class fragCustomerShow extends Fragment {
         linPropertyOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lblDetailList.getVisibility() == View.GONE){
+                if (lblDetailList.getVisibility() == View.GONE) {
                     PropertyHolder = lblMiniProperty.getText().toString();
                     lblMiniProperty.setText("");
                     lblDetailList.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     lblMiniProperty.setText(PropertyHolder);
                     PropertyHolder = "";
                     lblDetailList.setVisibility(View.GONE);
@@ -757,22 +757,22 @@ public class fragCustomerShow extends Fragment {
         linPersonelOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(lstPersonels.getVisibility() == View.GONE){
+                if (lstPersonels.getVisibility() == View.GONE) {
                     lblMiniPersonel.setText("");
                     lstPersonels.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     String PersonelNames = "";
                     for (CustomerPersonnel data : lPersonel) {
                         PersonelNames += data.Name + "، ";
                     }
-                    if(lPersonel.size() > 0){
+                    if (lPersonel.size() > 0) {
                         PersonelNames = PersonelNames.substring(0, PersonelNames.length() - 2);
-                        if(PersonelNames.length() > 37)
+                        if (PersonelNames.length() > 37)
                             PersonelNames = PersonelNames.substring(0, 37) + " ...";
 
                         lblMiniPersonel.setText(PersonelNames);
                         linPersonelOpener.setVisibility(View.VISIBLE);
-                    }else{
+                    } else {
                         lblMiniPersonel.setText("");
                         linPersonelOpener.setVisibility(View.GONE);
                     }
@@ -784,11 +784,11 @@ public class fragCustomerShow extends Fragment {
         linAdressOpener.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(relAddres.getVisibility() == View.GONE){
+                if (relAddres.getVisibility() == View.GONE) {
                     AdressHolder = lblMiniAddress.getText().toString();
                     lblMiniAddress.setText("");
                     relAddres.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     lblMiniAddress.setText(AdressHolder);
                     AdressHolder = "";
                     relAddres.setVisibility(View.GONE);
@@ -823,14 +823,16 @@ public class fragCustomerShow extends Fragment {
 //                fragAddTask.customer_id = Customer.Customers.CustomerID;
 //                fragAddTask.Type = 0;
 //                fragAddTask.mCustomer = Customer;
-//                fragAddTask.mPosition = position;
+                fragAddTask.Activity = new Activities();
+                fragAddTask.Activity.CustomerID = Customer.Customers.CustomerID;
+                fragAddTask.Activity.Title = Customer.Customers.CustomerName;
                 getActivity().startActivity(intent);
-                getActivity().finish();
             }
         });//AddTask
 
         return view;
     }
+
     private void init() {
         lstPersonels.setNestedScrollingEnabled(false);
         lstPersonels.setHasFixedSize(true);
@@ -853,39 +855,44 @@ public class fragCustomerShow extends Fragment {
         lstAct.addItemDecoration(ItemDecoration.getDecoration(context));
         lstAct.setItemAnimator(new DefaultItemAnimator());
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getTasks();
         getActs();
     }
+
     private void RefreshPersonels() {
         String PersonelNames = "";
         for (CustomerPersonnel data : lPersonel) {
             PersonelNames += data.Name + "، ";
         }
-        if(lPersonel.size() > 0){
+        if (lPersonel.size() > 0) {
             PersonelNames = PersonelNames.substring(0, PersonelNames.length() - 2);
-            if(PersonelNames.length() > 37)
+            if (PersonelNames.length() > 37)
                 PersonelNames = PersonelNames.substring(0, 37) + " ...";
 
             lblMiniPersonel.setText(PersonelNames);
             linPersonelOpener.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             lblMiniPersonel.setText("");
             linPersonelOpener.setVisibility(View.GONE);
         }
         adapter_Personels = new adapStoreShowPersonels(lPersonel, context);
         lstPersonels.setAdapter(adapter_Personels);
     }
+
     private void RefreshTask() {
         adapter_Task = new adapStoreShowTask(lTask);
         lstTask.setAdapter(adapter_Task);
     }
+
     private void RefreshAct() {
         adapter_Act = new adapStoreShowAct(lActivity, getActivity());
         lstAct.setAdapter(adapter_Act);
     }
+
     private void Archive() {
         final Dialog aDialog = new Dialog(context);
         aDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -958,24 +965,24 @@ public class fragCustomerShow extends Fragment {
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
-                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                            if (simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
                                 Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.AdditionalData.entrySet()) {
                                     Err = entry.getValue().toString() + ", ";
                                 }
-                                if(Err.length() > 2)
+                                if (Err.length() > 2)
                                     Err = Err.substring(0, Err.length() - 2);
                                 Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                                 fragCustomers.lCustomer = new ArrayList<>();
                                 fragCustomers.page = 0;
                                 aDialog.dismiss();
-                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                            } else if (simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
                                     Err = entry.getValue().toString() + ", ";
                                 }
-                                if(Err.length() > 2)
+                                if (Err.length() > 2)
                                     Err = Err.substring(0, Err.length() - 2);
                                 Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                             }
@@ -998,7 +1005,9 @@ public class fragCustomerShow extends Fragment {
         });
         aDialog.show();
     }
+
     List<Basic_ArchiveTypes> lDataArchive = new ArrayList<>();
+
     private List<DataDates> Day() {
         List<DataDates> mDay = new ArrayList<>();
         for (int i = 1; i < 32; i++) {
@@ -1043,6 +1052,7 @@ public class fragCustomerShow extends Fragment {
         }
         return mYear;
     }
+
     private void Delete() {
         pDialog = new com.behincom.behincome.Accesories.Dialog(context);
         pDialog.Show();
@@ -1061,13 +1071,13 @@ public class fragCustomerShow extends Fragment {
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                 if (response.isSuccessful()) {
                     SimpleResponse simple = response.body();
-                    if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                    if (simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
                         Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
                         String Err = "";
                         for (Map.Entry<String, Object> entry : simple.AdditionalData.entrySet()) {
                             Err = entry.getValue().toString() + ", ";
                         }
-                        if(Err.length() > 2)
+                        if (Err.length() > 2)
                             Err = Err.substring(0, Err.length() - 2);
                         Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                         fragCustomers.lCustomer = new ArrayList<>();
@@ -1076,12 +1086,12 @@ public class fragCustomerShow extends Fragment {
                         actMain.STATE = FragmentState.MainCustomers;
                         getActivity().startActivity(intent);
                         getActivity().finish();
-                    }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                    } else if (simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                         String Err = "";
                         for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
                             Err = entry.getValue().toString() + ", ";
                         }
-                        if(Err.length() > 2)
+                        if (Err.length() > 2)
                             Err = Err.substring(0, Err.length() - 2);
                         Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                     }
@@ -1095,6 +1105,7 @@ public class fragCustomerShow extends Fragment {
             }
         });
     }
+
     private void Edit() {
         fragAddCustomer.Customer = Customer;
         fragAddCustomer.mType = true;
@@ -1102,6 +1113,7 @@ public class fragCustomerShow extends Fragment {
         fragAddCustomer.StateId = Customer.Customers.CustomerStateID;
         actCustom.getFragByState(FragmentState.AddCustomer);
     }
+
     private void getTasks() {
 //        pDialog = new com.behincom.behincome.Accesories.Dialog(getActivity());
 //        pDialog.Show();
@@ -1133,6 +1145,7 @@ public class fragCustomerShow extends Fragment {
             }
         });
     }
+
     private void getActs() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("CustomerID", Customer.Customers.CustomerID);
@@ -1145,7 +1158,7 @@ public class fragCustomerShow extends Fragment {
                     lActivity = response.body();
 
                     for (Activities data : lActivity) {
-                        if(data.Invoice.size() > 0)
+                        if (data.Invoice.size() > 0)
                             lInvoice.addAll(data.Invoice);
                     }
 
@@ -1153,7 +1166,7 @@ public class fragCustomerShow extends Fragment {
                         @Override
                         public void run() {
                             RefreshAct();
-                            if(lInvoice.size() > 0)
+                            if (lInvoice.size() > 0)
                                 btnFactors.setVisibility(View.VISIBLE);
                         }
                     });
@@ -1166,7 +1179,8 @@ public class fragCustomerShow extends Fragment {
             }
         });
     }
-    public static void ShowInvoices(List<Invoice> lList){
+
+    public static void ShowInvoices(List<Invoice> lList) {
         invoiceDialogi = new Dialog(context);
         invoiceDialogi.requestWindowFeature(Window.FEATURE_NO_TITLE);
         invoiceDialogi.setCancelable(true);
@@ -1196,7 +1210,8 @@ public class fragCustomerShow extends Fragment {
         });
         invoiceDialogi.show();
     }
-//    private void getInvoice() {
+
+    //    private void getInvoice() {
 //        HashMap<String, Object> map = new HashMap<>();
 //        map.put("CustomerID", Customer.CustomerID);
 //
@@ -1257,7 +1272,7 @@ public class fragCustomerShow extends Fragment {
 //            }
 //        });
 //    }
-    private void Finisher(){
+    private void Finisher() {
         Customer = new MyCustomers();
         lTask = new ArrayList<>();
         lActivity = new ArrayList<>();
@@ -1275,6 +1290,7 @@ public class fragCustomerShow extends Fragment {
         PropertyHolder = "";
         AdressHolder = "";
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

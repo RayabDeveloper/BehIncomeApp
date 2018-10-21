@@ -48,7 +48,15 @@ public class fragMarketingSetting extends Fragment {
 
     CardView cardView;
     TextView lblTitle;
-    TextInputEditText txtAddInvoice, txtAddCustomer, txtCustomerH, txtCustomerM, txtActivityH, txtActivityM;
+    TextInputEditText txtAddInvoice,
+            txtAddCustomer,
+            txtActivityNoDoneNegative,
+            txtCustomerH,
+            txtCustomerM,
+            txtActivityH,
+            txtActivityM,
+            txtInvoiceH,
+            txtInvoiceM;
     ImageView btnCheck, imgBack;
     private DatePickerDialog DateDialog;
 
@@ -70,6 +78,9 @@ public class fragMarketingSetting extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_marketing_setting, container, false);
 
+        txtActivityNoDoneNegative = view.findViewById(R.id.txtActivityNoDoneNegative);
+        txtInvoiceH = view.findViewById(R.id.txtInvoiceH);
+        txtInvoiceM = view.findViewById(R.id.txtInvoiceM);
         cardView = view.findViewById(R.id.cardView);
         txtCustomerH = view.findViewById(R.id.txtCustomerH);
         txtCustomerM = view.findViewById(R.id.txtCustomerM);
@@ -81,7 +92,6 @@ public class fragMarketingSetting extends Fragment {
         btnCheck = view.findViewById(R.id.btnCheck);
         imgBack = view.findViewById(R.id.imgBack);
 
-        btnCheck.setVisibility(View.GONE);
         lblTitle.setText("تنظیمات بازاریاب");
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,44 +105,80 @@ public class fragMarketingSetting extends Fragment {
             lSetup = geter.getList(MarketingSetups.class);
             txtAddCustomer.setText(Integer.toString(lSetup.get(0).PointCustomerAdd));
             txtAddInvoice.setText(Integer.toString(lSetup.get(0).PointInvoiseAdd));
+            txtActivityNoDoneNegative.setText(Integer.toString(lSetup.get(0).ActivityNotDoneNegativePoint));
             String cTime = lSetup.get(0).CustmerEditTime;
             String aTime = lSetup.get(0).ActivityEditTime;
+            String abTime = lSetup.get(0).InvoiceEditTime;
             String[] ccTime = cTime.split(":");
             txtCustomerH.setText(ccTime[0]);
             txtCustomerM.setText(ccTime[1]);
             String[] aaTime = aTime.split(":");
             txtActivityH.setText(aaTime[0]);
             txtActivityM.setText(aaTime[1]);
+            String[] aabTime = abTime.split(":");
+            txtInvoiceH.setText(aabTime[0]);
+            txtInvoiceM.setText(aabTime[1]);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        cardView.setOnClickListener(new View.OnClickListener() {
+        btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pDialog = new Dialog(context);
                 pDialog.Show();
 
+                String hC = txtCustomerH.getText().toString();
+                String mC = txtCustomerM.getText().toString();
+                String hA = txtActivityH.getText().toString();
+                String mA = txtActivityM.getText().toString();
+                String hI = txtInvoiceH.getText().toString();
+                String mI = txtInvoiceM.getText().toString();
+
+                if(hC.length() == 1)
+                    hC = "0" + hC;
+                if(mC.length() == 1)
+                    mC = "0" + mC;
+                if(hA.length() == 1)
+                    hA = "0" + hA;
+                if(mA.length() == 1)
+                    mA = "0" + mA;
+                if(hI.length() == 1)
+                    hI = "0" + hI;
+                if(mI.length() == 1)
+                    mI = "0" + mI;
+
                 final int PointCustomer = Integer.parseInt(txtAddCustomer.getText().toString());
                 final int PointInvoice = Integer.parseInt(txtAddInvoice.getText().toString());
-                final String CustomerTime = txtCustomerH.getText().toString() + ":" + txtCustomerM.getText().toString() + ":00";
-                final String ActivityTime = txtActivityH.getText().toString() + ":" + txtActivityM.getText().toString() + ":00";
+                final int ActivityNoDoneNegativeInvoice = Integer.parseInt(txtActivityNoDoneNegative.getText().toString());
+                final String CustomerTime = hC + ":" + mC + ":00";
+                final String ActivityTime = hA + ":" + mA + ":00";
+                final String InvoiceTime = hI + ":" + mI + ":00";
 
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("MarketingSetupId", lSetup.get(0).MarketingSetupId);
                 map.put("PointCustomerAdd", PointCustomer);
                 map.put("PointInvoiseAdd", PointInvoice);
+                map.put("ActivityNotDoneNegativePoint", ActivityNoDoneNegativeInvoice);
                 map.put("CustmerEditTime", CustomerTime);
                 map.put("ActivityEditTime", ActivityTime);
+                map.put("InvoiceEditTime", InvoiceTime);
 
-                Call cAddResults = rInterface.RQAddPointMarketingActivityResults(Setting.getToken(), map);
+                Call cAddResults = rInterface.ControllerActionManager_Marketing_58(Setting.getToken(), map);
                 cAddResults.enqueue(new Callback<SimpleResponse>() {
                     @Override
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if (simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                SQL.Execute("UPDATE " + Tables.MarketingSetups + " SET PointCustomerAdd='" + PointCustomer + "', PointInvoiseAdd='" + PointInvoice + "', CustmerEditTime='" + CustomerTime + "', ActivityEditTime='" + ActivityTime + "'");
+                                SQL.Execute("UPDATE " + Tables.MarketingSetups +
+                                        " SET PointCustomerAdd='" + PointCustomer +
+                                        "', PointInvoiseAdd='" + PointInvoice +
+                                        "', CustmerEditTime='" + CustomerTime +
+                                        "', InvoiceEditTime='" + InvoiceTime +
+                                        "', ActivityNotDoneNegativePoint='" + ActivityNoDoneNegativeInvoice +
+                                        "', ActivityEditTime='" + ActivityTime +
+                                        "'");
                                 Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
                             } else if (simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                 String Err = "";
