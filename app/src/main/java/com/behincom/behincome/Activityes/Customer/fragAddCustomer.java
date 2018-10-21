@@ -44,6 +44,7 @@ import com.behincom.behincome.Accesories.GPSTracker;
 import com.behincom.behincome.Accesories.ItemDecoration;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Activityes.Main.actMain;
+import com.behincom.behincome.Activityes.Main.fragCustomers;
 import com.behincom.behincome.Adapters.Customer.adapStoreContact;
 import com.behincom.behincome.Adapters.Customer.adapStorePic;
 import com.behincom.behincome.Adapters.SpinAdapter;
@@ -586,6 +587,8 @@ public class fragAddCustomer extends Fragment {
                                                             Intent intent = new Intent(contexti, actMain.class);
                                                             actMain.STATE = FragmentState.MainCustomers;
                                                             contexti.startActivity(intent);
+                                                            fragCustomers.page = 0;
+                                                            fragCustomers.lCustomer = new ArrayList<>();
                                                             try {
                                                                 getActivity().finish();
                                                             } catch (Exception e) {
@@ -640,6 +643,8 @@ public class fragAddCustomer extends Fragment {
                                             Intent intent = new Intent(contexti, actMain.class);
                                             actMain.STATE = FragmentState.MainCustomers;
                                             contexti.startActivity(intent);
+                                            fragCustomers.page = 0;
+                                            fragCustomers.lCustomer = new ArrayList<>();
                                             try {
                                                 getActivity().finish();
                                             } catch (Exception e) {
@@ -703,6 +708,8 @@ public class fragAddCustomer extends Fragment {
                                                 @Override
                                                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                                                     if (response.isSuccessful()) {
+                                                        fragCustomers.page = 0;
+                                                        fragCustomers.lCustomer = new ArrayList<>();
                                                         Intent intent = new Intent(contexti, actMain.class);
                                                         actMain.STATE = FragmentState.MainCustomers;
                                                         contexti.startActivity(intent);
@@ -741,6 +748,8 @@ public class fragAddCustomer extends Fragment {
                                 @Override
                                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                                     if (response.isSuccessful()) {
+                                        fragCustomers.page = 0;
+                                        fragCustomers.lCustomer = new ArrayList<>();
                                         Intent intent = new Intent(contexti, actMain.class);
                                         actMain.STATE = FragmentState.MainCustomers;
                                         contexti.startActivity(intent);

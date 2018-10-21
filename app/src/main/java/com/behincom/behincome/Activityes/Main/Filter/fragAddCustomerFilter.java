@@ -131,6 +131,8 @@ public class fragAddCustomerFilter extends Fragment {
                 Filter = new CustomerFilter();
                 Filter = getFilters();
                 fragCustomers.Filter = Filter;
+                fragCustomers.lCustomer = new ArrayList<>();
+                fragCustomers.page = 0;
                 act.getFragByState(FragmentState.MainCustomers);
             }
         });

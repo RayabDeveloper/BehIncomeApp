@@ -133,6 +133,12 @@ public class fragTag extends Fragment {
     public static void refreshTags(int TagGroupID){
         RSQLite SQL = new RSQLite();
         lTag = SQL.Select("SELECT TagID, TagGroupID, TagTitle, TagOrder, Deleted, 'false' as isCheck FROM Basic_Tags WHERE isCheck='1' AND TagGroupID='" + TagGroupID + "'", Basic_Tags.class);
+        for (Basic_Tags data : lTag) {
+            for (Basic_Tags des : lTagForCustomer) {
+                if (data.TagID == des.TagID)
+                    data.isCheck = true;
+            }
+        }
         adapterSub = new adapAddCustomerTagSub(lTag, lTagForCustomer, context);
         lstSub.setAdapter(adapterSub);
     }

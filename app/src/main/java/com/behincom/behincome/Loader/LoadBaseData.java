@@ -165,17 +165,47 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_TagGroups, "Basic_TagGroups");
             SQL.Insert(data.Basic_Tags, "Basic_Tags");
             SQL.Insert(data.Basic_AndroidKeyboardTypes, "Basic_AndroidKeyboardTypes");
-            SQL.Insert(data.MarketingActivityFields, "MarketingActivityFields");
-            SQL.Insert(data.MarketingActResults, "MarketingActResults");
+            for (MarketingActivityFields datas : data.MarketingActivityFields) {
+                if(datas.Deleted) {
+                    SQL.Execute("UPDATE Basic_ActivityFields SET isCheck='1' WHERE ActivityFieldID='" + datas.ActivityFieldID + "'");
+                }else{
+                    SQL.Execute("UPDATE Basic_ActivityFields SET isCheck='0' WHERE ActivityFieldID='" + datas.ActivityFieldID + "'");
+                }
+            }
+            for (MarketingActResults datas : data.MarketingActResults) {
+                if(datas.Deleted) {
+                    SQL.Execute("UPDATE Basic_ActResults SET isCheck='1' WHERE ActResultID='" + datas.ActResultID + "'");
+                }else{
+                    SQL.Execute("UPDATE Basic_ActResults SET isCheck='0' WHERE ActResultID='" + datas.ActResultID + "'");
+                }
+            }
             for (MarketingActResults mData : data.MarketingActResults) {
                 SQL.Execute("UPDATE " + Tables.Basic_ActResults + " SET Point='" + mData.Point + "' WHERE ActResultID='" + mData.ActResultID + "'");
+            }//todo
+            for (MarketingCities datas : data.MarketingCities) {
+                if(datas.Deleted) {
+                    SQL.Execute("UPDATE Basic_Cities SET isCheck='1' WHERE CityID='" + datas.CityID + "'");
+                }else{
+                    SQL.Execute("UPDATE Basic_Cities SET isCheck='0' WHERE CityID='" + datas.CityID + "'");
+                }
             }
-            SQL.Insert(data.MarketingCities, "MarketingCities");
             SQL.Insert(data.MarketingCommissionPeriods, "MarketingCommissionPeriods");
             SQL.Insert(data.MarketingProductCommissions, "MarketingProductCommissions");
             SQL.Insert(data.MarketingProducts, "MarketingProducts");
-            SQL.Insert(data.MarketingProperties, "MarketingProperties");
-            SQL.Insert(data.MarketingTags, "MarketingTags");
+            for (MarketingProperties datas : data.MarketingProperties) {
+                if(datas.Deleted) {
+                    SQL.Execute("UPDATE Basic_Properties SET isCheck='1' WHERE PropertyID='" + datas.PropertyID + "'");
+                }else{
+                    SQL.Execute("UPDATE Basic_Properties SET isCheck='0' WHERE PropertyID='" + datas.PropertyID + "'");
+                }
+            }
+            for (MarketingTags datas : data.MarketingTags) {
+                if(datas.Deleted) {
+                    SQL.Execute("UPDATE Basic_Tags SET isCheck='1' WHERE TagID='" + datas.TagID + "'");
+                }else{
+                    SQL.Execute("UPDATE Basic_Tags SET isCheck='0' WHERE TagID='" + datas.TagID + "'");
+                }
+            }
             SQL.Insert(data.MarketingVisitTours, "MarketingVisitTours");
             SQL.Insert(data.MarketingSetups, "MarketingSetups");
             SQL.Insert(data.Basic_Color, "Basic_Color");
@@ -547,10 +577,10 @@ public class LoadBaseData {
             try {
                 for (MarketingActivityFields dataa : data.MarketingActivityFields) {
                     try {
-                        if(geter.Any(dataa.getClass(), " WHERE MarketingActivityFieldID" + "='" + dataa.MarketingActivityFieldID + "'")){
-                            SQL.Update(dataa, " WHERE MarketingActivityFieldID" + "='" + dataa.MarketingActivityFieldID + "'");
+                        if(dataa.Deleted) {
+                            SQL.Execute("UPDATE Basic_ActivityFields SET isCheck='1' WHERE ActivityFieldID='" + dataa.ActivityFieldID + "'");
                         }else{
-                            SQL.Insert(dataa);
+                            SQL.Execute("UPDATE Basic_ActivityFields SET isCheck='0' WHERE ActivityFieldID='" + dataa.ActivityFieldID + "'");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -562,10 +592,10 @@ public class LoadBaseData {
             try {
                 for (MarketingActResults dataa : data.MarketingActResults) {
                     try {
-                        if(geter.Any(dataa.getClass(), " WHERE MarketingActResultID" + "='" + dataa.MarketingActResultID + "'")){
-                            SQL.Update(dataa, " WHERE MarketingActResultID" + "='" + dataa.MarketingActResultID + "'");
+                        if(dataa.Deleted) {
+                            SQL.Execute("UPDATE Basic_ActResults SET isCheck='1' WHERE ActResultID='" + dataa.ActResultID + "'");
                         }else{
-                            SQL.Insert(dataa);
+                            SQL.Execute("UPDATE Basic_ActResults SET isCheck='0' WHERE ActResultID='" + dataa.ActResultID + "'");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -578,10 +608,10 @@ public class LoadBaseData {
             try {
                 for (MarketingCities dataa : data.MarketingCities) {
                     try {
-                        if(geter.Any(dataa.getClass(), " WHERE MarketingCityID" + "='" + dataa.MarketingCityID + "'")){
-                            SQL.Update(dataa, " WHERE MarketingCityID" + "='" + dataa.MarketingCityID + "'");
+                        if(dataa.Deleted) {
+                            SQL.Execute("UPDATE Basic_Cities SET isCheck='1' WHERE CityID='" + dataa.CityID + "'");
                         }else{
-                            SQL.Insert(dataa);
+                            SQL.Execute("UPDATE Basic_Cities SET isCheck='0' WHERE CityID='" + dataa.CityID + "'");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -638,10 +668,10 @@ public class LoadBaseData {
             try {
                 for (MarketingProperties dataa : data.MarketingProperties) {
                     try {
-                        if(geter.Any(dataa.getClass(), " WHERE MarkettingPropertyID" + "='" + dataa.MarkettingPropertyID + "'")){
-                            SQL.Update(dataa, " WHERE MarkettingPropertyID" + "='" + dataa.MarkettingPropertyID + "'");
+                        if(dataa.Deleted) {
+                            SQL.Execute("UPDATE Basic_Properties SET isCheck='1' WHERE PropertyID='" + dataa.PropertyID + "'");
                         }else{
-                            SQL.Insert(dataa);
+                            SQL.Execute("UPDATE Basic_Properties SET isCheck='0' WHERE PropertyID='" + dataa.PropertyID + "'");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -653,10 +683,10 @@ public class LoadBaseData {
             try {
                 for (MarketingTags dataa : data.MarketingTags) {
                     try {
-                        if(geter.Any(dataa.getClass(), " WHERE MarketingTagID" + "='" + dataa.MarketingTagID + "'")){
-                            SQL.Update(dataa, " WHERE MarketingTagID" + "='" + dataa.MarketingTagID + "'");
+                        if(dataa.Deleted) {
+                            SQL.Execute("UPDATE Basic_Tags SET isCheck='1' WHERE TagID='" + dataa.TagID + "'");
                         }else{
-                            SQL.Insert(dataa);
+                            SQL.Execute("UPDATE Basic_Tags SET isCheck='0' WHERE TagID='" + dataa.TagID + "'");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

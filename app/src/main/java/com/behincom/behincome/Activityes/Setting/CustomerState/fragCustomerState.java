@@ -37,6 +37,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_Color;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
+import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
@@ -198,7 +199,8 @@ public class fragCustomerState extends Fragment{
                         if(response.isSuccessful()){
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Delete(lList, " WHERE CustomerStateID='" + lList.CustomerStateID + "'");
+//                                SQL.Delete(lList, " WHERE CustomerStateID='" + lList.CustomerStateID + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_CustomerStates + " SET Deleted='1' WHERE CustomerStateID='" + lList.CustomerStateID + "'");
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {

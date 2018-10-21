@@ -33,6 +33,7 @@ import com.behincom.behincome.Datas.BaseData.Basic_ContactTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
+import com.behincom.behincome.Datas.Keys.Tables;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
@@ -129,7 +130,8 @@ public class fragContactType extends Fragment {
                         if(response.isSuccessful()){
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Delete(lList, " WHERE ContactTypeID='" + lList.ContactTypeID + "'");
+//                                SQL.Delete(lList, " WHERE ContactTypeID='" + lList.ContactTypeID + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_ContactTypes + " SET Deleted='1' WHERE ContactTypeID='" + lList.ContactTypeID + "'");
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {

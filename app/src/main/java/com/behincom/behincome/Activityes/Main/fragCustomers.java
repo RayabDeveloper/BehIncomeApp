@@ -287,7 +287,7 @@ public class fragCustomers extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HideStatusBar();
+                Delete();
             }
         });
         btnArchive.setOnClickListener(new View.OnClickListener() {
@@ -532,6 +532,10 @@ public class fragCustomers extends Fragment {
                                     Err = Err.substring(0, Err.length() - 2);
                                 Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                                 aDialog.dismiss();
+                                page = 0;
+                                lCustomer = new ArrayList<>();
+                                getCustomers(page, false);
+                                HideStatusBar();
                             } else if (simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
@@ -591,6 +595,8 @@ public class fragCustomers extends Fragment {
                         if(Err.length() > 2)
                             Err = Err.substring(0, Err.length() - 2);
                         Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                        page = 0;
+                        lCustomer = new ArrayList<>();
                         getCustomers(page, false);
                         HideStatusBar();
                     }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -618,7 +624,7 @@ public class fragCustomers extends Fragment {
         getCustomers(page, false);
     }
 
-    private static int page = 0;
+    public static int page = 0;
 
     private static void getCustomers(int mPage, boolean needLoading) {
         try {
@@ -640,7 +646,7 @@ public class fragCustomers extends Fragment {
             map.put("FilterModel", Filter);
             map.put("OrderTypeModel", mCustomerOrder);
             map.put("Page", mPage);
-            map.put("SearchKey", SearchKey);
+            map.put("SearchKey", SearchKey.replace("\n", ""));
 
             Gson gson = new Gson();
             String json = gson.toJson(map);
@@ -651,6 +657,10 @@ public class fragCustomers extends Fragment {
                 public void onResponse(Call<List<MyCustomers>> call, Response<List<MyCustomers>> response) {
                     if (response.isSuccessful()) {
                         lCustomer.addAll(response.body());
+
+                        Gson ggson = new Gson();
+                        String jsoner = ggson.toJson(lCustomer);
+
                         adapter.lList = lCustomer;
                         if (response.body().size() > 0)
                             page++;
@@ -744,8 +754,11 @@ public class fragCustomers extends Fragment {
         txtSearch.setText(Suggestion);
         lSuggestion = new ArrayList<>();
         viewSuggestion.setVisibility(View.GONE);
-        if (Suggestion.length() > 0)
+        if (Suggestion.length() > 0) {
+            lCustomer = new ArrayList<>();
+            page = 0;
             getCustomers(page, true);
+        }
     }
 
     private static boolean statusState = false;

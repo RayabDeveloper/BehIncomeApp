@@ -47,6 +47,7 @@ import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
 import com.behincom.behincome.app.AppController;
+import com.google.gson.Gson;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.lang.reflect.Field;
@@ -196,8 +197,8 @@ public class fragBasicData<T> extends Fragment {
                 RadioGroup radGrouper = mDialog.findViewById(R.id.radGrouper);
                 CardView btnSetIcon = mDialog.findViewById(R.id.btnSetIcon);
 
-                boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties");
-                if(isProp)
+                boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties") || objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_ActivityFields");
+                if(!isProp)
                     radGrouper.setVisibility(View.VISIBLE);
                 else
                     radGrouper.setVisibility(View.GONE);
@@ -693,9 +694,12 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("ActivityFieldGroupTitle", Title);
                 BodyParameters.put("ActivityFieldGroupOrder", 0);
                 BodyParameters.put("ActivityFieldGroupID", 0);
-                BodyParameters.put("ActivityFieldGroupFontIcon", "");
-                BodyParameters.put("ActivityFieldGroupColor", "");
+                BodyParameters.put("ActivityFieldGroupFontIcon", "a");
+                BodyParameters.put("ActivityFieldGroupColor", "a");
                 BodyParameters.put("Deleted", false);
+
+                Gson gsonh = new Gson();
+                String jsonh = gsonh.toJson(BodyParameters);
 
                 Insert = rInterface.RQInsertBasicActivityFieldGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Insert.enqueue(new Callback<SimpleResponse>() {
@@ -742,7 +746,8 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagGroupColor", "a");
                 BodyParameters.put("TagGroupTypeId", Type);
 
-                String asdf = Setting.getToken();
+                Gson gson = new Gson();
+                String json = gson.toJson(BodyParameters);
 
                 Insert = rInterface.RQInsertBasicTagGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Insert.enqueue(new Callback<SimpleResponse>() {
@@ -783,11 +788,14 @@ public class fragBasicData<T> extends Fragment {
                 break;
             case 4://Property
                 BodyParameters = new HashMap<>();
-                BodyParameters.put("PropertyGroupID", Title);
-                BodyParameters.put("PropertyGroupTitle", 0);
+                BodyParameters.put("PropertyGroupID", 0);
+                BodyParameters.put("PropertyGroupTitle", Title);
                 BodyParameters.put("PropertyGroupOrder", 0);
-                BodyParameters.put("PropertyGroupFontIcon", "");
-                BodyParameters.put("PropertyGroupColor", "");
+                BodyParameters.put("PropertyGroupFontIcon", "a");
+                BodyParameters.put("PropertyGroupColor", "a");
+
+                Gson gsonn = new Gson();
+                String jsonn = gsonn.toJson(BodyParameters);
 
                 Insert = rInterface.RQInsertBasicPropertieGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Insert.enqueue(new Callback<SimpleResponse>() {
@@ -840,6 +848,9 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("Deleted", false);
                 BodyParameters.put("ActivityFieldFontIcon", "");
 
+                Gson gsonh = new Gson();
+                String jsonh = gsonh.toJson(BodyParameters);
+
                 Insert = rInterface.RQInsertBasicActivityFields(Setting.getToken(), new HashMap<>(BodyParameters));
                 Insert.enqueue(new Callback<SimpleResponse>() {
                     @Override
@@ -881,6 +892,9 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagID", 0);
                 BodyParameters.put("TagOrder", 0);
                 BodyParameters.put("TagTitle", Title);
+
+                Gson gson = new Gson();
+                String json = gson.toJson(BodyParameters);
 
                 Insert = rInterface.RQInsertBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
                 Insert.enqueue(new Callback<SimpleResponse>() {
@@ -924,6 +938,9 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyOrder", 0);
                 BodyParameters.put("PropertyTitle", Title);
                 BodyParameters.put("PropertyTypeKeyBoardId", TypeKeyboard);
+
+                Gson gsonn = new Gson();
+                String jsonn = gsonn.toJson(BodyParameters);
 
                 Insert = rInterface.RQInsertBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
                 Insert.enqueue(new Callback<SimpleResponse>() {
@@ -973,16 +990,22 @@ public class fragBasicData<T> extends Fragment {
                 ids.add(MainIdSelected);
                 BodyParameters.put("Ids", ids);
 
-                Delete = rInterface.RQDeleteBasicActivityFields(Setting.getToken(), new HashMap<>(BodyParameters));
+                Gson gson = new Gson();
+                String json = gson.toJson(BodyParameters);
+
+                Delete = rInterface.RQDeleteBasicActivityFieldGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Delete.enqueue(new Callback<SimpleResponse>() {
                     @Override
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
+//                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_PropertyGroups + " SET Deleted='1' WHERE PropertyGroupID='" + MainIdSelected + "'");
 
-                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                                objects.MainItems(geter.getList(Basic_ActivityFieldGroups.class, " WHERE Deleted='0'"));
+                                adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
@@ -1005,16 +1028,22 @@ public class fragBasicData<T> extends Fragment {
                 idss.add(MainIdSelected);
                 BodyParameters.put("Ids", idss);
 
-                Delete = rInterface.RQDeleteBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
+                Gson gsonn = new Gson();
+                String jsonn = gsonn.toJson(BodyParameters);
+
+                Delete = rInterface.RQDeleteBasicTagGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Delete.enqueue(new Callback<SimpleResponse>() {
                     @Override
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_TagGroups + " WHERE TagGroupID='" + MainIdSelected + "'");
+//                                SQL.Execute("DELETE FROM " + Tables.Basic_TagGroups + " WHERE TagGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_TagGroups + " SET Deleted='1' WHERE TagGroupID='" + MainIdSelected + "'");
 
-                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                                objects.MainItems(geter.getList(Basic_TagGroups.class, " WHERE Deleted='0'"));
+                                adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
@@ -1037,16 +1066,22 @@ public class fragBasicData<T> extends Fragment {
                 idsss.add(MainIdSelected);
                 BodyParameters.put("Ids", idsss);
 
-                Delete = rInterface.RQDeleteBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
+                Gson gsonb = new Gson();
+                String jsonb = gsonb.toJson(BodyParameters);
+
+                Delete = rInterface.RQDeleteBasicPropertieGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Delete.enqueue(new Callback<SimpleResponse>() {
                     @Override
                     public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
+//                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_PropertyGroups + " SET Deleted='1' WHERE PropertyGroupID='" + MainIdSelected + "'");
 
-                                FilterSubItemsFromMainItemSelected(MainIdSelected);
+                                objects.MainItems(geter.getList(Basic_PropertyGroups.class, " WHERE Deleted='0'"));
+                                adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
+                                lstMain.setAdapter(adapterMain);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
                                 for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
@@ -1099,7 +1134,8 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_ActivityFields + " WHERE ActivityFieldID='" + mIDi + "'");
+//                                SQL.Execute("DELETE FROM " + Tables.Basic_ActivityFields + " WHERE ActivityFieldID='" + mIDi + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_ActivityFields + " SET Deleted='1' WHERE ActivityFieldID='" + mIDi + "'");
 
                                 FilterSubItemsFromMainItemSelected(MainIdSelected);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1131,7 +1167,8 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_Tags + " WHERE TagID='" + mIDi + "'");
+//                                SQL.Execute("DELETE FROM " + Tables.Basic_Tags + " WHERE TagID='" + mIDi + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_Tags + " SET Deleted='1' WHERE TagID='" + mIDi + "'");
 
                                 FilterSubItemsFromMainItemSelected(MainIdSelected);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1156,6 +1193,9 @@ public class fragBasicData<T> extends Fragment {
                 idsss.add(mIDi);
                 BodyParameters.put("Ids", idsss);
 
+                Gson gson = new Gson();
+                String json = gson.toJson(BodyParameters);
+
                 Delete = rInterface.RQDeleteBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
                 Delete.enqueue(new Callback<SimpleResponse>() {
                     @Override
@@ -1163,7 +1203,8 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                SQL.Execute("DELETE FROM " + Tables.Basic_Properties + " WHERE PropertyID='" + mIDi + "'");
+//                                SQL.Execute("DELETE FROM " + Tables.Basic_Properties + " WHERE PropertyID='" + mIDi + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_Properties + " SET Deleted='1' WHERE PropertyID='" + mIDi + "'");
 
                                 FilterSubItemsFromMainItemSelected(MainIdSelected);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1197,6 +1238,9 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("ActivityFieldGroupFontIcon", "");
                 BodyParameters.put("ActivityFieldGroupColor", "");
 
+                Gson gson = new Gson();
+                String json = gson.toJson(BodyParameters);
+
                 Update = rInterface.RQUpdateBasicActivityFieldGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Update.enqueue(new Callback<SimpleResponse>() {
                     @Override
@@ -1204,13 +1248,14 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                Basic_ActivityFieldGroups lList = new Basic_ActivityFieldGroups();
-                                lList.ActivityFieldGroupTitle = Title;
-                                lList.ActivityFieldGroupID = MainIdSelected;
-                                lList.AdjustedByAdmin = false;
-                                lList.ActivityFieldGroupOrder = "0";
-                                lList.Deleted = false;
-                                SQL.Update(lList, " WHERE ActivityFieldGroupID='" + MainIdSelected + "'");
+//                                Basic_ActivityFieldGroups lList = new Basic_ActivityFieldGroups();
+//                                lList.ActivityFieldGroupTitle = Title;
+//                                lList.ActivityFieldGroupID = MainIdSelected;
+//                                lList.AdjustedByAdmin = false;
+//                                lList.ActivityFieldGroupOrder = "0";
+//                                lList.Deleted = false;
+//                                SQL.Update(lList, " WHERE ActivityFieldGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE Basic_ActivityFieldGroups SET ActivityFieldGroupTitle='" + Title + "' WHERE ActivityFieldGroupID='" + MainIdSelected + "'");
 
 
                                 adapterMain = new adapSettingMainItems<>(geter.getList(Basic_ActivityFieldGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
@@ -1240,6 +1285,9 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagGroupColor", "");
                 BodyParameters.put("TagGroupTypeId", Type);
 
+                Gson gsonn = new Gson();
+                String jsonn = gsonn.toJson(BodyParameters);
+
                 Update = rInterface.RQUpdateBasicTagGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Update.enqueue(new Callback<SimpleResponse>() {
                     @Override
@@ -1247,13 +1295,14 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                Basic_TagGroups lList = new Basic_TagGroups();
-                                lList.TagGroupTitle = Title;
-                                lList.TagGroupID = MainIdSelected;
-                                lList.TagGroupOrder = "0";
-                                lList.TagGroupTypeId = Type;
-                                lList.Deleted = false;
-                                SQL.Update(lList, " WHERE TagGroupID='" + MainIdSelected + "'");
+//                                Basic_TagGroups lList = new Basic_TagGroups();
+//                                lList.TagGroupTitle = Title;
+//                                lList.TagGroupID = MainIdSelected;
+//                                lList.TagGroupOrder = "0";
+//                                lList.TagGroupTypeId = Type;
+//                                lList.Deleted = false;
+//                                SQL.Update(lList, " WHERE TagGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE Basic_TagGroups SET TagGroupTitle='" + Title + "' WHERE TagGroupID='" + MainIdSelected + "'");
 
                                 adapterMain = new adapSettingMainItems<>(geter.getList(Basic_TagGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
                                 lstMain.setAdapter(adapterMain);
@@ -1281,6 +1330,9 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyGroupFontIcon", "");
                 BodyParameters.put("PropertyGroupColor", "");
 
+                Gson gsonj = new Gson();
+                String jsonj = gsonj.toJson(BodyParameters);
+
                 Update = rInterface.RQUpdateBasicPropertieGroups(Setting.getToken(), new HashMap<>(BodyParameters));
                 Update.enqueue(new Callback<SimpleResponse>() {
                     @Override
@@ -1288,12 +1340,13 @@ public class fragBasicData<T> extends Fragment {
                         if (response.isSuccessful()) {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                Basic_PropertyGroups lList = new Basic_PropertyGroups();
-                                lList.PropertyGroupTitle = Title;
-                                lList.PropertyGroupID = MainIdSelected;
-                                lList.PropertyGroupOrder = "0";
-                                lList.Deleted = false;
-                                SQL.Update(lList, " WHERE PropertyGroupID='" + MainIdSelected + "'");
+//                                Basic_PropertyGroups lList = new Basic_PropertyGroups();
+//                                lList.PropertyGroupTitle = Title;
+//                                lList.PropertyGroupID = MainIdSelected;
+//                                lList.PropertyGroupOrder = "0";
+//                                lList.Deleted = false;
+//                                SQL.Update(lList, " WHERE PropertyGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE Basic_PropertyGroups SET PropertyGroupTitle='" + Title + "' WHERE PropertyGroupID='" + MainIdSelected + "'");
 
                                 adapterMain = new adapSettingMainItems<>(geter.getList(Basic_PropertyGroups.class, " WHERE Deleted='0'"), objects.MainFieldIdName(), objects.MainFieldTitleName());
                                 lstMain.setAdapter(adapterMain);
@@ -1336,13 +1389,14 @@ public class fragBasicData<T> extends Fragment {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                            Basic_ActivityFields lList = new Basic_ActivityFields();
-                            lList.ActivityFieldTitle = Title;
-                            lList.ActivityFieldOrder = "0";
-                            lList.ActivityFieldGroupID = MainIdSelected;
-                            lList.ActivityFieldID = ID;
-                            lList.Deleted = false;
-                            SQL.Update(lList, " WHERE ActivityFieldID='" + ID + "'");
+//                            Basic_ActivityFields lList = new Basic_ActivityFields();
+//                            lList.ActivityFieldTitle = Title;
+//                            lList.ActivityFieldOrder = "0";
+//                            lList.ActivityFieldGroupID = MainIdSelected;
+//                            lList.ActivityFieldID = ID;
+//                            lList.Deleted = false;
+//                            SQL.Update(lList, " WHERE ActivityFieldID='" + ID + "'");
+                            SQL.Execute("UPDATE Basic_ActivityFields SET ActivityFieldTitle='" + Title + "' WHERE ActivityFieldID='" + ID + "'");
 
                             FilterSubItemsFromMainItemSelected(MainIdSelected);
                         }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1368,19 +1422,21 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("TagTitle", Title);
                 BodyParameters.put("TagOrder", 0);
 
-                Update = rInterface.RQUpdateBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));Update.enqueue(new Callback<SimpleResponse>() {
+                Update = rInterface.RQUpdateBasicTags(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update.enqueue(new Callback<SimpleResponse>() {
                 @Override
                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                            Basic_Tags lList = new Basic_Tags();
-                            lList.TagTitle = Title;
-                            lList.TagOrder = "0";
-                            lList.TagID = ID;
-                            lList.TagGroupID = MainIdSelected;
-                            lList.Deleted = false;
-                            SQL.Update(lList, " WHERE TagID='" + ID + "'");
+//                            Basic_Tags lList = new Basic_Tags();
+//                            lList.TagTitle = Title;
+//                            lList.TagOrder = "0";
+//                            lList.TagID = ID;
+//                            lList.TagGroupID = MainIdSelected;
+//                            lList.Deleted = false;
+//                            SQL.Update(lList, " WHERE TagID='" + ID + "'");
+                            SQL.Execute("UPDATE Basic_Tags SET TagTitle='" + Title + "' WHERE TagID='" + ID + "'");
 
                             FilterSubItemsFromMainItemSelected(MainIdSelected);
                         }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
@@ -1407,20 +1463,22 @@ public class fragBasicData<T> extends Fragment {
                 BodyParameters.put("PropertyOrder", 0);
                 BodyParameters.put("PropertyTypeKeyBoardId", TypeKeyboard);
 
-                Update = rInterface.RQUpdateBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));Update.enqueue(new Callback<SimpleResponse>() {
+                Update = rInterface.RQUpdateBasicProperties(Setting.getToken(), new HashMap<>(BodyParameters));
+                Update.enqueue(new Callback<SimpleResponse>() {
                 @Override
                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                            Basic_Properties lList = new Basic_Properties();
-                            lList.PropertyGroupID = MainIdSelected;
-                            lList.PropertyID = ID;
-                            lList.PropertyTitle = Title;
-                            lList.PropertyOrder = "0";
-                            lList.PropertyTypeKeyBoardId = TypeKeyboard;
-                            lList.Deleted = false;
-                            SQL.Update(lList, " WHERE PropertyID='" + ID + "'");
+//                            Basic_Properties lList = new Basic_Properties();
+//                            lList.PropertyGroupID = MainIdSelected;
+//                            lList.PropertyID = ID;
+//                            lList.PropertyTitle = Title;
+//                            lList.PropertyOrder = "0";
+//                            lList.PropertyTypeKeyBoardId = TypeKeyboard;
+//                            lList.Deleted = false;
+//                            SQL.Update(lList, " WHERE PropertyID='" + ID + "'");
+                            SQL.Execute("UPDATE Basic_Properties SET PropertyTitle='" + Title + "' AND PropertyTypeKeyBoardId='" + TypeKeyboard + "' WHERE PropertyID='" + ID + "'");
 
                             FilterSubItemsFromMainItemSelected(MainIdSelected);
                         }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){

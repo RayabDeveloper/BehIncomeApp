@@ -967,6 +967,8 @@ public class fragCustomerShow extends Fragment {
                                 if(Err.length() > 2)
                                     Err = Err.substring(0, Err.length() - 2);
                                 Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
+                                fragCustomers.lCustomer = new ArrayList<>();
+                                fragCustomers.page = 0;
                                 aDialog.dismiss();
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
@@ -1068,7 +1070,8 @@ public class fragCustomerShow extends Fragment {
                         if(Err.length() > 2)
                             Err = Err.substring(0, Err.length() - 2);
                         Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
-                        fragCustomers.lCustomer.remove(position);
+                        fragCustomers.lCustomer = new ArrayList<>();
+                        fragCustomers.page = 0;
                         Intent intent = new Intent(context, actMain.class);
                         actMain.STATE = FragmentState.MainCustomers;
                         getActivity().startActivity(intent);

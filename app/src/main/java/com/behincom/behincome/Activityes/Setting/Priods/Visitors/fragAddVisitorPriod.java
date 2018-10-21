@@ -377,7 +377,7 @@ public class fragAddVisitorPriod extends Fragment {
                             MarketingVisitTours data = new MarketingVisitTours();
                             data.VisitTourID = Integer.parseInt(response.body().AdditionalData.get("VisitTourID").toString().replace(".0", ""));
                             data.VisitTourTitle = txtName.getText().toString();
-                            data.VisitTourDescription = txtName.getText().toString();
+                            data.VisitTourDescription = txtDescription.getText().toString();
                             data.DateFrom = cFromDate;
                             data.DateTo = cToDate;
 

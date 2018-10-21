@@ -33,6 +33,7 @@ import com.behincom.behincome.Datas.Result.Loginer;
 import com.behincom.behincome.R;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,11 +122,14 @@ public class fragRegister extends Fragment {
                     Register.put(APIKeys.CreateWithPhoneCode.toString(), true);
                     Register.put(APIKeys.VerificationCode.toString(), VerficateCode);
 
+                    Gson gson = new Gson();
+                    String json = gson.toJson(Register);
+
                     Call RQRegistery = rInterface.RQRegister(new HashMap<>(Register));
                     RQRegistery.enqueue(new Callback() {
                         @Override
                         public void onResponse(Call call, Response response) {
-                            if (response.isSuccessful()) {
+                            if (response.isSuccessful()) {//todo SimpleResponse / Success, Error, Warning, ...
                                 Call RQLogin = rInterface.RQLogin(
                                         "LoginByPhoneCode",
                                         device.IMEI(),
@@ -154,6 +158,9 @@ public class fragRegister extends Fragment {
                                             setting.Save("issued", issued);
                                             setting.Save("expires", expires);
                                             setting.Save("isLogin", "1");
+
+                                            Gson gsonn = new Gson();
+                                            String jsonn = gsonn.toJson(setting);
 
                                             String tokenOnly = result.access_token;
                                             String tokenBearer = Setting.getToken();

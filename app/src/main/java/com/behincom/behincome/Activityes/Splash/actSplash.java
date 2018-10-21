@@ -16,7 +16,6 @@ import com.behincom.behincome.Activityes.Main.actMain;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Loader.LoadBaseData;
 import com.behincom.behincome.Loader.LoadMarketingData;
-import com.behincom.behincome.Loader.MergeBaseDataWithMarketing;
 import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
@@ -68,24 +67,14 @@ public class actSplash extends AppCompatActivity {
                     LoadData.setOnLoadDataListener(new LoadBaseData.onLoadAllListener() {
                         @Override
                         public void onLoads() {
-                            if (MergeBaseDataWithMarketing.Merge()) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        finishAffinity();
-                                        Intent intent = new Intent(context, actMain.class);
-                                        startActivity(intent);
-                                    }
-                                });
-                            } else {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        btnRefresh.setVisibility(View.VISIBLE);
-                                        getDatas(mA--);
-                                    }
-                                });
-                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finishAffinity();
+                                    Intent intent = new Intent(context, actMain.class);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     }, new LoadBaseData.onFailedLoad() {
                         @Override

@@ -62,8 +62,8 @@ public class actSetting extends AppCompatActivity {
         switch (mState){
             case ActivityFields:
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_ActivityFieldGroups.class),
-                        geter.getList(Basic_ActivityFields.class),
+                        geter.getList(Basic_ActivityFieldGroups.class, " WHERE Deleted='0'"),
+                        geter.getList(Basic_ActivityFields.class, " WHERE Deleted='0'"),
                         Basic_ActivityFields.class,
                         "ActivityFieldGroupID",
                         "ActivityFieldID",
@@ -77,8 +77,8 @@ public class actSetting extends AppCompatActivity {
             case Cities:
 //                addFragCity();
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_Provinces.class),
-                        geter.getList(Basic_Cities.class),
+                        geter.getList(Basic_Provinces.class, " WHERE Deleted='0'"),
+                        geter.getList(Basic_Cities.class, " WHERE Deleted='0'"),
                         Basic_Cities.class,
                         "ProvinceID",
                         "CityID",
@@ -91,8 +91,8 @@ public class actSetting extends AppCompatActivity {
                 break;
             case Tags:
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_TagGroups.class),
-                        geter.getList(Basic_Tags.class),
+                        geter.getList(Basic_TagGroups.class, " WHERE Deleted='0'"),
+                        geter.getList(Basic_Tags.class, " WHERE Deleted='0'"),
                         Basic_Tags.class,
                         "TagGroupID",
                         "TagID",
@@ -105,8 +105,8 @@ public class actSetting extends AppCompatActivity {
                 break;
             case Properties:
                 frag.objects = new Initializer<>(
-                        geter.getList(Basic_PropertyGroups.class),
-                        geter.getList(Basic_Properties.class),
+                        geter.getList(Basic_PropertyGroups.class, " WHERE Deleted='0'"),
+                        geter.getList(Basic_Properties.class, " WHERE Deleted='0'"),
                         Basic_Properties.class,
                         "PropertyGroupID",
                         "PropertyID",

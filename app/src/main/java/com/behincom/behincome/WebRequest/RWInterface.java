@@ -145,6 +145,7 @@ public interface RWInterface<T> {
     final String DeletedCommissionPeriod = "DeletedCommissionPeriod";
     final String EditActivityResult = "EditActivityResult";
     final String EditProduct = "EditProduct";
+    final String DeleteProduct = "DeleteProduct";
     final String EditVisitTour = "EditVisitTour";
     final String EditCommissionPeriod = "EditCommissionPeriod";
     final String EditProductCommission = "EditProductCommission";
@@ -170,6 +171,7 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Marketing_19 = Marketing + "/" + DeletedCommissionPeriod;
     final String ControllerActionManager_Marketing_6 = Marketing + "/" + EditActivityResult;
     final String ControllerActionManager_Marketing_7 = Marketing + "/" + EditProduct;
+    final String ControllerActionManager_Marketing_57 = Marketing + "/" + DeleteProduct;
     final String ControllerActionManager_Marketing_12 = Marketing + "/" + EditVisitTour;
     final String ControllerActionManager_Marketing_13 = Marketing + "/" + EditCommissionPeriod;
     final String ControllerActionManager_Marketing_14 = Marketing + "/" + EditProductCommission;
@@ -500,6 +502,10 @@ public interface RWInterface<T> {
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_7)
     Call<SimpleResponse> RQEditMarketingProducts(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"MarketingProductID":3,"CommissionTypeID":1,"MarketingProductTitle":"title","MarketingProductDescription":"description"} - Edit Your Object into MarketingProduct Table
+
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Marketing_57)
+    Call<SimpleResponse> RQDeleteMarketingProducts(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"MarketingProductID":3,"CommissionTypeID":1,"MarketingProductTitle":"title","MarketingProductDescription":"description"} - Edit Your Object into MarketingProduct Table
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_12)

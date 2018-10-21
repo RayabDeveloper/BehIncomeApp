@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.behincom.behincome.Accesories.Dialog;
 import com.behincom.behincome.Accesories.Setting;
+import com.behincom.behincome.Activityes.Setting.Priods.Visitors.fragVisitorPriod;
 import com.behincom.behincome.Activityes.Setting.actSetting;
 import com.behincom.behincome.Adapters.Setting.adapCommission;
 import com.behincom.behincome.Adapters.SpinAdapter;
@@ -36,12 +38,14 @@ import com.behincom.behincome.R;
 import com.behincom.behincome.SQL.RSQLite;
 import com.behincom.behincome.WebRequest.RWInterface;
 import com.behincom.behincome.WebRequest.Retrofite;
+import com.google.gson.Gson;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,7 +87,7 @@ public class fragAddProducts extends Fragment {
 
     boolean ApiFrist = false;
 
-    public static fragAddProducts newInstance(Context mContext){
+    public static fragAddProducts newInstance(Context mContext) {
         fragAddProducts fragment = new fragAddProducts();
         context = mContext;
         contexti = mContext;
@@ -130,12 +134,12 @@ public class fragAddProducts extends Fragment {
         adapCommissionType = new SpinAdapter(context, lBaseData, "CommissionTypeTitle");
         spinCommissionType.setAdapter(adapCommissionType);
 
-        if(toEdit){
+        if (toEdit) {
             btnDelete.setVisibility(View.VISIBLE);
             txtName.setText(mData.MarketingProductTitle);
             txtDescription.setText(mData.MarketingProductDescription);
             spinCommissionType.setSelection(adapCommissionType.getItemPosition("CommissionTypeID", Integer.toString(mData.CommissionTypeID)));
-        }else{
+        } else {
             btnDelete.setVisibility(View.GONE);
 
             txtName.setText("");
@@ -159,74 +163,77 @@ public class fragAddProducts extends Fragment {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txtName.getText().toString().length() > 0) {
-                    if(lCommission.size() > 0) {
+                if (txtName.getText().toString().length() > 0) {
+                    if (lCommission.size() > 0) {
                         if (lCommission.get(lCommission.size() - 1).CommissionPriceTo > 0 && lCommission.get(lCommission.size() - 1).CommissionPercent > 0) {
-                            if(toEdit){
-                                rInterface = Retrofite.getClient().create(RWInterface.class);
-                                pDialog = new Dialog(context);
-                                pDialog.Show();
+                            //Nothing
+                        }else{
+                            lCommission.remove(lCommission.size() - 1);
+                        }
+                        if (toEdit) {
+                            rInterface = Retrofite.getClient().create(RWInterface.class);
+                            pDialog = new Dialog(context);
+                            pDialog.Show();
 
-                                final List<MarketingProductCommission> lCommissionToSend = new ArrayList<>();
-                                for (MarketingProductCommissions data : lCommission) {
-                                    MarketingProductCommission mData = new MarketingProductCommission();
-                                    mData.CommissionPercent = data.CommissionPercent;
-                                    mData.CommissionPriceFrom = data.CommissionPriceFrom;
-                                    mData.CommissionPriceTo = data.CommissionPriceTo;
+                            final List<MarketingProductCommission> lCommissionToSend = new ArrayList<>();
+                            for (MarketingProductCommissions data : lCommission) {
+                                MarketingProductCommission mData = new MarketingProductCommission();
+                                mData.CommissionPercent = data.CommissionPercent;
+                                mData.CommissionPriceFrom = data.CommissionPriceFrom;
+                                mData.CommissionPriceTo = data.CommissionPriceTo;
 
-                                    lCommissionToSend.add(mData);
+                                lCommissionToSend.add(mData);
+                            }
+
+                            Map<String, Object> mProduct = new HashMap<>();
+                            mProduct.put("MarketingProductID", mData.MarketingProductID);
+                            mProduct.put("CommissionTypeID", Integer.parseInt(adapCommissionType.getItemString(spinCommissionType.getSelectedItemPosition(), "CommissionTypeID")));
+                            mProduct.put("MarketingProductTitle", txtName.getText().toString());
+                            mProduct.put("MarketingProductDescription", txtDescription.getText().toString());
+                            mProduct.put("Commissions", lCommissionToSend);
+
+                            Call<SimpleResponse> cProduct = rInterface.RQEditMarketingProducts(Setting.getToken(), new HashMap<>(mProduct));
+                            cProduct.enqueue(new Callback<SimpleResponse>() {
+                                @Override
+                                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                    pDialog.DisMiss();
+                                    if (response.isSuccessful()) {
+                                        MarketingProducts dataProduct = new MarketingProducts();
+                                        dataProduct.CommissionTypeID = Integer.parseInt(adapCommissionType.getItemString(spinCommissionType.getSelectedItemPosition(), "CommissionTypeID"));
+                                        dataProduct.MarketingProductDescription = txtDescription.getText().toString();
+                                        dataProduct.MarketingProductTitle = txtName.getText().toString();
+                                        dataProduct.MarketingProductID = mData.MarketingProductID;
+
+                                        SQL.Execute("DELETE FROM MarketingProducts WHERE MarketingProductID='" + mData.MarketingProductID + "'");
+//                                        SQL.Execute("UPDATE MarketingProducts SET Deleted='1' WHERE MarketingProductID='" + mData.MarketingProductID + "'");
+                                        SQL.Execute("DELETE FROM MarketingProductCommissions WHERE MarketingProductID='" + mData.MarketingProductID + "'");
+//                                        SQL.Execute("UPDATE MarketingProductCommissions SET Deleted='1' WHERE MarketingProductID='" + mData.MarketingProductID + "'");
+                                        SQL.Insert(dataProduct);
+
+                                        for (MarketingProductCommissions data : lCommission) {
+                                            SQL.Insert(data);
+                                        }
+
+                                        act.getFragByState(FragmentState.Products);
+                                    }
                                 }
 
-                                Map<String, Object> mProduct = new HashMap<>();
-                                mProduct.put("MarketingProductID", mData.MarketingProductID);
-                                mProduct.put("CommissionTypeID", Integer.parseInt(adapCommissionType.getItemString(spinCommissionType.getSelectedItemPosition(), "CommissionTypeID")));
-                                mProduct.put("MarketingProductTitle", txtName.getText().toString());
-                                mProduct.put("MarketingProductDescription", txtDescription.getText().toString());
-                                mProduct.put("Commissions", lCommissionToSend);
-
-                                Call<SimpleResponse> cProduct = rInterface.RQEditMarketingProducts(Setting.getToken(), new HashMap<>(mProduct));
-                                cProduct.enqueue(new Callback<SimpleResponse>() {
-                                    @Override
-                                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                        pDialog.DisMiss();
-                                        if(response.isSuccessful()){
-                                            MarketingProducts dataProduct = new MarketingProducts();
-                                            dataProduct.CommissionTypeID = Integer.parseInt(adapCommissionType.getItemString(spinCommissionType.getSelectedItemPosition(), "CommissionTypeID"));
-                                            dataProduct.MarketingProductDescription = txtDescription.getText().toString();
-                                            dataProduct.MarketingProductTitle = txtName.getText().toString();
-                                            dataProduct.MarketingProductID = mData.MarketingProductID;
-
-                                            SQL.Execute("DELETE FROM MarketingProducts WHERE MarketingProductID='" + mData.MarketingProductID + "'");
-                                            SQL.Execute("DELETE FROM MarketingProductCommissions WHERE MarketingProductID='" + mData.MarketingProductID + "'");
-                                            SQL.Insert(dataProduct);
-
-                                            for (MarketingProductCommissions data : lCommission) {
-                                                SQL.Insert(data);
-                                            }
-
-                                            act.getFragByState(FragmentState.Products);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                                        pDialog.DisMiss();
-                                    }
-                                });
-                            }else {
-                                Submit();
-                            }
+                                @Override
+                                public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                                    pDialog.DisMiss();
+                                }
+                            });
                         } else {
-                            mToast("لطفا مقداری برای کمیسیون و درصد کمیسیون مشخص کنید");
+                            Submit();
                         }
-                    }else{
-                        if(toEdit){
+                    } else {
+                        if (toEdit) {
 
-                        }else {
+                        } else {
                             Submit();
                         }
                     }
-                }else{
+                } else {
                     mToast("لطفا نام محصول را وارد کنید.");
                 }
             }
@@ -234,7 +241,37 @@ public class fragAddProducts extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo NotHaveDelete
+//                rInterface = Retrofite.getClient().create(RWInterface.class);
+//
+//                pDialog = new Dialog(context);
+//                pDialog.Show();
+//
+//                Map<String, Object> map = new HashMap<>();
+//                List<Integer> IDs = new ArrayList<>();
+//                IDs.add(mData.MarketingProductID);
+//                map.put("Ids", IDs);
+//
+//                Gson gson = new Gson();
+//                String json = gson.toJson(map);
+//
+//                Call<SimpleResponse> cDeleted = rInterface.RQDeleteMarketingProducts(Setting.getToken(), new HashMap<>(map));
+//                cDeleted.enqueue(new Callback<SimpleResponse>() {
+//                    @Override
+//                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+//                        pDialog.DisMiss();
+//                        if(response.isSuccessful()){
+//                            SQL.Execute("DELETE FROM MarketingProducts WHERE MarketingProductID='" + response.body().AdditionalData.get("DeletedID").toString().replace(".0", "") + "'");
+//
+//                            fragProducts.lProduct.remove(mData);
+//                            act.getFragByState(FragmentState.Products);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<SimpleResponse> call, Throwable t) {
+//                        pDialog.DisMiss();
+//                    }
+//                });
             }
         });
 
@@ -245,11 +282,12 @@ public class fragAddProducts extends Fragment {
     public void onResume() {
         super.onResume();
         ApiFrist = false;
-        if(!toEdit)
+        if (!toEdit)
             lCommission = new ArrayList<>();
         RefreshList();
     }
-    private void RefreshList(){
+
+    private void RefreshList() {
         adapter = new adapCommission(lCommission);
         adapteri = new adapCommission(lCommission);
         lstMain.setHasFixedSize(true);
@@ -266,7 +304,8 @@ public class fragAddProducts extends Fragment {
         lstMaini.setAdapter(adapteri);
         AddNewCommission();
     }
-    private void Submit(){
+
+    private void Submit() {
         rInterface = Retrofite.getClient().create(RWInterface.class);
         pDialog = new Dialog(context);
         pDialog.Show();
@@ -291,7 +330,7 @@ public class fragAddProducts extends Fragment {
         cProduct.enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         MarketingProducts dataProduct = new MarketingProducts();
                         dataProduct.CommissionTypeID = Integer.parseInt(adapCommissionType.getItemString(spinCommissionType.getSelectedItemPosition(), "CommissionTypeID"));
@@ -301,11 +340,15 @@ public class fragAddProducts extends Fragment {
 
                         SQL.Insert(dataProduct);
 
-                        for (MarketingProductCommissions data : lCommission) {
-                            SQL.Insert(data);
+                        String IDs = response.body().AdditionalData.get("MarketingProductCommissionsID").toString().replace("[", "").replace("]", "").replace(".0", "");
+                        String[] mIDs = IDs.split(",");
+                        for(int i=0; i<lCommission.size(); i++){
+                            lCommission.get(i).MarketingProductID = dataProduct.MarketingProductID;
+                            lCommission.get(i).ProductCommissionID = Integer.parseInt(mIDs[i].trim());
+                            SQL.Insert(lCommission.get(i));
                         }
                         act.getFragByState(FragmentState.Products);
-                    }catch (Exception Ex){
+                    } catch (Exception Ex) {
                         String Er = Ex.getMessage();
                     }
                 }
@@ -319,14 +362,16 @@ public class fragAddProducts extends Fragment {
             }
         });
     }
-    public static void RefreshAdapter(){
+
+    public static void RefreshAdapter() {
         adapteri = new adapCommission(lCommission);
         adapteri.notifyDataSetChanged();
         lstMaini.setAdapter(adapteri);
     }
-    private void AddNewCommission(){
+
+    private void AddNewCommission() {
         if (lCommission.size() > 0) {
-            if(lCommission.size() > 1) {
+            if (lCommission.size() > 1) {
                 if (lCommission.get(lCommission.size() - 1).CommissionPercent > 0) {
                     if (lCommission.get(lCommission.size() - 1).CommissionPriceTo <= lCommission.get(lCommission.size() - 1).CommissionPriceFrom) {
                         Toast.makeText(context, "مبلغ نباید کمتر از شروع باشد.", Toast.LENGTH_LONG).show();
@@ -337,7 +382,7 @@ public class fragAddProducts extends Fragment {
                 } else {
                     Toast.makeText(context, "درصد نباید 0 باشد", Toast.LENGTH_LONG).show();
                 }
-            }else if(lCommission.size() == 1){
+            } else if (lCommission.size() == 1) {
                 if (lCommission.get(lCommission.size() - 1).CommissionPriceTo <= lCommission.get(lCommission.size() - 1).CommissionPriceFrom) {
                     Toast.makeText(context, "مبلغ نباید کمتر از شروع باشد.", Toast.LENGTH_LONG).show();
                 } else {
@@ -353,7 +398,8 @@ public class fragAddProducts extends Fragment {
         adapter.notifyDataSetChanged();
         lstMain.setAdapter(adapter);
     }
-    private void mToast(String Message){
+
+    private void mToast(String Message) {
         Toast.makeText(context, Message, Toast.LENGTH_LONG).show();
     }
 

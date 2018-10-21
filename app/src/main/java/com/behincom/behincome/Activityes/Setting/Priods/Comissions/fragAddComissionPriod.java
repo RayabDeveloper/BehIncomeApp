@@ -302,74 +302,27 @@ public class fragAddComissionPriod extends Fragment {
                 map.put("CommissionPeriodID", mData.MarketingCommissionPeriodID);
                 map.put("BmmID", mData.UserID);
 
-                Call<SimpleResponse> cDelete = rInterface.RQDeleteCommissionPriod(Setting.getToken(), new HashMap<>(map));
-                cDelete.enqueue(new Callback<SimpleResponse>() {
+                Call<SimpleResponse> cDeleted = rInterface.RQDeletedCommissionPriod(Setting.getToken(), new HashMap<>(map));
+                cDeleted.enqueue(new Callback<SimpleResponse>() {
                     @Override
-                    public void onResponse(Call<SimpleResponse> call, final Response<SimpleResponse> response) {
+                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                        pDialog.DisMiss();
                         if(response.isSuccessful()){
-                            try {
-                                pDialog.DisMiss();
-                                if(Boolean.parseBoolean(response.body().AdditionalData.get("CanDelete").toString()) == false){
-                                    Toast.makeText(getActivity(), response.body().Errors.get("inUse").toString(), Toast.LENGTH_LONG).show();
-                                }else if(Boolean.parseBoolean(response.body().AdditionalData.get("CanDelete").toString()) == true){
-                                    final android.app.Dialog mDialog;
-                                    mDialog = new android.app.Dialog(context);
-                                    mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                    mDialog.setCancelable(true);
-                                    mDialog.setCanceledOnTouchOutside(true);
-                                    mDialog.setContentView(R.layout.dialog_accept_cancell);
-                                    Objects.requireNonNull(mDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+                            SimpleResponse simple = response.body();
+                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+//                            SQL.Execute("DELETE FROM MarketingCommissionPeriods WHERE MarketingCommissionPeriodID='" + response.body().AdditionalData.get("DeletedID").toString().replace(".0", "") + "'");
+                                SQL.Execute("UPDATE MarketingCommissionPeriods SET Deleted='1' WHERE MarketingCommissionPeriodID='" + response.body().AdditionalData.get("DeletedID").toString().replace(".0", "") + "'");
 
-                                    TextView lblTitle = mDialog.findViewById(R.id.lblTitle);
-                                    TextView lblAccept = mDialog.findViewById(R.id.lblAccept);
-                                    TextView lblCancell = mDialog.findViewById(R.id.lblCancell);
-
-                                    lblTitle.setText("آیا مایل به حذف دوره ویزیتور هستید ؟");
-
-                                    lblCancell.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            mDialog.dismiss();
-                                        }
-                                    });
-                                    lblAccept.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            pDialog = new Dialog(context);
-                                            pDialog.Show();
-
-                                            Map<String, Object> map = new HashMap<>();
-                                            map.put("CommissionPeriodID", mData.MarketingCommissionPeriodID);
-                                            map.put("BmmID", mData.UserID);
-
-                                            Call<SimpleResponse> cDeleted = rInterface.RQDeletedCommissionPriod(Setting.getToken(), new HashMap<>(map));
-                                            cDeleted.enqueue(new Callback<SimpleResponse>() {
-                                                @Override
-                                                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                                    pDialog.DisMiss();
-                                                    if(response.isSuccessful()){
-                                                        SQL.Execute("DELETE FROM MarketingCommissionPeriods WHERE MarketingCommissionPeriodID='" + response.body().AdditionalData.get("DeletedID").toString().replace(".0", "") + "'");
-
-                                                        fragVisitorPriod.lPriod.remove(mData);
-                                                        act.getFragByState(FragmentState.VisitTours);
-                                                        mDialog.dismiss();
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                                                    pDialog.DisMiss();
-                                                }
-                                            });
-                                        }
-                                    });
-                                    mDialog.show();
+                                fragVisitorPriod.lPriod.remove(mData);
+                                act.getFragByState(FragmentState.VisitTours);
+                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                String Err = "";
+                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                    Err = entry.getValue().toString();
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                Toast.makeText(context, Err, Toast.LENGTH_LONG).show();
                             }
-                        }else
-                            pDialog.DisMiss();
+                        }
                     }
 
                     @Override
@@ -444,7 +397,7 @@ public class fragAddComissionPriod extends Fragment {
             mCommission.put("MarketingCommissionPeriodDateFrom", cFromDate);
             mCommission.put("MarketingCommissionPeriodDateTo", cToDate);
 
-            Call<SimpleResponse> cCommission = rInterface.RQEditMarketingProductCommission(Setting.getToken(), new HashMap<>(mCommission));
+            Call<SimpleResponse> cCommission = rInterface.RQEditMarketingCommissionPeriod(Setting.getToken(), new HashMap<>(mCommission));
             cCommission.enqueue(new Callback<SimpleResponse>() {
                 @Override
                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
@@ -457,7 +410,7 @@ public class fragAddComissionPriod extends Fragment {
                         } else {
                             String eror = "خطا";
                             try {
-                                eror = simple.Errors.get("NotJoinedDate").toString();
+                                eror = simple.Errors.get("RecordNotFound").toString();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

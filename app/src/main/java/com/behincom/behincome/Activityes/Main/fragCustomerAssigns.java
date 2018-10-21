@@ -120,6 +120,8 @@ public class fragCustomerAssigns extends Fragment {
 //                            getActivity().finish();
 //                            Intent intent = new Intent(getActivity(), actMain.class);
 //                            getActivity().startActivity(intent);
+                            fragCustomers.lCustomer = new ArrayList<>();
+                            fragCustomers.page = 0;
                             act.getFragByState(FragmentState.MainCustomers);
                         }
                         pDialog.DisMiss();

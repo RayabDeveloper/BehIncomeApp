@@ -11,6 +11,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,7 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         TextView lblAssignCount = holder.lblAssignCount;
         TextView lblLocation = holder.lblLocation;
 
-        lblName.setText(lList.get(position).Customers.CustomerName);
+        lblName.setText(Html.fromHtml(lList.get(position).Customers.CustomerName));
         String LocAdd = lList.get(position).Customers.CustomerAddress;
         lbltaskCount.setText(Integer.toString(lList.get(position).ActivityCount));
         lblAssignCount.setText(Integer.toString(lList.get(position).Owner.size()));
@@ -106,7 +107,7 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         });
 
         if (LocAdd.length() > 50) LocAdd = LocAdd.substring(0, 50) + "...";
-        lblLocation.setText(LocAdd);
+        lblLocation.setText(Html.fromHtml(LocAdd));
         if (lList.get(position).Customers.isCheck) {
             lin.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));
             lin2.setBackgroundColor(context.getResources().getColor(R.color.txtGray1));

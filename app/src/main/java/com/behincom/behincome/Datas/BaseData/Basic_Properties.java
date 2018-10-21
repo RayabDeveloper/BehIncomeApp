@@ -15,9 +15,12 @@ public class Basic_Properties {
     public String PropertyDescription = "";
     @SerializedName("PropertyOrder")
     public String PropertyOrder = "";
+    @SerializedName("PersonTypeFontIcon")
+    public String PersonTypeFontIcon = "";
+    @SerializedName("PersonTypeColor")
+    public String PersonTypeColor = "";
     @SerializedName("PropertyTypeKeyBoardId")
     public int PropertyTypeKeyBoardId = 1;
-    @RAnnot
     @SerializedName("Deleted")
     public boolean Deleted = false;
     @Expose
