@@ -68,7 +68,7 @@ public class fragTasks extends Fragment {
     LinearLayout btnHome1, btnHome2, btnReport, btnAccount;
     TextView lblHome1, lblHome2, lblReport, lblAccount;
     ImageView imgHome1, imgHome2, imgReport, imgAccount;
-    ImageView imgSetting;
+    ImageView imgSetting, imgMessage;
     RecyclerView.LayoutManager mLayoutManager;
     ImageView btnFilter, btnToLeftDate, btnToRightDate;
     boolean isAlarmCompleted = false;
@@ -90,6 +90,7 @@ public class fragTasks extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_tasks, container, false);
 
+        imgMessage = view.findViewById(R.id.imgMessage);
         imgSetting = view.findViewById(R.id.imgSetting);
         btnHome1 = view.findViewById(R.id.btnHome1);
         btnHome2 = view.findViewById(R.id.btnHome2);
@@ -112,6 +113,14 @@ public class fragTasks extends Fragment {
         btnToLeftDate = view.findViewById(R.id.btnToLeftDate);
         btnToRightDate = view.findViewById(R.id.btnToRightDate);
         mLayoutManager = new LinearLayoutManager(getActivity());
+
+        imgMessage.setVisibility(View.VISIBLE);
+        imgMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.getFragByState(FragmentState.MessageMain);
+            }
+        });
 
         DateConverter mDC = new DateConverter(Setting.getServerDateTime(), true);
         final String gDate = mDC.GetDateToHijri();
@@ -426,14 +435,9 @@ public class fragTasks extends Fragment {
 
                                 lActivityes = response.body();
 
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        adapMainTask adapter = new adapMainTask(lActivityes, getActivity());
-                                        lstTask.setAdapter(adapter);
-                                        lblDate.setText(gDate);
-                                    }
-                                });
+                                adapMainTask adapter = new adapMainTask(lActivityes, getActivity());
+                                lstTask.setAdapter(adapter);
+                                lblDate.setText(gDate);
                             }
                         }
 

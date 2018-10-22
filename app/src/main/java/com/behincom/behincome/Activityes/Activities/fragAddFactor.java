@@ -195,6 +195,7 @@ public class fragAddFactor extends Fragment {
 //                fragAddTask.fac = true;
 //                fragAddTask.Type = ActType;
 //                fragAddTask.currentId = currentId;
+                fragAddTask.Activity.Invoice.addAll(lFactores);
                 act.getFragByState(FragmentState.AddTask);
             }
         });

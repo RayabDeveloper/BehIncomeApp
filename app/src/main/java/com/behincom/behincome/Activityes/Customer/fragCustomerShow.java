@@ -52,8 +52,10 @@ import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.Activityes.Activities;
 import com.behincom.behincome.Datas.Activityes.Invoice;
 import com.behincom.behincome.Datas.Base.Basics;
+import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
+import com.behincom.behincome.Datas.BaseData.Basic_Cities;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
 import com.behincom.behincome.Datas.BaseData.Basic_NamePrefixes;
 import com.behincom.behincome.Datas.BaseData.Basic_Properties;
@@ -66,6 +68,8 @@ import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.DataDates;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.Keys.ResponseMessageType;
+import com.behincom.behincome.Datas.Marketing.MarketingProducts;
+import com.behincom.behincome.Datas.Marketing.MarketingVisitTours;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.Datas.Result.SimpleResponse;
 import com.behincom.behincome.R;
@@ -817,16 +821,22 @@ public class fragCustomerShow extends Fragment {
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), actActivities.class);
-                actActivities.STATE = FragmentState.AddTask;
+                List<Basic_ActResults> lRes = geter.getListIsCheck(Basic_ActResults.class);
+                List<MarketingProducts> lPro = geter.getList(MarketingProducts.class, " WHERE Deleted='0'");
+                List<MarketingVisitTours> lVisit = geter.getList(MarketingVisitTours.class, " WHERE Deleted='0'");
+                if(lRes.size() > 0 && lPro.size() > 0 && lVisit.size() > 0) {
+                    Intent intent = new Intent(getActivity(), actActivities.class);
+                    actActivities.STATE = FragmentState.AddTask;
 //                fragAddTask.Name = Customer.Customers.CustomerName;
 //                fragAddTask.customer_id = Customer.Customers.CustomerID;
 //                fragAddTask.Type = 0;
 //                fragAddTask.mCustomer = Customer;
-                fragAddTask.Activity = new Activities();
-                fragAddTask.Activity.CustomerID = Customer.Customers.CustomerID;
-                fragAddTask.Activity.Title = Customer.Customers.CustomerName;
-                getActivity().startActivity(intent);
+                    fragAddTask.Activity = new Activities();
+                    fragAddTask.Activity.CustomerID = Customer.Customers.CustomerID;
+                    fragAddTask.Activity.Title = Customer.Customers.CustomerName;
+                    getActivity().startActivity(intent);
+                }else
+                    Toast.makeText(context, Basics.NeedToMarketing, Toast.LENGTH_LONG).show();
             }
         });//AddTask
 
@@ -889,7 +899,7 @@ public class fragCustomerShow extends Fragment {
     }
 
     private void RefreshAct() {
-        adapter_Act = new adapStoreShowAct(lActivity, getActivity());
+        adapter_Act = new adapStoreShowAct(lActivity, context);
         lstAct.setAdapter(adapter_Act);
     }
 
@@ -1162,14 +1172,9 @@ public class fragCustomerShow extends Fragment {
                             lInvoice.addAll(data.Invoice);
                     }
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            RefreshAct();
-                            if (lInvoice.size() > 0)
-                                btnFactors.setVisibility(View.VISIBLE);
-                        }
-                    });
+                    RefreshAct();
+                    if (lInvoice.size() > 0)
+                        btnFactors.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -1211,67 +1216,6 @@ public class fragCustomerShow extends Fragment {
         invoiceDialogi.show();
     }
 
-    //    private void getInvoice() {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("CustomerID", Customer.CustomerID);
-//
-//        Call getInvoices = rInterface.RQGetCustomerInvoice(Setting.getToken(), map);
-//        getInvoices.enqueue(new Callback<List<Invoice>>() {
-//            @Override
-//            public void onResponse(Call<List<Invoice>> call, Response<List<Invoice>> response) {
-//                if (response.isSuccessful()) {
-//                    lInvoice = response.body();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t) {
-//                String Er = t.getMessage();
-//            }
-//        });
-//    }
-//    public void getInvoice(int ActivityID) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("ActivityID", ActivityID);
-//
-//        Call getInvoices = rInterface.RQGetCustomerInvoice(Setting.getToken(), map);
-//        getInvoices.enqueue(new Callback<List<Invoice>>() {
-//            @Override
-//            public void onResponse(Call<List<Invoice>> call, Response<List<Invoice>> response) {
-//                if (response.isSuccessful()) {
-//                    List<Invoice> mInvoice = response.body();
-//
-//                    invoiceDialog = new Dialog(context);
-//                    invoiceDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//                    invoiceDialog.setCancelable(true);
-//                    invoiceDialog.setCanceledOnTouchOutside(true);
-//                    invoiceDialog.setContentView(R.layout.dialog_show_invoice);
-//                    Objects.requireNonNull(invoiceDialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-//
-//                    RecyclerView lstMain = invoiceDialog.findViewById(R.id.lstMain);
-//                    TextView lblAccept = invoiceDialog.findViewById(R.id.lblAccept);
-//                    TextView lblCancell = invoiceDialog.findViewById(R.id.lblCancell);
-//                    lblCancell.setVisibility(View.GONE);
-//
-//                    adapInvoice = new adapCustomerInvoice(mInvoice, context);
-//                    lstMain.setAdapter(adapInvoice);
-//
-//                    lblAccept.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            invoiceDialog.dismiss();
-//                        }
-//                    });
-//                    invoiceDialog.show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t) {
-//                String Er = t.getMessage();
-//            }
-//        });
-//    }
     private void Finisher() {
         Customer = new MyCustomers();
         lTask = new ArrayList<>();

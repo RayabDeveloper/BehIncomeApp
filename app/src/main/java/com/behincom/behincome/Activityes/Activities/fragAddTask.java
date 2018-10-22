@@ -135,7 +135,7 @@ public class fragAddTask extends Fragment {
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo Back to What ???
+                getActivity().finish();
             }
         });
         spinSubAct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -201,12 +201,12 @@ public class fragAddTask extends Fragment {
                 HashMap<String, Object> map = new HashMap<>();
                 if (Activity.ActivityID > 0) {//EnterForTask
                     map.put("ActivityID", Activity.ActivityID);
-                    map.put("Title", Activity.ActivityID);
-                    map.put("ActID", Activity.ActivityID);
-                    map.put("ActivityDescription", Activity.ActivityID);
-                    map.put("EnterDate", Activity.ActivityID);
-                    map.put("EnterLatutide", Activity.ActivityID);
-                    map.put("EnterLongitude", Activity.ActivityID);
+                    map.put("Title", Activity.Title);
+                    map.put("ActID", Activity.ActID);
+                    map.put("ActivityDescription", Activity.ActivityDescription);
+                    map.put("EnterDate", "");
+                    map.put("EnterLatutide", MyLocation.latitude);
+                    map.put("EnterLongitude", MyLocation.longitude);
 
                     Call EnterForTask = rInterface.RQAddActivityEnterForTask(Setting.getToken(), map);
                     EnterForTask.enqueue(new Callback<SimpleResponse>() {
@@ -216,6 +216,9 @@ public class fragAddTask extends Fragment {
                                 try {
                                     SimpleResponse result = response.body();
                                     if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                        Activity.ActivityID = Integer.parseInt(response.body().AdditionalData.get("ActivityID").toString().replace(".0", ""));
+                                        Activity.EnterDate = response.body().AdditionalData.get("EnterDate").toString();
+                                        lblEnterInfo.setText(getLongDate(Activity.EnterDate));
                                         viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult);
                                     } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
                                         for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
@@ -225,6 +228,7 @@ public class fragAddTask extends Fragment {
                                     }
                                 } catch (Exception Ex) {
                                     String Er = Ex.getMessage();
+                                    viewShower(viewEnterInfo, viewExitShow, viewEnterExit, btnNewInvoice, lstFactor, spinResult);
                                 }
                             }
                             pDialog.DisMiss();
@@ -297,7 +301,6 @@ public class fragAddTask extends Fragment {
             public void onClick(View v) {
                 pDialog = new Dialog(context);
                 pDialog.Show();
-
                 if (lInvoice.size() > 0) {
                     MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
                     for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
@@ -389,17 +392,6 @@ public class fragAddTask extends Fragment {
                         }
                     });
                 } else {
-                    List<HashMap<String, Object>> lMaps = new ArrayList<>();
-                    for (Invoice data : lInvoice) {
-                        HashMap<String, Object> mapp = new HashMap<>();
-                        mapp.put("InvoiceNumber", data.InvoiceNumber);
-                        mapp.put("InvoiceMarketingProductID", data.InvoiceMarketingProductID);
-                        mapp.put("InvoiceActivityID", Activity.ActivityID);
-                        mapp.put("InvoicePrice", data.InvoicePrice);
-                        mapp.put("InvoiceDescription", data.InvoiceDescription);
-
-                        lMaps.add(mapp);
-                    }
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("ActivityID", Activity.ActivityID);
                     map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
@@ -407,7 +399,7 @@ public class fragAddTask extends Fragment {
                     map.put("ExitDate", "");
                     map.put("ExitLatutide", MyLocation.latitude);
                     map.put("ExitLongitude", MyLocation.longitude);
-                    map.put("Invoices", lMaps);
+                    map.put("Invoices", new HashMap<>());
 
                     Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
                     cExitActivity.enqueue(new Callback<SimpleResponse>() {
@@ -457,6 +449,7 @@ public class fragAddTask extends Fragment {
         btnNewInvoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragAddFactor.lFactores = new ArrayList<>();
                 act.getFragByState(FragmentState.AddFactor);
             }
         });
@@ -617,7 +610,7 @@ public class fragAddTask extends Fragment {
                     map.put("ActivityOwnerUserID", Setting.getBMMUserID());
                     map.put("Title", Activity.Title);
                     map.put("ActID", Integer.parseInt(spinAdapter_SubAct.getItemString(spinSubAct.getSelectedItemPosition(), "ActID")));
-                    map.put("ActivityDescription", Activity.ActivityDescription);
+                    map.put("Description", Activity.ActivityDescription);
                     map.put("TaskDate", Activity.TodoDate);
                     map.put("DurationDate", Activity.DurationDate);
 //                    map.put("VisitTourID", Activity.VisitTourID);
@@ -711,7 +704,7 @@ public class fragAddTask extends Fragment {
                                 HashMap<String, Object> map = new HashMap<>();
                                 map.put("ActivityID", Activity.ActivityID);
                                 map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
-                                map.put("ActivityDescription", Activity.ActivityDescription);
+                                map.put("Description", Activity.ActivityDescription);
                                 map.put("Invoices", lMapInvoice);
 
                                 Call cExitActivity = rInterface.RQSendActivity(Setting.getToken(), map);
@@ -767,7 +760,7 @@ public class fragAddTask extends Fragment {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("ActivityID", Activity.ActivityID);
                     map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
-                    map.put("ActivityDescription", Activity.ActivityDescription);
+                    map.put("Description", Activity.ActivityDescription);
                     map.put("Invoices", lMaps);
 
                     Call cExitActivity = rInterface.RQSendActivity(Setting.getToken(), map);
@@ -884,7 +877,7 @@ public class fragAddTask extends Fragment {
             e.printStackTrace();
         }
         try {
-            String lbTask = getLongDate(Activity.TodoDate) + " به مدت " + getHM(Activity.DurationDate);
+            String lbTask = getLongDate(Activity.TodoDate) + "در ساعت " + getShortTime(Activity.TodoDate) + " به مدت " + getHM(Activity.DurationDate);
             lblTaskInfo.setText(lbTask);
         } catch (Exception e) {
             e.printStackTrace();
@@ -913,6 +906,11 @@ public class fragAddTask extends Fragment {
         lstFactor.setAdapter(adapter);
     }
 
+    private String getShortTime(String cDate){
+        String[] DatesTimes = cDate.split("T");
+        String[] Times = DatesTimes[1].split(":");
+        return Times[0] + ":" + Times[1];
+    }
     //Get LongDateTime String
     private String getLongDate(String cDate) {
         int y = getYear(cDate);
@@ -985,6 +983,9 @@ public class fragAddTask extends Fragment {
     }
 
     private ViewType getViewType() {
+        if(Activity.TodoDate == null)Activity.TodoDate = "";
+        if(Activity.EnterDate == null)Activity.EnterDate = "";
+        if(Activity.ExitDate == null)Activity.ExitDate = "";
         if (Activity.EnterDate.length() == 0 && Activity.TodoDate.length() == 0)
             return ViewType.EnterShowTaskShow;
         else if (Activity.TodoDate.length() > 0 && Activity.ActivityID == 0)

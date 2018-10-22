@@ -171,6 +171,7 @@ public class actActivities extends AppCompatActivity {
 ////                    fragTaskShow.Customer = fragAddTask.TaskShowCustomer;
 //                    getFragByState(TaskShow);
 //                }
+                finish();
                 break;
             case AddTasksShow:actActivities act = new actActivities();
                 //todo todo todo

@@ -7,6 +7,8 @@ import com.behincom.behincome.Datas.BaseData.Basic_Provinces;
 import com.behincom.behincome.Datas.Customer.Customers;
 import com.behincom.behincome.Datas.Customer.MyCustomers;
 import com.behincom.behincome.Datas.Marketing.MarketingDatas;
+import com.behincom.behincome.Datas.Message.Message_Conversation;
+import com.behincom.behincome.Datas.Package.Payment_Packages;
 import com.behincom.behincome.Datas.Profile.BussinessManagerMarketing;
 import com.behincom.behincome.Datas.Profile.Marketers;
 import com.behincom.behincome.Datas.Result.Loginer;
@@ -111,6 +113,13 @@ public interface RWInterface<T> {
     final String ControllerActionManager_BaseData_4 = BaseData + "/" + GetProvinces;
     final String ControllerActionManager_BaseData_5 = BaseData + "/" + GetCities;
 
+    final String Package = "Package";
+    final String GetAllPackages = "GetAllPackages";
+    final String ControllerActionManager_Package_1 = Package + "/" + GetAllPackages;
+
+    final String Messaging = "Messaging";
+    final String GetAllMessages = "GetAllMessages";
+    final String ControllerActionManager_Message_1 = Messaging + "/" + GetAllMessages;
 
     final String Marketing = "Marketing";
     final String BasicArchiveTypes = "BasicArchiveTypes";
@@ -410,6 +419,19 @@ public interface RWInterface<T> {
 
     @GET(ControllerActionManager_BaseData_5)
     Call<List<Basic_Cities>> RQGetCities();//Get Cities
+
+    //=========================================================================================================
+    //Package :                                         - Package -
+    //=========================================================================================================
+    @GET(ControllerActionManager_Package_1)
+    Call<List<Payment_Packages>> RQGetPackages();
+
+    //=========================================================================================================
+    //Package :                                         - Package -
+    //=========================================================================================================
+    @Headers(ContentType)
+    @POST(ControllerActionManager_Message_1)
+    Call<List<Message_Conversation>> RQGetAllMessages(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);
 
     //=========================================================================================================
     //Marketing :                                     - Marketing -

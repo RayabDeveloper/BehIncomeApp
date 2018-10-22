@@ -36,10 +36,7 @@ import java.util.Objects;
 public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.AdapterMember> {
 
     private Context context;
-    private static adapCustomerInvoice adapInvoice;
-    private RSQLite SQL = new RSQLite();
     private RSQLGeter geter = new RSQLGeter();
-    static actActivities act = new actActivities();
 
     public List<Activities> lList;
 
@@ -139,6 +136,10 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
             public void onClick(View v) {
                 Intent intent = new Intent(context, actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
+                fragAddTask.Activity = new Activities();
+                fragAddTask.Activity.ParentID = lList.get(position).ActivityID;
+                fragAddTask.Activity.CustomerID = lList.get(position).CustomerID;
+                fragAddTask.Activity.Title = lList.get(position).Title;
 //                fragAddTask.Name = fragCustomerShow.Customer.Customers.CustomerName;
 //                fragAddTask.customer_id = fragCustomerShow.Customer.Customers.CustomerID;
 //                fragAddTask.Type = 0;
@@ -157,6 +158,7 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
         cardViewMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fragAddTask.Activity = lList.get(position);
                 Intent intent = new Intent(context, actActivities.class);
                 actActivities.STATE = FragmentState.AddTask;
 //                fragAddTask.currentId = lList.get(position).ActivityID;
@@ -164,88 +166,88 @@ public class adapStoreShowAct extends RecyclerView.Adapter<adapStoreShowAct.Adap
 //                fragAddTask.lData = lList.get(position);
 //                fragAddTask.Namee = lList.get(position).Title;
 //                fragAddTask.Details = lList.get(position).ActivityDescription;
-                if (lList.get(position).ExitDate != null) {
-                    if (lList.get(position).ExitDate.length() > 5) {
-                        String[] Timer = lList.get(position).ExitDate.split("T");
-                        String[] Times = Timer[1].split(":");
-//                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
-                    } else {
-                        String[] Timer = lList.get(position).EnterDate.split("T");
-                        String[] Times = Timer[1].split(":");
-//                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
-                    }
-//                    fragAddTask.Type = 2;//todo todo todo todo Check This
-                } else {
-                    if (lList.get(position).EnterDate != null) {
-                        if (lList.get(position).EnterDate.length() > 5) {
-                            String[] Timer = lList.get(position).EnterDate.split("T");
-                            String[] Times = Timer[1].split(":");
-//                            fragAddTask.enterTime = Times[0] + ":" + Times[1];
-                        } else {
-                            Toast.makeText(context, "Fail 101", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(context, "Fail 101", Toast.LENGTH_SHORT).show();
-                    }
-//                    fragAddTask.Type = 1;//todo todo todo todo Check This
-                }
-                int ActID = 0;
-                int ActResult = 0;
-                List<Basic_Acts> lActs = new ArrayList<>();
-                List<Basic_ActResults> lActResults = new ArrayList<>();
-                List<Basic_Acts> lmActs = new ArrayList<>();
-                List<Basic_ActResults> lmActResults = new ArrayList<>();
-                lActs = geter.getList(Basic_Acts.class, "WHERE ActID='" + lList.get(position).ActID + "'");
-                if (lList.get(position).ActivityResultID > 0) {
-                    lActResults = geter.getList(Basic_ActResults.class, "WHERE ActResultID='" + lList.get(position).ActivityResultID + "'");
-                }
-
-//                lmActs = geter.getListIsCheck(Basic_Acts.class);
-                if (lActResults.size() > 0) {
-                    lmActResults = geter.getListIsCheck(Basic_ActResults.class);
-                    for (Basic_ActResults data : lmActResults) {
-                        List<Basic_Acts> lFild = geter.getList(Basic_Acts.class, "WHERE ActID='" + data.ActID + "'");
-                        for (Basic_Acts mData : lFild) {
-                            lmActs.add(mData);
-                        }
-                    }
-                    try {
-                        for (int i = 0; i < lmActs.size(); i++) {
-                            try {
-                                int ID = lmActs.get(i).ActID;
-                                for (int j = i + 1; j < lmActs.size(); j++) {
-                                    try {
-                                        if (ID == lmActs.get(j).ActID) {
-                                            lmActs.remove(j);
-                                            j--;
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                boolean isAct = false, isActResult = false;
-                int iAct = 0, iResult = 0;
-                for (int i = 0; i < lmActs.size(); i++) {
-                    if (lActs.get(0).ActID == lmActs.get(i).ActID) {
-                        isAct = true;
-                        iAct = i + 1;
-                    }
-                }
-                for (int i = 0; i < lmActResults.size(); i++) {
-                    if (lActResults.get(0).ActResultID == lmActResults.get(i).ActResultID) {
-                        isActResult = true;
-                        iResult = i + 1;
-                    }
-                }
+//                if (lList.get(position).ExitDate != null) {
+//                    if (lList.get(position).ExitDate.length() > 5) {
+//                        String[] Timer = lList.get(position).ExitDate.split("T");
+//                        String[] Times = Timer[1].split(":");
+////                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
+//                    } else {
+//                        String[] Timer = lList.get(position).EnterDate.split("T");
+//                        String[] Times = Timer[1].split(":");
+////                        fragAddTask.enterTime = Times[0] + ":" + Times[1];
+//                    }
+////                    fragAddTask.Type = 2;//todo todo todo todo Check This
+//                } else {
+//                    if (lList.get(position).EnterDate != null) {
+//                        if (lList.get(position).EnterDate.length() > 5) {
+//                            String[] Timer = lList.get(position).EnterDate.split("T");
+//                            String[] Times = Timer[1].split(":");
+////                            fragAddTask.enterTime = Times[0] + ":" + Times[1];
+//                        } else {
+//                            Toast.makeText(context, "Fail 101", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(context, "Fail 101", Toast.LENGTH_SHORT).show();
+//                    }
+////                    fragAddTask.Type = 1;//todo todo todo todo Check This
+//                }
+//                int ActID = 0;
+//                int ActResult = 0;
+//                List<Basic_Acts> lActs = new ArrayList<>();
+//                List<Basic_ActResults> lActResults = new ArrayList<>();
+//                List<Basic_Acts> lmActs = new ArrayList<>();
+//                List<Basic_ActResults> lmActResults = new ArrayList<>();
+//                lActs = geter.getList(Basic_Acts.class, "WHERE ActID='" + lList.get(position).ActID + "'");
+//                if (lList.get(position).ActivityResultID > 0) {
+//                    lActResults = geter.getList(Basic_ActResults.class, "WHERE ActResultID='" + lList.get(position).ActivityResultID + "'");
+//                }
+//
+////                lmActs = geter.getListIsCheck(Basic_Acts.class);
+//                if (lActResults.size() > 0) {
+//                    lmActResults = geter.getListIsCheck(Basic_ActResults.class);
+//                    for (Basic_ActResults data : lmActResults) {
+//                        List<Basic_Acts> lFild = geter.getList(Basic_Acts.class, "WHERE ActID='" + data.ActID + "'");
+//                        for (Basic_Acts mData : lFild) {
+//                            lmActs.add(mData);
+//                        }
+//                    }
+//                    try {
+//                        for (int i = 0; i < lmActs.size(); i++) {
+//                            try {
+//                                int ID = lmActs.get(i).ActID;
+//                                for (int j = i + 1; j < lmActs.size(); j++) {
+//                                    try {
+//                                        if (ID == lmActs.get(j).ActID) {
+//                                            lmActs.remove(j);
+//                                            j--;
+//                                        }
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                boolean isAct = false, isActResult = false;
+//                int iAct = 0, iResult = 0;
+//                for (int i = 0; i < lmActs.size(); i++) {
+//                    if (lActs.get(0).ActID == lmActs.get(i).ActID) {
+//                        isAct = true;
+//                        iAct = i + 1;
+//                    }
+//                }
+//                for (int i = 0; i < lmActResults.size(); i++) {
+//                    if (lActResults.get(0).ActResultID == lmActResults.get(i).ActResultID) {
+//                        isActResult = true;
+//                        iResult = i + 1;
+//                    }
+//                }
 //                if (isAct)
 //                    fragAddTask.spin1 = iAct;
 //                else

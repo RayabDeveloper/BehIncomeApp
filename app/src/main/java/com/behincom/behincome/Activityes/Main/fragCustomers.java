@@ -107,6 +107,7 @@ public class fragCustomers extends Fragment {
     static LinearLayout linStatusBar;
     static LinearLayout linSearch;
     FloatingActionButton btnAdd;
+    ImageView imgMessage;
     FloatingActionButton btnMapMini;
     LinearLayout btnHome1, btnHome2, btnReport, btnAccount;
     TextView lblHome1, lblHome2, lblReport, lblAccount;
@@ -131,6 +132,7 @@ public class fragCustomers extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_customers, container, false);
 
+        imgMessage = view.findViewById(R.id.imgMessage);
         lstSuggestion = view.findViewById(R.id.lstSuggestion);
         viewSuggestion = view.findViewById(R.id.viewSuggestion);
         lstMarketers = view.findViewById(R.id.lstMarketers);
@@ -164,6 +166,14 @@ public class fragCustomers extends Fragment {
         btnCancellation = view.findViewById(R.id.btnCancellation);
         linStatusBar = view.findViewById(R.id.linStatusBar);
         btnMapMini = view.findViewById(R.id.btnMapMini);
+
+        imgMessage.setVisibility(View.VISIBLE);
+        imgMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.getFragByState(FragmentState.MessageMain);
+            }
+        });
 
         imgCancellSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +229,7 @@ public class fragCustomers extends Fragment {
                     actCustomer.STATE = FragmentState.AddCustomer;
                     startActivity(intent);
                 } else
-                    Toast.makeText(context, "لطفا ابتدا تمام موارد را در تنظیمات اطلاعات پایه تکمیل کنید.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, Basics.NeedToMarketing, Toast.LENGTH_LONG).show();
             }
         });
 

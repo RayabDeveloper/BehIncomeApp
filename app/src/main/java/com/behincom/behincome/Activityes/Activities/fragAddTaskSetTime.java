@@ -596,7 +596,7 @@ public class fragAddTaskSetTime extends Fragment {
                         smM = PDE.getShMonth() - 1;
                         smD = PDE.getShDay();
 
-                        if (smY == sysY && smM == sysM) {
+//                        if (smY == sysY && smM == sysM) {
                             if(txtDuration.getText().toString() == null)
                                 txtDuration.setText("15");
                             if(txtDuration.getText().toString().length() == 0)
@@ -620,8 +620,8 @@ public class fragAddTaskSetTime extends Fragment {
 //                                dDialog.dismiss();
                             } else
                                 Toast.makeText(context, "مدت زمان نباید بیشتر از 600 دقیقه ( 10 ساعت ) باشد", Toast.LENGTH_LONG).show();
-                        } else
-                            Toast.makeText(context, "مدت زمان نباید از امروز بگذرد", Toast.LENGTH_LONG).show();
+//                        } else
+//                            Toast.makeText(context, "مدت زمان نباید از امروز بگذرد", Toast.LENGTH_LONG).show();
                     } else
                         Toast.makeText(context, "نمیتوان تاریخ و زمان را قبل از تاریخ و زمان امروز انتخاب کرد", Toast.LENGTH_LONG).show();
                 } else {

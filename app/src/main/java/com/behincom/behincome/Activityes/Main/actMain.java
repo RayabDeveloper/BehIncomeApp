@@ -25,6 +25,9 @@ import com.behincom.behincome.Activityes.Main.Filter.fragAddCustomerState;
 import com.behincom.behincome.Activityes.Main.Filter.fragAddCustomerStatus;
 import com.behincom.behincome.Activityes.Main.Filter.fragAddPrefix;
 import com.behincom.behincome.Activityes.Main.Filter.fragAddTag;
+import com.behincom.behincome.Activityes.Main.Message.fragMessageMain;
+import com.behincom.behincome.Activityes.Main.Message.fragMessageSub;
+import com.behincom.behincome.Activityes.Main.Package.fragPackage;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ArchiveTypes;
 import com.behincom.behincome.Datas.BaseData.Basic_CustomerStates;
@@ -137,7 +140,40 @@ public class actMain extends AppCompatActivity {
                 addFragProfileSubmiter();
                 STATE = FragmentState.ProfileSubmiter;
                 break;
+            case Packages:
+                getPackages();
+                STATE = FragmentState.Packages;
+                break;
+            case MessageMain:
+                getMessageMain();
+                STATE = FragmentState.MessageMain;
+                break;
+            case MessageSub:
+                getMessageSub();
+                STATE = FragmentState.MessageSub;
+                break;
         }
+    }
+    private void getMessageMain(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragMessageMain.newInstance(context));
+        transaction.commit();
+        STATE = FragmentState.ActivityFields;
+    }
+    private void getMessageSub(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragMessageSub.newInstance(context));
+        transaction.commit();
+        STATE = FragmentState.ActivityFields;
+    }
+    private void getPackages(){
+        frameLayout.removeAllViewsInLayout();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragPackage.newInstance(context));
+        transaction.commit();
+        STATE = FragmentState.ActivityFields;
     }
     public void getActivityFragment(List<Basic_ActivityFields> lList){
         frameLayout.removeAllViewsInLayout();
@@ -294,8 +330,19 @@ public class actMain extends AppCompatActivity {
                 break;
             case ProfileSubmiter:
                 getFragByState(FragmentState.Account);
+                break;
             case AddFilter:
                 getFragByState(FragmentState.AddFilter);
+                break;
+            case Packages:
+                getFragByState(FragmentState.MainAccounts);
+                break;
+            case MessageMain:
+                getFragByState(FragmentState.MainTasks);
+                break;
+            case MessageSub:
+                getFragByState(FragmentState.MessageMain);
+                break;
         }
     }
 

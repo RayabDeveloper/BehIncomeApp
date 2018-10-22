@@ -14,30 +14,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        //Main Toolbar - Edit, Delete, Archive, Back, Title
+        <!--Main Toolbar - Edit, Delete, Archive, Back, Title-->
         <include
             android:id="@+id/lin"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             layout="@layout/toolbar_customer_show"/>
 
+        <!--Mini Toolar - Pictures, Factors, Alarm Set, Change Condition-->
+        <include
+            android:id="@+id/in"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lin"
+            layout="@layout/store_mini_toolbar"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/lin">
+            android:layout_below="@+id/in">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                //Mini Toolar - Pictures, Factors, Alarm Set, Change Condition
-                <include
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/store_mini_toolbar"/>
-
-                //Name And Condition
+                <!--Name And Condition-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -65,7 +67,7 @@
 
                 </LinearLayout>
 
-                //Address
+                <!--Address-->
                 <LinearLayout
                     android:id="@+id/linAdressOpener"
                     android:layout_width="match_parent"
@@ -162,7 +164,7 @@
                     
                 </LinearLayout>
                 
-                //CustomerPersonell
+                <!--CustomerPersonell-->
                 <LinearLayout
                     android:id="@+id/linPersonelOpener"
                     android:layout_width="match_parent"
@@ -228,7 +230,7 @@
                     
                 </LinearLayout>
                 
-                //ActivityFields
+                <!--ActivityFields-->
                 <LinearLayout
                     android:id="@+id/linActivityOpener"
                     android:layout_width="match_parent"
@@ -296,7 +298,7 @@
                     
                 </LinearLayout>
 
-                //Tags
+                <!--Tags-->
                 <LinearLayout
                     android:id="@+id/linTagOpener"
                     android:layout_width="match_parent"
@@ -378,7 +380,7 @@
 
                 </LinearLayout>
 
-                //Properties
+                <!--Properties-->
                 <LinearLayout
                     android:id="@+id/linPropertyOpener"
                     android:layout_width="match_parent"
@@ -461,15 +463,15 @@
 
                 </LinearLayout>
 
-                //Tasks
+                <!--Tasks-->
                 <include
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     layout="@layout/store_task"/>
 
-                //Activities
+                <!--Activities-->
                 <include
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     layout="@layout/store_act"/>
 
@@ -477,7 +479,7 @@
 
         </ScrollView>
 
-        //Floating Add Task
+        <!--Floating Add Task-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

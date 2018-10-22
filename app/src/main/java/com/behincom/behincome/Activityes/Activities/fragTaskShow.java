@@ -76,6 +76,8 @@ public class fragTaskShow extends Fragment {
     TextView lblActEndDate1;
     TextView lblActCondition;
     TextView lblActCondition1;
+    TextView lblActResult;
+    TextView lblActResult1;
     ImageView btnMapShow;
     ImageView imgBack;
     ImageView btnCheck;
@@ -102,6 +104,8 @@ public class fragTaskShow extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_task_show, container, false);
 
+        lblActResult1 = view.findViewById(R.id.lblActResult1);
+        lblActResult = view.findViewById(R.id.lblActResult);
         lblTitle = view.findViewById(R.id.lblTitle);
         lblDetailTitle = view.findViewById(R.id.lblDetailTitle);
         lblName = view.findViewById(R.id.lblName);
@@ -178,14 +182,14 @@ public class fragTaskShow extends Fragment {
 //                fragAddTask.TaskShowlData = lData;
 //                fragAddTask.TaskShowType = true;
 
-                DateConverter DC = new DateConverter(lData.TodoDate, true);
+//                DateConverter DC = new DateConverter(lData.TodoDate, true);
 
 //                fragAddTask.DateToSend = DC.getOnlyDate();
 //                fragAddTask.TimeToSend = DC.getOnlyTime();
 //                fragAddTask.todoDate = lData.TodoDate;
 //
 //                fragAddTask.Type = getType(lData.StateID);
-
+                fragAddTask.Activity = lData;
                 act.getFragByState(FragmentState.AddTask);
             }
         });
@@ -253,18 +257,6 @@ public class fragTaskShow extends Fragment {
         });
 
         return view;
-    }
-    private int getType(int Typer) {
-        switch (Typer) {//todo todo todo Check Typer
-            case 1://113001
-                return 1;
-            case 2://113002
-                return 2;
-            case 6://113006
-                return 4;
-            default:
-                return 3;
-        }
     }
     @Override
     public void onResume() {
@@ -335,21 +327,43 @@ public class fragTaskShow extends Fragment {
                                 String durMin = timer[1];
 
                                 lblTaskDate1.setText(DateTime + " به مدت " + durMin);//todo todo todo Duration Change to DateTime
-                                lblTaskDescription1.setText((lData.ActivityDescription != null ? lData.ActivityDescription : "وارد نشده"));
+                                String Descript = "";
+                                if(lData.ActivityDescription == null)
+                                    Descript = "-----";
+                                else
+                                    Descript = lData.ActivityDescription;
+                                if(Descript.length() == 0)
+                                    Descript = "-----";
+                                lblTaskDescription1.setText(Descript);
+
+                                List<Basic_ActResults> lResult = geter.getList(Basic_ActResults.class, " WHERE ActResultID='" + lData.ActivityResultID + "'");
+                                String Result = "-----";
+                                if(lResult.size() > 0)
+                                    Result = lResult.get(0).ActResultTitle;
+                                lblActResult1.setText(Result);
+
+                                String Entered = "", Exited = "";
+                                if(lData.EnterDate == null)
+                                    Entered = "";
+                                else
+                                    Entered = lData.EnterDate;
+                                if(lData.ExitDate == null)
+                                    Exited = "";
+                                else
+                                    Exited = lData.ExitDate;
                                 String EntryDate = "ورود نشده";
-                                if (lData.EnterDate != null) {
+                                if (Entered.length() > 0) {
                                     DC = new DateConverter(lData.EnterDate, true);
                                     EntryDate = DC.getStringLongDateTime(true);
                                 }
                                 lblActDate1.setText(EntryDate);
                                 String ExitDate = "خروج نشده";
-                                if (lData.ExitDate != null) {
+                                if (Exited.length() > 0) {
                                     DC = new DateConverter(lData.ExitDate, true);
                                     ExitDate = DC.getStringLongDateTime(true);
                                 }
-                                TaskConditions tCond = new TaskConditions(lData.StateID);
                                 lblActEndDate1.setText(ExitDate);
-                                lblActCondition1.setText(tCond.getCondition());
+                                lblActCondition1.setText(getCondition());
                                 if (lData.StateID == 4)//todo todo todo Check StateID//113004
                                     btnAddTask.setVisibility(View.GONE);
                                 else btnAddTask.setVisibility(View.VISIBLE);
@@ -369,6 +383,16 @@ public class fragTaskShow extends Fragment {
             }
         });
 
+    }
+    private String getCondition(){
+        if(lData.EnterDate.length() < 5){//Only Task
+            return "وظیفه ایجاد شده";
+        }else if(lData.EnterDate.length() > 5 && lData.ExitDate.length() < 5){//Only Enter
+            return "ورود خورده";
+        }else if(lData.EnterDate.length() > 5 && lData.ExitDate.length() > 5){//Exited
+            return "خروج خورده";
+        }
+        return "وظیفه ایجاد شده.";
     }
     private void Finisher(){
         CustomerId = 0;

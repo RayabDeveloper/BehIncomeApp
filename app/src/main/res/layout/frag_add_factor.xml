@@ -59,6 +59,7 @@
                     style="@style/EditText.NumberPassword.G"
                     android:layout_marginTop="6dp"
                     android:gravity="right"
+                    android:maxLength="12"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
                     android:hint="مبلغ"/>

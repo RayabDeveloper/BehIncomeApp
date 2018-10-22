@@ -22,7 +22,7 @@ public class Activities {
     public String Title = "";
     @SerializedName("ActID")
     public int ActID = 0;
-    @SerializedName("ActivityDescription")
+    @SerializedName("Description")
     public String ActivityDescription = "";
     @SerializedName("EnterDate")
     public String EnterDate = "";

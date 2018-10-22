@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textDirection="rtl"
+    android:layoutDirection="rtl">
+
+    <LinearLayout
+        android:id="@+id/linBG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
+
+        <TextView
+            android:id="@+id/lblText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextView.Normal"
+            android:layout_marginBottom="16dp"
+            android:gravity="right"/>
+
+        <ImageView
+            android:id="@+id/imgFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/lblSendDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Normal"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -30,6 +30,7 @@ public class fragReports extends Fragment {
     TextView lblHome1, lblHome2, lblReport, lblAccount;
     ImageView imgHome1, imgHome2, imgReport, imgAccount;
     ImageView imgSetting;
+    ImageView imgMessage;
 
     public static fragReports newInstance(Context mContext){
         fragReports fragment = new fragReports();
@@ -41,6 +42,7 @@ public class fragReports extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_reports, container, false);
 
+        imgMessage = view.findViewById(R.id.imgMessage);
         imgSetting = view.findViewById(R.id.imgSetting);
         btnHome1 = view.findViewById(R.id.btnHome1);
         btnHome2 = view.findViewById(R.id.btnHome2);
@@ -54,6 +56,14 @@ public class fragReports extends Fragment {
         imgHome2 = view.findViewById(R.id.imgHome2);
         imgReport = view.findViewById(R.id.imgReport);
         imgAccount = view.findViewById(R.id.imgAccount);
+
+        imgMessage.setVisibility(View.VISIBLE);
+        imgMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.getFragByState(FragmentState.MessageMain);
+            }
+        });
 
         imgSetting.setVisibility(View.VISIBLE);
         imgSetting.setOnClickListener(new View.OnClickListener() {

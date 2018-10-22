@@ -22,7 +22,6 @@ import com.behincom.behincome.SQL.RSQLite;
 public class fragAccounts extends Fragment {
 
     static Context context;
-    private RSQLite SQL = new RSQLite();
     actMain act = new actMain();
     private RSQLGeter geter = new RSQLGeter();
 
@@ -32,6 +31,7 @@ public class fragAccounts extends Fragment {
     TextView lblInvate;
     TextView lblMarketers;
     TextView lblTitle;
+    ImageView imgMessage;
     LinearLayout btnRequest;
     LinearLayout btnCreadit;
     LinearLayout btnInvate;
@@ -52,6 +52,7 @@ public class fragAccounts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_accounts, container, false);
 
+        imgMessage = view.findViewById(R.id.imgMessage);
         imgSetting = view.findViewById(R.id.imgSetting);
         btnHome1 = view.findViewById(R.id.btnHome1);
         btnHome2 = view.findViewById(R.id.btnHome2);
@@ -76,6 +77,14 @@ public class fragAccounts extends Fragment {
         btnCreadit = view.findViewById(R.id.btnCreadit);
         btnInvate = view.findViewById(R.id.btnInvate);
         btnProfile = view.findViewById(R.id.btnProfile);
+
+        imgMessage.setVisibility(View.VISIBLE);
+        imgMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.getFragByState(FragmentState.MessageMain);
+            }
+        });
 
         imgSetting.setVisibility(View.VISIBLE);
         imgSetting.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +134,12 @@ public class fragAccounts extends Fragment {
                 actUserManager.STATE = FragmentState.Marketers;
                 actUserManager.Type = 0;
                 getActivity().startActivity(intent);
+            }
+        });
+        btnCreadit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                act.getFragByState(FragmentState.Packages);
             }
         });
 

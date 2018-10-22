@@ -16,6 +16,7 @@ import com.behincom.behincome.Activityes.Activities.fragTaskShow;
 import com.behincom.behincome.Datas.Activityes.Activities;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFields;
 import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
+import com.behincom.behincome.Datas.BaseData.Basic_Acts;
 import com.behincom.behincome.Datas.Keys.FragmentState;
 import com.behincom.behincome.Datas.RSQLGeter;
 import com.behincom.behincome.R;
@@ -24,7 +25,7 @@ import com.behincom.behincome.SQL.RSQLite;
 import java.util.ArrayList;
 import java.util.List;
 
-public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMember>{
+public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMember> {
 
     Context context;
     RSQLite SQL = new RSQLite();
@@ -32,9 +33,11 @@ public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMembe
 //    actActivities act = new actActivities();
 
     public List<Activities> lList;
-    public adapMainTask(List<Activities> lList, Context context){
+
+    public adapMainTask(List<Activities> lList, Context context) {
         this.lList = lList;
         this.context = context;
+        getActs();
     }
 
     @Override
@@ -42,10 +45,11 @@ public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMembe
         return lList.size();
     }
 
-    public void Clear(){
-        try{
+    public void Clear() {
+        try {
             this.lList.clear();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
@@ -64,55 +68,41 @@ public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMembe
         TextView lblTime = holder.lblTime;
         TextView lblCondition = holder.lblCondition;
         CardView cardViewMain = holder.cardViewMain;
-//        LinearLayout lblLine = holder.lblLine;
-
-//        Typeface tFace  = Typeface.createFromAsset(context.getAssets(), "fonts/ir_sans.ttf");
-//        lblName.setTypeface(tFace);
-//        lblTime.setTypeface(tFace);
 
         String[] times = lList.get(position).TodoDate.split("T");
         String[] hours = times[1].split(":");
         String mTime = hours[0] + ":" + hours[1];
 
-        List<Basic_ActResults> lSubActResult = geter.getList(Basic_ActResults.class, "WHERE isCheck='1'");
-        List<Basic_ActivityFields> lSubAct = new ArrayList<>();
-        for (Basic_ActResults data : lSubActResult) {
-            List<Basic_ActivityFields> lFild = geter.getList(Basic_ActivityFields.class, "WHERE ActivityFieldID='" + data.ActID + "'");
-            for (Basic_ActivityFields mData : lFild) {
-                lSubAct.add(mData);
-            }
+        String Title = "منسوخ شده";
+        for (Basic_Acts data : lSubAct) {
+            if(lList.get(position).ActID == data.ActID)
+                Title = data.ActTitle;
         }
-        String Title = "";
-        if(lSubAct.size() > 0)
-            Title = lSubAct.get(0).ActivityFieldTitle + " " +  lList.get(position).Title;
-        else
-            Title = lList.get(position).Title;
-        lblName.setText(Title);
+
+        lblName.setText(Title + " " + lList.get(position).Title);
         lblTime.setText(mTime);
 
         linLine.setVisibility(View.GONE);
-        if(lList.get(position).EnterDate == null)
+        if (lList.get(position).EnterDate == null)
             lList.get(position).EnterDate = "";
-        if(lList.get(position).ExitDate == null)
+        if (lList.get(position).ExitDate == null)
             lList.get(position).ExitDate = "";
-        if(lList.get(position).TodoDate == null)
+        if (lList.get(position).TodoDate == null)
             lList.get(position).TodoDate = "";
-        if(lList.get(position).StateID == 3) {//todo todo todo Chate StateID
-        }else if(lList.get(position).ExitDate.length() < 5 && lList.get(position).TodoDate.length() > 5) {
-            lblName.setTextColor(context.getResources().getColor(R.color.txtBlue2));
-            lblTime.setTextColor(context.getResources().getColor(R.color.txtBlue2));
-        }else if(lList.get(position).EnterDate.length() > 5 && lList.get(position).ExitDate.length() < 5) {
-            lblName.setTextColor(context.getResources().getColor(R.color.txtGreen));
-            lblTime.setTextColor(context.getResources().getColor(R.color.txtGreen));
-        }else if(lList.get(position).EnterDate.length() > 5 && lList.get(position).ExitDate.length() > 5) {
-            lblName.setTextColor(context.getResources().getColor(R.color.txtGreen));
-            lblTime.setTextColor(context.getResources().getColor(R.color.txtGreen));
-            linLine.setVisibility(View.VISIBLE);
+
+        if (lList.get(position).TodoDate.length() > 5) {
+            if (lList.get(position).EnterDate.length() < 5){//Only Task
+                lblName.setTextColor(context.getResources().getColor(R.color.txtBlue2));
+                lblTime.setTextColor(context.getResources().getColor(R.color.txtBlue2));
+            }else if(lList.get(position).EnterDate.length() > 5 && lList.get(position).ExitDate.length() < 5){//Only Enter
+                lblName.setTextColor(context.getResources().getColor(R.color.txtGreen));
+                lblTime.setTextColor(context.getResources().getColor(R.color.txtGreen));
+            }else if(lList.get(position).EnterDate.length() > 5 && lList.get(position).ExitDate.length() > 5) {//Exited
+                lblName.setTextColor(context.getResources().getColor(R.color.txtGreen));
+                lblTime.setTextColor(context.getResources().getColor(R.color.txtGreen));
+                linLine.setVisibility(View.VISIBLE);
+            }
         }
-//        else if(lList.get(position).StateID == 6){
-//            lblName.setTextColor(context.getResources().getColor(R.color.txtGreen));
-//            lblTime.setTextColor(context.getResources().getColor(R.color.txtGreen));
-//        }
 
         cardViewMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,8 +116,40 @@ public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMembe
         });
 
     }
+    private static List<Basic_Acts> lSubAct = new ArrayList<>();
+    private void getActs(){
+        List<Basic_ActResults> lSubActResult = geter.getList(Basic_ActResults.class);
+        lSubAct = new ArrayList<>();
+        for (Basic_ActResults data : lSubActResult) {
+            List<Basic_Acts> lFild = geter.getList(Basic_Acts.class, "WHERE ActID='" + data.ActID + "'");
+            for (Basic_Acts mData : lFild) {
+                lSubAct.add(mData);
+            }
+        }
+        try {
+            for (int i = 0; i < lSubAct.size(); i++) {
+                try {
+                    int ID = lSubAct.get(i).ActID;
+                    for (int j = i + 1; j < lSubAct.size(); j++) {
+                        try {
+                            if (ID == lSubAct.get(j).ActID) {
+                                lSubAct.remove(j);
+                                j--;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static class AdapterMember extends RecyclerView.ViewHolder{
+    public static class AdapterMember extends RecyclerView.ViewHolder {
 
         public LinearLayout linLine;
         public TextView lblName;
@@ -136,7 +158,7 @@ public class adapMainTask extends RecyclerView.Adapter<adapMainTask.AdapterMembe
         public CardView cardViewMain;
 //        public LinearLayout lblLine;
 
-        public AdapterMember(View itemView){
+        public AdapterMember(View itemView) {
             super(itemView);
             linLine = itemView.findViewById(R.id.linLine);
             lblCondition = itemView.findViewById(R.id.lblCondition);

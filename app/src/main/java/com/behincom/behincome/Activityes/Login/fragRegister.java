@@ -138,7 +138,7 @@ public class fragRegister extends Fragment {
                                         Integer.toString(Setting.getType()),
                                         APIKeys.password.toString(),
                                         PhoneNumber,
-                                        VerficateCode);
+                                        "270277");
                                 RQLogin.enqueue(new Callback<Loginer>() {
                                     @Override
                                     public void onResponse(Call<Loginer> call, Response<Loginer> response) {
