@@ -44,4 +44,5 @@ public enum Tables{
 	MarketingVisitTours,
 	Keyboards,
 	MarketingSetups,
+	BasicPointStates,
 }

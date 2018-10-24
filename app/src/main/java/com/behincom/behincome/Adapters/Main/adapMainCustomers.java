@@ -35,6 +35,8 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import static com.behincom.behincome.WebRequest.Retrofite.BASE;
+
 public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.AdapterMember> {
 
     Context context;
@@ -152,7 +154,7 @@ public class adapMainCustomers extends RecyclerView.Adapter<adapMainCustomers.Ad
         try {
             PhotoURL = lList.get(position).Customers.Customers_Images.get(0).ImageFilename;
             if (PhotoURL.length() > 5)
-                PhotoURL = Setting.getServerURL() + PhotoURL;
+                PhotoURL = BASE + PhotoURL;
             else
                 PhotoURL = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.customer_default_null_icon).toString();
         } catch (Exception e) {

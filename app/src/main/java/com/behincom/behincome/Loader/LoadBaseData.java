@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.behincom.behincome.Accesories.Device;
 import com.behincom.behincome.Accesories.Setting;
 import com.behincom.behincome.Datas.BaseData.BasicDatas;
+import com.behincom.behincome.Datas.BaseData.BasicPointStates;
 import com.behincom.behincome.Datas.BaseData.Basic_ActGroups;
 import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_ActivityFieldGroups;
@@ -164,6 +165,7 @@ public class LoadBaseData {
             SQL.Insert(data.Basic_Provinces, "Basic_Provinces");
             SQL.Insert(data.Basic_TagGroups, "Basic_TagGroups");
             SQL.Insert(data.Basic_Tags, "Basic_Tags");
+            SQL.Insert(data.BasicPointStates, "BasicPointStates");
             SQL.Insert(data.Basic_AndroidKeyboardTypes, "Basic_AndroidKeyboardTypes");
             for (MarketingActivityFields datas : data.MarketingActivityFields) {
                 if(datas.Deleted) {
@@ -572,6 +574,23 @@ public class LoadBaseData {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            try {
+                for (BasicPointStates dataa : data.BasicPointStates) {
+                    try {
+                        if(geter.Any(dataa.getClass(), " WHERE PointStateId" + "='" + dataa.PointStateId + "'")){
+                            SQL.Update(dataa, " WHERE PointStateId" + "='" + dataa.PointStateId + "'");
+                        }else{
+                            SQL.Insert(dataa);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
 
 
             try {

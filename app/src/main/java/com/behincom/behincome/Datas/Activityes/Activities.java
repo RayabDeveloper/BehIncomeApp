@@ -48,6 +48,24 @@ public class Activities {
     public String  ExitDate = "";
     @SerializedName("DurationDate")
     public String  DurationDate = "";
+    @SerializedName("ActivityPointStateId")//BasicPointStates (( 1 = Wating )
+    public int ActivityPointStateId = 0;
+    @SerializedName("ActivityPoint")
+    public int ActivityPoint = 0;
+    @SerializedName("ActivityPointDate")//Date of Accept Point
+    public String  ActivityPointDate = "2018-01-01T11:11:11";
+    @SerializedName("ActivityPointDecription")
+    public String  ActivityPointDecription = "";
+    @SerializedName("ActivityEditDateTime")
+    public String  ActivityEditDateTime = "2018-01-01T11:11:11";
+    @SerializedName("ActivityCreateDate")
+    public String  ActivityCreateDate = "2018-01-01T11:11:11";
+    @SerializedName("TodoDateEnd")
+    public String  TodoDateEnd = "2018-01-01T11:11:11";
+    @SerializedName("ActivitySend")
+    public boolean  ActivitySend = false;
+    @SerializedName("ActivityUserEditId")
+    public int ActivityUserEditId = 0;
     @SerializedName("Invoice")
     public List<Invoice> Invoice = new ArrayList<>();
     @SerializedName("Customers")

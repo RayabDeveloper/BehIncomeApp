@@ -36,6 +36,7 @@ import com.behincom.behincome.Adapters.Activities.adapFactors;
 import com.behincom.behincome.Adapters.SpinAdapter;
 import com.behincom.behincome.Datas.Activityes.Activities;
 import com.behincom.behincome.Datas.Activityes.Invoice;
+import com.behincom.behincome.Datas.Activityes.InvoiceImage;
 import com.behincom.behincome.Datas.Base.Basics;
 import com.behincom.behincome.Datas.BaseData.Basic_ActResults;
 import com.behincom.behincome.Datas.BaseData.Basic_Acts;
@@ -302,93 +303,55 @@ public class fragAddTask extends Fragment {
                 pDialog = new Dialog(context);
                 pDialog.Show();
                 if (lInvoice.size() > 0) {
-                    MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
-                    for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
-                        File file = new File(lInvoice.get(i).InvoiceImage.get(i).ImageFilename);
-                        RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file);
-                        body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
-                    }
-
-                    Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), body);
-                    addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
+                    csInvoiceImageUploader uploader = new csInvoiceImageUploader(lInvoice);
+                    uploader.setOnUploadListener(new csInvoiceImageUploader.onUploaded() {
                         @Override
-                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                            if (response.isSuccessful()) {
-                                List<HashMap<String, Object>> lMapURLs = new ArrayList<>();
-                                try {
-                                    Object[] keys = response.body().AdditionalData.keySet().toArray();
-                                    for (Object data : keys) {
-                                        String val = response.body().AdditionalData.get(data.toString()).toString();
-                                        HashMap<String, Object> mapURLs = new HashMap<>();
-                                        mapURLs.put("InvoiceFileName", val);
-                                        lMapURLs.add(mapURLs);
+                        public void onUpload(List<HashMap<String, Object>> Invoices) {
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("ActivityID", Activity.ActivityID);
+                            map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+                            map.put("ActivityDescription", Activity.ActivityDescription);
+                            map.put("ExitDate", "");
+                            map.put("ExitLatutide", MyLocation.latitude);
+                            map.put("ExitLongitude", MyLocation.longitude);
+                            map.put("Invoices", Invoices);
 
-
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                List<HashMap<String, Object>> lMapInvoice = new ArrayList<>();
-                                for (Invoice datas : lInvoice) {
-                                    HashMap<String, Object> mapInvoice = new HashMap<>();
-                                    mapInvoice.put("InvoiceNumber", datas.InvoiceNumber);
-                                    mapInvoice.put("InvoiceMarketingProductID", datas.InvoiceMarketingProductID);
-                                    mapInvoice.put("InvoiceActivityID", datas.InvoiceActivityID);
-                                    mapInvoice.put("InvoicePrice", datas.InvoicePrice);
-                                    mapInvoice.put("InvoiceDescription", datas.InvoiceDescription);
-                                    mapInvoice.put("InvoiceImages", lMapURLs);
-
-                                    lMapInvoice.add(mapInvoice);
-                                }
-
-                                HashMap<String, Object> map = new HashMap<>();
-                                map.put("ActivityID", Activity.ActivityID);
-                                map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
-                                map.put("ActivityDescription", Activity.ActivityDescription);
-                                map.put("ExitDate", "");
-                                map.put("ExitLatutide", MyLocation.latitude);
-                                map.put("ExitLongitude", MyLocation.longitude);
-                                map.put("Invoices", lMapInvoice);
-
-                                Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
-                                cExitActivity.enqueue(new Callback<SimpleResponse>() {
-                                    @Override
-                                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                        if (response.isSuccessful()) {
-                                            try {
-                                                SimpleResponse result = response.body();
-                                                if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                                    Activity.ExitDate = response.body().AdditionalData.get("ExitDate").toString();
-                                                    lblExitInfo.setText(getLongDate(Activity.ExitDate));
-                                                    viewShower(btnCheck, viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
-                                                } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
-                                                    for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
-                                                        String value = entry.getValue().toString();
-                                                        Toast.makeText(context, value, Toast.LENGTH_LONG).show();
-                                                    }
+                            Call cExitActivity = rInterface.RQAddActivityExit(Setting.getToken(), map);
+                            cExitActivity.enqueue(new Callback<SimpleResponse>() {
+                                @Override
+                                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        try {
+                                            SimpleResponse result = response.body();
+                                            if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                                Activity.ExitDate = response.body().AdditionalData.get("ExitDate").toString();
+                                                lblExitInfo.setText(getLongDate(Activity.ExitDate));
+                                                viewShower(btnCheck, viewEnterInfo, viewExitInfo, viewEnterExitEnd, viewEnterExit, btnNewInvoice, lstFactor, spinResult, btnSend);
+                                            } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                                for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                                    String value = entry.getValue().toString();
+                                                    Toast.makeText(context, value, Toast.LENGTH_LONG).show();
                                                 }
-                                            } catch (Exception Ex) {
-                                                Ex.printStackTrace();
                                             }
+                                        } catch (Exception Ex) {
+                                            Ex.printStackTrace();
                                         }
-                                        pDialog.DisMiss();
                                     }
+                                    pDialog.DisMiss();
+                                }
 
-                                    @Override
-                                    public void onFailure(Call call, Throwable t) {
-                                        pDialog.DisMiss();
-                                        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                            pDialog.DisMiss();
+                                @Override
+                                public void onFailure(Call call, Throwable t) {
+                                    pDialog.DisMiss();
+                                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
-
+                    }, new csInvoiceImageUploader.onFailUpload() {
                         @Override
-                        public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                        public void onFailed(String Error) {
                             pDialog.DisMiss();
-                            Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, Error, Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {
@@ -462,94 +425,49 @@ public class fragAddTask extends Fragment {
                 HashMap<String, Object> map = new HashMap<>();
                 if (Activity.ActivityID > 0) {
                     if (lInvoice.size() > 0) {
-                        MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
-                        for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
-                            File file = new File(lInvoice.get(i).InvoiceImage.get(i).ImageFilename);
-                            RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file);
-                            body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
-                        }
-
-                        Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), body);
-                        addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
+                        csInvoiceImageUploader uploader = new csInvoiceImageUploader(lInvoice);
+                        uploader.setOnUploadListener(new csInvoiceImageUploader.onUploaded() {
                             @Override
-                            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                if (response.isSuccessful()) {
-                                    List<HashMap<String, Object>> lMapURLs = new ArrayList<>();
-                                    try {
-                                        Object[] keys = response.body().AdditionalData.keySet().toArray();
-                                        for (Object data : keys) {
-                                            String val = response.body().AdditionalData.get(data.toString()).toString();
-                                            HashMap<String, Object> mapURLs = new HashMap<>();
-                                            mapURLs.put("InvoiceFileName", val);
-                                            lMapURLs.add(mapURLs);
+                            public void onUpload(List<HashMap<String, Object>> Invoices) {
+                                HashMap<String, Object> mapse = new HashMap<>();
+                                mapse.put("ActivityID", Activity.ActivityID);
+                                mapse.put("Description", Activity.ActivityDescription);
+                                mapse.put("Invoices", Invoices);
+                                mapse.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
 
-
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    List<HashMap<String, Object>> lMapInvoice = new ArrayList<>();
-                                    for (Invoice datas : lInvoice) {
-                                        HashMap<String, Object> mapInvoice = new HashMap<>();
-                                        mapInvoice.put("InvoiceNumber", datas.InvoiceNumber);
-                                        mapInvoice.put("InvoiceMarketingProductID", datas.InvoiceMarketingProductID);
-                                        mapInvoice.put("InvoiceActivityID", datas.InvoiceActivityID);
-                                        mapInvoice.put("InvoicePrice", datas.InvoicePrice);
-                                        mapInvoice.put("InvoiceDescription", datas.InvoiceDescription);
-                                        mapInvoice.put("InvoiceImages", lMapURLs);
-
-                                        lMapInvoice.add(mapInvoice);
-                                    }
-
-                                    HashMap<String, Object> mapse = new HashMap<>();
-                                    mapse.put("ActivityID", Activity.ActivityID);
-                                    mapse.put("Description", Activity.ActivityDescription);
-                                    mapse.put("Invoices", lMapInvoice);
-                                    mapse.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
-
-                                    Call cConfirm = rInterface.RQConfirmActivity(Setting.getToken(), mapse);
-                                    cConfirm.enqueue(new Callback<SimpleResponse>() {
-                                        @Override
-                                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                            if (response.isSuccessful()) {
-                                                try {
-                                                    SimpleResponse result = response.body();
-                                                    if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                                        Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
-                                                    } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
-                                                        for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
-                                                            String value = entry.getValue().toString();
-                                                            Toast.makeText(context, value, Toast.LENGTH_LONG).show();
-                                                        }
+                                Call cConfirm = rInterface.RQConfirmActivity(Setting.getToken(), mapse);
+                                cConfirm.enqueue(new Callback<SimpleResponse>() {
+                                    @Override
+                                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                        if (response.isSuccessful()) {
+                                            try {
+                                                SimpleResponse result = response.body();
+                                                if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                                    Toast.makeText(context, Basics.Submited, Toast.LENGTH_LONG).show();
+                                                } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                                    for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                                        String value = entry.getValue().toString();
+                                                        Toast.makeText(context, value, Toast.LENGTH_LONG).show();
                                                     }
-                                                } catch (Exception Ex) {
-                                                    String Er = Ex.getMessage();
                                                 }
-                                            } else {
-                                                getActivity().runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-//                                    mToast("خطا در برقراری ارتباط با سرور.");
-                                                    }
-                                                });
+                                            } catch (Exception Ex) {
+                                                String Er = Ex.getMessage();
                                             }
-                                            pDialog.DisMiss();
                                         }
+                                        pDialog.DisMiss();
+                                    }
 
-                                        @Override
-                                        public void onFailure(Call call, Throwable t) {
-                                            pDialog.DisMiss();
-                                        }
-                                    });
-                                }
-                                pDialog.DisMiss();
+                                    @Override
+                                    public void onFailure(Call call, Throwable t) {
+                                        pDialog.DisMiss();
+                                    }
+                                });
                             }
-
+                        }, new csInvoiceImageUploader.onFailUpload() {
                             @Override
-                            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                            public void onFailed(String Error) {
                                 pDialog.DisMiss();
-                                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, Error, Toast.LENGTH_LONG).show();
                             }
                         });
                     } else {
@@ -661,88 +579,50 @@ public class fragAddTask extends Fragment {
                 pDialog.Show();
 
                 if (lInvoice.size() > 0) {
-                    MultipartBody.Part[] body = new MultipartBody.Part[lInvoice.get(0).InvoiceImage.size()];//todo todo hamishe avalin factor ro add mikone ( axash o )
-                    for (int i = 0; i < lInvoice.get(0).InvoiceImage.size(); i++) {
-                        File file = new File(lInvoice.get(i).InvoiceImage.get(i).ImageFilename);
-                        RequestBody surveyBody = RequestBody.create(MediaType.parse("image/*"), file);
-                        body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
-                    }
-
-                    Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), body);
-                    addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
+                    csInvoiceImageUploader uploader = new csInvoiceImageUploader(lInvoice);
+                    uploader.setOnUploadListener(new csInvoiceImageUploader.onUploaded() {
                         @Override
-                        public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                            if (response.isSuccessful()) {
-                                List<HashMap<String, Object>> lMapURLs = new ArrayList<>();
-                                try {
-                                    Object[] keys = response.body().AdditionalData.keySet().toArray();
-                                    for (Object data : keys) {
-                                        String val = response.body().AdditionalData.get(data.toString()).toString();
-                                        HashMap<String, Object> mapURLs = new HashMap<>();
-                                        mapURLs.put("InvoiceFileName", val);
-                                        lMapURLs.add(mapURLs);
+                        public void onUpload(List<HashMap<String, Object>> Invoices) {
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("ActivityID", Activity.ActivityID);
+                            map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
+                            map.put("Description", Activity.ActivityDescription);
+                            map.put("Invoices", Invoices);
 
-
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                                List<HashMap<String, Object>> lMapInvoice = new ArrayList<>();
-                                for (Invoice datas : lInvoice) {
-                                    HashMap<String, Object> mapInvoice = new HashMap<>();
-                                    mapInvoice.put("InvoiceNumber", datas.InvoiceNumber);
-                                    mapInvoice.put("InvoiceMarketingProductID", datas.InvoiceMarketingProductID);
-                                    mapInvoice.put("InvoiceActivityID", datas.InvoiceActivityID);
-                                    mapInvoice.put("InvoicePrice", datas.InvoicePrice);
-                                    mapInvoice.put("InvoiceDescription", datas.InvoiceDescription);
-                                    mapInvoice.put("InvoiceImages", lMapURLs);
-
-                                    lMapInvoice.add(mapInvoice);
-                                }
-
-                                HashMap<String, Object> map = new HashMap<>();
-                                map.put("ActivityID", Activity.ActivityID);
-                                map.put("ActivityResultID", Integer.parseInt(spinAdapter_Result.getItemString(spinResult.getSelectedItemPosition(), "ActResultID")));
-                                map.put("Description", Activity.ActivityDescription);
-                                map.put("Invoices", lMapInvoice);
-
-                                Call cExitActivity = rInterface.RQSendActivity(Setting.getToken(), map);
-                                cExitActivity.enqueue(new Callback<SimpleResponse>() {
-                                    @Override
-                                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                        if (response.isSuccessful()) {
-                                            try {
-                                                SimpleResponse result = response.body();
-                                                if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
-                                                    getActivity().finish();
-                                                } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
-                                                    for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
-                                                        String value = entry.getValue().toString();
-                                                        Toast.makeText(context, value, Toast.LENGTH_LONG).show();
-                                                    }
+                            Call cExitActivity = rInterface.RQSendActivity(Setting.getToken(), map);
+                            cExitActivity.enqueue(new Callback<SimpleResponse>() {
+                                @Override
+                                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        try {
+                                            SimpleResponse result = response.body();
+                                            if (result.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())) {
+                                                getActivity().finish();
+                                            } else if (result.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())) {
+                                                for (Map.Entry<String, Object> entry : result.Errors.entrySet()) {
+                                                    String value = entry.getValue().toString();
+                                                    Toast.makeText(context, value, Toast.LENGTH_LONG).show();
                                                 }
-                                            } catch (Exception Ex) {
-                                                Ex.printStackTrace();
                                             }
+                                        } catch (Exception Ex) {
+                                            Ex.printStackTrace();
                                         }
-                                        pDialog.DisMiss();
                                     }
+                                    pDialog.DisMiss();
+                                }
 
-                                    @Override
-                                    public void onFailure(Call call, Throwable t) {
-                                        pDialog.DisMiss();
-                                        Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                            pDialog.DisMiss();
+                                @Override
+                                public void onFailure(Call call, Throwable t) {
+                                    pDialog.DisMiss();
+                                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
-
+                    }, new csInvoiceImageUploader.onFailUpload() {
                         @Override
-                        public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                        public void onFailed(String Error) {
                             pDialog.DisMiss();
-                            Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, Error, Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {

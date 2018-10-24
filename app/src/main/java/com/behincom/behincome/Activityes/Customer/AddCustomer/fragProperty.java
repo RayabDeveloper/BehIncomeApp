@@ -44,7 +44,7 @@ public class fragProperty extends Fragment {
     CardView cardSubmit;
 
     private List<Basic_PropertyGroups> lPropertyGroup = new ArrayList<>();
-    private static List<Basic_Properties> lProperties = geter.getListIsCheck(Basic_Tags.class);
+    private static List<Basic_Properties> lProperties = geter.getListIsCheck(Basic_Tags.class, " WHERE Deleted='0'");
     private static List<Basic_PropertyGroups> lPropertyGroupForCustomer = new ArrayList<>();
     public static List<Basic_Properties> lPropertiesForCustomer = new ArrayList<>();
     private static List<Basic_Properties> lPropertiesForCustomerBackup = new ArrayList<>();
@@ -57,7 +57,7 @@ public class fragProperty extends Fragment {
         lPropertiesForCustomer = lPropertieser;
         lPropertiesForCustomerBackup.addAll(lPropertieser);
         for (Basic_Properties data : lPropertieser) {
-            List<Basic_PropertyGroups> lGroup = geter.getList(Basic_PropertyGroups.class, " WHERE PropertyGroupID='" + data.PropertyGroupID + "'");
+            List<Basic_PropertyGroups> lGroup = geter.getList(Basic_PropertyGroups.class, " WHERE PropertyGroupID='" + data.PropertyGroupID + "' AND Deleted='0'");
             if(lGroup.size() > 0)
                 lPropertyGroupForCustomer.add(lGroup.get(0));
         }
@@ -93,9 +93,9 @@ public class fragProperty extends Fragment {
         lstSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(context).colorResId(R.color.BaseBackgroundColor).size(2).build());
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
-        lProperties = geter.getListIsCheck(Basic_Properties.class);
+        lProperties = geter.getListIsCheck(Basic_Properties.class, " WHERE Deleted='0'");
         for (Basic_Properties data : lProperties) {
-            List<Basic_PropertyGroups> lGrop = geter.getList(Basic_PropertyGroups.class, " WHERE PropertyGroupID='" + data.PropertyGroupID + "'");
+            List<Basic_PropertyGroups> lGrop = geter.getList(Basic_PropertyGroups.class, " WHERE PropertyGroupID='" + data.PropertyGroupID + "' AND Deleted='0'");
             boolean isIn = false;
             for (Basic_PropertyGroups mData : lPropertyGroup){
                 if(mData.PropertyGroupID == lGrop.get(0).PropertyGroupID) {

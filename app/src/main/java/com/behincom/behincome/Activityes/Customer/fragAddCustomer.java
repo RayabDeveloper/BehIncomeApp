@@ -386,7 +386,7 @@ public class fragAddCustomer extends Fragment {
             }
         });
 
-        List<Basic_NamePrefixes> lPrefix = geter.getList(Basic_NamePrefixes.class);
+        List<Basic_NamePrefixes> lPrefix = geter.getList(Basic_NamePrefixes.class, " WHERE Deleted='0'");
         spinAdap_Prefix = new SpinAdapter(contexti, lPrefix, "NamePrefixTitle");
         spinadaPrefix.setAdapter(spinAdap_Prefix);
         spinadaPrefix.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -576,7 +576,7 @@ public class fragAddCustomer extends Fragment {
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spinerOstan.getSelectedItemPosition() > 0 && lActivityFields.size() > 0 && txtName.getText().length() > 0) {
+                if (lActivityFields.size() > 0 && txtName.getText().length() > 0) {
                     if (!mType) {
                         lpDialog.Show();
 
@@ -590,65 +590,76 @@ public class fragAddCustomer extends Fragment {
                                 body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
                             }
 
-                            Call<SimpleResponse> call4 = rInterface.RQAddCustomerPic(Setting.getToken(), body);
+                            Call<SimpleResponse> call4 = rInterface.RQAddCustomerPic(Setting.getToken(), Setting.getBMMUserID(), body);
                             call4.enqueue(new Callback<SimpleResponse>() {
                                 @Override
                                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                                     try {
                                         if (response.isSuccessful()) {
-                                            List<String> lURLs = new ArrayList<>();
-                                            try {
-                                                Object[] keys = response.body().AdditionalData.keySet().toArray();
-                                                for (Object data : keys) {
-                                                    String val = response.body().AdditionalData.get(data.toString()).toString();
-                                                    lURLs.add(val);
-                                                }
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            Map<String, Object> mCustomer = new HashMap<>();
-                                            ObjectMapper oMapper = new ObjectMapper();
-                                            mCustomer = oMapper.convertValue(getrCustomerDataToAdd(lURLs), Map.class);
-
-                                            Gson gson = new Gson();
-                                            String json = gson.toJson(mCustomer);
-
-                                            Call<SimpleResponse> AddCustomer = rInterface.RQAddCustomer(Setting.getToken(), new HashMap<>(mCustomer));
-                                            AddCustomer.enqueue(new Callback<SimpleResponse>() {
-                                                @Override
-                                                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                                    if (response.isSuccessful()) {
-                                                        SimpleResponse simple = response.body();
-                                                        if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-                                                            Intent intent = new Intent(contexti, actMain.class);
-                                                            actMain.STATE = FragmentState.MainCustomers;
-                                                            contexti.startActivity(intent);
-                                                            fragCustomers.page = 0;
-                                                            fragCustomers.lCustomer = new ArrayList<>();
-                                                            try {
-                                                                getActivity().finish();
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                                ((Activity) contexti).finish();
-                                                            }
-                                                        }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
-                                                            String Err = "";
-                                                            for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
-                                                                Err = Err + entry.getValue().toString() + ", ";
-                                                            }
-                                                            if(Err.length() > 2)
-                                                                Err = Err.substring(0, Err.length() - 2);
-                                                            Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
-                                                        }
+                                            SimpleResponse simple = response.body();
+                                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                                List<String> lURLs = new ArrayList<>();
+                                                try {
+                                                    Object[] keys = response.body().AdditionalData.keySet().toArray();
+                                                    for (Object data : keys) {
+                                                        String val = response.body().AdditionalData.get(data.toString()).toString();
+                                                        lURLs.add(val);
                                                     }
-                                                    lpDialog.DisMiss();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
                                                 }
+                                                Map<String, Object> mCustomer = new HashMap<>();
+                                                ObjectMapper oMapper = new ObjectMapper();
+                                                mCustomer = oMapper.convertValue(getrCustomerDataToAdd(lURLs), Map.class);
 
-                                                @Override
-                                                public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                                                    lpDialog.DisMiss();
+                                                Gson gson = new Gson();
+                                                String json = gson.toJson(mCustomer);
+
+                                                Call<SimpleResponse> AddCustomer = rInterface.RQAddCustomer(Setting.getToken(), new HashMap<>(mCustomer));
+                                                AddCustomer.enqueue(new Callback<SimpleResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                                        if (response.isSuccessful()) {
+                                                            SimpleResponse simple = response.body();
+                                                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                                                Intent intent = new Intent(contexti, actMain.class);
+                                                                actMain.STATE = FragmentState.MainCustomers;
+                                                                contexti.startActivity(intent);
+                                                                fragCustomers.page = 0;
+                                                                fragCustomers.lCustomer = new ArrayList<>();
+                                                                try {
+                                                                    getActivity().finish();
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                    ((Activity) contexti).finish();
+                                                                }
+                                                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                                                String Err = "";
+                                                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                                                    Err = Err + entry.getValue().toString() + ", ";
+                                                                }
+                                                                if(Err.length() > 2)
+                                                                    Err = Err.substring(0, Err.length() - 2);
+                                                                Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                        lpDialog.DisMiss();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                                                        lpDialog.DisMiss();
+                                                    }
+                                                });
+                                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                                String Err = "";
+                                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                                    Err = Err + entry.getValue().toString() + ", ";
                                                 }
-                                            });
+                                                if(Err.length() > 2)
+                                                    Err = Err.substring(0, Err.length() - 2);
+                                                Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                         lpDialog.DisMiss();
                                     } catch (Exception Ex) {
@@ -719,46 +730,68 @@ public class fragAddCustomer extends Fragment {
                                 body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
                             }
 
-                            Call<SimpleResponse> call4 = rInterface.RQAddCustomerPic(Setting.getToken(), body);
+                            Call<SimpleResponse> call4 = rInterface.RQAddCustomerPic(Setting.getToken(), Setting.getBMMUserID(), body);
                             call4.enqueue(new Callback<SimpleResponse>() {
                                 @Override
                                 public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
                                     try {
                                         if (response.isSuccessful()) {
-                                            List<String> lURLs = new ArrayList<>();
-                                            try {
-                                                Object[] keys = response.body().AdditionalData.keySet().toArray();
-                                                for (Object data : keys) {
-                                                    String val = response.body().AdditionalData.get(data.toString()).toString();
-                                                    lURLs.add(val);
-                                                }
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            Map<String, Object> mCustomer = new HashMap<>();
-                                            ObjectMapper oMapper = new ObjectMapper();
-                                            mCustomer = oMapper.convertValue(getrCustomerDataToEdit(lURLs), Map.class);
-
-                                            Call<SimpleResponse> EditCustomer = rInterface.RQEditCustomer(Setting.getToken(), new HashMap<>(mCustomer));
-                                            EditCustomer.enqueue(new Callback<SimpleResponse>() {
-                                                @Override
-                                                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-                                                    if (response.isSuccessful()) {
-                                                        fragCustomers.page = 0;
-                                                        fragCustomers.lCustomer = new ArrayList<>();
-                                                        Intent intent = new Intent(contexti, actMain.class);
-                                                        actMain.STATE = FragmentState.MainCustomers;
-                                                        contexti.startActivity(intent);
-                                                        getActivity().finish();
+                                            SimpleResponse simple = response.body();
+                                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                                List<String> lURLs = new ArrayList<>();
+                                                try {
+                                                    Object[] keys = response.body().AdditionalData.keySet().toArray();
+                                                    for (Object data : keys) {
+                                                        String val = response.body().AdditionalData.get(data.toString()).toString();
+                                                        lURLs.add(val);
                                                     }
-                                                    lpDialog.DisMiss();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
                                                 }
+                                                Map<String, Object> mCustomer = new HashMap<>();
+                                                ObjectMapper oMapper = new ObjectMapper();
+                                                mCustomer = oMapper.convertValue(getrCustomerDataToEdit(lURLs), Map.class);
 
-                                                @Override
-                                                public void onFailure(Call<SimpleResponse> call, Throwable t) {
-                                                    lpDialog.DisMiss();
+                                                Call<SimpleResponse> EditCustomer = rInterface.RQEditCustomer(Setting.getToken(), new HashMap<>(mCustomer));
+                                                EditCustomer.enqueue(new Callback<SimpleResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+                                                        if (response.isSuccessful()) {
+                                                            SimpleResponse simple = response.body();
+                                                            if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
+                                                                fragCustomers.page = 0;
+                                                                fragCustomers.lCustomer = new ArrayList<>();
+                                                                Intent intent = new Intent(contexti, actMain.class);
+                                                                actMain.STATE = FragmentState.MainCustomers;
+                                                                contexti.startActivity(intent);
+                                                                getActivity().finish();
+                                                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                                                String Err = "";
+                                                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                                                    Err = Err + entry.getValue().toString() + ", ";
+                                                                }
+                                                                if(Err.length() > 2)
+                                                                    Err = Err.substring(0, Err.length() - 2);
+                                                                Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }
+                                                        lpDialog.DisMiss();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                                                        lpDialog.DisMiss();
+                                                    }
+                                                });
+                                            }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
+                                                String Err = "";
+                                                for (Map.Entry<String, Object> entry : simple.Errors.entrySet()) {
+                                                    Err = Err + entry.getValue().toString() + ", ";
                                                 }
-                                            });
+                                                if(Err.length() > 2)
+                                                    Err = Err.substring(0, Err.length() - 2);
+                                                Toast.makeText(contexti, Err, Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                         lpDialog.DisMiss();
                                     } catch (Exception Ex) {
@@ -1321,8 +1354,8 @@ public class fragAddCustomer extends Fragment {
 
             List<Basic_PersonRoles> lPersonRoles = new ArrayList<>();
             List<Basic_ContactTypes> lContactType = new ArrayList<>();
-            lPersonRoles = geter.getList(Basic_PersonRoles.class);
-            lContactType = geter.getList(Basic_ContactTypes.class);
+            lPersonRoles = geter.getList(Basic_PersonRoles.class, " WHERE Deleted='0'");
+            lContactType = geter.getList(Basic_ContactTypes.class, " WHERE Deleted='0'");
             spinAdapRole = new SpinAdapter(contexti, lPersonRoles, "PersonRoleTitle");
             spinAdapType = new SpinAdapter(contexti, lContactType, "ContactTypeTitle");
             spinRole.setAdapter(spinAdapRole);

@@ -299,8 +299,8 @@ public class fragAddComissionPriod extends Fragment {
                 pDialog.Show();
 
                 Map<String, Object> map = new HashMap<>();
-                map.put("CommissionPeriodID", mData.MarketingCommissionPeriodID);
-                map.put("BmmID", mData.UserID);
+                map.put("MarketingCommissionPeriodID", mData.MarketingCommissionPeriodID);
+                map.put("BmmID", Setting.getBMMUserID());
 
                 Call<SimpleResponse> cDeleted = rInterface.RQDeletedCommissionPriod(Setting.getToken(), new HashMap<>(map));
                 cDeleted.enqueue(new Callback<SimpleResponse>() {
@@ -313,7 +313,7 @@ public class fragAddComissionPriod extends Fragment {
 //                            SQL.Execute("DELETE FROM MarketingCommissionPeriods WHERE MarketingCommissionPeriodID='" + response.body().AdditionalData.get("DeletedID").toString().replace(".0", "") + "'");
                                 SQL.Execute("UPDATE MarketingCommissionPeriods SET Deleted='1' WHERE MarketingCommissionPeriodID='" + response.body().AdditionalData.get("DeletedID").toString().replace(".0", "") + "'");
 
-                                fragVisitorPriod.lPriod.remove(mData);
+//                                fragVisitorPriod.lPriod.remove(mData);
                                 act.getFragByState(FragmentState.VisitTours);
                             }else if(simple.Type.equalsIgnoreCase(ResponseMessageType.Error.toString())){
                                 String Err = "";
@@ -394,8 +394,6 @@ public class fragAddComissionPriod extends Fragment {
             mCommission.put("MarketingCommissionPeriodID", mData.MarketingCommissionPeriodID);
             mCommission.put("MarketingCommissionPeriodTitle", txtName.getText().toString());
             mCommission.put("MarketingCommissionPeriodDescription", txtDescription.getText().toString());
-            mCommission.put("MarketingCommissionPeriodDateFrom", cFromDate);
-            mCommission.put("MarketingCommissionPeriodDateTo", cToDate);
 
             Call<SimpleResponse> cCommission = rInterface.RQEditMarketingCommissionPeriod(Setting.getToken(), new HashMap<>(mCommission));
             cCommission.enqueue(new Callback<SimpleResponse>() {

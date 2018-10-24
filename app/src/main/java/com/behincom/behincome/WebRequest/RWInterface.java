@@ -36,13 +36,8 @@ import retrofit2.http.Query;
 public interface RWInterface<T> {
 
     final String ContentType = "Content-Type: application/json";
-    final String ContentType2 = "Content-Type: application/x-www-form-urlencoded";
     final String HeaderToken = "Authorization";
-
-    final String Geocode = "geocode";
-    final String json = "json";
-    final String ControllerActionManager_Geocode_1 = Geocode + "/" + json;
-
+    final String HeaderImage = "ManagerProfileId";
 
     final String Insert = "Insert";
     final String Update = "Update";
@@ -54,7 +49,6 @@ public interface RWInterface<T> {
 //    final String LoginByPhone = "ResendMobileVerificationCodeAsync";
     final String LoginByPhone = "LoginByPhone";
     final String RequestPhoneVerificationCodeCall = "RecallMobileVerificationCodeAsync";
-    final String RequestVerificationPhoneNUmber = "VerifyPhoneNumber";
     final String register = "register";
     final String login = "login";
     final String RequestForgotPasswordToken = "RequestForgotPasswordToken";
@@ -62,7 +56,6 @@ public interface RWInterface<T> {
 //    final String ControllerActionManager_Account_1 = Account + "/" + LoginByPhone;
     final String ControllerActionManager_Account_1 = Account + "/" + LoginByPhone;
     final String ControllerActionManager_Account_7 = Account + "/" + RequestPhoneVerificationCodeCall;
-    final String ControllerActionManager_Account_2 = Account + "/" + RequestVerificationPhoneNUmber;
     final String ControllerActionManager_Account_3 = Account + "/" + register;
     final String ControllerActionManager_Account_4 = Account + "/" + login;
     final String ControllerActionManager_Account_5 = Account + "/" + RequestForgotPasswordToken;
@@ -76,10 +69,7 @@ public interface RWInterface<T> {
     final String GetUserProfileByCode = "GetUserProfileByCode";
     final String EditProfile = "EditProfile";
     final String EditProfileAdmin = "EditProfileAdmin";
-    final String AddUserToBussinessManager = "AddUserToBussinessManager";
     final String GetBusinessManagerRoles = "GetBusinessManagerRoles";
-    final String AddUserRole = "AddUserRole";
-    final String EditUserRole = "EditUserRole";
     final String GetBusinessManagerMarketers = "GetBusinessManagerMarketers";
     final String AddMarketer = "AddMarketer";
     final String ChangeMarketerCondition = "ChangeMarketerCondition";
@@ -92,9 +82,7 @@ public interface RWInterface<T> {
     final String ControllerActionManager_5 = Profile + "/" + EditProfile;
     final String ControllerActionManager_6 = Profile + "/" + EditProfileAdmin;
     final String ControllerActionManager_7 = Profile + "/" + GetUserProfileByCode;
-    final String ControllerActionManager_8 = Profile + "/" + AddUserToBussinessManager;
     final String ControllerActionManager_9 = Profile + "/" + GetBusinessManagerRoles;
-    final String ControllerActionManager_10 = Profile + "/" + AddUserRole;
     final String ControllerActionManager_11 = Profile + "/" + AddMarketerUsersAccess;
     final String ControllerActionManager_12 = Profile + "/" + GetBusinessManagerMarketers;
     final String ControllerActionManager_13 = Profile + "/" + AddMarketer;
@@ -134,7 +122,6 @@ public interface RWInterface<T> {
     final String BasicPropertyGroups = "BasicPropertyGroups";
     final String AddTags = "AddTags";
     final String RemoveTags = "RemoveTags";
-    final String GetAll = "GetAll";
     final String AddActivityFields = "AddActivityField";
     final String RemoveActivityField = "RemoveActivityField";
     final String AddCities = "AddCities";
@@ -144,22 +131,17 @@ public interface RWInterface<T> {
     final String AddActResultPoint = "ChangePoint";
     final String EditMarketingSetting = "EditMarketingSetting";
     final String AddProduct = "AddProduct";
-    final String AddProductCommission = "AddProductCommission";
     final String AddCommissionPeriod = "AddCommissionPeriod";
     final String AddVisitTour = "AddVisitTour";
     final String AddProperties = "AddProperties";
     final String RemoveProperties = "RemoveProperties";
     final String DeleteVisitTour = "DeleteVisitTour";
     final String DeletedVisitTour = "DeletedVisitTour";
-    final String DeleteCommissionPeriod = "DeleteCommissionPeriod";
     final String DeletedCommissionPeriod = "DeletedCommissionPeriod";
-    final String EditActivityResult = "EditActivityResult";
     final String EditProduct = "EditProduct";
     final String DeleteProduct = "DeleteProduct";
     final String EditVisitTour = "EditVisitTour";
     final String EditCommissionPeriod = "EditCommissionPeriod";
-    final String EditProductCommission = "EditProductCommission";
-    final String ControllerActionManager_Marketing_1 = Marketing + "/" + GetAll;
     final String ControllerActionManager_Marketing_2 = Marketing + "/" + AddTags;
     final String ControllerActionManager_Marketing_23 = Marketing + "/" + RemoveTags;
     final String ControllerActionManager_Marketing_3 = Marketing + "/" + AddActivityFields;
@@ -171,21 +153,17 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Marketing_56 = Marketing + "/" + AddActResultPoint;
     final String ControllerActionManager_Marketing_58 = BaseData + "/" + EditMarketingSetting;
     final String ControllerActionManager_Marketing_8 = Marketing + "/" + AddProduct;
-    final String ControllerActionManager_Marketing_9 = Marketing + "/" + AddProductCommission;
     final String ControllerActionManager_Marketing_10 = Marketing + "/" + AddCommissionPeriod;
     final String ControllerActionManager_Marketing_11 = Marketing + "/" + AddVisitTour;
     final String ControllerActionManager_Marketing_15 = Marketing + "/" + AddProperties;
     final String ControllerActionManager_Marketing_21 = Marketing + "/" + RemoveProperties;
     final String ControllerActionManager_Marketing_16 = Marketing + "/" + DeleteVisitTour;
     final String ControllerActionManager_Marketing_17 = Marketing + "/" + DeletedVisitTour;
-    final String ControllerActionManager_Marketing_18 = Marketing + "/" + DeleteCommissionPeriod;
     final String ControllerActionManager_Marketing_19 = Marketing + "/" + DeletedCommissionPeriod;
-    final String ControllerActionManager_Marketing_6 = Marketing + "/" + EditActivityResult;
     final String ControllerActionManager_Marketing_7 = Marketing + "/" + EditProduct;
     final String ControllerActionManager_Marketing_57 = Marketing + "/" + DeleteProduct;
     final String ControllerActionManager_Marketing_12 = Marketing + "/" + EditVisitTour;
     final String ControllerActionManager_Marketing_13 = Marketing + "/" + EditCommissionPeriod;
-    final String ControllerActionManager_Marketing_14 = Marketing + "/" + EditProductCommission;
 
     final String ControllerActionManager_Marketing_24 = BasicActivityFields + "/" + Insert;
     final String ControllerActionManager_Marketing_25 = BasicActivityFields + "/" + Update;
@@ -224,26 +202,20 @@ public interface RWInterface<T> {
     final String EditCustomer = "EditCustomer";
     final String DeleteCustomer = "DeleteCustomer";
     final String ChangeCustomerState = "ChangeCustomerState";
-    final String ChangeCustomerStatues = "ChangeCustomerStatues";
-    final String ChangeCustomersStatues = "ChangeCustomersStatues";
     final String GetMyCustomer = "GetMyCustomer";
     final String GetSuggestion = "GetSuggestion";
     final String GetCustomersArchived = "GetCustomersArchived";
     final String GetCustomer = "GetCustomer";
     final String GetInCirclePointCustomer = "GetInCirclePointCustomer";
-    final String AddCustomerToArchive = "AddCustomerToArchive";
     final String AddCustomersToArchive = "AddCustomersToArchive";
     final String AddCustomerToExitArchive = "AddCustomerToExitArchive";
     final String AddCustomersToExitArchive = "AddCustomersToExitArchive";
     final String AssignCustomersToMarketers = "AssignCustomersToMarketers";
     final String PostCustomerImage = "PostCustomerImage";
-    final String GetCustomerFactors = "GetCustomerFactors";
     final String ControllerActionManager_Customer_1 = Customer + "/" + AddCustomer;
     final String ControllerActionManager_Customer_2 = Customer + "/" + EditCustomer;
     final String ControllerActionManager_Customer_3 = Customer + "/" + DeleteCustomer;
     final String ControllerActionManager_Customer_4 = Customer + "/" + ChangeCustomerState;
-    final String ControllerActionManager_Customer_5 = Customer + "/" + ChangeCustomerStatues;
-    final String ControllerActionManager_Customer_9 = Customer + "/" + AddCustomerToArchive;
     final String ControllerActionManager_Customer_11 = Customer + "/" + AddCustomersToArchive;
     final String ControllerActionManager_Customer_12 = Customer + "/" + AddCustomerToExitArchive;
     final String ControllerActionManager_Customer_13 = Customer + "/" + AddCustomersToExitArchive;
@@ -254,18 +226,12 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Customer_8 = Customer + "/" + GetInCirclePointCustomer;
     final String ControllerActionManager_Customer_14 = Customer + "/" + AssignCustomersToMarketers;
     final String ControllerActionManager_Customer_15 = Customer + "/" + PostCustomerImage;
-    final String ControllerActionManager_Customer_16 = Customer + "/" + GetCustomerFactors;
 
     final String Activities = "activities";
-    final String GetActivities = "GetActivities";
-    final String GetTasks = "GetTasks";
     final String GetTasksByNowDate = "GetTasksByNowDate";
     final String GetTasksByDate = "GetTasksByDate";
-    final String GetActivityByID = "GetActivityByID";
-    final String GetTaskByID = "GetTaskByID";
     final String GetActivitiesByCustomerID = "GetActivitiesByCustomerID";
     final String GetTasksByCustomerID = "GetTasksByCustomerID";
-    final String GetInvoiceByCustomerID = "GetInvoiceByCustomerID";
     final String AddActivityEnter = "AddActivityEnter";
     final String AddActivityEnterForTask = "AddActivityEnterForTask";
     final String AddActivityExit = "AddActivityExit";
@@ -276,15 +242,10 @@ public interface RWInterface<T> {
     final String PostInvoiceImage = "PostInvoiceImage";
     final String EditTask = "EditTask";
     final String DeleteTask = "DeleteTask";
-    final String ControllerActionManager_Activities_1 = Activities + "/" + GetActivities;
-    final String ControllerActionManager_Activities_2 = Activities + "/" + GetTasks;
     final String ControllerActionManager_Activities_3 = Activities + "/" + GetTasksByNowDate;
     final String ControllerActionManager_Activities_4 = Activities + "/" + GetTasksByDate;
-    final String ControllerActionManager_Activities_5 = Activities + "/" + GetActivityByID;
-    final String ControllerActionManager_Activities_6 = Activities + "/" + GetTaskByID;
     final String ControllerActionManager_Activities_7 = Activities + "/" + GetActivitiesByCustomerID;
     final String ControllerActionManager_Activities_8 = Activities + "/" + GetTasksByCustomerID;
-    final String ControllerActionManager_Activities_9 = Activities + "/" + GetInvoiceByCustomerID;
     final String ControllerActionManager_Activities_10 = Activities + "/" + AddActivityEnter;
     final String ControllerActionManager_Activities_17 = Activities + "/" + AddActivityEnterForTask;
     final String ControllerActionManager_Activities_11 = Activities + "/" + AddActivityExit;
@@ -297,9 +258,6 @@ public interface RWInterface<T> {
     final String ControllerActionManager_Activities_19 = Activities + "/" + DeleteTask;
 
 
-
-    @GET(ControllerActionManager_Geocode_1)
-    Call<SimpleResponse> RQGetLocationAddress(@Query("latlng")LatLng point, @Query("key") String Key);
     //=========================================================================================================
     //Login & Register :                            - Account -
     //=========================================================================================================
@@ -310,10 +268,6 @@ public interface RWInterface<T> {
     @Headers(ContentType)
     @POST(ControllerActionManager_Account_7)
     Call<SimpleResponse> RQSendPhoneNumberCall(@Body HashMap<String, Object> PhoneNumber);
-
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Account_2)
-    Call<SimpleResponse> RQSendDigitCode(@Body HashMap<String, String> Data);
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Account_3)
@@ -365,20 +319,8 @@ public interface RWInterface<T> {
     @POST(ControllerActionManager_7)
     Call<com.behincom.behincome.Datas.Profile.GetProfile> RQGetProfileByCode(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile Object  : {"UserID":1}
 
-    @Headers(ContentType)
-    @POST(ControllerActionManager_8)
-    Call<SimpleResponse> RQAddUserForAdmin(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile Object  : {"UserID":1}
-
     @GET(ControllerActionManager_9)
     Call<List<User_Roles>> RQGetBusinessManagerRoles(@Header(HeaderToken) String Token);//Edit Profile Information, Using Profile
-
-    @Headers(ContentType)
-    @POST(ControllerActionManager_10)
-    Call<SimpleResponse> RQAddUserRole(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile : {"UserID":1,"RoleID":1,"MarketerName":"MehdiSafavie"}
-//
-//    @Headers(ContentType)
-//    @POST(ControllerActionManager_11)
-//    Call<SimpleResponse> RQEditUserRole(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Edit Profile Information, Using Profile : {"UserID":1,"LastRoleID":1,"RoleID":1,"MarketerName":"MehdiSafavie"}
 
     @Headers(ContentType)
     @POST(ControllerActionManager_12)
@@ -436,11 +378,6 @@ public interface RWInterface<T> {
     //=========================================================================================================
     //Marketing :                                     - Marketing -
     //=========================================================================================================
-    //GetAll
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Marketing_1)
-    Call<MarketingDatas> RQGetMarketingAllData(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);
-
     //Adding
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_2)
@@ -488,10 +425,6 @@ public interface RWInterface<T> {
     Call<SimpleResponse> RQAddMarketingProducts(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"CommissionTypeID":1,"MarketingProductTitle":"title","MarketingProductDescription":"description"} - Add Your Object into MarketingProduct Table
 
     @Headers(ContentType)
-    @POST(ControllerActionManager_Marketing_9)
-    Call<SimpleResponse> RQAddMarketingProductCommission(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"MarketingProductID":1,"CommissionPriceFrom":1.1,"CommissionPriceTo":1.1,"CommissionPercent":1} - Add Object into MarketingProductCommission Table
-
-    @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_10)
     Call<SimpleResponse> RQAddMarketingCommissionPeriod(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"MarketingCommissionPeriodTitle":"title","MarketingCommissionPeriodDescription":"description,"MarketingCommissionPeriodDateFrom":"dateTime","MarketingCommissionPeriodDateTo":"dateTime"} - Add Object into MarketingCommissionPeriod Table
 
@@ -516,16 +449,8 @@ public interface RWInterface<T> {
     Call<SimpleResponse> RQDeletedVisitTour(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"PropertyIdList":[1, 2, 3]} - Add Integer Array into MarketingProperties Table
 
     @Headers(ContentType)
-    @POST(ControllerActionManager_Marketing_18)
-    Call<SimpleResponse> RQDeleteCommissionPriod(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"PropertyIdList":[1, 2, 3]} - Add Integer Array into MarketingProperties Table
-
-    @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_19)
     Call<SimpleResponse> RQDeletedCommissionPriod(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"PropertyIdList":[1, 2, 3]} - Add Integer Array into MarketingProperties Table
-    //Editing
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Marketing_6)
-    Call<SimpleResponse> RQEditMarketingActivityResults(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"MarketingActResultID":3,"ActResultID":1,"Point":13} - Edit Your Object into MarketingActResults Table
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_7)
@@ -542,12 +467,6 @@ public interface RWInterface<T> {
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_13)
     Call<SimpleResponse> RQEditMarketingCommissionPeriod(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"MarketingCommissionPeriodID":1,"MarketingCommissionPeriodTitle":"title","MarketingCommissionPeriodDescription":"description,"MarketingCommissionPeriodDateFrom":"dateTime","MarketingCommissionPeriodDateTo":"dateTime"} - Add Object into MarketingVisitTour Table
-
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Marketing_14)
-    Call<SimpleResponse> RQEditMarketingProductCommission(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//{"ProductCommissionID":1,"MarketingProductID":1,"CommissionPriceFrom":1.1,"CommissionPriceTo":1.1,"CommissionPercent":1} - Add Object into MarketingVisitTour Table
-
-
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Marketing_24)
@@ -693,14 +612,6 @@ public interface RWInterface<T> {
     Call<SimpleResponse> RQChangeCustomerState(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Change Customer State Using : {"CustomerID":8,"CustomerStateID":2}
 
     @Headers(ContentType)
-    @POST(ControllerActionManager_Customer_5)
-    Call<SimpleResponse> RQChangeCustomerStatues(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Change Customer Status Using : {"CustomerID":8,"CustomerStatuesID":2}
-
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Customer_9)
-    Call<SimpleResponse> RQAddCustomerToArchive(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Change Customer Status Using : {"CustomerID":8,"CustomerStateID":2}
-
-    @Headers(ContentType)
     @POST(ControllerActionManager_Customer_11)
     Call<SimpleResponse> RQAddCustomersToArchive(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Change Customer Status Using : {"CustomerID":8,"CustomerStateID":2}
 
@@ -740,24 +651,11 @@ public interface RWInterface<T> {
 
     @Multipart
     @POST(ControllerActionManager_Customer_15)
-    Call<SimpleResponse> RQAddCustomerPic(@Header(HeaderToken) String Token, @Part MultipartBody.Part body);
-    @Multipart
-    @POST(ControllerActionManager_Customer_15)
-    Call<SimpleResponse> RQAddCustomerPic(@Header(HeaderToken) String Token, @Part MultipartBody.Part[] body);
-
-    @Multipart
-    @POST(ControllerActionManager_Customer_16)
-    Call<List<Invoice>> RQGetCustomerInvoice(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);
+    Call<SimpleResponse> RQAddCustomerPic(@Header(HeaderToken) String Token, @Header(HeaderImage) int BMMID, @Part MultipartBody.Part[] body);
 
     //=========================================================================================================
     //Activities :                                     - Activities -
     //=========================================================================================================
-    @GET(ControllerActionManager_Activities_1)
-    Call<List<com.behincom.behincome.Datas.Activityes.Activities>> RQGetActivitiesAllData(@Header(HeaderToken) String Token);//Get All Activities ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
-
-    @GET(ControllerActionManager_Activities_2)
-    Call<List<com.behincom.behincome.Datas.Activityes.Activities>> RQGetTasksAllData(@Header(HeaderToken) String Token);//Get All Tasks ( Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
-
     @GET(ControllerActionManager_Activities_3)
     Call<List<com.behincom.behincome.Datas.Activityes.Activities>> RQGetTasksToDay(@Header(HeaderToken) String Token);//Get All Tasks ( For ToDay Assigned To You ) Without Need To Any Parameter ( Token Have Your UserID )
 
@@ -766,24 +664,12 @@ public interface RWInterface<T> {
     Call<List<com.behincom.behincome.Datas.Activityes.Activities>> RQGetTasksByDate(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Tasks ( ByDate Assigned To You ) Need to Parameter : {"DateTime":"2018-01-01T22:22:22"}
 
     @Headers(ContentType)
-    @POST(ControllerActionManager_Activities_5)
-    Call<com.behincom.behincome.Datas.Activityes.Activities> RQGetActivityByID(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get Activity ( ByID Assigned To You ) Need to Parameter : {"ActID":1}
-
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Activities_6)
-    Call<com.behincom.behincome.Datas.Activityes.Activities> RQGetTaskByID(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Tasks ( ByID Assigned To You ) Need to Parameter : {"TaskID":1}
-
-    @Headers(ContentType)
     @POST(ControllerActionManager_Activities_7)
     Call<List<com.behincom.behincome.Datas.Activityes.Activities>> RQGetActivitiesByCustomerID(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Activities ( ByCustomerID Assigned To You ) Need to Parameter : {"CustomerID":1}
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Activities_8)
     Call<List<com.behincom.behincome.Datas.Activityes.Activities>> RQGetTasksByCustomerID(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Tasks ( ByCustomerID Assigned To You ) Need to Parameter : {"CustomerID":1}
-
-    @Headers(ContentType)
-    @POST(ControllerActionManager_Activities_9)
-    Call<List<Invoice>> RQGetInvoiceByCustomerID(@Header(HeaderToken) String Token, @Body HashMap<String, Object> Parameters);//Get All Tasks ( ByCustomerID Assigned To You ) Need to Parameter : {"CustomerID":1}
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Activities_10)
@@ -815,7 +701,7 @@ public interface RWInterface<T> {
 
     @Multipart
     @POST(ControllerActionManager_Activities_14)
-    Call<SimpleResponse> RQAddInvoicePic(@Header(HeaderToken) String Token, @Part MultipartBody.Part[] body);
+    Call<SimpleResponse> RQAddInvoicePic(@Header(HeaderToken) String Token, @Header(HeaderImage) int BMMID, @Part MultipartBody.Part[] body);
 
     @Headers(ContentType)
     @POST(ControllerActionManager_Activities_18)

@@ -44,7 +44,7 @@ public class fragActivityField extends Fragment {
     CardView cardSubmit;
     
     private List<Basic_ActivityFieldGroups> lActivityFieldGroup = new ArrayList<>();
-    private static List<Basic_ActivityFields> lActivityField = geter.getListIsCheck(Basic_ActivityFields.class);
+    private static List<Basic_ActivityFields> lActivityField = geter.getListIsCheck(Basic_ActivityFields.class, " WHERE Deleted='0'");
     private static List<Basic_ActivityFieldGroups> lActivityFieldGroupForCustomer = new ArrayList<>();
     public static List<Basic_ActivityFields> lActivityFieldForCustomer = new ArrayList<>();
     private static List<Basic_ActivityFields> lActivityFieldForCustomerBackup = new ArrayList<>();
@@ -57,7 +57,7 @@ public class fragActivityField extends Fragment {
         lActivityFieldForCustomer = lActivityFielder;
         lActivityFieldForCustomerBackup.addAll(lActivityFielder);
         for (Basic_ActivityFields data : lActivityFielder) {
-            List<Basic_ActivityFieldGroups> lGroup = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "'");
+            List<Basic_ActivityFieldGroups> lGroup = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "' AND Deleted='0'");
             if(lGroup.size() > 0)
                 lActivityFieldGroupForCustomer.add(lGroup.get(0));
         }
@@ -93,9 +93,9 @@ public class fragActivityField extends Fragment {
         lstSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(context).colorResId(R.color.BaseBackgroundColor).size(2).build());
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
-        lActivityField = geter.getListIsCheck(Basic_ActivityFields.class);
+        lActivityField = geter.getListIsCheck(Basic_ActivityFields.class, " WHERE Deleted='0'");
         for (Basic_ActivityFields data : lActivityField) {
-            List<Basic_ActivityFieldGroups> lGrop = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "'");
+            List<Basic_ActivityFieldGroups> lGrop = geter.getList(Basic_ActivityFieldGroups.class, " WHERE ActivityFieldGroupID='" + data.ActivityFieldGroupID + "' AND Deleted='0'");
             boolean isIn = false;
             for (Basic_ActivityFieldGroups mData : lActivityFieldGroup){
                 if(mData.ActivityFieldGroupID == lGrop.get(0).ActivityFieldGroupID) {

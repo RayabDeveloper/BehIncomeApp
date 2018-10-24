@@ -392,6 +392,13 @@ public class RSQLiteCreateTable {
                     "ActivityNotDoneNegativePoint				INTEGER, " +
                     "Deleted					                INTEGER, " +
                     "OwnerId					                INTEGER " +
+                    ");",
+            "CREATE TABLE " + Tables.BasicPointStates +//Table :BasicPointStates
+                    " (" +
+                    "PointStateId					            INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "PointStateTitle					        TEXT, " +
+                    "PointStateOrder					        INTEGER, " +
+                    "Deleted					                INTEGER " +
                     ");"
     };
 

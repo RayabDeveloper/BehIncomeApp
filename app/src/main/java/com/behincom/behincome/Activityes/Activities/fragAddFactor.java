@@ -139,7 +139,7 @@ public class fragAddFactor extends Fragment {
             }
         });
 
-        lProduct = geter.getList(MarketingProducts.class);
+        lProduct = geter.getList(MarketingProducts.class, " WHERE Deleted='0'");
         MarketingProducts data = new MarketingProducts();
         data.MarketingProductTitle = ("انتخاب محصول");
         lProduct.add(0, data);

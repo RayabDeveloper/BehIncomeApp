@@ -300,7 +300,7 @@ public class fragCustomerShow extends Fragment {
                         try {
                             PhotoURL = Customer.Customers.Customers_Images.get(position).ImageFilename;
                             if (PhotoURL.length() > 5)
-                                PhotoURL = BASE + "Uploads/CustomerImages/" + PhotoURL;
+                                PhotoURL = BASE + PhotoURL;
                             else
                                 PhotoURL = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.logo).toString();
                         } catch (Exception e) {

@@ -44,7 +44,7 @@ public class fragTag extends Fragment {
     CardView cardSubmit;
 
     private List<Basic_TagGroups> lTagGroup = new ArrayList<>();
-    private static List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class);
+    private static List<Basic_Tags> lTag = geter.getListIsCheck(Basic_Tags.class, " WHERE Deleted='0'");
     private static List<Basic_TagGroups> lTagGroupForCustomer = new ArrayList<>();
     public static List<Basic_Tags> lTagForCustomer = new ArrayList<>();
     private static List<Basic_Tags> lTagForCustomerBackup = new ArrayList<>();
@@ -57,7 +57,7 @@ public class fragTag extends Fragment {
         lTagForCustomer = lTager;
         lTagForCustomerBackup.addAll(lTager);
         for (Basic_Tags data : lTager) {
-            List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+            List<Basic_TagGroups> lGroup = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "' AND Deleted='0'");
             if(lGroup.size() > 0)
                 lTagGroupForCustomer.add(lGroup.get(0));
         }
@@ -93,9 +93,9 @@ public class fragTag extends Fragment {
         lstSub.addItemDecoration(new HorizontalDividerItemDecoration.Builder(context).colorResId(R.color.BaseBackgroundColor).size(2).build());
         lstSub.setItemAnimator(new DefaultItemAnimator());
 
-        lTag = geter.getListIsCheck(Basic_Tags.class);
+        lTag = geter.getListIsCheck(Basic_Tags.class, " WHERE Deleted='0'");
         for (Basic_Tags data : lTag) {
-            List<Basic_TagGroups> lGrop = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "'");
+            List<Basic_TagGroups> lGrop = geter.getList(Basic_TagGroups.class, " WHERE TagGroupID='" + data.TagGroupID + "' AND Deleted='0'");
             boolean isIn = false;
             for (Basic_TagGroups mData : lTagGroup){
                 if(mData.TagGroupID == lGrop.get(0).TagGroupID) {

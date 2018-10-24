@@ -73,7 +73,7 @@ public class fragBasicData<T> extends Fragment {
     android.app.Dialog mDialog, sDialog;
     private static Dialog pDialog;
     static SpinAdapter spinAdap;
-    SpinAdapter spinAdapop;
+    static SpinAdapter spinAdapop;
     RSQLite SQL = new RSQLite();
     private static RSQLGeter geter = new RSQLGeter();
 
@@ -1001,7 +1001,7 @@ public class fragBasicData<T> extends Fragment {
                             SimpleResponse simple = response.body();
                             if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
 //                                SQL.Execute("DELETE FROM " + Tables.Basic_PropertyGroups + " WHERE PropertyGroupID='" + MainIdSelected + "'");
-                                SQL.Execute("UPDATE " + Tables.Basic_PropertyGroups + " SET Deleted='1' WHERE PropertyGroupID='" + MainIdSelected + "'");
+                                SQL.Execute("UPDATE " + Tables.Basic_ActivityFieldGroups + " SET Deleted='1' WHERE ActivityFieldGroupID='" + MainIdSelected + "'");
 
                                 objects.MainItems(geter.getList(Basic_ActivityFieldGroups.class, " WHERE Deleted='0'"));
                                 adapterMain = new adapSettingMainItems<>(objects.MainItems(), objects.MainFieldIdName(), objects.MainFieldTitleName());
@@ -1389,13 +1389,6 @@ public class fragBasicData<T> extends Fragment {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-//                            Basic_ActivityFields lList = new Basic_ActivityFields();
-//                            lList.ActivityFieldTitle = Title;
-//                            lList.ActivityFieldOrder = "0";
-//                            lList.ActivityFieldGroupID = MainIdSelected;
-//                            lList.ActivityFieldID = ID;
-//                            lList.Deleted = false;
-//                            SQL.Update(lList, " WHERE ActivityFieldID='" + ID + "'");
                             SQL.Execute("UPDATE Basic_ActivityFields SET ActivityFieldTitle='" + Title + "' WHERE ActivityFieldID='" + ID + "'");
 
                             FilterSubItemsFromMainItemSelected(MainIdSelected);
@@ -1429,13 +1422,6 @@ public class fragBasicData<T> extends Fragment {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-//                            Basic_Tags lList = new Basic_Tags();
-//                            lList.TagTitle = Title;
-//                            lList.TagOrder = "0";
-//                            lList.TagID = ID;
-//                            lList.TagGroupID = MainIdSelected;
-//                            lList.Deleted = false;
-//                            SQL.Update(lList, " WHERE TagID='" + ID + "'");
                             SQL.Execute("UPDATE Basic_Tags SET TagTitle='" + Title + "' WHERE TagID='" + ID + "'");
 
                             FilterSubItemsFromMainItemSelected(MainIdSelected);
@@ -1470,14 +1456,6 @@ public class fragBasicData<T> extends Fragment {
                     if (response.isSuccessful()) {
                         SimpleResponse simple = response.body();
                         if(simple.Type.equalsIgnoreCase(ResponseMessageType.Success.toString())){
-//                            Basic_Properties lList = new Basic_Properties();
-//                            lList.PropertyGroupID = MainIdSelected;
-//                            lList.PropertyID = ID;
-//                            lList.PropertyTitle = Title;
-//                            lList.PropertyOrder = "0";
-//                            lList.PropertyTypeKeyBoardId = TypeKeyboard;
-//                            lList.Deleted = false;
-//                            SQL.Update(lList, " WHERE PropertyID='" + ID + "'");
                             SQL.Execute("UPDATE Basic_Properties SET PropertyTitle='" + Title + "' AND PropertyTypeKeyBoardId='" + TypeKeyboard + "' WHERE PropertyID='" + ID + "'");
 
                             FilterSubItemsFromMainItemSelected(MainIdSelected);
@@ -1592,8 +1570,8 @@ public class fragBasicData<T> extends Fragment {
         RadioGroup radGrouper = mDialog.findViewById(R.id.radGrouper);
         CardView btnSetIcon = mDialog.findViewById(R.id.btnSetIcon);
 
-        boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties");
-        if(isProp)
+        boolean isProp = objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_Properties") || objects.SubClass().getSimpleName().equalsIgnoreCase("Basic_ActivityFields");
+        if(!isProp)
             radGrouper.setVisibility(View.VISIBLE);
         else
             radGrouper.setVisibility(View.GONE);
@@ -1661,7 +1639,7 @@ public class fragBasicData<T> extends Fragment {
         TextView btnCancell = sDialog.findViewById(R.id.lblCancell);
         TextView lblTitle = sDialog.findViewById(R.id.lblTitle00);
         final TextInputEditText txtTitle = sDialog.findViewById(R.id.txtTitle);
-        final Spinner spinType = sDialog.findViewById(R.id.spinType);
+        spinType = sDialog.findViewById(R.id.spinType);
 
         String fName = "";
         try {
@@ -1745,7 +1723,8 @@ public class fragBasicData<T> extends Fragment {
             @Override
             public void onClick(View v) {
                 sDialog.dismiss();
-                if(pos > 0) {
+//                if(pos > 0) {
+                if(spinType.getVisibility() == View.VISIBLE){
                     SubUpdateManager(sIDd, txtTitle.getText().toString(), Integer.parseInt(spinAdapop.getItemString(spinType.getSelectedItemPosition(), "AndroidKeyboardTypeID")));
                 }else
                     SubUpdateManager(sIDd, txtTitle.getText().toString(), 0);

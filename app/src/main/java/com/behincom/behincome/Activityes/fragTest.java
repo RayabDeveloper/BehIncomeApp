@@ -290,7 +290,7 @@ public class fragTest extends Fragment {
                         body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
                     }
 
-                    Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), body);
+                    Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), Setting.getBMMUserID(), body);
                     addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
@@ -494,7 +494,7 @@ public class fragTest extends Fragment {
                         body[i] = MultipartBody.Part.createFormData("image" + i, file.getName(), surveyBody);
                     }
 
-                    Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), body);
+                    Call<SimpleResponse> addInvoiceImage = rInterface.RQAddInvoicePic(Setting.getToken(), Setting.getBMMUserID(), body);
                     addInvoiceImage.enqueue(new Callback<SimpleResponse>() {
                         @Override
                         public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {

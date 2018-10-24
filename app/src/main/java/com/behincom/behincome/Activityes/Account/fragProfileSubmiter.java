@@ -572,7 +572,7 @@ public class fragProfileSubmiter extends Fragment {
                                     try {
                                         PhotoURL = dMarketer.PhotoFilename;
                                         if (PhotoURL.length() > 5)
-                                            PhotoURL = BASE + "Uploads/ProfileImages/" + PhotoURL;
+                                            PhotoURL = BASE + PhotoURL;
                                         else
                                             PhotoURL = Uri.parse("android.resource://" + R.class.getPackage().getName() + "/" + R.drawable.profile_pic_icon).toString();
                                     } catch (Exception e) {

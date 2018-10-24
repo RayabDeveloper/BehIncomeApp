@@ -75,4 +75,6 @@ public class BasicDatas {
     public MarketingSetups MarketingSetups = new MarketingSetups();
     @SerializedName("BasicColors")
     public List<Basic_Color> Basic_Color = new ArrayList<>();
+    @SerializedName("BasicPointStates")
+    public List<BasicPointStates> BasicPointStates = new ArrayList<>();
 }
